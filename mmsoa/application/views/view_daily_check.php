@@ -78,7 +78,7 @@
 	                                            			<span><input type="checkbox" name="signin_morning" id="morning" class="js-switch" /></span>
 	                                            		</h5>
 	                                            	</div>
-						                            <h5>早检情况：&nbsp;<small>请在有问题的课室后面填写好记录，无问题的课室无需填写</small></h5>
+						                            <h5>早检情况：&nbsp;<small>无故障的课室无需填写</small></h5>
 						                            <div class="ibox-content" style="margin-bottom: 0px; padding-bottom: 0px;">
 						                                <div class="form-horizontal">
 						                                	<?php for ($i = 0; $i < count($classroom_list); $i++) { ?>
@@ -106,7 +106,7 @@
 	                                            			<span style="margin-left: 41px;"><input type="checkbox" name="signin_noon" id="noon" class="js-switch_2" /></span>
 	                                            		</h5>
 						                            </div>
-						                            <h5>午检情况：&nbsp;<small>请在有问题的课室后面填写好记录，无问题的课室无需填写</small></h5>
+						                            <h5>午检情况：&nbsp;<small>无故障的课室无需填写</small></h5>
 						                            <div class="ibox-content">
 						                                <form method="post" class="form-horizontal">
 							                                <?php for ($i = 0; $i < count($classroom_list); $i++) { ?>
@@ -135,7 +135,7 @@
 	                                            			<span  style="margin-left: 116px;"><input type="checkbox" name="signin_evening" id="evening" class="js-switch_3" /></span>
 	                                            		</h5>
 						                            </div>
-						                            <h5>晚检情况：&nbsp;<small>请在有问题的课室后面填写好记录，无问题的课室无需填写</small></h5>
+						                            <h5>晚检情况：&nbsp;<small>无故障的课室无需填写</small></h5>
 						                            <div class="ibox-content">
 						                                <form method="post" class="form-horizontal">
 							                                <?php for ($i = 0; $i < count($classroom_list); $i++) { ?>

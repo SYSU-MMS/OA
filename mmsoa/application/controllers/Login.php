@@ -64,7 +64,7 @@ Class Login extends CI_Controller {
 				if (isset($_SESSION['user_url'])) {
 					// Save the url needed to be jumped
 					// eg. 从"/MOA/mmsoa/index.php/Backend/dailycheck"中截取"Backend/dailycheck"
-					$url = substr($_SESSION['user_url'], 21);
+					$url = substr($_SESSION['user_url'], 20);
 					echo json_encode(array("status" => TRUE, "msg" => $success, "url" => $url));
 					return;
 				} else {
