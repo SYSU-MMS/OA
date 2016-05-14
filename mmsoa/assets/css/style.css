@@ -6315,6 +6315,42 @@ body.skin-3 {
     margin-left: auto;
   }
 }
+/* add new width */
+@media (min-width: 992px) {
+  #page-wrapper {
+    position: inherit;
+    margin: 0 0 0 220px;
+    min-height: 891px;
+  }
+  .navbar-static-side {
+    z-index: 2001;
+    position: absolute;
+    width: 220px;
+  }
+  .navbar-top-links .dropdown-messages,
+  .navbar-top-links .dropdown-tasks,
+  .navbar-top-links .dropdown-alerts {
+    margin-left: auto;
+  }
+}
+/* add new width */
+@media (min-width: 1200px) {
+  #page-wrapper {
+    position: inherit;
+    margin: 0 0 0 220px;
+    min-height: 1080px;
+  }
+  .navbar-static-side {
+    z-index: 2001;
+    position: absolute;
+    width: 220px;
+  }
+  .navbar-top-links .dropdown-messages,
+  .navbar-top-links .dropdown-tasks,
+  .navbar-top-links .dropdown-alerts {
+    margin-left: auto;
+  }
+}
 @media (max-width: 768px) {
   #page-wrapper {
     position: inherit;
@@ -6565,8 +6601,8 @@ body.skin-3 {
 	color:#333;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#909090,direction=120,strength=3);/*ie*/
 	-moz-box-shadow: 5px 5px 10px #909090;/*firefox*/
-	-webkit-box-shadow: 5px 5px 10px #909090;/*safari»òchrome*/
-	box-shadow:5px 5px 10px #909090;/*opera»òie9*/
+	-webkit-box-shadow: 5px 5px 10px #909090;/*safariï¿½ï¿½chrome*/
+	box-shadow:5px 5px 10px #909090;/*operaï¿½ï¿½ie9*/
 }
 
 /* small chat */
