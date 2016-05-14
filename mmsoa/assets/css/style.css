@@ -6320,7 +6320,7 @@ body.skin-3 {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    min-height: 891px;
+    min-height: 1024px;
   }
   .navbar-static-side {
     z-index: 2001;
@@ -6335,6 +6335,24 @@ body.skin-3 {
 }
 /* add new width */
 @media (min-width: 1200px) {
+  #page-wrapper {
+    position: inherit;
+    margin: 0 0 0 220px;
+    min-height: 666px;
+  }
+  .navbar-static-side {
+    z-index: 2001;
+    position: absolute;
+    width: 220px;
+  }
+  .navbar-top-links .dropdown-messages,
+  .navbar-top-links .dropdown-tasks,
+  .navbar-top-links .dropdown-alerts {
+    margin-left: auto;
+  }
+}
+/* add new width */
+@media (min-width: 1400px) {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
