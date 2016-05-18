@@ -31,8 +31,6 @@
 		                </li>
 		                <li><a href="<?php echo site_url('ChangeAvatar'); ?>">更换头像</a>
 		                </li>
-		                <li><a href="contacts.html">联系我们</a>
-		                </li>
 		                <li class="divider"></li>
 		                <li><a href="<?php echo site_url('Login'); ?>">安全退出</a>
 		                </li>

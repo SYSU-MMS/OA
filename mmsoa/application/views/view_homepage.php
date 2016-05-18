@@ -24,14 +24,15 @@
     <div id="wrapper">
         <?php $this->load->view('view_nav'); ?>
                 
-        <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div id="page-wrapper" class="gray-bg sidebar-content">
             <?php $this->load->view('view_header'); ?>
             
             <div class="sidebard-panel">
                 <div>
-                    <h4>通知 <span class="badge badge-info pull-right">16</span></h4>
+                	<a href="#" class="btn btn-xs btn-primary pull-right m-t-n-xs"><i class="fa fa-gear"></i> 编辑</a>
+                    <h4>通知 </h4>
                     <div class="feed-element">
-                        <a href="index_3.html#" class="pull-left">
+                        <a href="#" class="pull-left">
                             <img alt="image" class="img-circle" src="<?=base_url().'assets/images/a1.jpg' ?>" >
                         </a>
                         <div class="media-body">
@@ -105,42 +106,51 @@
             <div class="wrapper wrapper-content animated fadeInDown">
                 <!-- 评论区 -->
                 
-                <div class="row col-sm-10">
-                
-	            	<div class="ibox">
-	                	
-			            <div class="ibox-content white-bg" style="border-width: 0;">
-			            	<div id="scroll-content">
-				                <div id="post-circle" style="margin-right: 8px;">
-				                
-					                <!-- 留言&评论区 -->
-	
-					                <div id="more-btn" class="social-feed-separated" style="margin-top: 25px;">
-					                    <div class="social-avatar" style="visibility: hidden;">
-					                        <a href="">
-					                            <img alt="image" src="">
-					                        </a>
-					                    </div>
-					                    <div class="social-feed-box" style="">
-					                        <button id="more_posts" class="btn btn-block btn-outline btn-primary" type="button">更多</button>
-					                    </div>
-					                </div>				                    
-					          
-					                <!-- paginator
-									<div style="margin-left: 150px;">
-					            		<ul id="paginator" class="pagination"></ul>
-					            	</div>
-					            	 -->
-					            	 
-					            </div>
+                <div class="row">
+                	<div class="col-lg-12" style="margin-bottom: -25px;">
+                		<div class="ibox float-e-margins">
+				            <div class="ibox-content white-bg" style="border-width: 0;">
+				            	<button class="btn btn-primary pull-right m-t-n-xs" data-toggle="modal" data-target="#myModal" style="margin-right: 8px;">
+				            		<i class="fa fa-commenting-o"></i> 留言 
+				            	</button>
+				            	<h2>留言板</h2>
 				            </div>
 				        </div>
+                	</div>
+                </div>
+                
+                <div class="row">
+                	<div class="col-lg-12">
+		            	<div class="ibox float-e-margins">
+				            <div class="ibox-content white-bg" style="border-width: 0; padding-bottom: 50px;">
+				            	<div id="scroll-content">
+					                <div id="post-circle" style="margin-right: 8px;">
+					                
+						                <!-- 留言&评论区 -->
+		
+						                <div id="more-btn" class="social-feed-separated" style="margin-top: 25px;">
+						                    <div class="social-avatar" style="visibility: hidden;">
+						                        <a href="">
+						                            <img alt="image" src="">
+						                        </a>
+						                    </div>
+						                    <div class="social-feed-box">
+						                        <button id="more_posts" class="btn btn-primary btn-block" style="margin-bottom: -40px;"><i class="fa fa-arrow-down"></i> 显示更多</button>
+						                    </div>
+						                </div>				                    
+						          
+						                <!-- paginator
+										<div style="margin-left: 150px;">
+						            		<ul id="paginator" class="pagination"></ul>
+						            	</div>
+						            	 -->
+						            	 
+						            </div>
+					            </div>
+					        </div>
+			            </div>
 		            </div>
-		            <div id="small-chat">
-			            <button class="open-small-chat div-shadow" data-toggle="modal" data-target="#myModal">
-			                <i class="fa fa-plus" style="font-size: 18px;"></i>
-			            </button>
-			        </div>
+		            
 	         	</div>
 	         	<!-- 评论区 -->
             </div>
@@ -150,8 +160,8 @@
     </div>
     
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 10;">
-	    <div class="modal-dialog" style="margin-top: 430px; margin-left: 266px;">
-	        <div class="modal-content">
+	    <div class="modal-dialog">
+	        <div class="modal-content" style="margin-top: 90px;">
 	            <div class="modal-header">
 	                <h4 class="modal-title" id="myModalLabel">我的留言</h4>
 	            </div>
@@ -160,7 +170,7 @@
 	                <div id="input-post" class="input-group input-group-sm">
 	                    <textarea id="new-post" class="form-control" placeholder="请输入留言内容" style="height: 50px;"></textarea>
                     	<span class="input-group-btn">
-                    		<button id="post-btn" class="btn btn-primary" type="button" data-dismiss="modal" style="height: 50px;">留言</button>
+                    		<button id="post-btn" class="btn btn-primary" type="button" data-dismiss="modal" style="height: 50px;"> 发送 </button>
                     	</span>
 	                </div>
 	            </div>
@@ -194,14 +204,15 @@
 
 			$("#submit_result").hide();
 
-			/* slimScroll */
+			/* slimScroll 
 	        $(function(){
 	            $('#scroll-content').slimScroll({
-	                height: '520px',
+	                height: boxHeight,//原设为'600px',现改为boxHeight，即slimScroll没有发挥作用
 	                railVisible:true,
 	                allowPageScroll: true
 	            });
 	        });
+			*/
 	        
 		});
 	</script>

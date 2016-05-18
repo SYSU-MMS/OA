@@ -6626,8 +6626,8 @@ body.skin-3 {
 /* small chat */
 #small-chat {
 	position:absolute;
-	bottom:23px;
-	left:0px;
+	top:5px;
+	left:-10px;
 	z-index:100;
 }
 

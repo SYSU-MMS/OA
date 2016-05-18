@@ -56,7 +56,6 @@ $("#post-btn").click(function() {
 							"</div>" +
 							"<div class='social-footer'>" +
 								"<div class='social-comment' id='write_comment_" + ret['bpid'] + "'>" +
-									"<a href='' class='pull-left'><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'></a>" +
 									"<div class='media-body'>" +
 										"<textarea id='comment_textarea_" + ret['bpid'] + "' class='form-control' placeholder='填写评论...'></textarea>" +
 										"<div class='btn-group' style='margin-top: 4px;'>" +
@@ -87,8 +86,8 @@ $("#post-btn").click(function() {
  * 成功发送留言后，滚动至留言区顶部查看新留言
  */
 var scrollToTop = function(){
-    $('#scroll-content').slimScroll({
-    });
+    // $('#scroll-content').slimScroll({});
+	document.getElementsByTagName('body')[0].scrollTop = 0;
 }
 
 /**
@@ -170,7 +169,6 @@ $("#more_posts").bind("getPostComment", function(event, base_date) {
 								"</div>" +
 								"<div class='social-footer'>" +
 									"<div class='social-comment' id='write_comment_" + ret['post_list'][i]['bpid'] + "'>" +
-										"<a href='' class='pull-left'><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['cur_avatar'] + "'></a>" +
 										"<div class='media-body'>" +
 											"<textarea id='comment_textarea_" + ret['post_list'][i]['bpid'] + "' class='form-control' placeholder='填写评论...'></textarea>" +
 											"<div class='btn-group' style='margin-top: 4px;'>" +
