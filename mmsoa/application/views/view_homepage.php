@@ -101,19 +101,29 @@
                             <small class="text-muted">Monday 8:37 pm</small>
                         </div>
                     </div>
+                    <div class="feed-element">
+                        <a href="index_3.html#" class="pull-left">
+                            <img alt="image" class="img-circle" src="<?=base_url().'assets/images/a4.jpg' ?>">
+                        </a>
+                        <div class="media-body">
+                            【周检抽查】第2周周检抽查结果公示
+                            <br>
+                            <small class="text-muted">Monday 8:37 pm</small>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="wrapper wrapper-content animated fadeInDown">
+            <div class="wrapper wrapper-content">
                 <!-- 评论区 -->
                 
                 <div class="row">
                 	<div class="col-lg-12" style="margin-bottom: -25px;">
-                		<div class="ibox float-e-margins">
+                		<div class="ibox float-e-margins animated fadeInDown">
 				            <div class="ibox-content white-bg" style="border-width: 0;">
-				            	<button class="btn btn-primary pull-right m-t-n-xs" data-toggle="modal" data-target="#myModal" style="margin-right: 8px;">
+				            	<button class="btn btn-primary pull-right m-t-n-xs" data-toggle="modal" data-target="#myModal" style="margin: 4px 8px;">
 				            		<i class="fa fa-commenting-o"></i> 留言 
 				            	</button>
-				            	<h2>留言板</h2>
+				            	<h2 style="padding-bottom: 10px;">留言板</h2>
 				            </div>
 				        </div>
                 	</div>
@@ -121,7 +131,7 @@
                 
                 <div class="row">
                 	<div class="col-lg-12">
-		            	<div class="ibox float-e-margins">
+		            	<div class="ibox float-e-margins animated fadeInDown">
 				            <div class="ibox-content white-bg" style="border-width: 0; padding-bottom: 50px;">
 				            	<div id="scroll-content">
 					                <div id="post-circle" style="margin-right: 8px;">

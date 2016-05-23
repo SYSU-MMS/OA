@@ -103,7 +103,7 @@
 						                                            <td><?php echo $m_weekday; ?></td>
 						                                            <td><?php echo $m_name_list[$i]; ?></td>
 						                                            <td><?php echo str_replace(',', ' ', $m_room_list[$i]); ?></td>
-						                                            <td  class="td-left">
+						                                            <td class="td-left">
 						                                            	<?php 
 						                                            		if ($m_prob_list[$i] == '') {
 						                                            			echo '正常';
@@ -140,7 +140,7 @@
 					                                            <td><?php echo $n_weekday; ?></td>
 					                                            <td><?php echo $n_name_list[$j]; ?></td>
 					                                            <td><?php echo str_replace(',', ' ', $n_room_list[$j]); ?></td>
-					                                            <td>
+					                                            <td class="td-left">
 					                                            	<?php 
 					                                            		if ($n_prob_list[$j] == '') {
 					                                            			echo '正常';
@@ -177,7 +177,7 @@
 					                                            <td><?php echo $e_weekday; ?></td>
 					                                            <td><?php echo $e_name_list[$k]; ?></td>
 					                                            <td><?php echo str_replace(',', ' ', $e_room_list[$k]); ?></td>
-					                                            <td>
+					                                            <td class="td-left">
 					                                            	<?php 
 					                                            		if ($e_prob_list[$k] == '') {
 					                                            			echo '正常';

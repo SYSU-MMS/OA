@@ -4,7 +4,8 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
 
     <title>MOA-更换头像</title>
     <?php $this->load->view('view_keyword'); ?>

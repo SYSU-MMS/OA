@@ -6302,7 +6302,7 @@ body.skin-3 {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    min-height: 667px;
+    min-height: 768px;
   }
   .navbar-static-side {
     z-index: 2001;
@@ -6320,7 +6320,7 @@ body.skin-3 {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    min-height: 1024px;
+    min-height: 768px;
   }
   .navbar-static-side {
     z-index: 2001;
@@ -6338,7 +6338,7 @@ body.skin-3 {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    min-height: 666px;
+    min-height: 768px;
   }
   .navbar-static-side {
     z-index: 2001;
