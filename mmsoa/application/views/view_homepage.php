@@ -13,7 +13,7 @@
     
     <link href="<?=base_url().'assets/css/bootstrap.min.css?v=3.4.0' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/font-awesome/css/font-awesome.min.css' ?>" rel="stylesheet">
-
+    
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
 
@@ -29,7 +29,7 @@
             
             <div class="sidebard-panel">
                 <div>
-                	<a href="#" class="btn btn-xs btn-primary pull-right m-t-n-xs"><i class="fa fa-gear"></i> 编辑</a>
+                	<a href="<?php echo site_url('Notify'); ?>" class="btn btn-xs btn-primary pull-right m-t-n-xs"><i class="fa fa-gear"></i> 编辑</a>
                     <h4>通知 </h4>
                     <div class="feed-element">
                         <a href="#" class="pull-left">
@@ -196,7 +196,6 @@
 
     <!-- Custom and plugin javascript -->
     <script src="<?=base_url().'assets/js/hplus.js?v=2.2.0' ?>"></script>
-    <script src="<?=base_url().'assets/js/plugins/pace/pace.min.js' ?>"></script>
 
     <!-- jQuery UI -->
     <script src="<?=base_url().'assets/js/plugins/jquery-ui/jquery-ui.min.js' ?>"></script>
