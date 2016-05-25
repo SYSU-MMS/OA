@@ -88,6 +88,18 @@ Class Notify extends CI_Controller {
 	}
 	
 	/**
+	 * 查看通知具体内容
+	 */
+	public function readNotice() {
+		if (isset($_SESSION['user_id'])) {
+			$this->load->view('view_notice_detail');
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
+	
+	/**
 	 * 进入发布新通知页面
 	 */
 	public function writeNotice() {

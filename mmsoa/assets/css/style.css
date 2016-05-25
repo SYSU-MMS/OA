@@ -4578,7 +4578,7 @@ dd.project-people {
 }
 .article-title {
   text-align: center;
-  margin: 40px 0 100px 0;
+  margin: 40px 0 40px;
 }
 .article .ibox-content {
   padding: 40px;
@@ -6771,4 +6771,16 @@ body.skin-3 {
 
 .nav-position {
 	position: fixed !important;
+}
+
+/* notice */
+.notice-title {
+    font-size: 48px !important;
+    font-weight: 700 !important;
+    color: #2F4050 !important;
+}
+
+.notice-body {
+	font-size: 17px;
+	line-height: 26px;
 }

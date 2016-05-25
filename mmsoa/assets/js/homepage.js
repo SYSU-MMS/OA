@@ -248,7 +248,9 @@ $("#more_notices").bind("getNotice", function(event, base_date) {
 	                            "<img alt='image' class='img-circle' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['notice_list'][i]['avatar'] + "'>" +
 	                        "</a>" +
 	                        "<div class='media-body'>" +
-	                        	ret['notice_list'][i]['title'] +
+	                        	"<a href='#' class='btn-link'>" +
+	                        		ret['notice_list'][i]['title'] +
+	                        	"</a>" +
 	                            "<br>" +
 	                            "<small class='text-muted'>" + ret['notice_list'][i]['splited_date']['year'] + "-" + ret['notice_list'][i]['splited_date']['month'] + "-" +
 	                            ret['notice_list'][i]['splited_date']['day'] + "</small>" +
