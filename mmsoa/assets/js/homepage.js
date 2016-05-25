@@ -6,9 +6,13 @@
  * ready function
  */
 $(function() {
-	// 页面加载时拉取留言与评论，0表示当前时间
+	// 页面加载时拉取10条留言与对应所有评论，0表示当前时间
 	var now_date = "0";
 	$("#more_posts").trigger("getPostComment", [now_date]);
+	
+	// 页面加载时拉取10则通知，0表示当前时间
+	var now_date = "0";
+	$("#more_notices").trigger("getNotice", [now_date]);
 	
 	// 模态窗口关闭后的动作
 	$('#myModal').on('hidden.bs.modal', function() {
@@ -153,7 +157,7 @@ $("#more_posts").bind("getPostComment", function(event, base_date) {
 		success: function(msg) {
 			ret = JSON.parse(msg);
 			if (ret['status'] === true) {
-				// 每次最多添加10条留言
+				// 每次最多获取10条留言
 				for (var i = 0; i < ret['post_list'].length; i++) {
 					$("#more-btn").before(
 						"<div class='social-feed-separated' id='separated_" + ret['post_list'][i]['bpid'] + "'>" +
@@ -202,6 +206,58 @@ $("#more_posts").bind("getPostComment", function(event, base_date) {
 				}
 				// 更新最后一条留言的时间
 				last_post_date = ret['post_list'][ret['post_list'].length - 1]['bptimestamp'];
+			}
+		},
+		error: function(){
+		    alert(arguments[1]);
+		}
+		
+	});
+});
+
+
+//页面上显示的最后一则通知的发布时间
+var last_notice_date;
+
+/**
+ * 点击"更多"按钮触发getNotice事件
+ */
+$("#more_notices").click(function() {
+	$("#more_notices").trigger("getNotice", [last_notice_date]);
+});
+
+/**
+ * 异步获取通知
+ */
+$("#more_notices").bind("getNotice", function(event, base_date) {
+	
+	$.ajax({
+		type: 'get',
+		url: 'Notify/getNotice',
+		data: {
+			"base_date": base_date,
+		},
+		success: function(msg) {
+			ret = JSON.parse(msg);
+			if (ret['status'] === true) {
+				// 每次最多获取10条留言
+				for (var i = 0; i < ret['notice_list'].length; i++) {
+					$("#more-notices-btn").before(
+						"<div class='feed-element' id='element_" + ret['notice_list'][i]['nid'] + "'>" +
+	                        "<a href='#' class='pull-left'>" +
+	                            "<img alt='image' class='img-circle' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['notice_list'][i]['avatar'] + "'>" +
+	                        "</a>" +
+	                        "<div class='media-body'>" +
+	                        	ret['notice_list'][i]['title'] +
+	                            "<br>" +
+	                            "<small class='text-muted'>" + ret['notice_list'][i]['splited_date']['year'] + "-" + ret['notice_list'][i]['splited_date']['month'] + "-" +
+	                            ret['notice_list'][i]['splited_date']['day'] + "</small>" +
+	                        "</div>" +
+	                    "</div>"
+					);
+				}
+				// 更新最后一则通知的时间
+				last_notice_date = ret['notice_list'][ret['notice_list'].length - 1]['timestamp'];
 			}
 		},
 		error: function(){

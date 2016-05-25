@@ -79,7 +79,6 @@
 										    <textarea name="notice_content" id="text_content" class="form-control" placeholder="填写通知内容..." style="height: 400px;"></textarea>
 										</div>
 									</div>
-                                    <div class="hr-line-dashed"></div>
                                     
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-5">
@@ -103,7 +102,6 @@
     <script src="<?=base_url().'assets/js/jquery-2.1.1.min.js' ?>"></script>
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
-    <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
     <script src="<?=base_url().'assets/js/notice_in.js' ?>"></script>
     
     <!-- nav item active -->

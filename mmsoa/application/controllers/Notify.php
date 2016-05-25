@@ -30,44 +30,60 @@ Class Notify extends CI_Controller {
 		}
 	}
 	
-	
-	
 	/**
-	 * 发布工作通知
+	 * 获取工作通知的标题
 	 */
-	public function addNotice() {
+	public function getNotice() {
 		if (isset($_SESSION['user_id'])) {
-			// 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
-			if ($_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
-				// 提示权限不够
-				PublicMethod::permissionDenied();
-			}
-			
-			$uid = $_SESSION['user_id'];
-			$user_obj = $this->moa_user_model->get($uid);
-			$name = $user_obj->name;
-			$avatar = $user_obj->avatar;
+			if (isset($_GET['base_date'])) {
+				$base_date = $_GET['base_date'];
 				
-			// 添加新通知
-			if (1) {
-				// state：0-正常  1-已删除
-				$notice_paras['state'] = 0;
-				$notice_paras['wid'] = 1;
-				$timestamp = date('Y-m-d H:i:s');
-				$notice_paras['timestamp'] = $timestamp;
-				$notice_paras['title'] = "今日头条";
-				$notice_paras['body'] = "发工资啦";
-				$nid = $this->moa_notice_model->add($notice_paras);
-				if ($nid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				} else {
-					$splited_date = PublicMethod::splitDate($timestamp);
-					echo json_encode(array("status" => TRUE, "msg" => "发布成功", "name" => $name, "avatar" => $avatar,
-							"splited_date" => $splited_date, "nid" => $nid, "base_url" => base_url()));
+				// 0表示当前时间
+				if ($_GET['base_date'] == '0') {
+					$base_date = date('Y-m-d H:i:s');
+				}
+				
+				// 每次最多取指定时间之前的10则通知
+				$notice_state = 0;
+				$notice_num = 10;
+				$notice_obj_list = $this->moa_notice_model->get_by_date($base_date, $notice_state, $notice_num);
+				
+				if (empty($notice_obj_list)) {
+					echo json_encode(array("status" => FALSE, "msg" => "获取通知失败"));
 					return;
 				}
+				
+				$notice_list = array();
+				
+				for ($i = 0; $i < count($notice_obj_list); $i++) {
+					$tmp_notice_nid = $notice_obj_list[$i]->nid;
+					$tmp_notice_wid = $notice_obj_list[$i]->wid;
+					$tmp_notice_timestamp = $notice_obj_list[$i]->timestamp;
+					$tmp_notice_title = $notice_obj_list[$i]->title;
+					
+					// 获取uid
+					$tmp_notice_worker_obj = $this->moa_worker_model->get($tmp_notice_wid);
+					$tmp_notice_uid = $tmp_notice_worker_obj->uid;
+					
+					// 获取姓名和头像
+					$tmp_notice_user_obj = $this->moa_user_model->get($tmp_notice_uid);
+					$tmp_notice_name = $tmp_notice_user_obj->name;
+					$tmp_notice_avatar = $tmp_notice_user_obj->avatar;
+					
+					// 前端渲染所用数据
+					$notice_list[$i]['nid'] = $tmp_notice_nid;
+					$notice_list[$i]['timestamp'] = $tmp_notice_timestamp;
+					$notice_list[$i]['title'] = $tmp_notice_title;
+					$notice_list[$i]['name'] = $tmp_notice_name;
+					$notice_list[$i]['avatar'] = $tmp_notice_avatar;
+					$notice_list[$i]['splited_date'] = PublicMethod::splitDate($tmp_notice_timestamp);
+					
+				}
+				echo json_encode(array("status" => TRUE, "msg" => "获取通知成功", "base_url" => base_url(), 
+						"notice_list" => $notice_list));
+				return;
 			}
+	
 		}
 	}
 	
@@ -77,7 +93,7 @@ Class Notify extends CI_Controller {
 	public function writeNotice() {
 		if (isset($_SESSION['user_id'])) {
 			// 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
-			if ($_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
+			if ($_SESSION['level'] != 1 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}

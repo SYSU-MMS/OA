@@ -31,86 +31,17 @@
                 <div>
                 	<a href="<?php echo site_url('Notify'); ?>" class="btn btn-xs btn-primary pull-right m-t-n-xs"><i class="fa fa-gear"></i> 编辑</a>
                     <h4>通知 </h4>
-                    <div class="feed-element">
-                        <a href="#" class="pull-left">
-                            <img alt="image" class="img-circle" src="<?=base_url().'assets/images/a1.jpg' ?>" >
-                        </a>
-                        <div class="media-body">
-                            【通知】清明节放假安排
-                            <br>
-                            <small class="text-muted">Today 4:21 pm</small>
-                        </div>
-                    </div>
-                    <div class="feed-element">
-                        <a href="index_3.html#" class="pull-left">
-                            <img alt="image" class="img-circle" src="<?=base_url().'assets/images/a1.jpg' ?>" >
-                        </a>
-                        <div class="media-body">
-                            【排班结果】2016春多媒体3-17周排班结果
-                            <br>
-                            <small class="text-muted">Today 4:21 pm</small>
-                        </div>
-                    </div>
-                    <div class="feed-element">
-                        <a href="index_3.html#" class="pull-left">
-                            <img alt="image" class="img-circle" src="<?=base_url().'assets/images/a2.jpg' ?>">
-                        </a>
-                        <div class="media-body">
-                            【值班报名】2015-2016学年第三学期空余时间表
-                            <br>
-                            <small class="text-muted">Yesterday 2:45 pm</small>
-                        </div>
-                    </div>
-                    <div class="feed-element">
-                        <a href="index_3.html#" class="pull-left">
-                            <img alt="image" class="img-circle" src="<?=base_url().'assets/images/a3.jpg' ?>">
-                        </a>
-                        <div class="media-body">
-                            【通讯录核对】多媒体最新版通讯录信息核对
-                            <br>
-                            <small class="text-muted">Yesterday 1:10 pm</small>
-                        </div>
-                    </div>
-                    <div class="feed-element">
-                        <a href="index_3.html#" class="pull-left">
-                            <img alt="image" class="img-circle" src="<?=base_url().'assets/images/a4.jpg' ?>">
-                        </a>
-                        <div class="media-body">
-                            【A组常检抽查】A组第3周常检抽查结果公示
-                            <br>
-                            <small class="text-muted">Monday 8:37 pm</small>
-                        </div>
-                    </div>
-                    <div class="feed-element">
-                        <a href="index_3.html#" class="pull-left">
-                            <img alt="image" class="img-circle" src="<?=base_url().'assets/images/a3.jpg' ?>">
-                        </a>
-                        <div class="media-body">
-                            【B组常检抽查】B组第2周常检抽查结果公示
-                            <br>
-                            <small class="text-muted">Yesterday 1:10 pm</small>
-                        </div>
-                    </div>
-                    <div class="feed-element">
-                        <a href="index_3.html#" class="pull-left">
-                            <img alt="image" class="img-circle" src="<?=base_url().'assets/images/a4.jpg' ?>">
-                        </a>
-                        <div class="media-body">
-                            【周检抽查】第2周周检抽查结果公示
-                            <br>
-                            <small class="text-muted">Monday 8:37 pm</small>
-                        </div>
-                    </div>
-                    <div class="feed-element">
-                        <a href="index_3.html#" class="pull-left">
-                            <img alt="image" class="img-circle" src="<?=base_url().'assets/images/a4.jpg' ?>">
-                        </a>
-                        <div class="media-body">
-                            【周检抽查】第2周周检抽查结果公示
-                            <br>
-                            <small class="text-muted">Monday 8:37 pm</small>
-                        </div>
-                    </div>
+                    
+                    <!-- 通知区 -->
+                    
+                    <div id="more-notices-btn" class="feed-element" style="margin-top: 25px;">
+	                    <div class="social-feed-box">
+	                        <button id="more_notices" class="btn btn-primary btn-block"><i class="fa fa-arrow-down"></i> 显示更多</button>
+	                    </div>
+	                </div>
+                    
+                    
+                    
                 </div>
             </div>
             <div class="wrapper wrapper-content">
