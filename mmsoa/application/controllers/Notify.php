@@ -37,6 +37,12 @@ Class Notify extends CI_Controller {
 	 */
 	public function addNotice() {
 		if (isset($_SESSION['user_id'])) {
+			// 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
+			if ($_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
+				// 提示权限不够
+				PublicMethod::permissionDenied();
+			}
+			
 			$uid = $_SESSION['user_id'];
 			$user_obj = $this->moa_user_model->get($uid);
 			$name = $user_obj->name;
@@ -64,5 +70,58 @@ Class Notify extends CI_Controller {
 			}
 		}
 	}
+	
+	/**
+	 * 进入发布新通知页面
+	 */
+	public function writeNotice() {
+		if (isset($_SESSION['user_id'])) {
+			// 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
+			if ($_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
+				// 提示权限不够
+				PublicMethod::permissionDenied();
+			}
+			
+			$this->load->view('view_write_notice');
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
+	
+	/**
+	 * 发布新通知(录入)
+	 */
+	public function writeNoticeIn() {
+		if (isset($_SESSION['user_id'])) {
+			$uid = $_SESSION['user_id'];
+			$wid = $this->moa_worker_model->get_wid_by_uid($uid);
+			if (isset($_POST['notice_title']) && isset($_POST['notice_content'])) {
+				$notice_paras['wid'] = $wid;
+		
+				// state： 0-正常  1-已删除
+				$notice_paras['state'] = 0;
+		
+				$notice_paras['timestamp'] = date('Y-m-d H:i:s');
+				$notice_paras['title'] = $_POST['notice_title'];
+				$notice_paras['body'] =  $_POST['notice_content'];
+				
+				$nid = $this->moa_notice_model->add($notice_paras);
+		
+				if ($nid) {
+					echo json_encode(array("status" => TRUE, "msg" => "发布成功"));
+					return;
+				} else {
+					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
+					return;
+				}
+		
+			} else {
+				echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
+				return;
+			}
+		}
+	}
+
 	
 }

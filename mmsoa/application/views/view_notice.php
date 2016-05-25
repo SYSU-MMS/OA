@@ -33,7 +33,10 @@
                             MOA
                         </li>
                         <li>
-                            <strong>管理通知</strong>
+                            	通知
+                        </li>
+                        <li>
+                            <strong>管理</strong>
                         </li>
                     </ol>
                 </div>
@@ -45,7 +48,7 @@
                             <div class="ibox-title">
                                 <h5>所有通知</h5>
                                 <div class="ibox-tools">
-                                    <a href="projects.html" class="btn btn-primary btn-xs">发布新通知</a>
+                                    <a href="<?php echo site_url('Notify/writeNotice'); ?>" class="btn btn-primary btn-xs">发布新通知</a>
                                 </div>
                             </div>
                             <div class="ibox-content" style="padding-bottom: 20px;">
