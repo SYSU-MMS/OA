@@ -20,6 +20,24 @@ class moa_notice_model extends CI_Model {
     }
     
     /**
+     * 用nid取通知信息
+     * @param nid - 通知nid
+     */
+    public function get($nid) {
+    	if (isset($nid)) {
+    		$this->db->where(array('nid'=>$nid, 'state'=>0));
+    		$res = $this->db->get('MOA_Notice')->result();
+    		return $res[0];
+    	}
+    	else {
+    		$this->db->where(array('state'=>0));
+    		$res = $this->db->get('MOA_Notice')->result();
+    		return $res;
+    	}
+    	return false;
+    }
+    
+    /**
      * 取指定状态、数目、时间段的通知
      * @param unknown $date 该时间之前
      * @param unknown $state 帖子状态

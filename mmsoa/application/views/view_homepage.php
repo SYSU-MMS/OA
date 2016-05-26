@@ -29,7 +29,7 @@
             
             <div class="sidebard-panel">
                 <div>
-                	<a href="<?php echo site_url('Notify'); ?>" class="btn btn-xs btn-primary pull-right m-t-n-xs"><i class="fa fa-gear"></i> 编辑</a>
+                	<a id="site_url" href="<?php echo site_url('Notify'); ?>" class="btn btn-xs btn-primary pull-right m-t-n-xs"><i class="fa fa-gear"></i> 编辑</a>
                     <h4>通知 </h4>
                     
                     <!-- 通知区 -->

@@ -6775,11 +6775,26 @@ body.skin-3 {
 
 /* notice */
 .notice-title {
-    font-size: 48px !important;
-    font-weight: 700 !important;
+    font-size: 48px;
+    font-weight: 700;
     color: #2F4050 !important;
+    font: 12px/22px "Microsoft Yahei", "宋体", 微软雅黑, Arial, Lucida Grande, Tahoma, sans-serif;
 }
 
+.article-title p.info {
+	font-size: 20px;
+	text-align: center;
+	color: #000;
+	font: 13px/22px "Microsoft Yahei", "宋体", 微软雅黑, Arial, Lucida Grande, Tahoma, sans-serif;
+}
+
+.article-title p.info small {
+    font-size: 20px;
+    padding: 0 2px 0 6px;
+    color: #7c7a7a;
+    font: 13px/22px "Microsoft Yahei", "宋体", 微软雅黑, Arial, Lucida Grande, Tahoma, sans-serif;
+}
+	
 .notice-body {
 	font-size: 17px;
 	line-height: 26px;

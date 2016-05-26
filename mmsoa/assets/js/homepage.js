@@ -101,6 +101,7 @@ $("body").on("click", ".comment-btn", function(){
 	var btn_id = $(this)[0].id.split("_");
 	var post_id = btn_id[btn_id.length - 1];
 	var comment_content = $(this).parent().siblings("textarea").val();
+	// 通过post_id确定评论属于哪条留言
 	var write_comment_id_selector = "#write_comment_" + post_id;
 	var comment_textarea_selector = "#comment_textarea_" + post_id;
 		
@@ -230,6 +231,9 @@ $("#more_notices").click(function() {
  * 异步获取通知
  */
 $("#more_notices").bind("getNotice", function(event, base_date) {
+	// 从编辑按钮获取site_url('Notify')，用于构造notice的href属性的值,等同于site_url('Notify/readNotice')
+	var site_url = $("#site_url").attr("href");
+	var notice_href = site_url + "/readNotice";
 	
 	$.ajax({
 		type: 'get',
@@ -248,7 +252,7 @@ $("#more_notices").bind("getNotice", function(event, base_date) {
 	                            "<img alt='image' class='img-circle' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['notice_list'][i]['avatar'] + "'>" +
 	                        "</a>" +
 	                        "<div class='media-body'>" +
-	                        	"<a href='#' class='btn-link'>" +
+	                        	"<a href='" + notice_href + "?nid=" + ret['notice_list'][i]['nid'] + "' id='notice_id_" + ret['notice_list'][i]['nid'] + "' class='btn-link'>" +
 	                        		ret['notice_list'][i]['title'] +
 	                        	"</a>" +
 	                            "<br>" +
@@ -268,3 +272,5 @@ $("#more_notices").bind("getNotice", function(event, base_date) {
 		
 	});
 });
+
+

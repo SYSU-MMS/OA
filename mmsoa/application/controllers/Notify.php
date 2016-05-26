@@ -92,7 +92,23 @@ Class Notify extends CI_Controller {
 	 */
 	public function readNotice() {
 		if (isset($_SESSION['user_id'])) {
-			$this->load->view('view_notice_detail');
+			if (isset($_GET['nid'])) {
+				$nid = $_GET['nid'];
+				// 通过nid获取指定的通知详情
+				$notice_obj = $this->moa_notice_model->get($nid);
+				
+				// 获取发布者姓名
+				$wid = $notice_obj->wid;
+				$worker_obj = $this->moa_worker_model->get($wid);
+				$user_obj = $this->moa_user_model->get($worker_obj->uid);
+				
+				$data['title'] = $notice_obj->title;
+				$data['body'] = $notice_obj->body;
+				$data['name'] = $user_obj->name;
+				$data['timestamp'] = substr($notice_obj->timestamp, 0, 10);
+				// 跳转到通知详情页面
+				$this->load->view('view_notice_detail', $data);
+			}
 		} else {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
