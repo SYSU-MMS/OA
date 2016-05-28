@@ -85,6 +85,7 @@
                                             <th><i class="fa fa-phone"></i><span> 联系电话</span></th>
                                             <th>历史累计工时</th>
                                             <th>历史累计工资</th>
+                                            <th>调整工时</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -98,6 +99,14 @@
 	                                            <td><?php echo $phone_list[$i]; ?></td>
 	                                            <td><?php echo $total_contri_list[$i]; ?></td>
 	                                            <td><?php echo $total_salary_list[$i]; ?></td>
+	                                            <td>
+		                                            <button type="button" data-toggle="modal" id="reward_time" name="reward_time" class="btn btn-xs btn-primary">
+		                                            	奖励
+		                                            </button>
+		                                            <button type="button" data-toggle="modal" id="penalty_time" name="penalty_time" class="btn btn-xs btn-danger">
+		                                            	扣除
+		                                            </button>
+	                                            </td>
 	                                        </tr>
 	                                    <?php } ?>
 	                                </tbody>

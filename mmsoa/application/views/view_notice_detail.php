@@ -45,7 +45,7 @@
 	            <div class="row">
 	                <div class="col-lg-12">
                         <div class="ibox float-e-margins">
-                            <div class="ibox-content" style="padding-bottom: 20px;">
+                            <div class="ibox-content" style="padding: 20px 90px;">
                                 <div class="text-center article-title notice-title">
 		                            <h1>
 		                            	<?php echo $title; ?>

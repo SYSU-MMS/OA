@@ -154,7 +154,6 @@
         
     <!-- Custom and plugin javascript -->
     <script src="<?=base_url().'assets/js/my-hplus.js?v=2.2.0' ?>"></script>
-    <script src="<?=base_url().'assets/js/plugins/pace/pace.min.js' ?>"></script>
     
     <!-- Dynamic date -->
     <script src="<?=base_url().'assets/js/dynamicDate.js' ?>"></script>
