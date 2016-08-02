@@ -39,6 +39,7 @@ Class WorkingTime extends CI_Controller {
 			$state = 0;
 			$u_obj_list = $this->moa_user_model->get_by_multiple_level($level_arr, $state);
 			
+			$w_wid_list = array();
 			$u_name_list = array();
 			$u_card_list = array();
 			$u_phone_list = array();
@@ -69,10 +70,12 @@ Class WorkingTime extends CI_Controller {
 					$tmp_month_real_contri = $tmp_month_contri - $tmp_month_penalty;
 					$w_month_contri_list[$count] = $tmp_month_real_contri;
 					$w_month_salary_list[$count] = PublicMethod::cal_salary($tmp_month_real_contri);
+					$w_wid_list[$count] = $tmp_wid;
 				}
 			}
 			
 			$data['count'] = $count;
+			$data['wid_list'] = $w_wid_list;
 			$data['name_list'] = $u_name_list;
 			$data['card_list'] = $u_card_list;
 			$data['phone_list'] = $u_phone_list;
@@ -157,5 +160,48 @@ Class WorkingTime extends CI_Controller {
 		}
 	}
 
+	/**
+	 * 工时调整
+	 */
+	public function rewardAndPenalty() {
+		if (isset($_SESSION['user_id'])) {
+			// 检查权限: 2-负责人助理 3-助理负责人 5-办公室负责人  6-超级管理员
+			if ($_SESSION['level'] != 2 && $_SESSION['level'] != 3 &&
+					$_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
+				// 提示权限不够
+				PublicMethod::permissionDenied();
+			}
+			
+			if (isset($_POST['wid']) && isset($_POST['time_num'])) {
+				$wid = $_POST['wid'];
+				$uid = $this->moa_worker_model->get($wid)->uid;
+				$ajust_contrib = $_POST['time_num'];
+				
+				// 更新工时
+				$affected_rows = $this->moa_worker_model->update_worktime($wid, $ajust_contrib);
+				$affected_rows_u = $this->moa_user_model->update_contribution($uid, $ajust_contrib);
+				
+				if ($affected_rows == 0 || $affected_rows_u == 0) {
+					if ($ajust_contrib >= 0) {
+						echo json_encode(array("status" => FALSE, "msg" => "奖励失败"));
+					} else {
+						echo json_encode(array("status" => FALSE, "msg" => "扣除失败"));
+					}
+					return;
+				}
+				
+				if ($ajust_contrib >= 0) {
+					echo json_encode(array("status" => TRUE, "msg" => "奖励成功"));
+				} else {
+					echo json_encode(array("status" => TRUE, "msg" => "扣除成功"));
+				}
+				return;
+			}
+			
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
 	
 }

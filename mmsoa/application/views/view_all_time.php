@@ -100,10 +100,12 @@
 	                                            <td><?php echo $total_contri_list[$i]; ?></td>
 	                                            <td><?php echo $total_salary_list[$i]; ?></td>
 	                                            <td>
-		                                            <button type="button" data-toggle="modal" id="reward_time" name="reward_time" class="btn btn-xs btn-primary">
+		                                            <button type="button" data-toggle="modal" data-target="#myModal" id=<?php echo 'reward_button_' . $wid_list[$i]; ?> 
+		                                            name="reward_button" class="btn btn-xs btn-primary" onclick="rewardButton(this.id);">
 		                                            	奖励
 		                                            </button>
-		                                            <button type="button" data-toggle="modal" id="penalty_time" name="penalty_time" class="btn btn-xs btn-danger">
+		                                            <button type="button" data-toggle="modal" data-target="#myModal" id=<?php echo 'penalty_button_' . $wid_list[$i]; ?> 
+		                                            name="penalty_button" class="btn btn-xs btn-danger" onclick="penaltyButton(this.id);">
 		                                            	扣除
 		                                            </button>
 	                                            </td>
@@ -119,13 +121,25 @@
             <?php $this->load->view('view_footer'); ?>
 	    </div>
 	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 10;">
+	    <div class="modal-dialog">
+	        <div class="modal-content" style="margin-top: 90px;">
+	            <div class="modal-header">
+	                <h4 class="modal-title" id="myModalLabelTitle"></h4>
+	            </div>
+	            <div id="modalBody" class="modal-body">
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
     <!-- Mainly scripts -->
     <script src="<?=base_url().'assets/js/jquery-2.1.1.min.js' ?>"></script>
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-    <!-- <script src="<?=base_url().'assets/js/searchuser.js' ?>"></script> -->
+    <script src="<?=base_url().'assets/js/workingtime.js' ?>"></script>
     
     <!-- nav item active -->
 	<script>
@@ -166,9 +180,27 @@
     <script src="<?=base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
     
-    <script>
+    <!-- Jquery Validate -->
+    <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/jquery.validate.min.js' ?>"></script>
+    <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/messages_zh.min.js' ?>"></script>
+    
+    <script>    
+
+	 	// 以下为修改jQuery Validation插件兼容Bootstrap的方法，没有直接写在插件中是为了便于插件升级
+	    $.validator.setDefaults({
+	        highlight: function (element) {
+	            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+	        },
+	        success: function (element) {
+	        	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+	        },
+	        errorElement: "span",
+	        errorClass: "color-error m-b-none",
+	        validClass: "color-success m-b-none"
+	    });
+	    
         $(document).ready(function () {
-           
+
         	$('.users-dataTable').dataTable();
 
             /* Calendar */
