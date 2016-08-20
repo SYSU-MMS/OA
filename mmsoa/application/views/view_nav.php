@@ -129,15 +129,15 @@
 		        <a href="Homepage#"><i class="fa fa-calendar"></i> <span class="nav-label"> 值班安排</span><span class="fa arrow"></span></a>
 		        <ul class="nav nav-second-level">
 		        	<?php 
-		        	if ($_SESSION['level'] == 0 || $_SESSION['level'] == 3 || $_SESSION['level'] == 6) { echo
-		                '<li id="active-dutySignUp"><a href="'. site_url('DutySignUp') . '">报名</a>' . 
-		                '</li>';
-		        	} 
-		        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) { echo
-		                '<li id="active-dutyArrange"><a href="'. site_url('DutyArrange/dutyArrange') . '">排班</a>' . 
-		                '</li>';
-		        	} 
-		        ?>
+			        	if ($_SESSION['level'] == 0 || $_SESSION['level'] == 3 || $_SESSION['level'] == 6) { echo
+			                '<li id="active-dutySignUp"><a href="'. site_url('DutySignUp') . '">报名</a>' . 
+			                '</li>';
+			        	} 
+			        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) { echo
+			                '<li id="active-dutyArrange"><a href="'. site_url('DutyArrange/dutyArrange') . '">排班</a>' . 
+			                '</li>';
+			        	} 
+			        ?>
 		            <li id="active-dutySchedule"><a href="<?php echo site_url('DutyArrange/dutySchedule'); ?>">值班表</a>
 		            </li>
 		        </ul>

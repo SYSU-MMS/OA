@@ -57,6 +57,12 @@
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>值班报名</h5>
+                                <?php 
+                                	// 助理负责人，超级管理员才可以导出报名情况
+						        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) { echo
+						        		'<a id="export_signup" class="btn btn-primary exportSignupBtn" href="' . site_url('DutySignUp/exportToTxt') . '">导出报名情况</a>';
+						        	}
+						        ?>
                             </div>
                             <div class="ibox-content">
                             	<form method="POST" action="<?php echo site_url('DutySignUp/signUp'); ?>">

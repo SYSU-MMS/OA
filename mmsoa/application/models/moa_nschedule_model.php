@@ -32,6 +32,13 @@ class moa_nschedule_model extends CI_Model {
 			return false;
 		}
 	}
+	
+	/**
+	 * 获取所有空余时间记录
+	 */
+	public function getAll() {
+		return $this->db->get('MOA_nschedule')->result();
+	}
 
 	/**
 	 * 获得某个时间段的空余记录

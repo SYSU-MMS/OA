@@ -201,7 +201,7 @@ Class DutySignUp extends CI_Controller {
 	}
 	
 	/**
-	 * 输出到txt文件
+	 * 导出报名情况到txt文件
 	 */
 	public function exportToTxt() {
 		header('Content-type: application/octet-stream');
@@ -211,8 +211,89 @@ Class DutySignUp extends CI_Controller {
 		header('Content-Transfer-Encoding: utf-8');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
-		echo "林伟,A,0,1,1,0\r\n";
-		echo "林伟彬,B,0,1,1,0\r\n";
+		
+		// 从数据库获取所有报名记录（空余时间记录）
+		$nschedule_obj_list = $this->moa_nschedule_model->getAll();
+		for ($i = 0; $i < count($nschedule_obj_list); $i++) {
+			// 获取姓名
+			$worker_obj = $this->moa_worker_model->get($nschedule_obj_list[$i]->wid);
+			$user_obj = $this->moa_user_model->get($worker_obj->uid);
+			$name = $user_obj->name;
+			// 获取意向组别
+			$group = $nschedule_obj_list[$i]->groupid;
+			// 获取01表示的报名时间段字符串
+			$period = $this->periodConvertTo01($nschedule_obj_list[$i]->period);
+			// 写入到txt文件
+			echo $name . "," . $group . "," . $period . "\r\n";
+		}
+		return;
+	}
+	
+	/**
+	 * 将报名时间段字符串转换为01表示的字符串
+	 * @param $period_str 报名时间段字符串
+	 */
+	private function periodConvertTo01($period_str) {
+		$res_arr = array();
+		$period_arr = explode(",", $period_str);
+		// MON1~MON6
+		for ($i = 1; $i <= 6; $i++) {
+			if (in_array("MON".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// TUE1~TUE6
+		for ($i = 1; $i <= 6; $i++) {
+			if (in_array("TUE".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// WED1~WED6
+		for ($i = 1; $i <= 6; $i++) {
+			if (in_array("WED".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// THU1~THU6
+		for ($i = 1; $i <= 6; $i++) {
+			if (in_array("THU".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// FRI1~FRI6
+		for ($i = 1; $i <= 6; $i++) {
+			if (in_array("FRI".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// SAT1~SAT3
+		for ($i = 1; $i <= 3; $i++) {
+			if (in_array("SAT".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// SUN1~SUN3
+		for ($i = 1; $i <= 3; $i++) {
+			if (in_array("SUN".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		$res_str = implode(",", $res_arr);
+		return $res_str;
 	}
 	
 }

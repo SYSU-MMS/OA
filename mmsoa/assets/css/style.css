@@ -6799,3 +6799,8 @@ body.skin-3 {
 	font-size: 17px;
 	line-height: 26px;
 }
+
+.exportSignupBtn {
+	float: right;
+    margin: -8px 0 0 0 !important;
+}
