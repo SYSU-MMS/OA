@@ -139,6 +139,7 @@
     <!-- Mainly scripts -->
     <script src="<?=base_url().'assets/js/jquery-2.1.1.min.js' ?>"></script>
 	<script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
+	<script src="<?=base_url().'assets/js/changeavatar.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     
     <!-- nav item active -->

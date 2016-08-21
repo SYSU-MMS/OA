@@ -1,6 +1,5 @@
 <?php
 header("Content-type: text/html; charset=utf-8");
-require 'CropAvatar.php';
 require_once('PublicMethod.php');
 
 /**
@@ -33,16 +32,34 @@ Class ChangeAvatar extends CI_Controller {
 		}
 	}
 	
-	public function uploadAvatar_OOP() {
-		// 面向对象的头像裁剪上传  require 'Cropavatar.php';
-		$crop = new CropAvatar($_POST['avatar_src'], $_POST['avatar_data'], $_FILES['avatar_file']);
-		$response = array(
-				'state'  => 200,
-				'message' => $crop -> getMsg(),
-				'result' => $crop -> getResult()
-		);
-		echo json_encode($response);
+	/**
+	 * 获取最新头像（更换头像后，异步刷新左侧导航栏中的小头像）
+	 */
+	public function getLastedAvatar() {
+		if (isset($_POST['old_avatar_name'])) {
+			// 删除旧的sm小头像
+			$sm_src_pic_name = $_POST['old_avatar_name'];
+			if (file_exists('upload/avatar/' . $sm_src_pic_name)) {
+				unlink('upload/avatar/' . $sm_src_pic_name);
+			}
+			
+			$obj = $this->moa_user_model->get($_SESSION['user_id']);
+			$_SESSION['avatar'] = $obj->avatar;
+			echo json_encode(array("status" => TRUE, "imgSrc" => $obj->avatar));
+			return;
+		}
 	}
+	
+// 	public function uploadAvatar_OOP() {
+// 		// 面向对象的头像裁剪上传  require 'Cropavatar.php';
+// 		$crop = new CropAvatar($_POST['avatar_src'], $_POST['avatar_data'], $_FILES['avatar_file']);
+// 		$response = array(
+// 				'state'  => 200,
+// 				'message' => $crop -> getMsg(),
+// 				'result' => $crop -> getResult()
+// 		);
+// 		echo json_encode($response);
+// 	}
 	
 	/**
 	 * 头像裁剪上传与数据库记录
@@ -251,7 +268,7 @@ Class ChangeAvatar extends CI_Controller {
 				if ($old_avatar != 'default.png') {
 					unlink('upload/avatar/' . $old_avatar);
 				}
-				
+				// 更新数据库头像文件名
 				$user_paras['avatar'] = $avatar_pic_name;
 				$res = $this->moa_user_model->update($uid, $user_paras);
 				
@@ -265,8 +282,9 @@ Class ChangeAvatar extends CI_Controller {
 				}
 				
 				// 不论更换是否成功，都删除原文件
-				unlink('upload/avatar/' . $src_pic_name);
-				unlink('upload/avatar/sm_' . $src_pic_name);
+				if (file_exists('upload/avatar/' . $src_pic_name)) {
+					unlink('upload/avatar/' . $src_pic_name);
+				}
 				
 				/**** return ****/
 				$result = !empty($data) ? $dst : $src;

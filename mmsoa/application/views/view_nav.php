@@ -109,7 +109,7 @@
 		            '<li id="active-timeStatistics">' . 
 		                '<a href="Homepage#"><i class="fa fa-rmb"></i> <span class="nav-label"> &nbsp;工时统计</span><span class="fa arrow"></span></a>' . 
 		                '<ul class="nav nav-second-level">' . 
-		                    '<li id="active-personal"><a href="'. site_url('WorkingTime/perWorkingTime') . '">个人<span class="label label-warning pull-right">26</span></a>' . 
+		                    '<li id="active-personal"><a href="'. site_url('WorkingTime/perWorkingTime') . '">个人<span class="label label-warning pull-right"><i class="fa fa-heart-o heart-margin"></i></span></a>' . 
 		                    '</li>' . 
 		                    '<li id="active-allmembers"><a href="'. site_url('WorkingTime/allWorkingTime') . '">全员</a>' . 
 		                    '</li>' . 

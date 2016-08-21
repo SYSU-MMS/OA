@@ -6836,3 +6836,7 @@ body.skin-3 {
 #select_replaced_chosen {
 	font-weight: 300 !important;
 }
+
+.heart-margin {
+	margin-right: 0 !important;
+}
