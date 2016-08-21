@@ -78,57 +78,48 @@
                                     
                                     <div class="form-group">
                                     	<div class="col-sm-3">
-                                    		</br>
-                                    		</br>
-	                                    	<label class="col-sm-11 col-sm-offset-1 control-label">早检情况</label>
+	                                    	<label class="col-sm-11 col-sm-offset-1 control-label other-lable">早检情况</label>
                                     	</div>
 										<div class="col-sm-7">
-										    <textarea name="journal_morning" id="text_morning" class="form-control" placeholder="请输入早检情况" style="height: 100px;"></textarea>
+										    <textarea name="journal_morning" id="text_morning" class="form-control other-height" placeholder="请输入早检情况"></textarea>
 										</div>
 									</div>
                                     <div class="hr-line-dashed"></div>
                                     
                                     <div class="form-group">
                                     	<div class="col-sm-3">
-                                    		</br>
-                                    		</br>
-	                                    	<label class="col-sm-11 col-sm-offset-1 control-label">午检情况</label>
+	                                    	<label class="col-sm-11 col-sm-offset-1 control-label other-lable">午检情况</label>
                                     	</div>
 										<div class="col-sm-7">
-										    <textarea name="journal_noon" id="text_noon" class="form-control" placeholder="请输入午检情况" style="height: 100px;"></textarea>
+										    <textarea name="journal_noon" id="text_noon" class="form-control other-height" placeholder="请输入午检情况"></textarea>
 										</div>
 									</div>
                                     <div class="hr-line-dashed"></div>
                                     
                                     <div class="form-group">
                                     	<div class="col-sm-3">
-                                    		</br>
-                                    		</br>
-	                                    	<label class="col-sm-11 col-sm-offset-1 control-label">晚检情况</label>
+	                                    	<label class="col-sm-11 col-sm-offset-1 control-label other-lable">晚检情况</label>
                                     	</div>
 										<div class="col-sm-7">
-										    <textarea name="journal_evening" id="text_evening" class="form-control" placeholder="请输入晚检情况" style="height: 100px;"></textarea>
+										    <textarea name="journal_evening" id="text_evening" class="form-control other-height" placeholder="请输入晚检情况"></textarea>
 										</div>
 									</div>
                                     <div class="hr-line-dashed"></div>
                                     
                                     <div class="form-group">
 	                                    <div class="col-sm-3">
-                                    		</br>
-                                    		</br>
-                                    		</br>
-	                                    	<label class="col-sm-11 col-sm-offset-1 control-label">优秀助理</label>
+	                                    	<label class="col-sm-11 col-sm-offset-1 control-label best-bad-lable">优秀助理</label>
                                     	</div>
 										<div class="col-sm-7">
 											<div class="input-group">
-												<select id="select_best" data-placeholder="请选择优秀助理" class="chosen-select" multiple style="width:594px;" tabindex="4">
+												<select id="select_best" data-placeholder="请选择优秀助理" class="chosen-select" multiple tabindex="4">
 													<?php for ($i = 0; $i < count($wid_list); $i++) { ?>
 														<option value="<?php echo $wid_list[$i]; ?>" hassubinfo="true"><?php echo $name_list[$i]; ?></option>
 													<?php } ?>
 	                                        	</select>
 											</div>
 											<div>
-											    <textarea name="journal_best" id="text_best" class="form-control" placeholder="请输入优秀助理的表现" style="height: 100px;"></textarea>
+											    <textarea name="journal_best" id="text_best" class="form-control other-height" placeholder="请输入优秀助理的表现"></textarea>
 											</div>
                                     	</div>
 									</div>
@@ -136,21 +127,18 @@
                                     
                                     <div class="form-group">
 	                                    <div class="col-sm-3">
-                                    		</br>
-                                    		</br>
-                                    		</br>
-	                                    	<label class="col-sm-11 col-sm-offset-1 control-label">异常助理</label>
+	                                    	<label class="col-sm-11 col-sm-offset-1 control-label best-bad-lable">异常助理</label>
                                     	</div>
 										<div class="col-sm-7">
 											<div class="input-group">
-												<select id="select_bad" data-placeholder="请选择异常助理" class="chosen-select" multiple style="width:594px;" tabindex="4">
+												<select id="select_bad" data-placeholder="请选择异常助理" class="chosen-select" multiple tabindex="4">
 		                                            <?php for ($i = 0; $i < count($wid_list); $i++) { ?>
 														<option value="<?php echo $wid_list[$i]; ?>" hassubinfo="true"><?php echo $name_list[$i]; ?></option>
 													<?php } ?>
 	                                        	</select>
 											</div>
 											<div>
-											    <textarea name="journal_bad" id="text_bad" class="form-control" placeholder="请输入异常助理的表现" style="height: 100px;"></textarea>
+											    <textarea name="journal_bad" id="text_bad" class="form-control other-height" placeholder="请输入异常助理的表现"></textarea>
 											</div>
                                     	</div>
 									</div>
@@ -158,12 +146,10 @@
                                     
                                     <div class="form-group">
 	                                    <div class="col-sm-3">
-                                    		</br>
-                                    		</br>
-	                                    	<label class="col-sm-11 col-sm-offset-1 control-label">总结</label>
+	                                    	<label class="col-sm-11 col-sm-offset-1 control-label other-lable">总结</label>
                                     	</div>
 										<div class="col-sm-7">
-										    <textarea name="journal_summary" id="text_summary" class="form-control" placeholder="请输入坐班总结" style="height: 100px;"></textarea>
+										    <textarea name="journal_summary" id="text_summary" class="form-control other-height" placeholder="请输入坐班总结"></textarea>
 										</div>
 									</div>
                                     <div class="hr-line-dashed"></div>
@@ -239,29 +225,33 @@
                 radioClass: 'iradio_square-green',
             });
             
-            
         });
+
+        var width_best = $("#text_best").width() + 26;
+        var width_best_str = width_best + "px";
+        $("#select_best").css("width", width_best_str);
+        $("#select_bad").css("width", width_best_str);
 
         /* Chosen */
         var config = {
-                '.chosen-select': {
-                    // 实现中间字符的模糊查询
-                	search_contains: true,
-                	no_results_text: "没有找到"
-                },
-                '.chosen-select-deselect': {
-                    allow_single_deselect: true
-                },
-                '.chosen-select-no-single': {
-                    disable_search_threshold: 10
-                },
-                '.chosen-select-no-results': {
-                    no_results_text: 'Oops, nothing found!'
-                },
-                '.chosen-select-width': {
-                    width: "95%"
-                }
+            '.chosen-select': {
+                // 实现中间字符的模糊查询
+            	search_contains: true,
+            	no_results_text: "没有找到"
+            },
+            '.chosen-select-deselect': {
+                allow_single_deselect: true
+            },
+            '.chosen-select-no-single': {
+                disable_search_threshold: 10
+            },
+            '.chosen-select-no-results': {
+                no_results_text: 'Oops, nothing found!'
+            },
+            '.chosen-select-width': {
+                width: "95%"
             }
+        }
         for (var selector in config) {
             $(selector).chosen(config[selector]);
         }

@@ -6820,3 +6820,15 @@ body.skin-3 {
 .radio-font-size {
 	font-size: 14px !important;
 }
+
+.best-bad-lable {
+	padding-top: 63px !important;
+}
+
+.other-lable {
+	padding-top: 40px !important;
+}
+
+.other-height {
+	height: 100px !important;
+}
