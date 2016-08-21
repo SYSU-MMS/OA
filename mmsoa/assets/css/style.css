@@ -6832,3 +6832,7 @@ body.skin-3 {
 .other-height {
 	height: 100px !important;
 }
+
+#select_replaced_chosen {
+	font-weight: 300 !important;
+}
