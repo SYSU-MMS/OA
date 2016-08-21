@@ -201,12 +201,21 @@ Class DutySignUp extends CI_Controller {
 	}
 	
 	/**
-	 * 导出报名情况到txt文件
+	 * 清空报名记录
+	 */
+	public function cleanSignUp() {
+		$this->moa_nschedule_model->clean();
+		echo json_encode(array("status" => TRUE, "msg" => "报名记录已清空"));
+		return;
+	}
+	
+	/**
+	 * 导出报名记录到txt文件
 	 */
 	public function exportToTxt() {
 		header('Content-type: application/octet-stream');
 		header('Accept-Ranges: bytes');
-		header('Content-Disposition: attachment; filename="test.txt"');
+		header('Content-Disposition: attachment; filename="signup.txt"');
 		header('Expires: 0');
 		header('Content-Transfer-Encoding: utf-8');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

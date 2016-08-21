@@ -73,7 +73,7 @@ class moa_nschedule_model extends CI_Model {
 	/**
 	 * 清空空余时间表
 	 */
-	public function clear() {
+	public function clean() {
 		$sb = 'DELETE FROM MOA_nschedule';
 		$sqlquery = $this->db->query($sb);
 		return $this->db->affected_rows();

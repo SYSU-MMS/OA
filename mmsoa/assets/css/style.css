@@ -6802,5 +6802,17 @@ body.skin-3 {
 
 .exportSignupBtn {
 	float: right;
-    margin: -8px 0 0 0 !important;
+    margin: -8px 12px 0 0 !important;
+}
+
+.cancelBtn {
+	float: left;
+}
+
+.exclamation-info {
+	color: #ED5565;
+}
+
+.exclamation-desc {
+	color: black;
 }

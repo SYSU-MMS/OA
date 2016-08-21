@@ -59,8 +59,9 @@
                                 <h5>值班报名</h5>
                                 <?php 
                                 	// 助理负责人，超级管理员才可以导出报名情况
-						        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) { echo
-						        		'<a id="export_signup" class="btn btn-primary exportSignupBtn" href="' . site_url('DutySignUp/exportToTxt') . '">导出报名情况</a>';
+						        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) { 
+						        		echo '<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger exportSignupBtn"><i class="fa fa-trash-o"></i><span> 清空报名记录</span></button>' . 
+								        		'<a id="export_signup" class="btn btn-primary exportSignupBtn" href="' . site_url('DutySignUp/exportToTxt') . '"><i class="fa fa-download"></i><span> 导出报名记录</span></a>';								        		;
 						        	}
 						        ?>
                             </div>
@@ -174,10 +175,34 @@
             <?php $this->load->view('view_footer'); ?>
 	    </div>
 	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 10;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+	            </div>
+	            <div class="modal-body">
+	                <h2 id="submit_result" style="text-align:center;"><i class="fa fa-exclamation-circle exclamation-info"><span class="exclamation-desc"> 记录清空后不可恢复，确定要清空吗？</span></i></h2>
+	            </div>
+	            <div class="modal-footer">
+	            	<div class="row">
+	            		<div class="col-sm-6">
+			            	<button id="confirm_clean" type="button" class="btn btn-primary" onclick="clean()">确定</button>
+	            		</div>
+	            		<div class="col-sm-6">
+	            			<button type="button" class="btn btn-danger cancelBtn" data-dismiss="modal">取消</button>
+	            		</div>
+	            	</div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
     <!-- Mainly scripts -->
     <script src="<?=base_url().'assets/js/jquery-2.1.1.min.js' ?>"></script>
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
+    <script src="<?=base_url().'assets/js/dutysignup.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
     
