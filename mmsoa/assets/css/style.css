@@ -6816,3 +6816,7 @@ body.skin-3 {
 .exclamation-desc {
 	color: black;
 }
+
+.radio-font-size {
+	font-size: 14px !important;
+}

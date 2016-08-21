@@ -204,6 +204,12 @@ Class DutySignUp extends CI_Controller {
 	 * 清空报名记录
 	 */
 	public function cleanSignUp() {
+		// 检查权限: 3-助理负责人 6-超级管理员
+		if ($_SESSION['level'] != 3 && $_SESSION['level'] != 6) {
+			// 提示权限不够
+			PublicMethod::permissionDenied();
+		}
+		
 		$this->moa_nschedule_model->clean();
 		echo json_encode(array("status" => TRUE, "msg" => "报名记录已清空"));
 		return;
@@ -213,6 +219,12 @@ Class DutySignUp extends CI_Controller {
 	 * 导出报名记录到txt文件
 	 */
 	public function exportToTxt() {
+		// 检查权限: 3-助理负责人 6-超级管理员
+		if ($_SESSION['level'] != 3 && $_SESSION['level'] != 6) {
+			// 提示权限不够
+			PublicMethod::permissionDenied();
+		}
+		
 		header('Content-type: application/octet-stream');
 		header('Accept-Ranges: bytes');
 		header('Content-Disposition: attachment; filename="signup.txt"');

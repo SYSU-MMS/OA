@@ -12,7 +12,7 @@ Class PublicMethod extends CI_Controller {
 	 */
 	public static function requireLogin() {
 		// 未登录的用户请先登录
-		echo "<script language=javascript>alert('要访问的页面需要先登录！');</script>";
+		echo "<script language=javascript>alert('请登录！');</script>";
 		$_SESSION['user_url'] = $_SERVER['REQUEST_URI'];
 		echo '<script language=javascript>window.location.href="' . site_url('Login') . '"</script>';
 	}

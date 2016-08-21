@@ -68,15 +68,17 @@
                             <div class="ibox-content">
                             	<form method="POST" action="<?php echo site_url('DutySignUp/signUp'); ?>">
                             		<div class="row form-group" id="radio_group" style="margin: 10px 35px 23px 0px;">
-	                                    <label class="col-sm-1 col-sm-offset-2 control-label" for="groupid"> 组别 </label>
-										<div class="col-sm-8">
-											<label class="radio-inline" style="font-size: 14px;">
+                            			<div class="col-sm-1 col-sm-offset-2">
+                            				<label class="control-label" for="groupid"> 组别 </label>
+                            			</div>
+										<div class="col-sm-6">
+											<label class="radio-inline radio-font-size">
 										        <input type="radio" checked="" value="N" id="group_N" name="groupid"> A/B</label>
-										    <label class="radio-inline" style="font-size: 14px;">
+										    <label class="radio-inline radio-font-size">
 										        <input type="radio" value="A" id="group_A" name="groupid"> A </label>
-										    <label class="radio-inline" style="font-size: 14px;">
+										    <label class="radio-inline radio-font-size">
 										        <input type="radio" value="B" id="group_B" name="groupid"> B </label>
-										    <label class="radio-inline" style="font-size: 14px;">
+										    <label class="radio-inline radio-font-size">
 										        <input type="radio" value="C" id="group_C" name="groupid"> C </label>
 										</div>
 									</div>
