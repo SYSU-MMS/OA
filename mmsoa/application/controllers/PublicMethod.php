@@ -278,6 +278,9 @@ Class PublicMethod extends CI_Controller {
 					$p_end = $j + 1;
 				}
 			}
+			if ($p_start == 0 || $p_end == 0) {
+				return NULL;
+			}
 			for ($k = $p_start; $k <= $p_end; $k++) {
 				$periods[] = $k;
 			}
@@ -303,6 +306,9 @@ Class PublicMethod extends CI_Controller {
 					($t_to - $weekend_ends[$j]) <= (0.5 * 60 *60)) {
 						$p_end = $j + 7;
 					}
+			}
+			if ($p_start == 0 || $p_end == 0) {
+				return NULL;
 			}
 			for ($k = $p_start; $k <= $p_end; $k++) {
 				$periods[] = $k;
