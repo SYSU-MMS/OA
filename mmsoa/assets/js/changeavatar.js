@@ -26,7 +26,7 @@ $(function() {
 					for (var i = 0; i < token_arr.length - 1; i++) {
 						new_token_arr.push(token_arr[i]);
 					}
-					var new_src = new_token_arr.join("/") + "/" + ret['imgSrc'];
+					var new_src = new_token_arr.join("/") + "/sm_" + ret['imgSrc'];
 					$("#nav-avatar").attr("src", new_src);
 				}
 			},

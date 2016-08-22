@@ -37,14 +37,17 @@ Class ChangeAvatar extends CI_Controller {
 	 */
 	public function getLastedAvatar() {
 		if (isset($_POST['old_avatar_name'])) {
-			// 删除旧的sm小头像
 			$sm_src_pic_name = $_POST['old_avatar_name'];
-			if (file_exists('upload/avatar/' . $sm_src_pic_name)) {
-				unlink('upload/avatar/' . $sm_src_pic_name);
+			$obj = $this->moa_user_model->get($_SESSION['user_id']);
+			if (('sm_' . $obj->avatar) != $sm_src_pic_name) {
+				// 更新session的avatar
+				$_SESSION['avatar'] = $obj->avatar;
+				// 删除旧的sm小头像
+				if (file_exists('upload/avatar/' . $sm_src_pic_name)) {
+					unlink('upload/avatar/' . $sm_src_pic_name);
+				}
 			}
 			
-			$obj = $this->moa_user_model->get($_SESSION['user_id']);
-			$_SESSION['avatar'] = $obj->avatar;
 			echo json_encode(array("status" => TRUE, "imgSrc" => $obj->avatar));
 			return;
 		}
