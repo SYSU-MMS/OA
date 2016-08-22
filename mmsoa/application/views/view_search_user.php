@@ -86,9 +86,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    	<?php for ($i = 0; $i < count($users); $i++) { ?>
+                                    	<?php for ($i = 0; $i < count($users); $i++) { 
+                                    		if ($users[$i]->level == 6) {
+                                    			continue;
+                                    		}
+                                    	?>
 	                                        <tr>
-	                                        	<td><?php echo $i + 1; ?></td>
+	                                        	<td><?php echo $i; ?></td>
 	                                            <td><?php echo $users[$i]->name; ?></td>
 	                                            <td>
 	                                            	<?php 
@@ -132,6 +136,16 @@
 	                                            <td>
 	                                            	<button type="button" data-toggle="modal" href="<?php echo 'searchuser#modal-form' . $i; ?>" id="<?php echo $i; ?>" name="more_info"
 	                                            	class="btn btn-xs btn-outline btn-default" value="<?php echo $i; ?>" onclick="showMore(event);" style="margin-bottom: -5px;">更多信息</button>
+	                                            	<?php 
+		                                            	// 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
+		                                            	if ($_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
+		                                            		echo '<button type="button" data-toggle="modal" data-target="#myModal" id="' .  $users[$i]->uid . '" name="delete"' . ' style="display: none;"' . 
+		                                            			'class="btn btn-xs btn-outline btn-danger" value="' . $users[$i]->uid . '" onclick="setId(this.id);" style="margin-bottom: -5px;"><i class="fa fa-close"></i><span> 移除</span></button>';
+		                                            	} else {
+		                                            		echo '<button type="button" data-toggle="modal" data-target="#myModal" id="' .  $users[$i]->uid . '" name="delete"' . 
+		                                            			'class="btn btn-xs btn-outline btn-danger" value="' . $users[$i]->uid . '" onclick="setId(this.id);" style="margin-bottom: -5px;"><i class="fa fa-close"></i><span> 移除</span></button>';
+		                                            	}
+	                                            	?>
 	                                            </td>
 	                                        </tr>
 	                                    <?php } ?>
@@ -196,6 +210,29 @@
 	        </div>
 	    </div>
     <?php } ?>
+    
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 10;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+	            </div>
+	            <div id="modal-body" class="modal-body">
+	                <h2 id="submit_result" style="text-align:center;"><i class="fa fa-exclamation-circle exclamation-info"><span class="exclamation-desc"> 移除后不可恢复，确定要抛弃TA吗？</span></i></h2>
+	            </div>
+	            <div id="modal-footer" class="modal-footer">
+	            	<div class="row">
+	            		<div class="col-sm-6">
+			            	<button id="confirm_delete" type="button" class="btn btn-primary" onclick="deleteUser(this.id)">确定</button>
+	            		</div>
+	            		<div class="col-sm-6">
+	            			<button type="button" class="btn btn-danger cancelBtn" data-dismiss="modal">取消</button>
+	            		</div>
+	            	</div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
     <!-- Mainly scripts -->
     <script src="<?=base_url().'assets/js/jquery-2.1.1.min.js' ?>"></script>

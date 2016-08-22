@@ -40,11 +40,11 @@ class moa_user_model extends CI_Model {
 	 * 删除/恢复一个用户
 	 * @param id - 用户id
 	 */
-	public function delete($id, $isrecovere = false) {
+	public function delete($id, $isrecover = false) {
 		if(isset($id)) {
 			$this->db->where(array('uid'=>$id));
-			if (!$isrecovere) {
-				$this->db->update('MOA_User', array('state'=>1));
+			if (!$isrecover) {
+				$this->db->update('MOA_User', array('state'=>2));
 			}
 			else {
 				$this->db->update('MOA_User', array('state'=>0));
@@ -298,7 +298,7 @@ class moa_user_model extends CI_Model {
 	 */
 	public function login_check($username, $password) {
 		if (isset($username) and isset($password)) {
-			$sb = 'SELECT username, password FROM MOA_User WHERE username = "' . $username . '" AND password = "' . $password . '"';
+			$sb = 'SELECT username, password FROM MOA_User WHERE state = 0 AND username = "' . $username . '" AND password = "' . $password . '"';
 			$sqlquery = $this->db->query($sb);
 			$dataarr = $sqlquery->result();
 			if (count($dataarr) == 0) {

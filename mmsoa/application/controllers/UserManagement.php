@@ -42,6 +42,36 @@ Class UserManagement extends CI_Controller {
 	}
 	
 	/**
+	 * 移除用户
+	 */
+	public function deleteUser() {
+		if (isset($_SESSION['user_id'])) {
+			// 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
+			if ($_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
+				// 提示权限不够
+				PublicMethod::permissionDenied();
+			}
+		
+			if (isset($_POST['delete_uid'])) {
+				$affected_row = $this->moa_user_model->delete($_POST['delete_uid']);
+				if ($affected_row > 0) {
+					echo json_encode(array("status" => TRUE, "msg" => "移除成功"));
+					return;
+				} else {
+					echo json_encode(array("status" => FALSE, "msg" => "移除失败"));
+					return;
+				}
+			} else {
+				echo json_encode(array("status" => FALSE, "msg" => "移除失败"));
+				return;
+			}
+		} else {
+			echo json_encode(array("status" => FALSE, "msg" => "移除失败"));
+			return;
+		}
+	}
+	
+	/**
 	 * 查看用户列表
 	 */
 	public function searchUser() {
@@ -133,7 +163,7 @@ Class UserManagement extends CI_Controller {
 			}
 		} else {
 			echo json_encode(array("status" => FALSE, "msg" => "添加失败"));
-				return;
+			return;
 		}
 	}
 	
