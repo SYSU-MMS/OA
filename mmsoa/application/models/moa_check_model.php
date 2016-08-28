@@ -116,4 +116,37 @@ class moa_check_model extends CI_Model {
 		}
 	}
 	
+	/**
+	 * 取指定时间段、助理、课室、类型的检查记录
+	 * @param start_time - 开始时间
+	 * @param end_time - 结束时间
+	 * @param actual_wid - 检查的实际助理id
+	 * @param roomid - 课室id
+	 * @param type - 检查类型
+	 * @param nums - 最大条目
+	 * @param offset - 偏移量
+	 */
+	public function get_by_customer($type, $start_time, $end_time, $actual_wid = NULL, $roomid = NULL, $nums = NULL, $offset = 0) {
+		if (isset($type) && isset($start_time) && isset($end_time)) {
+			$this->db->where('type', $type);
+			$this->db->where('timestamp >=', $start_time);
+			$this->db->where('timestamp <', $end_time);
+			if (!is_null($actual_wid)) {
+				$this->db->where('actual_wid', $actual_wid);
+			}
+			if (!is_null($roomid)) {
+				$this->db->where('roomid', $roomid);
+			}
+			$this->db->order_by('timestamp', 'ASC');
+			$this->db->order_by('actual_wid', 'ASC');
+			if (!is_null($nums)) {
+				$this->db->limit($nums, $offset);
+			}
+			return $this->db->get('MOA_Check')->result();
+		}
+		else {
+			return false;
+		}
+	}
+	
 }

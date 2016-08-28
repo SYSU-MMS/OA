@@ -45,7 +45,7 @@ Class PublicMethod extends CI_Controller {
 	 */
 	public static function cal_week() {
 		// 周一为一周的第一天
-		$cur_week = date('W') - 7;
+		$cur_week = date('W') - 34;
 		// 周日为一周的第一天
 		//$cur_week = date("w") == 0 ? $cur_week + 1 : $cur_week;
 		return $cur_week;

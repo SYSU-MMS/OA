@@ -13,18 +13,11 @@
     
     <link href="<?=base_url().'assets/css/bootstrap.min.css?v=3.4.0' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/font-awesome/css/font-awesome.min.css' ?>" rel="stylesheet">
-        
-    <link href="<?=base_url().'assets/css/plugins/iCheck/custom.css' ?>" rel="stylesheet">
-    
-    <link href="<?=base_url().'assets/css/plugins/simditor/simditor.css' ?>" rel="stylesheet">
-    
+            
     <link href="<?=base_url().'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
+        
+    <link href="<?=base_url().'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.css' ?>" rel="stylesheet">
     
-    <link href="<?=base_url().'assets/css/plugins/jasny/jasny-bootstrap.min.css' ?>" rel="stylesheet">
-    
-    <link href="<?=base_url().'assets/css/plugins/datepicker/datepicker3.css' ?>" rel="stylesheet">
-    
-    <!-- Data Tables -->
     <link href="<?=base_url().'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
         
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
@@ -65,6 +58,16 @@
                                 <h5>查看常检情况</h5>
                             </div>
                             <div class="ibox-content">
+                            	<div class="row">
+                            		<div class="form-group col-md-4" id="dtp_group">
+	                                    <label class="font-noraml">范围选择</label>
+	                                    <div class="input-daterange input-group" id="dtp">
+	                                        <input type="text" id="start_dtp" class="input-sm form-control" name="start" placeholder="开始时间" />
+	                                        <span class="input-group-addon">到</span>
+	                                        <input type="text" id="end_dtp" class="input-sm form-control" name="end" placeholder="结束时间" />
+	                                    </div>
+	                                </div>
+                            	</div>
                                 <div class="panel blank-panel">
 
 	                                    <div class="panel-heading">
@@ -227,24 +230,12 @@
     <!-- Dynamic date -->
     <script src="<?=base_url().'assets/js/dynamicDate.js' ?>"></script>
     
-    <!-- Jquery Validate -->
-    <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/jquery.validate.min.js' ?>"></script>
-    <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/messages_zh.min.js' ?>"></script>
-    
-    <!-- iCheck -->
-    <script src="<?=base_url().'assets/js/plugins/iCheck/icheck.min.js' ?>"></script>
-    
     <!-- Chosen -->
     <script src="<?=base_url().'assets/js/plugins/chosen/chosen.jquery.js' ?>"></script>
 
-    <!-- JSKnob -->
-    <script src="<?=base_url().'assets/js/plugins/jsKnob/jquery.knob.js' ?>"></script>
-
-    <!-- Input Mask-->
-    <script src="<?=base_url().'assets/js/plugins/jasny/jasny-bootstrap.min.js' ?>"></script>
-
-    <!-- Date picker -->
-    <script src="<?=base_url().'assets/js/plugins/datepicker/bootstrap-datepicker.js' ?>"></script>
+    <!-- Date time picker -->
+    <script src="<?=base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.js' ?>"></script>
+    <script src="<?=base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js' ?>"></script>
     
     <!-- Data Tables -->
     <script src="<?=base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
@@ -257,14 +248,29 @@
         		"iDisplayLength": 25
             });
 
-            /* Calendar */
-            $('#calendar_date .input-group.date').datepicker({
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true
-            });
+        	/* Calendar */
+        	$('#start_dtp').datetimepicker({
+        	    format: 'yyyy-mm-dd hh:ii',
+        	    language: 'zh-CN',
+                weekStart: 1,
+                todayBtn:  1,
+        		autoclose: 1,
+        		todayHighlight: 1,
+        		startView: 2,
+        		minView: 0,
+        		forceParse: 1
+        	});
+        	$('#end_dtp').datetimepicker({
+        	    format: 'yyyy-mm-dd hh:ii',
+        	    language: 'zh-CN',
+                weekStart: 1,
+                todayBtn:  1,
+        		autoclose: 1,
+        		todayHighlight: 1,
+        		startView: 2,
+        		minView: 0,
+        		forceParse: 1
+        	});
             
         });
 
