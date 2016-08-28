@@ -93,18 +93,18 @@
 	                                        <tr>
 	                                        	<td><?php echo $i + 1; ?></td>
 	                                            <td><?php echo $name_list[$i]; ?></td>
-	                                            <td><strong><?php echo $month_contri_list[$i]; ?></strong></td>
-	                                            <td><strong><?php echo $month_salary_list[$i]; ?></strong></td>
+	                                            <td><strong id="<?php echo 'month_contri_' . $wid_list[$i]; ?>"><?php echo $month_contri_list[$i]; ?></strong></td>
+	                                            <td><strong id="<?php echo 'month_salary_' . $wid_list[$i]; ?>"><?php echo $month_salary_list[$i]; ?></strong></td>
 	                                            <td><?php echo $card_list[$i]; ?></td>
 	                                            <td><?php echo $phone_list[$i]; ?></td>
-	                                            <td><?php echo $total_contri_list[$i]; ?></td>
-	                                            <td><?php echo $total_salary_list[$i]; ?></td>
+	                                            <td id="<?php echo 'total_contri_' . $wid_list[$i]; ?>"><?php echo $total_contri_list[$i]; ?></td>
+	                                            <td id="<?php echo 'total_salary_' . $wid_list[$i]; ?>"><?php echo $total_salary_list[$i]; ?></td>
 	                                            <td>
-		                                            <button type="button" data-toggle="modal" data-target="#myModal" id=<?php echo 'reward_button_' . $wid_list[$i]; ?> 
+		                                            <button type="button" data-toggle="modal" data-target="#myModal" id="<?php echo 'reward_button_' . $wid_list[$i]; ?>" 
 		                                            name="reward_button" class="btn btn-xs btn-primary" onclick="rewardButton(this.id);">
 		                                            	奖励
 		                                            </button>
-		                                            <button type="button" data-toggle="modal" data-target="#myModal" id=<?php echo 'penalty_button_' . $wid_list[$i]; ?> 
+		                                            <button type="button" data-toggle="modal" data-target="#myModal" id="<?php echo 'penalty_button_' . $wid_list[$i]; ?>" 
 		                                            name="penalty_button" class="btn btn-xs btn-danger" onclick="penaltyButton(this.id);">
 		                                            	扣除
 		                                            </button>
@@ -184,20 +184,7 @@
     <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/jquery.validate.min.js' ?>"></script>
     <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/messages_zh.min.js' ?>"></script>
     
-    <script>    
-
-	 	// 以下为修改jQuery Validation插件兼容Bootstrap的方法，没有直接写在插件中是为了便于插件升级
-	    $.validator.setDefaults({
-	        highlight: function (element) {
-	            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-	        },
-	        success: function (element) {
-	        	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-	        },
-	        errorElement: "span",
-	        errorClass: "color-error m-b-none",
-	        validClass: "color-success m-b-none"
-	    });
+    <script>
 	    
         $(document).ready(function () {
 

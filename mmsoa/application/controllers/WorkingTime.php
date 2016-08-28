@@ -173,6 +173,11 @@ Class WorkingTime extends CI_Controller {
 			}
 			
 			if (isset($_POST['wid']) && isset($_POST['time_num'])) {
+				
+				if (!is_numeric($_POST['time_num'])) {
+					echo json_encode(array("status" => FALSE, "msg" => "奖励失败"));
+					return;
+				}
 				$wid = $_POST['wid'];
 				$uid = $this->moa_worker_model->get($wid)->uid;
 				$ajust_contrib = $_POST['time_num'];

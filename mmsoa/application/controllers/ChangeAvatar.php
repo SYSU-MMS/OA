@@ -42,8 +42,8 @@ Class ChangeAvatar extends CI_Controller {
 			if (('sm_' . $obj->avatar) != $sm_src_pic_name) {
 				// 更新session的avatar
 				$_SESSION['avatar'] = $obj->avatar;
-				// 删除旧的sm小头像
-				if (file_exists('upload/avatar/' . $sm_src_pic_name)) {
+				// 删除旧的sm小头像,默认的除外
+				if (file_exists('upload/avatar/' . $sm_src_pic_name) && ($sm_src_pic_name != "sm_default.png")) {
 					unlink('upload/avatar/' . $sm_src_pic_name);
 				}
 			}
@@ -285,7 +285,7 @@ Class ChangeAvatar extends CI_Controller {
 				}
 				
 				// 不论更换是否成功，都删除原文件
-				if (file_exists('upload/avatar/' . $src_pic_name)) {
+				if (file_exists('upload/avatar/' . $src_pic_name) && ($src_pic_name != "default.png")) {
 					unlink('upload/avatar/' . $src_pic_name);
 				}
 				

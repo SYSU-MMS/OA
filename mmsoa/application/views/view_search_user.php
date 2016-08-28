@@ -218,7 +218,7 @@
 	                <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
 	            </div>
 	            <div id="modal-body" class="modal-body">
-	                <h2 id="submit_result" style="text-align:center;"><i class="fa fa-exclamation-circle exclamation-info"><span class="exclamation-desc"> 移除后不可恢复，确定要抛弃TA吗？</span></i></h2>
+	                <h2 id="submit_result" style="text-align:center;"><i class="fa fa-exclamation-circle exclamation-info"><span class="exclamation-desc"> 移除后不可恢复，确定要抛弃Ta吗？</span></i></h2>
 	            </div>
 	            <div id="modal-footer" class="modal-footer">
 	            	<div class="row">
