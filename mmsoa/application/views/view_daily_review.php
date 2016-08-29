@@ -16,13 +16,13 @@
             
     <link href="<?=base_url().'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
         
-    <link href="<?=base_url().'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.css' ?>" rel="stylesheet">
-    
     <link href="<?=base_url().'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
         
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
-
+    
+    <link href="<?=base_url().'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.css' ?>" rel="stylesheet">
+    
 </head>
 
 <body onload="startTime()">
@@ -60,13 +60,45 @@
                             <div class="ibox-content">
                             	<div class="row">
                             		<div class="form-group col-md-4" id="dtp_group">
-	                                    <label class="font-noraml">范围选择</label>
+	                                    <label class="font-noraml">选择时间段</label>
 	                                    <div class="input-daterange input-group" id="dtp">
-	                                        <input type="text" id="start_dtp" class="input-sm form-control" name="start" placeholder="开始时间" />
-	                                        <span class="input-group-addon">到</span>
-	                                        <input type="text" id="end_dtp" class="input-sm form-control" name="end" placeholder="结束时间" />
+	                                        <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php echo date('Y-m-d h:i',time()); ?>" />
+	                                        <span class="input-group-addon dtp-addon">到</span>
+	                                        <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date('Y-m-d h:i',time()); ?>" />
 	                                    </div>
 	                                </div>
+	                                <div id="chosen_classroom" class="form-group col-md-3" style="height: 30px; position: relative; z-index: 999999;">
+                                        <label class="font-noraml">选择课室</label>
+                                        <div>
+	                                        <select id="select_classroom" name="select_classroom" data-placeholder="" class="chosen-select-classroom col-sm-12" tabindex="4">
+	                                        	<option value="">全部</option>
+	                                        	<?php 
+                                        			for ($i = 0; $i < count($room_list); $i++) {
+                                        				echo "<option value='" . $roomid_list[$i] . "'>" . $room_list[$i] . "</option>";
+                                        			} 
+                                        		?>
+	                                        </select>
+                                        </div>
+                                    </div>
+	                                <div id="chosen_name" class="form-group col-md-3" style="height: 30px; position: relative; z-index: 999999;">
+                                        <label class="font-noraml">选择助理</label>
+                                        <div>
+	                                        <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4">
+	                                        	<option value="">全部</option>
+	                                        	<?php 
+                                        			for ($i = 0; $i < count($name_list); $i++) {
+                                        				echo "<option value='" . $wid_list[$i] . "'>" . $name_list[$i] . "</option>";
+                                        			} 
+                                        		?>
+	                                        </select>
+                                        </div>
+                                    </div>
+                                    <div id="search_container" class="form-group col-md-2">
+                                        <label class="font-noraml search-btn">查找</label>
+                                        <div>
+	                                        <button id="search_btn" class="btn btn-primary btn-longer"><i class="fa fa-search"></i> &nbsp;查找</button>
+                                        </div>
+                                    </div>
                             	</div>
                                 <div class="panel blank-panel">
 
@@ -274,19 +306,49 @@
             
         });
 
-        /* Chosen */
+        /* Chosen name */
         var config = {
-                '.chosen-select': {},
-                '.chosen-select-deselect': {
+                '.chosen-select-classroom': {
+                	// 实现中间字符的模糊查询
+                	search_contains: true,
+                	no_results_text: "没有找到",
+                	disable_search_threshold: 10
+                },
+                '.chosen-select-classroom-deselect': {
                     allow_single_deselect: true
                 },
-                '.chosen-select-no-single': {
+                '.chosen-select-classroomt-no-single': {
                     disable_search_threshold: 10
                 },
-                '.chosen-select-no-results': {
+                '.chosen-select-classroom-no-results': {
                     no_results_text: 'Oops, nothing found!'
                 },
-                '.chosen-select-width': {
+                '.chosen-select-classroom-width': {
+                    width: "95%"
+                }
+            }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+
+        /* Chosen classroom */
+        var config = {
+                '.chosen-select-name': {
+                	// 实现中间字符的模糊查询
+                	search_contains: true,
+                	no_results_text: "没有找到",
+                	disable_search_threshold: 10
+                },
+                '.chosen-select-classroom-name': {
+                    allow_single_deselect: true
+                },
+                '.chosen-select-name-no-single': {
+                    disable_search_threshold: 10
+                },
+                '.chosen-select-name-no-results': {
+                    no_results_text: 'Oops, nothing found!'
+                },
+                '.chosen-select-name-width': {
                     width: "95%"
                 }
             }

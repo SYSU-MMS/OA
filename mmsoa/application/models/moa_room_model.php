@@ -33,4 +33,20 @@ class moa_room_model extends CI_Model {
 		return false;
 	}
 	
+	/**
+	 * 获取指定状态的课室信息
+	 * @param state - 课室state
+	 * @return roomid对应课室的所有信息
+	 */
+	public function get_by_state($state) {
+		if (isset($state)) {
+			$this->db->where(array('state'=>$state));
+			return $this->db->get('MOA_CheckRoom')->result();
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
 }

@@ -6840,3 +6840,21 @@ body.skin-3 {
 .heart-margin {
 	margin-right: 0 !important;
 }
+
+.dtp-input-div {
+	height: 35px !important;
+	border: 1px solid #CBD5DD !important;
+    border-radius: 2px !important;
+}
+
+.dtp-addon {
+    background-color: #F3F3F4 !important;
+}
+
+.search-btn {
+	visibility: hidden !important;
+}
+
+.btn-longer {
+    width: 128px !important;
+}
