@@ -283,8 +283,16 @@ Class DailyReview extends CI_Controller {
 				$post_actual_wid = $_POST['actual_wid'];
 				$post_roomid = $_POST['roomid'];
 				// 处理起始时间，开始时间处理为当天00:00:00，结束时间处理为第二天00:00:00
-				$query_start_time = $post_start_time;
-				$query_end_time = $post_end_time;
+				$query_start_time = date('Y-m-d H:i:s', strtotime($post_start_time));
+				$query_end_time = date('Y-m-d H:i:s', strtotime($post_end_time));
+				$actual_wid = $post_actual_wid;
+				if ($post_actual_wid == "") {
+					$actual_wid = NULL;
+				}
+				$roomid = $post_roomid;
+				if ($post_roomid == "") {
+					$roomid = NULL;
+				}
 					
 				// 周一为一周的第一天
 				$weekcount = PublicMethod::cal_week();
@@ -306,11 +314,16 @@ Class DailyReview extends CI_Controller {
 				$data['e_count'] = $e_count;
 				
 				/*
-				 * 今日早检记录
+				 * 历史早检记录
 				 */
-				// 获取今日所有早检记录
+				// 获取历史所有早检记录
 				$check_type = 0;
+				echo json_encode(array("status" => TRUE, "msg" => $roomid));
+				return;
 				$m_check_obj = $this->moa_check_model->get_by_customer($check_type, $query_start_time, $query_end_time, $actual_wid, $roomid);
+
+// 				echo json_encode(array("status" => TRUE, "msg" => count($m_check_obj)));
+// 				return;
 				if ($m_check_obj != FALSE) {
 					// 获取已完成早检的助理名单
 					$m_wid_list = array();
@@ -364,11 +377,10 @@ Class DailyReview extends CI_Controller {
 					$data['m_time_list'] = $m_time_list;
 				}
 				
-				
 				/*
-				 * 今日午检记录
+				 * 历史午检记录
 				 */
-				// 获取今日所有午检记录
+				// 获取历史所有午检记录
 				$check_type = 1;
 				$n_check_obj = $this->moa_check_model->get_by_customer($check_type, $query_start_time, $query_end_time, $actual_wid, $roomid);
 				if ($n_check_obj != FALSE) {
@@ -425,9 +437,9 @@ Class DailyReview extends CI_Controller {
 				}
 				
 				/*
-				 * 今日晚检记录
+				 * 历史晚检记录
 				 */
-				// 获取今日所有晚检记录
+				// 获取历史所有晚检记录
 				$check_type = 2;
 				$e_check_obj = $this->moa_check_model->get_by_customer($check_type, $query_start_time, $query_end_time, $actual_wid, $roomid);
 				if ($e_check_obj != FALSE) {

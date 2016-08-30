@@ -62,9 +62,9 @@
                             		<div class="form-group col-md-4" id="dtp_group">
 	                                    <label class="font-noraml">选择时间段</label>
 	                                    <div class="input-daterange input-group" id="dtp">
-	                                        <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php echo date('Y-m-d h:i',time()); ?>" />
+	                                        <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php echo date('Y-m-d H:i', strtotime("-7 day")); ?>" />
 	                                        <span class="input-group-addon dtp-addon">到</span>
-	                                        <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date('Y-m-d h:i',time()); ?>" />
+	                                        <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date('Y-m-d H:i',time()); ?>" />
 	                                    </div>
 	                                </div>
 	                                <div id="chosen_classroom" class="form-group col-md-3" style="height: 30px; position: relative; z-index: 999999;">
@@ -244,7 +244,7 @@
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-    <!-- <script src="<?=base_url().'assets/js/searchuser.js' ?>"></script> -->
+    <script src="<?=base_url().'assets/js/dailyreview.js' ?>"></script>
     
     <!-- nav item active -->
 	<script>

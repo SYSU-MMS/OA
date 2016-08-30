@@ -126,11 +126,11 @@ class moa_check_model extends CI_Model {
 	 * @param nums - 最大条目
 	 * @param offset - 偏移量
 	 */
-	public function get_by_customer($type, $start_time, $end_time, $actual_wid = NULL, $roomid = NULL, $nums = NULL, $offset = 0) {
+	public function get_by_customer($type, $start_time, $end_time, $actual_wid, $roomid, $nums = NULL, $offset = 0) {
 		if (isset($type) && isset($start_time) && isset($end_time)) {
 			$this->db->where('type', $type);
 			$this->db->where('timestamp >=', $start_time);
-			$this->db->where('timestamp <', $end_time);
+			$this->db->where('timestamp <=', $end_time);
 			if (!is_null($actual_wid)) {
 				$this->db->where('actual_wid', $actual_wid);
 			}

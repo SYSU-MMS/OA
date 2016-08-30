@@ -125,7 +125,7 @@ Class PublicMethod extends CI_Controller {
 			case 4: $weekday_desc = '四'; break;
 			case 5: $weekday_desc = '五'; break;
 			case 6: $weekday_desc = '六'; break;
-			case 7: $weekday_desc = '天'; break;
+			case 7: $weekday_desc = '日'; break;
 		}
 		return $weekday_desc;
 	}
