@@ -318,12 +318,8 @@ Class DailyReview extends CI_Controller {
 				 */
 				// 获取历史所有早检记录
 				$check_type = 0;
-				echo json_encode(array("status" => TRUE, "msg" => $roomid));
-				return;
 				$m_check_obj = $this->moa_check_model->get_by_customer($check_type, $query_start_time, $query_end_time, $actual_wid, $roomid);
 
-// 				echo json_encode(array("status" => TRUE, "msg" => count($m_check_obj)));
-// 				return;
 				if ($m_check_obj != FALSE) {
 					// 获取已完成早检的助理名单
 					$m_wid_list = array();
