@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50622
 File Encoding         : 65001
 
-Date: 2016-08-31 23:44:45
+Date: 2016-08-31 23:59:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -643,7 +643,7 @@ CREATE TABLE `moa_user` (
 -- ----------------------------
 -- Records of moa_user
 -- ----------------------------
-INSERT INTO `moa_user` VALUES ('111', 'ad', '523af537946b79c4f8369ed39ba78605', '6', '0', '多媒体er', null, '2012-12-19 15:59:46', '13824421887', '661141', '至善园2号234', '1021265972', 'weixin1021265972', '6216611900010780565', '12330200', '数据科学与计算机学院', '527', '0', '0', '0', '0', '0', '0', '0', '111_20160822221358.png');
+INSERT INTO `moa_user` VALUES ('111', 'ad', '04d4710a36d3fe01678dacef8349f894', '6', '0', '多媒体er', null, '2012-12-19 15:59:46', '13824421887', '661141', '至善园2号234', '1021265972', 'weixin1021265972', '6216611900010780565', '12330200', '数据科学与计算机学院', '527', '0', '0', '0', '0', '0', '0', '0', '111_20160822221358.png');
 INSERT INTO `moa_user` VALUES ('198', 'mms_00', '96e79218965eb72c92a549dd5a330112', '5', '0', '李文杰', null, '2010-06-15 00:00:00', null, null, null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0', 'default.png');
 INSERT INTO `moa_user` VALUES ('203', 'mms01', '4baaabedbb8ae10ecf210802bfcf5e5d', '0', '0', '曾敬文', null, '2016-08-24 00:00:00', null, null, null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0', 'default.png');
 INSERT INTO `moa_user` VALUES ('204', 'mms02', '4baaabedbb8ae10ecf210802bfcf5e5d', '0', '0', '曾振杰', null, '2016-08-24 00:00:00', null, null, null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0', 'default.png');
