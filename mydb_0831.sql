@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50622
 File Encoding         : 65001
 
-Date: 2016-08-28 21:21:57
+Date: 2016-08-31 23:44:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -57,13 +57,20 @@ CREATE TABLE `moa_attendence` (
   PRIMARY KEY (`attend_id`),
   KEY `fk_MOA_Attendence_MOA_Worker1_idx` (`wid`),
   KEY `applyid_idx` (`applyid`)
-) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8 COMMENT='考勤表';
+) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8 COMMENT='考勤表';
 
 -- ----------------------------
 -- Records of moa_attendence
 -- ----------------------------
 INSERT INTO `moa_attendence` VALUES ('241', '1', '2016-08-28 17:18:58', '0', '7', '1', null, '0', '0', null, null);
 INSERT INTO `moa_attendence` VALUES ('242', '1', '2016-08-28 17:24:27', '0', '7', '2', null, '0', '0', null, null);
+INSERT INTO `moa_attendence` VALUES ('243', '1', '2016-08-29 21:42:45', '1', '1', '0', '6', '0', '1', '100', null);
+INSERT INTO `moa_attendence` VALUES ('244', '1', '2016-08-30 22:24:48', '1', '2', '1', null, '0', '0', null, null);
+INSERT INTO `moa_attendence` VALUES ('245', '1', '2016-08-30 22:25:00', '1', '2', '2', null, '0', '0', null, null);
+INSERT INTO `moa_attendence` VALUES ('246', '58', '2016-08-30 23:56:52', '1', '2', '1', null, '0', '0', null, null);
+INSERT INTO `moa_attendence` VALUES ('247', '58', '2016-08-30 23:56:56', '1', '2', '2', null, '0', '0', null, null);
+INSERT INTO `moa_attendence` VALUES ('248', '58', '2016-08-30 23:57:01', '1', '2', '3', null, '0', '0', null, null);
+INSERT INTO `moa_attendence` VALUES ('249', '1', '2016-08-31 20:31:07', '1', '3', '1', null, '0', '0', null, null);
 
 -- ----------------------------
 -- Table structure for moa_check
@@ -84,7 +91,7 @@ CREATE TABLE `moa_check` (
   KEY `wid_idx` (`actual_wid`),
   KEY `fk_MOA_Check_MOA_CheckRoom1_idx` (`roomid`),
   KEY `pid_idx` (`problemid`)
-) ENGINE=InnoDB AUTO_INCREMENT=609 DEFAULT CHARSET=utf8 COMMENT='课室检查状态表';
+) ENGINE=InnoDB AUTO_INCREMENT=639 DEFAULT CHARSET=utf8 COMMENT='课室检查状态表';
 
 -- ----------------------------
 -- Records of moa_check
@@ -99,6 +106,36 @@ INSERT INTO `moa_check` VALUES ('605', '0', '7', '1', '10102', '1', '2', '234', 
 INSERT INTO `moa_check` VALUES ('606', '0', '7', '1', '10103', '1', '1', null, '2016-08-28 17:24:27', null);
 INSERT INTO `moa_check` VALUES ('607', '0', '7', '1', '10104', '1', '1', null, '2016-08-28 17:24:27', null);
 INSERT INTO `moa_check` VALUES ('608', '0', '7', '1', '10105', '1', '1', null, '2016-08-28 17:24:27', null);
+INSERT INTO `moa_check` VALUES ('609', '1', '2', '0', '10101', '1', '1', null, '2016-08-30 22:24:48', null);
+INSERT INTO `moa_check` VALUES ('610', '1', '2', '0', '10102', '1', '1', null, '2016-08-30 22:24:48', null);
+INSERT INTO `moa_check` VALUES ('611', '1', '2', '0', '10103', '1', '1', null, '2016-08-30 22:24:48', null);
+INSERT INTO `moa_check` VALUES ('612', '1', '2', '0', '10104', '1', '1', null, '2016-08-30 22:24:48', null);
+INSERT INTO `moa_check` VALUES ('613', '1', '2', '0', '10105', '1', '1', null, '2016-08-30 22:24:48', null);
+INSERT INTO `moa_check` VALUES ('614', '1', '2', '1', '10101', '1', '2', '235', '2016-08-30 22:25:00', null);
+INSERT INTO `moa_check` VALUES ('615', '1', '2', '1', '10102', '1', '1', null, '2016-08-30 22:25:00', null);
+INSERT INTO `moa_check` VALUES ('616', '1', '2', '1', '10103', '1', '1', null, '2016-08-30 22:25:00', null);
+INSERT INTO `moa_check` VALUES ('617', '1', '2', '1', '10104', '1', '1', null, '2016-08-30 22:25:00', null);
+INSERT INTO `moa_check` VALUES ('618', '1', '2', '1', '10105', '1', '1', null, '2016-08-30 22:25:00', null);
+INSERT INTO `moa_check` VALUES ('619', '1', '2', '0', '30212', '58', '1', null, '2016-08-30 23:56:52', null);
+INSERT INTO `moa_check` VALUES ('620', '1', '2', '0', '30213', '58', '2', '236', '2016-08-30 23:56:52', null);
+INSERT INTO `moa_check` VALUES ('621', '1', '2', '0', '30214', '58', '1', null, '2016-08-30 23:56:52', null);
+INSERT INTO `moa_check` VALUES ('622', '1', '2', '0', '30215', '58', '1', null, '2016-08-30 23:56:52', null);
+INSERT INTO `moa_check` VALUES ('623', '1', '2', '0', '30216', '58', '1', null, '2016-08-30 23:56:52', null);
+INSERT INTO `moa_check` VALUES ('624', '1', '2', '1', '30212', '58', '1', null, '2016-08-30 23:56:56', null);
+INSERT INTO `moa_check` VALUES ('625', '1', '2', '1', '30213', '58', '1', null, '2016-08-30 23:56:56', null);
+INSERT INTO `moa_check` VALUES ('626', '1', '2', '1', '30214', '58', '1', null, '2016-08-30 23:56:56', null);
+INSERT INTO `moa_check` VALUES ('627', '1', '2', '1', '30215', '58', '1', null, '2016-08-30 23:56:56', null);
+INSERT INTO `moa_check` VALUES ('628', '1', '2', '1', '30216', '58', '1', null, '2016-08-30 23:56:56', null);
+INSERT INTO `moa_check` VALUES ('629', '1', '2', '2', '30212', '58', '1', null, '2016-08-30 23:57:01', null);
+INSERT INTO `moa_check` VALUES ('630', '1', '2', '2', '30213', '58', '2', '237', '2016-08-30 23:57:01', null);
+INSERT INTO `moa_check` VALUES ('631', '1', '2', '2', '30214', '58', '1', null, '2016-08-30 23:57:01', null);
+INSERT INTO `moa_check` VALUES ('632', '1', '2', '2', '30215', '58', '1', null, '2016-08-30 23:57:01', null);
+INSERT INTO `moa_check` VALUES ('633', '1', '2', '2', '30216', '58', '1', null, '2016-08-30 23:57:01', null);
+INSERT INTO `moa_check` VALUES ('634', '1', '3', '0', '10101', '1', '1', null, '2016-08-31 20:31:07', null);
+INSERT INTO `moa_check` VALUES ('635', '1', '3', '0', '10102', '1', '1', null, '2016-08-31 20:31:07', null);
+INSERT INTO `moa_check` VALUES ('636', '1', '3', '0', '10103', '1', '1', null, '2016-08-31 20:31:07', null);
+INSERT INTO `moa_check` VALUES ('637', '1', '3', '0', '10104', '1', '1', null, '2016-08-31 20:31:07', null);
+INSERT INTO `moa_check` VALUES ('638', '1', '3', '0', '10105', '1', '1', null, '2016-08-31 20:31:07', null);
 
 -- ----------------------------
 -- Table structure for moa_checkroom
@@ -317,7 +354,7 @@ CREATE TABLE `moa_leaderreport` (
   `badlist` varchar(128) DEFAULT NULL COMMENT '异常助理wid，以半角逗号分割',
   PRIMARY KEY (`lrid`),
   KEY `wid_idx` (`wid`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of moa_leaderreport
@@ -543,13 +580,16 @@ CREATE TABLE `moa_problem` (
   PRIMARY KEY (`pid`),
   KEY `wid_idx` (`founder_wid`,`solve_wid`),
   KEY `roomid_idx` (`roomid`)
-) ENGINE=InnoDB AUTO_INCREMENT=235 DEFAULT CHARSET=utf8 COMMENT='故障表';
+) ENGINE=InnoDB AUTO_INCREMENT=238 DEFAULT CHARSET=utf8 COMMENT='故障表';
 
 -- ----------------------------
 -- Records of moa_problem
 -- ----------------------------
 INSERT INTO `moa_problem` VALUES ('233', '1', null, '10101', '电脑丢失', null, '2016-08-28 17:18:58', '2016-08-28 17:18:58');
 INSERT INTO `moa_problem` VALUES ('234', '1', null, '10102', 'rt', null, '2016-08-28 17:24:27', '2016-08-28 17:24:27');
+INSERT INTO `moa_problem` VALUES ('235', '1', null, '10101', '好啊', null, '2016-08-30 22:25:00', '2016-08-30 22:25:00');
+INSERT INTO `moa_problem` VALUES ('236', '58', null, '30213', '有问题', null, '2016-08-30 23:56:52', '2016-08-30 23:56:52');
+INSERT INTO `moa_problem` VALUES ('237', '58', null, '30213', '让人', null, '2016-08-30 23:57:01', '2016-08-30 23:57:01');
 
 -- ----------------------------
 -- Table structure for moa_syslog
@@ -603,11 +643,11 @@ CREATE TABLE `moa_user` (
 -- ----------------------------
 -- Records of moa_user
 -- ----------------------------
-INSERT INTO `moa_user` VALUES ('111', 'ad', '523af537946b79c4f8369ed39ba78605', '6', '0', '林伟彬', null, '2012-12-19 15:59:46', '13824421887', '661141', '至善园2号234', '1021265972', 'weixin1021265972', '6216611900010780565', '12330200', '数据科学与计算机学院', '520.5', '0', '0', '0', '0', '0', '0', '0', '111_20160822221358.png');
+INSERT INTO `moa_user` VALUES ('111', 'ad', '523af537946b79c4f8369ed39ba78605', '6', '0', '多媒体er', null, '2012-12-19 15:59:46', '13824421887', '661141', '至善园2号234', '1021265972', 'weixin1021265972', '6216611900010780565', '12330200', '数据科学与计算机学院', '527', '0', '0', '0', '0', '0', '0', '0', '111_20160822221358.png');
 INSERT INTO `moa_user` VALUES ('198', 'mms_00', '96e79218965eb72c92a549dd5a330112', '5', '0', '李文杰', null, '2010-06-15 00:00:00', null, null, null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0', 'default.png');
 INSERT INTO `moa_user` VALUES ('203', 'mms01', '4baaabedbb8ae10ecf210802bfcf5e5d', '0', '0', '曾敬文', null, '2016-08-24 00:00:00', null, null, null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0', 'default.png');
 INSERT INTO `moa_user` VALUES ('204', 'mms02', '4baaabedbb8ae10ecf210802bfcf5e5d', '0', '0', '曾振杰', null, '2016-08-24 00:00:00', null, null, null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0', 'default.png');
-INSERT INTO `moa_user` VALUES ('205', 'mms03', '4baaabedbb8ae10ecf210802bfcf5e5d', '0', '0', '陈靖雯', null, '2016-08-24 00:00:00', null, null, null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0', 'default.png');
+INSERT INTO `moa_user` VALUES ('205', 'mms03', '4baaabedbb8ae10ecf210802bfcf5e5d', '0', '0', '陈靖雯', null, '2016-08-17 00:00:00', null, null, null, null, null, null, null, null, '2', '0', '0', '0', '0', '0', '0', '0', 'default.png');
 INSERT INTO `moa_user` VALUES ('206', 'mms04', '4baaabedbb8ae10ecf210802bfcf5e5d', '0', '0', '陈思宇', null, '2016-08-24 00:00:00', null, null, null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0', 'default.png');
 INSERT INTO `moa_user` VALUES ('207', 'mms05', '4baaabedbb8ae10ecf210802bfcf5e5d', '0', '0', '陈甜甜', null, '2016-08-24 00:00:00', null, null, null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0', 'default.png');
 INSERT INTO `moa_user` VALUES ('208', 'mms06', '4baaabedbb8ae10ecf210802bfcf5e5d', '0', '0', '陈洵', null, '2016-08-24 00:00:00', null, null, null, null, null, null, null, null, '0', '0', '0', '0', '0', '0', '0', '0', 'default.png');
@@ -681,102 +721,50 @@ CREATE TABLE `moa_worker` (
 -- ----------------------------
 -- Records of moa_worker
 -- ----------------------------
-INSERT INTO `moa_worker` VALUES ('1', '111', '0', '1', '211.5', null, 'A101,A102,A103,A104,A105', 'A101,A102', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('2', '112', '0', '2', '0', null, 'C201,C202,C203,C204,C205,C206', 'C201,C202,C203', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('4', '152', '0', '2', '0', null, 'A401,A402,A403,A404,A405', 'A403,A404,A405', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('5', '153', '0', '1', '1', null, 'A101,A102,A103,A104,A105', 'A101,A102', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('6', '154', '0', '2', '0', null, 'A101,A102,A103,A104,A105', 'A103,A104,A105', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('7', '155', '0', '1', '3.5', null, 'A201,A202,A203,A301,A302', 'A301,A302', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('8', '156', '0', '2', '0', null, 'A201,A202,A203,A301,A302', 'A201,A202,A203', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('9', '157', '0', '1', '0', null, 'A204,A207,B303,B304,A306', 'A204,A207', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('10', '158', '0', '2', '21', null, 'A204,A207,B303,B304,A306', 'B303,B304,A306', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('11', '159', '0', '1', '73', null, 'A401,A402,A403,A404,A405', 'A401,A402', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('12', '160', '0', '2', '10.5', null, 'A401,A402,A403,A404,A405', 'A403,A404,A405', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('13', '161', '0', '1', '0', null, 'A501,A502,A503,A504,A505', 'A501,A502', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('14', '162', '0', '2', '0', null, 'A501,A502,A503,A504,A505', 'A503,A504,A505', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('15', '163', '0', '1', '0', null, 'B101,B102,B103,B104,B201,B202', 'B101,B102,B103', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('16', '164', '0', '2', '0', null, 'B101,B102,B103,B104,B201,B202', 'B104,B201,B202', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('17', '165', '0', '1', '0', null, 'B203,B204,B205,B301,B302', 'B301,B302', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('18', '166', '0', '2', '0', null, 'B203,B204,B205,B301,B302', 'B203,B204,B205', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('19', '167', '0', '1', '0', null, 'B401,B402,B403,B501,B502', 'B501,B502', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('20', '168', '0', '2', '0', null, 'B401,B402,B403,B501,B502', 'B401,B402,B403', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('21', '169', '0', '1', '0', null, 'C101,C102,C103,C104,C105', 'C101,C102', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('22', '170', '0', '2', '0', null, 'C101,C102,C103,C104,C105', 'C103,C104,C105', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('23', '171', '0', '1', '0', null, 'C202,C203,C204,C205,C206', 'C202,C203', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('24', '172', '0', '2', '0', null, 'C202,C203,C204,C205,C206', 'C204,C205,C206', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('25', '173', '0', '1', '0', null, 'C201,C301,C302,C303,C304', 'C201,C301', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('26', '174', '0', '2', '0', null, 'C201,C301,C302,C303,C304', 'C302,C303,C304', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('27', '175', '0', '1', '0', null, 'C305,C401,C402,C403,C404', 'C305,C404', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('28', '176', '0', '2', '5', null, 'C305,C401,C402,C403,C404', 'C401,C402,C403', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('29', '177', '0', '1', '0', null, 'B503,C501,C502,C503,C504', 'B503,C504', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('30', '178', '0', '2', '0', null, 'B503,C501,C502,C503,C504', 'C501,C502,C503', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('31', '179', '0', '1', '0', null, 'D101,D102,D103,D104,D205', 'D104,D205', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('32', '180', '0', '2', '0', null, 'D101,D102,D103,D104,D205', 'D101,D102,D103', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('33', '181', '0', '1', '0', null, 'D201,D202,D203,D204,E201', 'D201,E201', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('34', '182', '0', '2', '0', null, 'D201,D202,D203,D204,E201', 'D202,D203,D204', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('35', '183', '0', '1', '0', null, 'D301,D302,D303,D304,D401', 'D301,D401', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('36', '184', '0', '2', '0', null, 'D301,D302,D303,D304,D401', 'D302,D303,D304', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('37', '185', '0', '1', '0', null, 'D402,D403,D501,D502,D503', 'D402,D403', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('38', '186', '0', '2', '0', null, 'D402,D403,D501,D502,D503', 'D501,D502,D503', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('39', '187', '0', '1', '7.5', null, 'E101,E103,E104,E105,E205', 'E105,E205', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('40', '188', '0', '2', '0', null, 'E101,E103,E104,E105,E205', 'E101,E103,E104', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('41', '189', '0', '1', '0', null, 'E202,E203,E204,E302,E303', 'E302,E303', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('42', '190', '0', '2', '0', null, 'E202,E203,E204,E302,E303', 'E202,E203,E204', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('43', '191', '0', '1', '0', null, 'E304,E305,E403,E404,E405', 'E304,E305', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('44', '192', '0', '2', '0', null, 'E304,E305,E403,E404,E405', 'E403,E404,E405', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('45', '193', '0', '1', '0', null, 'E402,E502,E503,E504,E505', 'E402,E502', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('46', '194', '0', '2', '0', null, 'E402,E502,E503,E504,E505', 'E503,E504,E505', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('47', '197', '1', '0', '0', null, null, null, '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('48', '126', '1', '0', '63', null, null, null, '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('49', '127', '1', '0', '0', null, null, null, '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('50', '151', '3', '0', '0', null, null, null, '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('1', '111', '0', '1', '218', null, 'A101,A102,A103,A104,A105', 'A101,A102', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `moa_worker` VALUES ('51', '198', '5', '0', '0', null, null, null, '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('52', '199', '4', '0', '0', null, null, null, '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('53', '200', '1', '0', '0', null, null, null, '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('54', '201', '2', '0', '0', null, null, null, '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('55', '202', '1', '0', '0', null, null, null, '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('56', '203', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('57', '204', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('58', '205', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('59', '206', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('60', '207', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('61', '208', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('62', '209', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('63', '210', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('64', '211', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('65', '212', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('66', '213', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('67', '214', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('68', '215', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('69', '216', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('70', '217', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('71', '218', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('72', '219', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('73', '220', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('74', '221', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('75', '222', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('76', '223', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('77', '224', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('78', '225', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('79', '226', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('80', '227', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('81', '228', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('82', '229', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('83', '230', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('84', '231', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('85', '232', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('86', '233', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('87', '234', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('88', '235', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('89', '236', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('90', '237', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('91', '238', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('92', '239', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('93', '240', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('94', '241', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('95', '242', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('96', '243', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `moa_worker` VALUES ('97', '244', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('56', '203', '0', '1', '0', null, 'A101,A102,A103,A104,A105', 'A101,A102', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('57', '204', '0', '1', '0', null, 'A101,A102,A103,A104,A105', 'A103,A104,A105', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('58', '205', '0', '2', '2', null, 'A201,A202,A203,A301,A302', 'A301,A302', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('59', '206', '0', '1', '0', null, 'A201,A202,A203,A301,A302', 'A201,A202,A203', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('60', '207', '0', '1', '0', null, 'A204,A207,B303,B304,A306', 'A204,A207', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('61', '208', '0', '1', '0', null, 'A204,A207,B303,B304,A306', 'B303,B304,A306', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('62', '209', '0', '1', '0', null, 'A401,A402,A403,A404,A405', 'A401,A402', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('63', '210', '0', '1', '0', null, 'A401,A402,A403,A404,A405', 'A403,A404,A405', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('64', '211', '0', '1', '0', null, 'A501,A502,A503,A504,A505', 'A501,A502', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('65', '212', '0', '1', '0', null, 'A501,A502,A503,A504,A505', 'A503,A504,A505', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('66', '213', '0', '1', '0', null, 'B101,B102,B103,B104,B201,B202', 'B101,B102,B103', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('67', '214', '0', '1', '0', null, 'B101,B102,B103,B104,B201,B202', 'B104,B201,B202', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('68', '215', '0', '1', '0', null, 'B203,B204,B205,B301,B302', 'B301,B302', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('69', '216', '0', '1', '0', null, 'B203,B204,B205,B301,B302', 'B203,B204,B205', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('70', '217', '0', '1', '0', null, 'B401,B402,B403,B501,B502', 'B501,B502', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('71', '218', '0', '1', '0', null, 'B401,B402,B403,B501,B502', 'B401,B402,B403', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('72', '219', '0', '1', '0', null, 'C101,C102,C103,C104,C105', 'C101,C102', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('73', '220', '0', '1', '0', null, 'C101,C102,C103,C104,C105', 'C103,C104,C105', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('74', '221', '0', '1', '0', null, 'C202,C203,C204,C205,C206', 'C202,C203', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('75', '222', '0', '1', '0', null, 'C202,C203,C204,C205,C206', 'C204,C205,C206', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('76', '223', '0', '1', '0', null, 'C201,C301,C302,C303,C304', 'C201,C301', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('77', '224', '0', '1', '0', null, 'C201,C301,C302,C303,C304', 'C302,C303,C304', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('78', '225', '0', '1', '0', null, 'C305,C401,C402,C403,C404', 'C305,C404', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('79', '226', '0', '1', '0', null, 'C305,C401,C402,C403,C404', 'C401,C402,C403', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('80', '227', '0', '1', '0', null, 'B503,C501,C502,C503,C504', 'B503,C504', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('81', '228', '0', '1', '0', null, 'B503,C501,C502,C503,C504', 'C501,C502,C503', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('82', '229', '0', '1', '0', null, 'D101,D102,D103,D104,D205', 'D104,D205', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('83', '230', '0', '1', '0', null, 'D101,D102,D103,D104,D205', 'D101,D102,D103', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('84', '231', '0', '1', '0', null, 'D201,D202,D203,D204,E201', 'D201,E201', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('85', '232', '0', '1', '0', null, 'D201,D202,D203,D204,E201', 'D202,D203,D204', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('86', '233', '0', '1', '0', null, 'D301,D302,D303,D304,D401', 'D301,D401', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('87', '234', '0', '1', '0', null, 'D301,D302,D303,D304,D401', 'D302,D303,D304', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('88', '235', '0', '1', '0', null, 'D402,D403,D501,D502,D503', 'D402,D403', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('89', '236', '0', '1', '0', null, 'D402,D403,D501,D502,D503', 'D501,D502,D503', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('90', '237', '0', '1', '0', null, 'E101,E103,E104,E105,E205', 'E105,E205', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('91', '238', '0', '1', '0', null, 'E101,E103,E104,E105,E205', 'E101,E103,E104', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('92', '239', '0', '1', '0', null, 'E202,E203,E204,E302,E303', 'E302,E303', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('93', '240', '0', '1', '0', null, 'E202,E203,E204,E302,E303', 'E202,E203,E204', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('94', '241', '0', '1', '0', null, 'E304,E305,E403,E404,E405', 'E304,E305', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('95', '242', '0', '1', '0', null, 'E304,E305,E403,E404,E405', 'E403,E404,E405', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('96', '243', '0', '1', '0', null, 'E402,E502,E503,E504,E505', 'E402,E502', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `moa_worker` VALUES ('97', '244', '0', '1', '0', null, 'E402,E502,E503,E504,E505', 'E503,E504,E505', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `moa_worker` VALUES ('98', '245', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `moa_worker` VALUES ('99', '246', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `moa_worker` VALUES ('100', '247', '0', '1', '0', null, '', '', '0', '0', '0', '0', '0', '0', '0');
