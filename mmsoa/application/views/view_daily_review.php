@@ -102,54 +102,54 @@
                             	</div>
                                 <div class="panel blank-panel">
 
-	                                    <div class="panel-heading">
-	                                        <div class="panel-options">
-	                                            <ul class="nav nav-tabs">
-	                                                <li class="active"><a data-toggle="tab" href="tabs_panels.html#base">早检</a>
-	                                                </li>
-	                                                <li class=""><a data-toggle="tab" href="tabs_panels.html#integrated">午检</a>
-	                                                </li>
-	                                                <li class=""><a data-toggle="tab" href="tabs_panels.html#expand">晚检</a>
-	                                                </li>
-	                                            </ul>
-	                                        </div>
-	                                    </div>
-	
-	                                    <div class="panel-body my-panel-body">
-	                                        <div class="tab-content">
-	                                            <div id="base" class="tab-pane active">
-					                                <table class="table table-striped table-bordered table-hover users-dataTable">
-					                                    <thead>
+                                    <div class="panel-heading">
+                                        <div class="panel-options">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a data-toggle="tab" href="tabs_panels.html#base">早检</a>
+                                                </li>
+                                                <li class=""><a data-toggle="tab" href="tabs_panels.html#integrated">午检</a>
+                                                </li>
+                                                <li class=""><a data-toggle="tab" href="tabs_panels.html#expand">晚检</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body my-panel-body">
+                                        <div class="tab-content">
+                                            <div id="base" class="tab-pane active">
+				                                <table class="table table-striped table-bordered table-hover users-dataTable">
+				                                    <thead>
+				                                        <tr>
+				                                        	<th>序号</th>
+				                                            <th>周次</th>
+				                                            <th>星期</th>
+				                                            <th>姓名</th>
+				                                            <th>课室</th>
+				                                            <th>情况</th>
+				                                            <th>登记时间</th>
+				                                        </tr>
+				                                    </thead>
+				                                    <tbody>
+				                                    	<?php for ($i = 0; $i < $m_count; $i++) { ?>
 					                                        <tr>
-					                                        	<th>序号</th>
-					                                            <th>周次</th>
-					                                            <th>星期</th>
-					                                            <th>姓名</th>
-					                                            <th>课室</th>
-					                                            <th>情况</th>
-					                                            <th>登记时间</th>
+					                                        	<td><?php echo $i + 1; ?></td>
+					                                            <td><?php echo $m_weekcount; ?></td>
+					                                            <td><?php echo $m_weekday; ?></td>
+					                                            <td><?php echo $m_name_list[$i]; ?></td>
+					                                            <td><?php echo str_replace(',', ' ', $m_room_list[$i]); ?></td>
+					                                            <td class="td-left">
+					                                            	<?php 
+					                                            		if ($m_prob_list[$i] == '') {
+					                                            			echo '正常';
+					                                            		} else {
+					                                            			echo $m_prob_list[$i];
+					                                            		}
+					                                            	?>
+					                                            </td>
+					                                            <td><?php echo $m_time_list[$i]; ?></td>
 					                                        </tr>
-					                                    </thead>
-					                                    <tbody>
-					                                    	<?php for ($i = 0; $i < $m_count; $i++) { ?>
-						                                        <tr>
-						                                        	<td><?php echo $i + 1; ?></td>
-						                                            <td><?php echo $m_weekcount; ?></td>
-						                                            <td><?php echo $m_weekday; ?></td>
-						                                            <td><?php echo $m_name_list[$i]; ?></td>
-						                                            <td><?php echo str_replace(',', ' ', $m_room_list[$i]); ?></td>
-						                                            <td class="td-left">
-						                                            	<?php 
-						                                            		if ($m_prob_list[$i] == '') {
-						                                            			echo '正常';
-						                                            		} else {
-						                                            			echo $m_prob_list[$i];
-						                                            		}
-						                                            	?>
-						                                            </td>
-						                                            <td><?php echo $m_time_list[$i]; ?></td>
-						                                        </tr>
-						                                    <?php } ?>
+					                                    <?php } ?>
 					                                        </tbody>
 					                                </table>
                                 				</div>

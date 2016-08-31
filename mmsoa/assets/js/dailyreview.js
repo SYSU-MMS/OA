@@ -40,7 +40,7 @@ $('#search_btn').click(function(){
 					}
 					
 					// 各行数据
-					m_data_arr.push([
+					m_data_arr.push(
 					    "<tr>" + 
 					    	"<td>" + (i + 1) +"</td>" + 
 					    	"<td>" + ret['data']['m_weekcount'] +"</td>" + 
@@ -50,11 +50,11 @@ $('#search_btn').click(function(){
 					    	"<td class='td-left'>" + m_problem +"</td>" + 
 					    	"<td>" + ret['data']['m_time_list'][i] +"</td>" + 
 					    "</tr>"
-					]);
+					);
 				}
 				
 				// 表格
-				$('#base').html(
+				$('#base').empty().html(
 					"<table class='table table-striped table-bordered table-hover users-dataTable'>" + 
 	                    "<thead>" + 
 	                        "<tr>" + 
@@ -68,7 +68,7 @@ $('#search_btn').click(function(){
 	                        "</tr>" + 
 	                    "</thead>" + 
 	                    "<tbody>" + 
-	                    	m_data_arr.join() + 
+	                    	m_data_arr.join("") + 
                         "</tbody>" + 
                     "</table>"
 				);
@@ -84,7 +84,7 @@ $('#search_btn').click(function(){
 					}
 					
 					// 各行数据
-					n_data_arr.push([
+					n_data_arr.push(
 					    "<tr>" + 
 					    	"<td>" + (j + 1) +"</td>" + 
 					    	"<td>" + ret['data']['n_weekcount'] +"</td>" + 
@@ -94,7 +94,7 @@ $('#search_btn').click(function(){
 					    	"<td class='td-left'>" + n_problem +"</td>" + 
 					    	"<td>" + ret['data']['n_time_list'][j] +"</td>" + 
 					    "</tr>"
-					]);
+					);
 				}
 				
 				// 表格
@@ -112,7 +112,7 @@ $('#search_btn').click(function(){
 	                        "</tr>" + 
 	                    "</thead>" + 
 	                    "<tbody>" + 
-	                    	n_data_arr.join() + 
+	                    	n_data_arr.join("") + 
                         "</tbody>" + 
                     "</table>"
 				);
@@ -128,7 +128,7 @@ $('#search_btn').click(function(){
 					}
 					
 					// 各行数据
-					e_data_arr.push([
+					e_data_arr.push(
 					    "<tr>" + 
 					    	"<td>" + (k + 1) +"</td>" + 
 					    	"<td>" + ret['data']['e_weekcount'] +"</td>" + 
@@ -138,7 +138,7 @@ $('#search_btn').click(function(){
 					    	"<td class='td-left'>" + e_problem +"</td>" + 
 					    	"<td>" + ret['data']['e_time_list'][k] +"</td>" + 
 					    "</tr>"
-					]);
+					);
 				}
 				
 				// 表格
@@ -156,7 +156,7 @@ $('#search_btn').click(function(){
 	                        "</tr>" + 
 	                    "</thead>" + 
 	                    "<tbody>" + 
-	                    	e_data_arr.join() + 
+	                    	e_data_arr.join("") + 
                         "</tbody>" + 
                     "</table>"
 				);
@@ -164,7 +164,7 @@ $('#search_btn').click(function(){
 				// 重新实例化datatable
 				$('.users-dataTable').dataTable({
 					"iDisplayLength": 25,
-	        		"bProcessing": true
+	        		"bProcessing": false
 	            });
 			}
 		},
