@@ -60,11 +60,11 @@
 	                                    <div class="panel-heading">
 	                                        <div class="panel-options">
 	                                            <ul class="nav nav-tabs">
-	                                                <li class="active"><a data-toggle="tab" href="tabs_panels.html#base">早检</a>
+	                                                <li id="m_active" class="active"><a data-toggle="tab" href="tabs_panels.html#base">早检</a>
 	                                                </li>
-	                                                <li class=""><a data-toggle="tab" href="tabs_panels.html#integrated">午检</a>
+	                                                <li id="n_active"><a data-toggle="tab" href="tabs_panels.html#integrated">午检</a>
 	                                                </li>
-	                                                <li class=""><a data-toggle="tab" href="tabs_panels.html#expand">晚检</a>
+	                                                <li id="e_active"><a data-toggle="tab" href="tabs_panels.html#expand">晚检</a>
 	                                                </li>
 	                                            </ul>
 	                                        </div>
@@ -214,6 +214,21 @@
     <!-- ios switch -->
     <script>
     	$(document).ready(function () {
+    		// 页签active贴心设置
+        	var myDate = new Date();
+        	var time_now = myDate.getHours();
+        	// 早上时间，早检页签active
+        	if (time_now >= 6 && time_now <= 10) {
+            	$('#m_active a:first-child').click();
+        	}
+        	// 中午下午时间，午检页签active
+        	else if (time_now >= 11 && time_now <= 16) {
+        		$('#n_active a:first-child').click();
+            }
+        	// 傍晚晚上时间，晚检页签active
+        	else {
+        		$('#e_active a:first-child').click();
+            }
         	
     		var elem = document.querySelector('.js-switch');
             var switchery = new Switchery(elem, {
