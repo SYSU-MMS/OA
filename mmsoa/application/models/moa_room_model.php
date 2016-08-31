@@ -41,6 +41,7 @@ class moa_room_model extends CI_Model {
 	public function get_by_state($state) {
 		if (isset($state)) {
 			$this->db->where(array('state'=>$state));
+			$this->db->order_by('room', 'ASC');
 			return $this->db->get('MOA_CheckRoom')->result();
 		}
 		else {

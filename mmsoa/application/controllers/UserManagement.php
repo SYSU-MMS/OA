@@ -72,6 +72,42 @@ Class UserManagement extends CI_Controller {
 	}
 	
 	/**
+	 * 修改用户重要信息
+	 */
+	public function updateUser() {
+		if (isset($_SESSION['user_id'])) {
+			// 检查权限: 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
+			if ($_SESSION['level'] <= 2) {
+				// 提示权限不够
+				PublicMethod::permissionDenied();
+			}
+	
+			// 取除超级管理员(level==6)外，其他所有状态正常的用户
+			$userid_list = array();
+			$username_list = array();
+			$level_arr = array(0, 1, 2, 3, 4, 5);
+			$state = 0;
+			$user_obj_list = $this->moa_user_model->get_by_multiple_level($level_arr, $state);
+			
+			if ($user_obj_list != FALSE) {
+				for ($i = 0; $i < count($user_obj_list); $i++) {
+					$userid_list[$i] = $user_obj_list[$i]->uid;
+					$username_list[$i] = $user_obj_list[$i]->name;
+				}
+			}
+			
+			$data['userid_list'] = $userid_list;
+			$data['username_list'] = $username_list;
+			$data['daily_classrooms'] = PublicMethod::get_daily_classrooms();
+			$data['weekly_classrooms'] = PublicMethod::get_weekly_classrooms();
+			$this->load->view('view_update_user', $data);
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
+	
+	/**
 	 * 查看用户列表
 	 */
 	public function searchUser() {
@@ -166,6 +202,106 @@ Class UserManagement extends CI_Controller {
 			return;
 		}
 	}
+	
+	/*
+	 * 修改用户重要信息
+	 */
+	public function updateUserInfo() {
+		if (isset($_SESSION['user_id'])) {
+			if (isset($_POST['userid']) && isset($_POST['username']) && isset($_POST['level']) && isset($_POST['indate'])) {
+				$user_record = $this->moa_user_model->get_by_username($_POST['username']);
+				// 确保用户名的唯一性
+				if (!$user_record) {
+					// 要修改的用户id
+					$update_uid = $_POST['userid'];
+					$update_user_obj = $this->moa_user_model->get($update_uid);
+					
+					$user_paras['username'] = $_POST['username'];
+					// 若没有输入新用户名，则用户名取原来的用户名
+					if ($user_paras['username'] == NULL) {
+						$user_paras['username'] = $update_user_obj->username;
+					}
+					
+					if (isset($_POST['password']) && isset($_POST['confirm_password'])) {
+						if ($_POST['password'] == $_POST['confirm_password']) {
+							$user_paras['password'] = md5($_POST['password']);
+							if ($_POST['password'] == NULL) {
+								$user_paras['password'] = $update_user_obj->password;
+							}
+							
+							$user_paras['level'] = $_POST['level'];
+							if ($user_paras['level'] == "9") {
+								$user_paras['level'] = $update_user_obj->level;
+							}
+							
+							$user_paras['indate'] = $_POST['indate'];
+							if ($user_paras['indate'] == NULL) {
+								$user_paras['indate'] = $update_user_obj->indate;
+							}
+							
+							// 修改user表
+							$user_affected_rows = $this->moa_user_model->update($update_uid, $user_paras);
+								
+// 							if ($user_affected_rows != FALSE) {
+								// 修改MOA_Worker表
+								$update_wid = $this->moa_worker_model->get_wid_by_uid($update_uid);
+								$update_worker_obj = $this->moa_worker_model->get($update_wid);
+								
+								$worker_paras['level'] = $user_paras['level'];
+								$worker_paras['group'] = $update_worker_obj->group;
+								$worker_paras['classroom'] = $update_worker_obj->classroom;
+								$worker_paras['week_classroom'] = $update_worker_obj->week_classroom;
+	
+								// 若为普通助理，还应录入组别、常检课室、周检课室
+								if ($worker_paras['level'] == 0) {
+									if (isset($_POST['group']) && isset($_POST['classroom']) && isset($_POST['week_classroom'])) {
+										$worker_paras['group'] = $_POST['group'];
+										
+										$worker_paras['classroom'] = $_POST['classroom'];
+										if ($worker_paras['classroom'] == NULL) {
+											$worker_paras['classroom'] = $update_worker_obj->classroom;
+										}
+										
+										$worker_paras['week_classroom'] = $_POST['week_classroom'];
+										if ($worker_paras['week_classroom'] == NULL) {
+											$worker_paras['week_classroom'] = $update_worker_obj->week_classroom;
+										}
+									}
+									// 非普通助理用户的组别为N
+								} else {
+									$worker_paras['group'] = 0;
+								}
+								$worker_affected_rows = $this->moa_worker_model->update($update_wid, $worker_paras);
+	
+// 								if ($worker_affected_rows != FALSE) {
+									echo json_encode(array("status" => TRUE, "msg" => "修改成功"));
+									return;
+// 								} else {
+// 									echo json_encode(array("status" => FALSE, "msg" => "修改失败"));
+// 									return;
+// 								}
+	
+// 							} else {
+// 								echo json_encode(array("status" => FALSE, "msg" => "修改失败"));
+// 								return;
+// 							}
+								
+						} else {
+							echo json_encode(array("status" => FALSE, "msg" => "两次输入的密码不一致"));
+							return;
+						}
+					}
+				} else {
+					echo json_encode(array("status" => FALSE, "msg" => "该用户名已存在"));
+					return;
+				}
+			}
+		} else {
+			echo json_encode(array("status" => FALSE, "msg" => "修改失败"));
+			return;
+		}
+	}
+	
 	
 	
 }

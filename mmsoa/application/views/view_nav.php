@@ -94,6 +94,8 @@
 		                '<ul class="nav nav-second-level">' . 
 		                    '<li id="active-addUser"><a href="'. site_url('UserManagement/addUser') . '">添加</a>' . 
 		                    '</li>' . 
+		                    '<li id="active-updateUser"><a href="'. site_url('UserManagement/updateUser') . '">修改</a>' .
+		                    '</li>' .
 		                    '<li id="active-searchUser"><a href="'. site_url('UserManagement/searchUser') . '">通讯录</a>' . 
 		                    '</li>' . 
 		                '</ul>' . 
