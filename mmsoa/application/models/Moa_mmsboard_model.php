@@ -3,7 +3,7 @@
  * 站内论坛模型类
  * @author Rinka
  */
-class moa_mmsboard_model extends CI_Model {
+class Moa_mmsboard_model extends CI_Model {
     /**
      * 增加一个帖子
      * @param paras - 参数列表

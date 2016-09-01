@@ -3,7 +3,7 @@
  * 站内论坛评论模型类
  * @author Rinka
  */
-class moa_mbcomment_model extends CI_Model {
+class Moa_mbcomment_model extends CI_Model {
     /**
      * 增加一个评论
      * @param paras - 参数列表

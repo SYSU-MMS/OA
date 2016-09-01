@@ -1,5 +1,5 @@
 <?php
-class moa_leaderreport_model extends CI_Model {
+class Moa_leaderreport_model extends CI_Model {
 	/**
 	 * 添加坐班日志
 	 * @param paras - 参数列表

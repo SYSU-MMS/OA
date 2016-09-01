@@ -1,5 +1,5 @@
 <?php
-class moa_check_model extends CI_Model {
+class Moa_check_model extends CI_Model {
 	/**
 	 * 添加课室检查记录（常检 周检）
 	 * @param paras - 参数列表

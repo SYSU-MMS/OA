@@ -3,7 +3,7 @@
  * 助理模型类
  * @author Rinka
  */
-class moa_worker_model extends CI_Model {
+class Moa_worker_model extends CI_Model {
  	/**
 	 * 加入一个新的助理
 	 * @param paras - 参数列表

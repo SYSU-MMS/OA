@@ -10,10 +10,10 @@ require_once('PublicMethod.php');
 Class DutyArrange extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_worker_model');
-		$this->load->model('moa_nschedule_model');
-		$this->load->model('moa_duty_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
+		$this->load->model('Moa_nschedule_model');
+		$this->load->model('Moa_duty_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -36,11 +36,11 @@ Class DutyArrange extends CI_Controller {
 			
 			// 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
 			$level = 0;
-			$common_worker = $this->moa_user_model->get_by_level($level);
+			$common_worker = $this->Moa_user_model->get_by_level($level);
 			for ($i = 0; $i < count($common_worker); $i++) {
 				$uid_list[$i] = $common_worker[$i]->uid;
 				$name_list[$i] = $common_worker[$i]->name;
-				$wid_list[$i] = $this->moa_worker_model->get_wid_by_uid($uid_list[$i]);
+				$wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
 			}
 			$data['name_list'] = $name_list;
 			$data['wid_list'] = $wid_list;
@@ -85,7 +85,7 @@ Class DutyArrange extends CI_Controller {
 			$schedule[7][9] = '';
 				
 			// 取原有值班表记录
-			$duty_obj_list = $this->moa_duty_model->get_all();
+			$duty_obj_list = $this->Moa_duty_model->get_all();
 			if (!empty($duty_obj_list)) {
 				// 提取每个时段的值班助理wid
 				for ($i = 0; $i < count($duty_obj_list); $i++) {
@@ -109,7 +109,7 @@ Class DutyArrange extends CI_Controller {
 	public function dutyArrangeIn() {
 		if (isset($_SESSION['user_id'])) {
 			// 每次存入新的排班表前清空旧排班表
-			$this->moa_duty_model->clear();
+			$this->Moa_duty_model->clear();
 			// 每个时段存入一条记录，共有36条记录
 			
 			// MON1
@@ -120,7 +120,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 1;
 				$duty_paras['period'] = 1;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -134,7 +134,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 1;
 				$duty_paras['period'] = 2;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -148,7 +148,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 1;
 				$duty_paras['period'] = 3;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -162,7 +162,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 1;
 				$duty_paras['period'] = 4;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -176,7 +176,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 1;
 				$duty_paras['period'] = 5;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -190,7 +190,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 1;
 				$duty_paras['period'] = 6;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -205,7 +205,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 2;
 				$duty_paras['period'] = 1;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -219,7 +219,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 2;
 				$duty_paras['period'] = 2;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -233,7 +233,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 2;
 				$duty_paras['period'] = 3;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -247,7 +247,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 2;
 				$duty_paras['period'] = 4;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -261,7 +261,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 2;
 				$duty_paras['period'] = 5;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -275,7 +275,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 2;
 				$duty_paras['period'] = 6;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -290,7 +290,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 3;
 				$duty_paras['period'] = 1;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -304,7 +304,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 3;
 				$duty_paras['period'] = 2;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -318,7 +318,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 3;
 				$duty_paras['period'] = 3;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -332,7 +332,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 3;
 				$duty_paras['period'] = 4;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -346,7 +346,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 3;
 				$duty_paras['period'] = 5;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -360,7 +360,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 3;
 				$duty_paras['period'] = 6;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -375,7 +375,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 4;
 				$duty_paras['period'] = 1;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -389,7 +389,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 4;
 				$duty_paras['period'] = 2;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -403,7 +403,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 4;
 				$duty_paras['period'] = 3;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -417,7 +417,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 4;
 				$duty_paras['period'] = 4;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -431,7 +431,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 4;
 				$duty_paras['period'] = 5;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -445,7 +445,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 4;
 				$duty_paras['period'] = 6;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -460,7 +460,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 5;
 				$duty_paras['period'] = 1;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -474,7 +474,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 5;
 				$duty_paras['period'] = 2;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -488,7 +488,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 5;
 				$duty_paras['period'] = 3;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -502,7 +502,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 5;
 				$duty_paras['period'] = 4;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -516,7 +516,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 5;
 				$duty_paras['period'] = 5;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -530,7 +530,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 5;
 				$duty_paras['period'] = 6;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -545,7 +545,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 6;
 				$duty_paras['period'] = 7;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -559,7 +559,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 6;
 				$duty_paras['period'] = 8;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -573,7 +573,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 6;
 				$duty_paras['period'] = 9;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -588,7 +588,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 7;
 				$duty_paras['period'] = 7;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -602,7 +602,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 7;
 				$duty_paras['period'] = 8;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -616,7 +616,7 @@ Class DutyArrange extends CI_Controller {
 				}
 				$duty_paras['weekday'] = 7;
 				$duty_paras['period'] = 9;
-				$dutyid = $this->moa_duty_model->add($duty_paras);
+				$dutyid = $this->Moa_duty_model->add($duty_paras);
 				if ($dutyid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
@@ -676,7 +676,7 @@ Class DutyArrange extends CI_Controller {
 			$schedule[7][9] = '';
 			
 			// 取所有值班表记录
-			$duty_obj_list = $this->moa_duty_model->get_all();
+			$duty_obj_list = $this->Moa_duty_model->get_all();
 					
 			if (!empty($duty_obj_list)) {
 				// 提取每个时段的值班助理名单wid-uid-name
@@ -688,9 +688,9 @@ Class DutyArrange extends CI_Controller {
 						// 提取该时段每位助理的姓名
 						for ($j = 0; $j < count($tmp_wid_list); $j++) {
 							$tmp_wid = $tmp_wid_list[$j];
-							$tmp_worker_obj = $this->moa_worker_model->get($tmp_wid);
+							$tmp_worker_obj = $this->Moa_worker_model->get($tmp_wid);
 							$tmp_uid = $tmp_worker_obj->uid;
-							$tmp_user_obj = $this->moa_user_model->get($tmp_uid);
+							$tmp_user_obj = $this->Moa_user_model->get($tmp_uid);
 							$tmp_name = $tmp_user_obj->name;
 							// 如果uid为当前访问用户自己，则高亮显示
 							if ($tmp_uid == $uid) {

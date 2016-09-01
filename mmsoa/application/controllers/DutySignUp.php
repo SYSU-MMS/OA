@@ -10,9 +10,9 @@ require_once('PublicMethod.php');
 Class DutySignUp extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_worker_model');
-		$this->load->model('moa_nschedule_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
+		$this->load->model('Moa_nschedule_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -42,7 +42,7 @@ Class DutySignUp extends CI_Controller {
 	public function signUp() {
 		if (isset($_SESSION['user_id'])) {
 			$uid = $_SESSION['user_id'];
-			$wid = $this->moa_worker_model->get_wid_by_uid($uid);
+			$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
 			
 			$groupid = '';
 			if (isset($_POST['groupid'])) {
@@ -115,10 +115,10 @@ Class DutySignUp extends CI_Controller {
 			
 			// 写入数据库
 			if ($periods != '') {
-				$schedule_obj_list = $this->moa_nschedule_model->get($wid);
+				$schedule_obj_list = $this->Moa_nschedule_model->get($wid);
 				// 该助理已报过名，则删除原记录
 				if (count($schedule_obj_list) != 0) {
-					$delete_res = $this->moa_nschedule_model->delete($schedule_obj_list[0]->nsid);
+					$delete_res = $this->Moa_nschedule_model->delete($schedule_obj_list[0]->nsid);
 					if ($delete_res == 0) {
 						//echo json_encode(array("status" => FALSE, "msg" => "你之前报过名，请联系助理负责人"));
 						echo("提交失败");
@@ -127,7 +127,7 @@ Class DutySignUp extends CI_Controller {
 				}
 
 				// 增加新记录
-				$nsid = $this->moa_nschedule_model->add($ns_paras);
+				$nsid = $this->Moa_nschedule_model->add($ns_paras);
 				if ($nsid == FALSE) {
 					$this->signup_failure();
 					return;
@@ -210,7 +210,7 @@ Class DutySignUp extends CI_Controller {
 			PublicMethod::permissionDenied();
 		}
 		
-		$this->moa_nschedule_model->clean();
+		$this->Moa_nschedule_model->clean();
 		echo json_encode(array("status" => TRUE, "msg" => "报名记录已清空"));
 		return;
 	}
@@ -234,11 +234,11 @@ Class DutySignUp extends CI_Controller {
 		header('Pragma: public');
 		
 		// 从数据库获取所有报名记录（空余时间记录）
-		$nschedule_obj_list = $this->moa_nschedule_model->getAll();
+		$nschedule_obj_list = $this->Moa_nschedule_model->getAll();
 		for ($i = 0; $i < count($nschedule_obj_list); $i++) {
 			// 获取姓名
-			$worker_obj = $this->moa_worker_model->get($nschedule_obj_list[$i]->wid);
-			$user_obj = $this->moa_user_model->get($worker_obj->uid);
+			$worker_obj = $this->Moa_worker_model->get($nschedule_obj_list[$i]->wid);
+			$user_obj = $this->Moa_user_model->get($worker_obj->uid);
 			$name = $user_obj->name;
 			// 获取意向组别
 			$group = $nschedule_obj_list[$i]->groupid;

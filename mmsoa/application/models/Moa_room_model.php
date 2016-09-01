@@ -1,5 +1,5 @@
 <?php
-class moa_room_model extends CI_Model {
+class Moa_room_model extends CI_Model {
 	/**
 	 * 添加课室
 	 * @param paras - 参数列表

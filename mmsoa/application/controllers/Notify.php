@@ -10,9 +10,9 @@ require_once('PublicMethod.php');
 Class Notify extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_worker_model');
-		$this->load->model('moa_notice_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
+		$this->load->model('Moa_notice_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -46,7 +46,7 @@ Class Notify extends CI_Controller {
 				// 每次最多取指定时间之前的10则通知
 				$notice_state = 0;
 				$notice_num = 10;
-				$notice_obj_list = $this->moa_notice_model->get_by_date($base_date, $notice_state, $notice_num);
+				$notice_obj_list = $this->Moa_notice_model->get_by_date($base_date, $notice_state, $notice_num);
 				
 				if (empty($notice_obj_list)) {
 					echo json_encode(array("status" => FALSE, "msg" => "获取通知失败"));
@@ -62,11 +62,11 @@ Class Notify extends CI_Controller {
 					$tmp_notice_title = $notice_obj_list[$i]->title;
 					
 					// 获取uid
-					$tmp_notice_worker_obj = $this->moa_worker_model->get($tmp_notice_wid);
+					$tmp_notice_worker_obj = $this->Moa_worker_model->get($tmp_notice_wid);
 					$tmp_notice_uid = $tmp_notice_worker_obj->uid;
 					
 					// 获取姓名和头像
-					$tmp_notice_user_obj = $this->moa_user_model->get($tmp_notice_uid);
+					$tmp_notice_user_obj = $this->Moa_user_model->get($tmp_notice_uid);
 					$tmp_notice_name = $tmp_notice_user_obj->name;
 					$tmp_notice_avatar = $tmp_notice_user_obj->avatar;
 					
@@ -95,12 +95,12 @@ Class Notify extends CI_Controller {
 			if (isset($_GET['nid'])) {
 				$nid = $_GET['nid'];
 				// 通过nid获取指定的通知详情
-				$notice_obj = $this->moa_notice_model->get($nid);
+				$notice_obj = $this->Moa_notice_model->get($nid);
 				
 				// 获取发布者姓名
 				$wid = $notice_obj->wid;
-				$worker_obj = $this->moa_worker_model->get($wid);
-				$user_obj = $this->moa_user_model->get($worker_obj->uid);
+				$worker_obj = $this->Moa_worker_model->get($wid);
+				$user_obj = $this->Moa_user_model->get($worker_obj->uid);
 				
 				$data['title'] = $notice_obj->title;
 				$data['body'] = $notice_obj->body;
@@ -139,7 +139,7 @@ Class Notify extends CI_Controller {
 	public function writeNoticeIn() {
 		if (isset($_SESSION['user_id'])) {
 			$uid = $_SESSION['user_id'];
-			$wid = $this->moa_worker_model->get_wid_by_uid($uid);
+			$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
 			if (isset($_POST['notice_title']) && isset($_POST['notice_content'])) {
 				$notice_paras['wid'] = $wid;
 		
@@ -150,7 +150,7 @@ Class Notify extends CI_Controller {
 				$notice_paras['title'] = $_POST['notice_title'];
 				$notice_paras['body'] =  $_POST['notice_content'];
 				
-				$nid = $this->moa_notice_model->add($notice_paras);
+				$nid = $this->Moa_notice_model->add($notice_paras);
 		
 				if ($nid) {
 					echo json_encode(array("status" => TRUE, "msg" => "发布成功"));

@@ -10,7 +10,7 @@ require_once('PublicMethod.php');
 Class ChangePassword extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
+		$this->load->model('Moa_user_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -22,7 +22,7 @@ Class ChangePassword extends CI_Controller {
 	public function index() {
 		if (isset($_SESSION['user_id'])) {
 			// 获取个人信息
-			$obj = $this->moa_user_model->get($_SESSION['user_id']);
+			$obj = $this->Moa_user_model->get($_SESSION['user_id']);
 			$data['username'] = $obj->username;
 			$this->load->view('view_change_password', $data);
 		} else {
@@ -37,7 +37,7 @@ Class ChangePassword extends CI_Controller {
 	public function changePassword() {
 		if (isset($_SESSION['user_id'])) {
 			if (isset($_POST['password_old'])) {
-				$obj = $this->moa_user_model->get($_SESSION['user_id']);
+				$obj = $this->Moa_user_model->get($_SESSION['user_id']);
 				$pw_old = $obj->password;
 				if ($pw_old != md5($_POST['password_old'])) {
 					echo json_encode(array("status" => FALSE, "msg" => "旧密码错误"));
@@ -46,7 +46,7 @@ Class ChangePassword extends CI_Controller {
 					if (isset($_POST['password_new']) && isset($_POST['confirm_password'])) {
 						if ($_POST['password_new'] == $_POST['confirm_password']) {
 							$pd_paras['password'] = md5($_POST['password_new']);
-							$res = $this->moa_user_model->update($_SESSION['user_id'], $pd_paras);
+							$res = $this->Moa_user_model->update($_SESSION['user_id'], $pd_paras);
 								
 							if ($res != FALSE) {
 								echo json_encode(array("status" => TRUE, "msg" => "修改成功"));

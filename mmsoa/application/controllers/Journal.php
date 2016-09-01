@@ -10,9 +10,9 @@ require_once('PublicMethod.php');
 Class Journal extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_worker_model');
-		$this->load->model('moa_leaderreport_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
+		$this->load->model('Moa_leaderreport_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -35,12 +35,12 @@ Class Journal extends CI_Controller {
 				
 			// 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
 			$level = 0;
-			$common_worker = $this->moa_user_model->get_by_level($level);
+			$common_worker = $this->Moa_user_model->get_by_level($level);
 				
 			for ($i = 0; $i < count($common_worker); $i++) {
 				$uid_list[$i] = $common_worker[$i]->uid;
 				$name_list[$i] = $common_worker[$i]->name;
-				$wid_list[$i] = $this->moa_worker_model->get_wid_by_uid($uid_list[$i]);
+				$wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
 			}
 			$data['name_list'] = $name_list;
 			$data['wid_list'] = $wid_list;
@@ -74,7 +74,7 @@ Class Journal extends CI_Controller {
 				
 			// state： 0 - 正常  1- 已删除
 			$state = 0;
-			$report_obj = $this->moa_leaderreport_model->get_lasted($state);
+			$report_obj = $this->Moa_leaderreport_model->get_lasted($state);
 			// 正确获取到所需记录
 			if ($report_obj) {
 				$data['group'] = PublicMethod::translate_group($report_obj->group);
@@ -86,8 +86,8 @@ Class Journal extends CI_Controller {
 	
 				// 获取组长姓名
 				$leader_wid = $report_obj->wid;
-				$r_worker_obj = $this->moa_worker_model->get($leader_wid);
-				$r_user_obj = $this->moa_user_model->get($r_worker_obj->uid);
+				$r_worker_obj = $this->Moa_worker_model->get($leader_wid);
+				$r_user_obj = $this->Moa_user_model->get($r_worker_obj->uid);
 				$data['leader_name'] = $r_user_obj->name;
 	
 				// 获取优秀助理姓名列表
@@ -96,8 +96,8 @@ Class Journal extends CI_Controller {
 					$best_wid_list = explode(',', $report_obj->bestlist);
 					for ($i = 0; $i < count($best_wid_list); $i++) {
 						$best_wid = $best_wid_list[$i];
-						$best_worker_obj = $this->moa_worker_model->get($best_wid);
-						$best_user_obj = $this->moa_user_model->get($best_worker_obj->uid);
+						$best_worker_obj = $this->Moa_worker_model->get($best_wid);
+						$best_user_obj = $this->Moa_user_model->get($best_worker_obj->uid);
 						$best_list[$i] = $best_user_obj->name;
 					}
 				}
@@ -109,8 +109,8 @@ Class Journal extends CI_Controller {
 					$bad_wid_list = explode(',', $report_obj->badlist);
 					for ($j = 0; $j < count($bad_wid_list); $j++) {
 						$bad_wid = $bad_wid_list[$j];
-						$bad_worker_obj = $this->moa_worker_model->get($bad_wid);
-						$bad_user_obj = $this->moa_user_model->get($bad_worker_obj->uid);
+						$bad_worker_obj = $this->Moa_worker_model->get($bad_wid);
+						$bad_user_obj = $this->Moa_user_model->get($bad_worker_obj->uid);
 						$bad_list[$j] = $bad_user_obj->name;
 					}
 				}
@@ -130,7 +130,7 @@ Class Journal extends CI_Controller {
 	public function writeJournalIn() {
 		if (isset($_SESSION['user_id'])) {
 			$uid = $_SESSION['user_id'];
-			$wid = $this->moa_worker_model->get_wid_by_uid($uid);
+			$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
 			if (isset($_POST['journal_body'])) {
 				$journal_paras['wid'] = $wid;
 				
@@ -166,7 +166,7 @@ Class Journal extends CI_Controller {
 				if (isset($_POST['badlist']) && !empty($_POST['badlist'])) {
 					$journal_paras['badlist'] = implode(',', $_POST['badlist']);
 				}
-				$lrid = $this->moa_leaderreport_model->add($journal_paras);
+				$lrid = $this->Moa_leaderreport_model->add($journal_paras);
 				
 				if ($lrid) {
 					echo json_encode(array("status" => TRUE, "msg" => "发布成功"));

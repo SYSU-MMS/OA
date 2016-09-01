@@ -3,7 +3,7 @@
  * 工作通知模型类
  * @author wico
  */
-class moa_notice_model extends CI_Model {
+class Moa_notice_model extends CI_Model {
     /**
      * 增加一则通知
      * @param paras - 参数列表

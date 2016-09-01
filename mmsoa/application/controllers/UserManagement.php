@@ -10,8 +10,8 @@ require_once('PublicMethod.php');
 Class UserManagement extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_worker_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -53,7 +53,7 @@ Class UserManagement extends CI_Controller {
 			}
 		
 			if (isset($_POST['delete_uid'])) {
-				$affected_row = $this->moa_user_model->delete($_POST['delete_uid']);
+				$affected_row = $this->Moa_user_model->delete($_POST['delete_uid']);
 				if ($affected_row > 0) {
 					echo json_encode(array("status" => TRUE, "msg" => "移除成功"));
 					return;
@@ -87,7 +87,7 @@ Class UserManagement extends CI_Controller {
 			$username_list = array();
 			$level_arr = array(0, 1, 2, 3, 4, 5);
 			$state = 0;
-			$user_obj_list = $this->moa_user_model->get_by_multiple_level($level_arr, $state);
+			$user_obj_list = $this->Moa_user_model->get_by_multiple_level($level_arr, $state);
 			
 			if ($user_obj_list != FALSE) {
 				for ($i = 0; $i < count($user_obj_list); $i++) {
@@ -115,13 +115,13 @@ Class UserManagement extends CI_Controller {
 			// state: 0-正常  1-锁定  2-已删除
 			$state = 0;
 			// 取状态为正常的所有用户
-			$users = $this->moa_user_model->get_by_state($state);
+			$users = $this->Moa_user_model->get_by_state($state);
 			// 获取普通助理的常检周检课室列表
 			$workers = array();
 			for ($i = 0; $i < count($users); $i++) {
 				if ($users[$i]->level == 0) {
-					$tmp_wid = $this->moa_worker_model->get_wid_by_uid($users[$i]->uid);
-					$workers[$i] = $this->moa_worker_model->get($tmp_wid);
+					$tmp_wid = $this->Moa_worker_model->get_wid_by_uid($users[$i]->uid);
+					$workers[$i] = $this->Moa_worker_model->get($tmp_wid);
 				}
 			}
 			$data['users'] = $users;
@@ -139,7 +139,7 @@ Class UserManagement extends CI_Controller {
 	public function addNewUser() {
 		if (isset($_SESSION['user_id'])) {
 			if (isset($_POST['username'])) {
-				$user_record = $this->moa_user_model->get_by_username($_POST['username']);
+				$user_record = $this->Moa_user_model->get_by_username($_POST['username']);
 				// 确保用户名的唯一性
 				if (!$user_record) {
 					$user_paras['username'] = $_POST['username'];
@@ -151,10 +151,10 @@ Class UserManagement extends CI_Controller {
 							$user_paras['indate'] = $_POST['indate'];
 							// state: 0-正常  1-锁定  2-已删除
 							$user_paras['state'] = 0;
-							$uid = $this->moa_user_model->add($user_paras);
+							$uid = $this->Moa_user_model->add($user_paras);
 							
 							if ($uid != FALSE) {
-								// 插入MOA_Worker表
+								// 插入Moa_Worker表
 								$worker_paras['uid'] = $uid;
 								$worker_paras['level'] = $_POST['level'];
 								$worker_paras['group'] = NULL;
@@ -172,7 +172,7 @@ Class UserManagement extends CI_Controller {
 								} else {
 									$worker_paras['group'] = 0;
 								}
-								$wid = $this->moa_worker_model->add($worker_paras);
+								$wid = $this->Moa_worker_model->add($worker_paras);
 										
 								if ($wid != FALSE) {
 									echo json_encode(array("status" => TRUE, "msg" => "添加成功"));
@@ -209,12 +209,12 @@ Class UserManagement extends CI_Controller {
 	public function updateUserInfo() {
 		if (isset($_SESSION['user_id'])) {
 			if (isset($_POST['userid']) && isset($_POST['username']) && isset($_POST['level']) && isset($_POST['indate'])) {
-				$user_record = $this->moa_user_model->get_by_username($_POST['username']);
+				$user_record = $this->Moa_user_model->get_by_username($_POST['username']);
 				// 确保用户名的唯一性
 				if (!$user_record) {
 					// 要修改的用户id
 					$update_uid = $_POST['userid'];
-					$update_user_obj = $this->moa_user_model->get($update_uid);
+					$update_user_obj = $this->Moa_user_model->get($update_uid);
 					
 					$user_paras['username'] = $_POST['username'];
 					// 若没有输入新用户名，则用户名取原来的用户名
@@ -240,12 +240,12 @@ Class UserManagement extends CI_Controller {
 							}
 							
 							// 修改user表
-							$user_affected_rows = $this->moa_user_model->update($update_uid, $user_paras);
+							$user_affected_rows = $this->Moa_user_model->update($update_uid, $user_paras);
 								
 // 							if ($user_affected_rows != FALSE) {
-								// 修改MOA_Worker表
-								$update_wid = $this->moa_worker_model->get_wid_by_uid($update_uid);
-								$update_worker_obj = $this->moa_worker_model->get($update_wid);
+								// 修改Moa_Worker表
+								$update_wid = $this->Moa_worker_model->get_wid_by_uid($update_uid);
+								$update_worker_obj = $this->Moa_worker_model->get($update_wid);
 								
 								$worker_paras['level'] = $user_paras['level'];
 								$worker_paras['group'] = $update_worker_obj->group;
@@ -271,7 +271,7 @@ Class UserManagement extends CI_Controller {
 								} else {
 									$worker_paras['group'] = 0;
 								}
-								$worker_affected_rows = $this->moa_worker_model->update($update_wid, $worker_paras);
+								$worker_affected_rows = $this->Moa_worker_model->update($update_wid, $worker_paras);
 	
 // 								if ($worker_affected_rows != FALSE) {
 									echo json_encode(array("status" => TRUE, "msg" => "修改成功"));

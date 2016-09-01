@@ -3,7 +3,7 @@
  * 用户模型类
  * @author Rinka
  */
-class moa_user_model extends CI_Model {
+class Moa_user_model extends CI_Model {
  	/**
 	 * 加入一个新的用户
 	 * @param paras - 参数列表

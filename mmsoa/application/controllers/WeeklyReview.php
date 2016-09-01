@@ -10,11 +10,11 @@ require_once('PublicMethod.php');
 Class WeeklyReview extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_worker_model');
-		$this->load->model('moa_check_model');
-		$this->load->model('moa_room_model');
-		$this->load->model('moa_problem_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
+		$this->load->model('Moa_check_model');
+		$this->load->model('Moa_room_model');
+		$this->load->model('Moa_problem_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -44,7 +44,7 @@ Class WeeklyReview extends CI_Controller {
 				
 			// 获取本周所有周检记录
 			$check_type = 3;
-			$w_check_obj = $this->moa_check_model->get_by_weekcount_type($weekcount, $check_type);
+			$w_check_obj = $this->Moa_check_model->get_by_weekcount_type($weekcount, $check_type);
 			if ($w_check_obj != FALSE) {
 				// 获取已完成周检的助理名单
 				$w_wid_list = array();
@@ -61,16 +61,16 @@ Class WeeklyReview extends CI_Controller {
 					$w_day_list[$w_count] = PublicMethod::translate_weekday($w_check_obj[$i]->weekday);
 					$w_time_list[$w_count] = $w_check_obj[$i]->timestamp;
 					$w_lamp_list[$w_count] = $w_check_obj[$i]->light;
-					$w_worker_obj = $this->moa_worker_model->get($w_tmp_wid);
-					$w_user_obj = $this->moa_user_model->get($w_worker_obj->uid);
+					$w_worker_obj = $this->Moa_worker_model->get($w_tmp_wid);
+					$w_user_obj = $this->Moa_user_model->get($w_worker_obj->uid);
 					$w_name_list[$w_count] = $w_user_obj->name;
-					$w_room_obj = $this->moa_room_model->get($w_check_obj[$i]->roomid);
+					$w_room_obj = $this->Moa_room_model->get($w_check_obj[$i]->roomid);
 					$w_room_list[$w_count] = $w_room_obj->room;
 						
 					// 课室有故障，添加故障说明到$w_prob_list
 					$w_prob_list[$w_count] = '';
 					if ($w_check_obj[$i]->isChecked == 2) {
-						$w_pro_obj = $this->moa_problem_model->get($w_check_obj[$i]->problemid);
+						$w_pro_obj = $this->Moa_problem_model->get($w_check_obj[$i]->problemid);
 						$w_prob_list[$w_count] = $w_prob_list[$w_count] . $w_pro_obj->description;
 					}
 						

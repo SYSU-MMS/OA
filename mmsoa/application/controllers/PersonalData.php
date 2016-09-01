@@ -10,7 +10,7 @@ require_once('PublicMethod.php');
 Class PersonalData extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
+		$this->load->model('Moa_user_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -22,7 +22,7 @@ Class PersonalData extends CI_Controller {
 	public function index() {
 		if (isset($_SESSION['user_id'])) {
 			// 获取个人信息
-			$obj = $this->moa_user_model->get($_SESSION['user_id']);
+			$obj = $this->Moa_user_model->get($_SESSION['user_id']);
 			$data['personal_data'] = $obj;
 			$this->load->view('view_personal_data', $data);
 		} else {
@@ -61,7 +61,7 @@ Class PersonalData extends CI_Controller {
 				$pd_paras['creditcard'] = $_POST['pd_creditcard'];
 			}
 			
-			$res = $this->moa_user_model->update($_SESSION['user_id'], $pd_paras);
+			$res = $this->Moa_user_model->update($_SESSION['user_id'], $pd_paras);
 			
 			if ($res != FALSE) {
 				echo json_encode(array("status" => TRUE, "msg" => "保存成功"));

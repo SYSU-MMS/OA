@@ -3,7 +3,7 @@
  * 空余时间表类
  * @author Rinka
  */
-class moa_duty_model extends CI_Model {
+class Moa_duty_model extends CI_Model {
  	/**
 	 * 加入一个新排班记录
 	 * @param paras - 参数列表

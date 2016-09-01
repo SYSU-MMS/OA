@@ -9,7 +9,7 @@ require_once('PublicMethod.php');
 Class ChangeAvatar extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
+		$this->load->model('Moa_user_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -22,7 +22,7 @@ Class ChangeAvatar extends CI_Controller {
 	public function index() {
 		if (isset($_SESSION['user_id'])) {
 			// 获取个人信息
-			$obj = $this->moa_user_model->get($_SESSION['user_id']);
+			$obj = $this->Moa_user_model->get($_SESSION['user_id']);
 			$data['username'] = $obj->username;
 			$data['error'] = '';
 			$this->load->view('view_change_avatar', $data);
@@ -38,7 +38,7 @@ Class ChangeAvatar extends CI_Controller {
 	public function getLastedAvatar() {
 		if (isset($_POST['old_avatar_name'])) {
 			$sm_src_pic_name = $_POST['old_avatar_name'];
-			$obj = $this->moa_user_model->get($_SESSION['user_id']);
+			$obj = $this->Moa_user_model->get($_SESSION['user_id']);
 			if (('sm_' . $obj->avatar) != $sm_src_pic_name) {
 				// 更新session的avatar
 				$_SESSION['avatar'] = $obj->avatar;
@@ -267,13 +267,13 @@ Class ChangeAvatar extends CI_Controller {
 				
 				/**** 头像文件名存入数据库 ****/
 				// 首先删除原有头像文件，默认头像除外
-				$old_avatar = $this->moa_user_model->get($uid)->avatar;
+				$old_avatar = $this->Moa_user_model->get($uid)->avatar;
 				if ($old_avatar != 'default.png') {
 					unlink('upload/avatar/' . $old_avatar);
 				}
 				// 更新数据库头像文件名
 				$user_paras['avatar'] = $avatar_pic_name;
-				$res = $this->moa_user_model->update($uid, $user_paras);
+				$res = $this->Moa_user_model->update($uid, $user_paras);
 				
 				if ($res != FALSE && $res > 0) {
 					$_SESSION['avatar'] = $avatar_pic_name;

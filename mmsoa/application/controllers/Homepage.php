@@ -10,10 +10,10 @@ require_once('PublicMethod.php');
 Class Homepage extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_mmsboard_model');
-		$this->load->model('moa_mbcomment_model');
-		$this->load->model('moa_notice_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_mmsboard_model');
+		$this->load->model('Moa_mbcomment_model');
+		$this->load->model('Moa_notice_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -37,7 +37,7 @@ Class Homepage extends CI_Controller {
 	public function addPost() {
 		if (isset($_SESSION['user_id'])) {
 			$uid = $_SESSION['user_id'];
-			$user_obj = $this->moa_user_model->get($uid);
+			$user_obj = $this->Moa_user_model->get($uid);
 			$name = $user_obj->name;
 			$avatar = $user_obj->avatar;
 			
@@ -49,7 +49,7 @@ Class Homepage extends CI_Controller {
 				$timestamp = date('Y-m-d H:i:s');
 				$board_paras['bptimestamp'] = $timestamp;
 				$board_paras['body'] = $_POST['post_content'];
-				$bpid = $this->moa_mmsboard_model->add($board_paras);
+				$bpid = $this->Moa_mmsboard_model->add($board_paras);
 				if ($bpid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "留言失败"));
 					return;
@@ -69,7 +69,7 @@ Class Homepage extends CI_Controller {
 	public function addComment() {
 		if (isset($_SESSION['user_id'])) {
 			$uid = $_SESSION['user_id'];
-			$user_obj = $this->moa_user_model->get($uid);
+			$user_obj = $this->Moa_user_model->get($uid);
 			$name = $user_obj->name;
 			$avatar = $user_obj->avatar;
 				
@@ -82,7 +82,7 @@ Class Homepage extends CI_Controller {
 				$timestamp = date('Y-m-d H:i:s');
 				$comment_paras['mbctimestamp'] = $timestamp;
 				$comment_paras['body'] = $_POST['comment_content'];
-				$mbcid = $this->moa_mbcomment_model->add($comment_paras);
+				$mbcid = $this->Moa_mbcomment_model->add($comment_paras);
 				if ($mbcid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "评论失败"));
 					return;
@@ -102,7 +102,7 @@ Class Homepage extends CI_Controller {
 	public function getPostComment() {
 		if (isset($_SESSION['user_id'])) {
 			// 获取当前用户的头像，用于评论区
-			$cur_avatar = $this->moa_user_model->get($_SESSION['user_id'])->avatar;
+			$cur_avatar = $this->Moa_user_model->get($_SESSION['user_id'])->avatar;
 			if (isset($_GET['base_date'])) {
 				$base_date = $_GET['base_date'];
 				// 0表示当前时间
@@ -112,7 +112,7 @@ Class Homepage extends CI_Controller {
 				$post_state = 0;
 				$post_num = 10;
 				// 每次最多取指定时间之前的10条留言
-				$post_obj_list = $this->moa_mmsboard_model->get_by_date($base_date, $post_state, $post_num);
+				$post_obj_list = $this->Moa_mmsboard_model->get_by_date($base_date, $post_state, $post_num);
 				
 				if (empty($post_obj_list)) {
 					echo json_encode(array("status" => FALSE, "msg" => "获取留言失败"));
@@ -127,7 +127,7 @@ Class Homepage extends CI_Controller {
 					$tmp_post_uid = $post_obj_list[$i]->uid;
 					$tmp_post_bptimestamp = $post_obj_list[$i]->bptimestamp;
 					$tmp_post_body = $post_obj_list[$i]->body;
-					$tmp_post_user_obj = $this->moa_user_model->get($tmp_post_uid);
+					$tmp_post_user_obj = $this->Moa_user_model->get($tmp_post_uid);
 					$tmp_post_name = $tmp_post_user_obj->name;
 					$tmp_post_avatar = $tmp_post_user_obj->avatar;
 					
@@ -141,7 +141,7 @@ Class Homepage extends CI_Controller {
 					
 					// 取该留言对应的所有评论
 					$comment_state = 0;
-					$comment_obj_list = $this->moa_mbcomment_model->get_by_bpid($tmp_post_bpid, $comment_state);
+					$comment_obj_list = $this->Moa_mbcomment_model->get_by_bpid($tmp_post_bpid, $comment_state);
 					
 					//评论为空
 					if (empty($comment_obj_list)) {
@@ -151,7 +151,7 @@ Class Homepage extends CI_Controller {
 							$tmp_comment_uid = $comment_obj_list[$j]->uid;
 							$tmp_comment_mbctimestamp = $comment_obj_list[$j]->mbctimestamp;
 							$tmp_comment_body = $comment_obj_list[$j]->body;
-							$tmp_comment_user_obj = $this->moa_user_model->get($tmp_comment_uid);
+							$tmp_comment_user_obj = $this->Moa_user_model->get($tmp_comment_uid);
 							$tmp_comment_name = $tmp_comment_user_obj->name;
 							$tmp_comment_avatar = $tmp_comment_user_obj->avatar;
 						
@@ -177,7 +177,7 @@ Class Homepage extends CI_Controller {
 	public function addNotice() {
 		if (isset($_SESSION['user_id'])) {
 			$uid = $_SESSION['user_id'];
-			$user_obj = $this->moa_user_model->get($uid);
+			$user_obj = $this->Moa_user_model->get($uid);
 			$name = $user_obj->name;
 			$avatar = $user_obj->avatar;
 				
@@ -190,7 +190,7 @@ Class Homepage extends CI_Controller {
 				$notice_paras['timestamp'] = $timestamp;
 				$notice_paras['title'] = "今日头条";
 				$notice_paras['body'] = "发工资啦";
-				$nid = $this->moa_notice_model->add($notice_paras);
+				$nid = $this->Moa_notice_model->add($notice_paras);
 				if ($nid == FALSE) {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;

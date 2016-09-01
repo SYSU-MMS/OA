@@ -10,11 +10,11 @@ require_once('PublicMethod.php');
 Class DailyReview extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_worker_model');
-		$this->load->model('moa_check_model');
-		$this->load->model('moa_room_model');
-		$this->load->model('moa_problem_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
+		$this->load->model('Moa_check_model');
+		$this->load->model('Moa_room_model');
+		$this->load->model('Moa_problem_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -37,7 +37,7 @@ Class DailyReview extends CI_Controller {
 			
 			// 取所有课室的roomid与room（课室编号）
 			$state = 0;
-			$room_obj_list = $this->moa_room_model->get_by_state($state);
+			$room_obj_list = $this->Moa_room_model->get_by_state($state);
 			
 			for ($i = 0; $i < count($room_obj_list); $i++) {
 				$roomid_list[$i] = $room_obj_list[$i]->roomid;
@@ -49,12 +49,12 @@ Class DailyReview extends CI_Controller {
 			
 			// 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
 			$level = 0;
-			$common_worker = $this->moa_user_model->get_by_level($level);
+			$common_worker = $this->Moa_user_model->get_by_level($level);
 			
 			for ($i = 0; $i < count($common_worker); $i++) {
 				$uid_list[$i] = $common_worker[$i]->uid;
 				$name_list[$i] = $common_worker[$i]->name;
-				$wid_list[$i] = $this->moa_worker_model->get_wid_by_uid($uid_list[$i]);
+				$wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
 			}
 			
 			$data['name_list'] = $name_list;
@@ -84,7 +84,7 @@ Class DailyReview extends CI_Controller {
 			 */
 			// 获取今日所有早检记录
 			$check_type = 0;
-			$m_check_obj = $this->moa_check_model->get_by_week_type($weekcount, $weekday, $check_type);
+			$m_check_obj = $this->Moa_check_model->get_by_week_type($weekcount, $weekday, $check_type);
 			if ($m_check_obj != FALSE) {
 				// 获取已完成早检的助理名单
 				$m_wid_list = array();
@@ -99,11 +99,11 @@ Class DailyReview extends CI_Controller {
 				$m_time_list[$m_count] = $m_check_obj[0]->timestamp;
 	
 				// 获取常检课室
-				$m_worker_obj = $this->moa_worker_model->get($m_tmp_wid);
+				$m_worker_obj = $this->Moa_worker_model->get($m_tmp_wid);
 				$m_room_list[$m_count] = $m_worker_obj->classroom;
 	
 				// 获取姓名
-				$m_user_obj = $this->moa_user_model->get($m_worker_obj->uid);
+				$m_user_obj = $this->Moa_user_model->get($m_worker_obj->uid);
 				$m_name_list[$m_count] = $m_user_obj->name;
 	
 				for ($i = 0; $i < count($m_check_obj); $i++) {
@@ -114,15 +114,15 @@ Class DailyReview extends CI_Controller {
 						$m_wid_list[$m_count] = $m_tmp_wid;
 						$m_prob_list[$m_count] = '';
 						$m_time_list[$m_count] = $m_check_obj[$i]->timestamp;
-						$m_worker_obj = $this->moa_worker_model->get($m_tmp_wid);
+						$m_worker_obj = $this->Moa_worker_model->get($m_tmp_wid);
 						$m_room_list[$m_count] = $m_worker_obj->classroom;
-						$m_user_obj = $this->moa_user_model->get($m_worker_obj->uid);
+						$m_user_obj = $this->Moa_user_model->get($m_worker_obj->uid);
 						$m_name_list[$m_count] = $m_user_obj->name;
 					}
 					// 课室有故障，添加故障说明到$m_prob_list
 					if ($m_check_obj[$i]->isChecked == 2) {
-						$m_room_obj = $this->moa_room_model->get($m_check_obj[$i]->roomid);
-						$m_pro_obj = $this->moa_problem_model->get($m_check_obj[$i]->problemid);
+						$m_room_obj = $this->Moa_room_model->get($m_check_obj[$i]->roomid);
+						$m_pro_obj = $this->Moa_problem_model->get($m_check_obj[$i]->problemid);
 						$m_prob_list[$m_count] = $m_prob_list[$m_count] . '<b>' . $m_room_obj->room . '</b> ' .
 								$m_pro_obj->description . ' <br />';
 					}
@@ -144,7 +144,7 @@ Class DailyReview extends CI_Controller {
 			 */
 			// 获取今日所有午检记录
 			$check_type = 1;
-			$n_check_obj = $this->moa_check_model->get_by_week_type($weekcount, $weekday, $check_type);
+			$n_check_obj = $this->Moa_check_model->get_by_week_type($weekcount, $weekday, $check_type);
 			if ($n_check_obj != FALSE) {
 				// 获取已完成午检的助理名单
 				$n_wid_list = array();
@@ -159,11 +159,11 @@ Class DailyReview extends CI_Controller {
 				$n_time_list[$n_count] = $n_check_obj[0]->timestamp;
 	
 				// 获取常检课室
-				$n_worker_obj = $this->moa_worker_model->get($n_tmp_wid);
+				$n_worker_obj = $this->Moa_worker_model->get($n_tmp_wid);
 				$n_room_list[$n_count] = $n_worker_obj->classroom;
 	
 				// 获取姓名
-				$n_user_obj = $this->moa_user_model->get($n_worker_obj->uid);
+				$n_user_obj = $this->Moa_user_model->get($n_worker_obj->uid);
 				$n_name_list[$n_count] = $n_user_obj->name;
 	
 				for ($j = 0; $j < count($n_check_obj); $j++) {
@@ -174,15 +174,15 @@ Class DailyReview extends CI_Controller {
 						$n_wid_list[$n_count] = $n_tmp_wid;
 						$n_prob_list[$n_count] = '';
 						$n_time_list[$n_count] = $n_check_obj[$j]->timestamp;
-						$n_worker_obj = $this->moa_worker_model->get($n_tmp_wid);
+						$n_worker_obj = $this->Moa_worker_model->get($n_tmp_wid);
 						$n_room_list[$n_count] = $n_worker_obj->classroom;
-						$n_user_obj = $this->moa_user_model->get($n_worker_obj->uid);
+						$n_user_obj = $this->Moa_user_model->get($n_worker_obj->uid);
 						$n_name_list[$n_count] = $n_user_obj->name;
 					}
 					// 课室有故障，添加故障说明到$n_prob_list
 					if ($n_check_obj[$j]->isChecked == 2) {
-						$n_room_obj = $this->moa_room_model->get($n_check_obj[$j]->roomid);
-						$n_pro_obj = $this->moa_problem_model->get($n_check_obj[$j]->problemid);
+						$n_room_obj = $this->Moa_room_model->get($n_check_obj[$j]->roomid);
+						$n_pro_obj = $this->Moa_problem_model->get($n_check_obj[$j]->problemid);
 						$n_prob_list[$n_count] = $n_prob_list[$n_count] . '<b>' . $n_room_obj->room . '</b> ' .
 								$n_pro_obj->description . ' <br />';
 					}
@@ -203,7 +203,7 @@ Class DailyReview extends CI_Controller {
 			 */
 			// 获取今日所有晚检记录
 			$check_type = 2;
-			$e_check_obj = $this->moa_check_model->get_by_week_type($weekcount, $weekday, $check_type);
+			$e_check_obj = $this->Moa_check_model->get_by_week_type($weekcount, $weekday, $check_type);
 			if ($e_check_obj != FALSE) {
 				// 获取已完成晚检的助理名单
 				$e_wid_list = array();
@@ -218,11 +218,11 @@ Class DailyReview extends CI_Controller {
 				$e_time_list[$e_count] = $e_check_obj[0]->timestamp;
 	
 				// 获取常检课室
-				$e_worker_obj = $this->moa_worker_model->get($e_tmp_wid);
+				$e_worker_obj = $this->Moa_worker_model->get($e_tmp_wid);
 				$e_room_list[$e_count] = $e_worker_obj->classroom;
 	
 				// 获取姓名
-				$e_user_obj = $this->moa_user_model->get($e_worker_obj->uid);
+				$e_user_obj = $this->Moa_user_model->get($e_worker_obj->uid);
 				$e_name_list[$e_count] = $e_user_obj->name;
 	
 				for ($k = 0; $k < count($e_check_obj); $k++) {
@@ -233,15 +233,15 @@ Class DailyReview extends CI_Controller {
 						$e_wid_list[$e_count] = $e_tmp_wid;
 						$e_prob_list[$e_count] = '';
 						$e_time_list[$e_count] = $e_check_obj[$k]->timestamp;
-						$e_worker_obj = $this->moa_worker_model->get($e_tmp_wid);
+						$e_worker_obj = $this->Moa_worker_model->get($e_tmp_wid);
 						$e_room_list[$e_count] = $e_worker_obj->classroom;
-						$e_user_obj = $this->moa_user_model->get($e_worker_obj->uid);
+						$e_user_obj = $this->Moa_user_model->get($e_worker_obj->uid);
 						$e_name_list[$e_count] = $e_user_obj->name;
 					}
 					// 课室有故障，添加故障说明到$e_prob_list
 					if ($e_check_obj[$k]->isChecked == 2) {
-						$e_room_obj = $this->moa_room_model->get($e_check_obj[$k]->roomid);
-						$e_pro_obj = $this->moa_problem_model->get($e_check_obj[$k]->problemid);
+						$e_room_obj = $this->Moa_room_model->get($e_check_obj[$k]->roomid);
+						$e_pro_obj = $this->Moa_problem_model->get($e_check_obj[$k]->problemid);
 						$e_prob_list[$e_count] = $e_prob_list[$e_count] . '<b>' . $e_room_obj->room . '</b> ' .
 								$e_pro_obj->description . ' <br />';
 					}
@@ -318,7 +318,7 @@ Class DailyReview extends CI_Controller {
 				 */
 				// 获取历史所有早检记录
 				$check_type = 0;
-				$m_check_obj = $this->moa_check_model->get_by_customer($check_type, $query_start_time, $query_end_time, $actual_wid, $roomid);
+				$m_check_obj = $this->Moa_check_model->get_by_customer($check_type, $query_start_time, $query_end_time, $actual_wid, $roomid);
 
 				if ($m_check_obj != FALSE) {
 					// 获取已完成早检的助理名单
@@ -334,11 +334,11 @@ Class DailyReview extends CI_Controller {
 					$m_time_list[$m_count] = $m_check_obj[0]->timestamp;
 				
 					// 获取常检课室
-					$m_worker_obj = $this->moa_worker_model->get($m_tmp_wid);
+					$m_worker_obj = $this->Moa_worker_model->get($m_tmp_wid);
 					$m_room_list[$m_count] = $m_worker_obj->classroom;
 				
 					// 获取姓名
-					$m_user_obj = $this->moa_user_model->get($m_worker_obj->uid);
+					$m_user_obj = $this->Moa_user_model->get($m_worker_obj->uid);
 					$m_name_list[$m_count] = $m_user_obj->name;
 				
 					for ($i = 0; $i < count($m_check_obj); $i++) {
@@ -349,15 +349,15 @@ Class DailyReview extends CI_Controller {
 							$m_wid_list[$m_count] = $m_tmp_wid;
 							$m_prob_list[$m_count] = '';
 							$m_time_list[$m_count] = $m_check_obj[$i]->timestamp;
-							$m_worker_obj = $this->moa_worker_model->get($m_tmp_wid);
+							$m_worker_obj = $this->Moa_worker_model->get($m_tmp_wid);
 							$m_room_list[$m_count] = $m_worker_obj->classroom;
-							$m_user_obj = $this->moa_user_model->get($m_worker_obj->uid);
+							$m_user_obj = $this->Moa_user_model->get($m_worker_obj->uid);
 							$m_name_list[$m_count] = $m_user_obj->name;
 						}
 						// 课室有故障，添加故障说明到$m_prob_list
 						if ($m_check_obj[$i]->isChecked == 2) {
-							$m_room_obj = $this->moa_room_model->get($m_check_obj[$i]->roomid);
-							$m_pro_obj = $this->moa_problem_model->get($m_check_obj[$i]->problemid);
+							$m_room_obj = $this->Moa_room_model->get($m_check_obj[$i]->roomid);
+							$m_pro_obj = $this->Moa_problem_model->get($m_check_obj[$i]->problemid);
 							$m_prob_list[$m_count] = $m_prob_list[$m_count] . '<b>' . $m_room_obj->room . '</b> ' .
 									$m_pro_obj->description . ' <br />';
 						}
@@ -378,7 +378,7 @@ Class DailyReview extends CI_Controller {
 				 */
 				// 获取历史所有午检记录
 				$check_type = 1;
-				$n_check_obj = $this->moa_check_model->get_by_customer($check_type, $query_start_time, $query_end_time, $actual_wid, $roomid);
+				$n_check_obj = $this->Moa_check_model->get_by_customer($check_type, $query_start_time, $query_end_time, $actual_wid, $roomid);
 				if ($n_check_obj != FALSE) {
 					// 获取已完成午检的助理名单
 					$n_wid_list = array();
@@ -393,11 +393,11 @@ Class DailyReview extends CI_Controller {
 					$n_time_list[$n_count] = $n_check_obj[0]->timestamp;
 				
 					// 获取常检课室
-					$n_worker_obj = $this->moa_worker_model->get($n_tmp_wid);
+					$n_worker_obj = $this->Moa_worker_model->get($n_tmp_wid);
 					$n_room_list[$n_count] = $n_worker_obj->classroom;
 				
 					// 获取姓名
-					$n_user_obj = $this->moa_user_model->get($n_worker_obj->uid);
+					$n_user_obj = $this->Moa_user_model->get($n_worker_obj->uid);
 					$n_name_list[$n_count] = $n_user_obj->name;
 				
 					for ($j = 0; $j < count($n_check_obj); $j++) {
@@ -408,15 +408,15 @@ Class DailyReview extends CI_Controller {
 							$n_wid_list[$n_count] = $n_tmp_wid;
 							$n_prob_list[$n_count] = '';
 							$n_time_list[$n_count] = $n_check_obj[$j]->timestamp;
-							$n_worker_obj = $this->moa_worker_model->get($n_tmp_wid);
+							$n_worker_obj = $this->Moa_worker_model->get($n_tmp_wid);
 							$n_room_list[$n_count] = $n_worker_obj->classroom;
-							$n_user_obj = $this->moa_user_model->get($n_worker_obj->uid);
+							$n_user_obj = $this->Moa_user_model->get($n_worker_obj->uid);
 							$n_name_list[$n_count] = $n_user_obj->name;
 						}
 						// 课室有故障，添加故障说明到$n_prob_list
 						if ($n_check_obj[$j]->isChecked == 2) {
-							$n_room_obj = $this->moa_room_model->get($n_check_obj[$j]->roomid);
-							$n_pro_obj = $this->moa_problem_model->get($n_check_obj[$j]->problemid);
+							$n_room_obj = $this->Moa_room_model->get($n_check_obj[$j]->roomid);
+							$n_pro_obj = $this->Moa_problem_model->get($n_check_obj[$j]->problemid);
 							$n_prob_list[$n_count] = $n_prob_list[$n_count] . '<b>' . $n_room_obj->room . '</b> ' .
 									$n_pro_obj->description . ' <br />';
 						}
@@ -437,7 +437,7 @@ Class DailyReview extends CI_Controller {
 				 */
 				// 获取历史所有晚检记录
 				$check_type = 2;
-				$e_check_obj = $this->moa_check_model->get_by_customer($check_type, $query_start_time, $query_end_time, $actual_wid, $roomid);
+				$e_check_obj = $this->Moa_check_model->get_by_customer($check_type, $query_start_time, $query_end_time, $actual_wid, $roomid);
 				if ($e_check_obj != FALSE) {
 					// 获取已完成晚检的助理名单
 					$e_wid_list = array();
@@ -452,11 +452,11 @@ Class DailyReview extends CI_Controller {
 					$e_time_list[$e_count] = $e_check_obj[0]->timestamp;
 				
 					// 获取常检课室
-					$e_worker_obj = $this->moa_worker_model->get($e_tmp_wid);
+					$e_worker_obj = $this->Moa_worker_model->get($e_tmp_wid);
 					$e_room_list[$e_count] = $e_worker_obj->classroom;
 				
 					// 获取姓名
-					$e_user_obj = $this->moa_user_model->get($e_worker_obj->uid);
+					$e_user_obj = $this->Moa_user_model->get($e_worker_obj->uid);
 					$e_name_list[$e_count] = $e_user_obj->name;
 				
 					for ($k = 0; $k < count($e_check_obj); $k++) {
@@ -467,15 +467,15 @@ Class DailyReview extends CI_Controller {
 							$e_wid_list[$e_count] = $e_tmp_wid;
 							$e_prob_list[$e_count] = '';
 							$e_time_list[$e_count] = $e_check_obj[$k]->timestamp;
-							$e_worker_obj = $this->moa_worker_model->get($e_tmp_wid);
+							$e_worker_obj = $this->Moa_worker_model->get($e_tmp_wid);
 							$e_room_list[$e_count] = $e_worker_obj->classroom;
-							$e_user_obj = $this->moa_user_model->get($e_worker_obj->uid);
+							$e_user_obj = $this->Moa_user_model->get($e_worker_obj->uid);
 							$e_name_list[$e_count] = $e_user_obj->name;
 						}
 						// 课室有故障，添加故障说明到$e_prob_list
 						if ($e_check_obj[$k]->isChecked == 2) {
-							$e_room_obj = $this->moa_room_model->get($e_check_obj[$k]->roomid);
-							$e_pro_obj = $this->moa_problem_model->get($e_check_obj[$k]->problemid);
+							$e_room_obj = $this->Moa_room_model->get($e_check_obj[$k]->roomid);
+							$e_pro_obj = $this->Moa_problem_model->get($e_check_obj[$k]->problemid);
 							$e_prob_list[$e_count] = $e_prob_list[$e_count] . '<b>' . $e_room_obj->room . '</b> ' .
 									$e_pro_obj->description . ' <br />';
 						}
