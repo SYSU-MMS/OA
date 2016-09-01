@@ -16,7 +16,7 @@ $config['base_url'] = 'http://localhost/OA/mmsoa';
 ```
 请修改为
 ```sh
-$config['base_url'] = 'http://服务器IP/MOA/mmsoa';
+$config['base_url'] = 'http://服务器IP/OA/mmsoa';
 ```
 
 2、OA\mmsoa\application\config\database.php文件：
