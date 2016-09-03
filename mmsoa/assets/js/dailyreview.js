@@ -43,8 +43,8 @@ $('#search_btn').click(function(){
 					m_data_arr.push(
 					    "<tr>" + 
 					    	"<td>" + (i + 1) +"</td>" + 
-					    	"<td>" + ret['data']['m_weekcount'] +"</td>" + 
-					    	"<td>" + ret['data']['m_weekday'] +"</td>" + 
+					    	"<td>" + ret['data']['m_weekcount_list'][i] +"</td>" + 
+					    	"<td>" + ret['data']['m_weekday_list'][i] +"</td>" + 
 					    	"<td>" + ret['data']['m_name_list'][i] +"</td>" + 
 					    	"<td>" + m_room_list +"</td>" + 
 					    	"<td class='td-left'>" + m_problem +"</td>" + 
@@ -87,8 +87,8 @@ $('#search_btn').click(function(){
 					n_data_arr.push(
 					    "<tr>" + 
 					    	"<td>" + (j + 1) +"</td>" + 
-					    	"<td>" + ret['data']['n_weekcount'] +"</td>" + 
-					    	"<td>" + ret['data']['n_weekday'] +"</td>" + 
+					    	"<td>" + ret['data']['n_weekcount_list'][j] +"</td>" + 
+					    	"<td>" + ret['data']['n_weekday_list'][j] +"</td>" + 
 					    	"<td>" + ret['data']['n_name_list'][j] +"</td>" + 
 					    	"<td>" + n_room_list +"</td>" + 
 					    	"<td class='td-left'>" + n_problem +"</td>" + 
@@ -131,8 +131,8 @@ $('#search_btn').click(function(){
 					e_data_arr.push(
 					    "<tr>" + 
 					    	"<td>" + (k + 1) +"</td>" + 
-					    	"<td>" + ret['data']['e_weekcount'] +"</td>" + 
-					    	"<td>" + ret['data']['e_weekday'] +"</td>" + 
+					    	"<td>" + ret['data']['e_weekcount_list'][k] +"</td>" + 
+					    	"<td>" + ret['data']['e_weekday_list'][k] +"</td>" + 
 					    	"<td>" + ret['data']['e_name_list'][k] +"</td>" + 
 					    	"<td>" + e_room_list +"</td>" + 
 					    	"<td class='td-left'>" + e_problem +"</td>" + 

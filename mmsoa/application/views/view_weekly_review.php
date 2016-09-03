@@ -66,6 +66,49 @@
                             </div>
                             <div class="ibox-content">
                             
+                            	<div class="row">
+                            		<div class="form-group col-md-4" id="dtp_group">
+	                                    <label class="font-noraml">选择时间段</label>
+	                                    <div class="input-daterange input-group" id="dtp">
+	                                        <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php echo date('Y-m-d H:i', strtotime("-7 day")); ?>" />
+	                                        <span class="input-group-addon dtp-addon">到</span>
+	                                        <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date('Y-m-d H:i',time()); ?>" />
+	                                    </div>
+	                                </div>
+	                                <div id="chosen_classroom" class="form-group col-md-3" style="height: 30px; position: relative; z-index: 999999;">
+                                        <label class="font-noraml">选择课室</label>
+                                        <div>
+	                                        <select id="select_classroom" name="select_classroom" data-placeholder="" class="chosen-select-classroom col-sm-12" tabindex="4">
+	                                        	<option value="">全部</option>
+	                                        	<?php 
+                                        			for ($i = 0; $i < count($room_list); $i++) {
+                                        				echo "<option value='" . $roomid_list[$i] . "'>" . $room_list[$i] . "</option>";
+                                        			} 
+                                        		?>
+	                                        </select>
+                                        </div>
+                                    </div>
+	                                <div id="chosen_name" class="form-group col-md-3" style="height: 30px; position: relative; z-index: 999999;">
+                                        <label class="font-noraml">选择助理</label>
+                                        <div>
+	                                        <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4">
+	                                        	<option value="">全部</option>
+	                                        	<?php 
+                                        			for ($i = 0; $i < count($name_list); $i++) {
+                                        				echo "<option value='" . $wid_list[$i] . "'>" . $name_list[$i] . "</option>";
+                                        			} 
+                                        		?>
+	                                        </select>
+                                        </div>
+                                    </div>
+                                    <div id="search_container" class="form-group col-md-2">
+                                        <label class="font-noraml search-btn">查找</label>
+                                        <div>
+	                                        <button id="search_btn" class="btn btn-primary btn-longer"><i class="fa fa-search"></i> &nbsp;查找</button>
+                                        </div>
+                                    </div>
+                            	</div>
+                            
                                 <table class="table table-striped table-bordered table-hover users-dataTable">
                                     <thead>
                                         <tr>

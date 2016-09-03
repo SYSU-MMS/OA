@@ -293,13 +293,6 @@ Class DailyReview extends CI_Controller {
 				if ($post_roomid == "") {
 					$roomid = NULL;
 				}
-					
-				// 周一为一周的第一天
-				$weekcount = PublicMethod::cal_week();
-				
-				// 1-周一  2-周二  ... 6-周六  7-周日
-				$weekday = date("w") == 0 ? 7 : date("w");
-				$weekday_desc = PublicMethod::translate_weekday($weekday);
 				
 				// 已完成早检助理人数
 				$m_count = 0;
@@ -327,11 +320,15 @@ Class DailyReview extends CI_Controller {
 					$m_time_list = array();
 					$m_room_list = array();
 					$m_name_list = array();
+					$m_weekcount_list = array();
+					$m_weekday_list = array();
 				
 					$m_tmp_wid = $m_check_obj[0]->actual_wid;
 					$m_wid_list[$m_count] = $m_tmp_wid;
 					$m_prob_list[$m_count] = '';
 					$m_time_list[$m_count] = $m_check_obj[0]->timestamp;
+					$m_weekcount_list[$m_count] = $m_check_obj[0]->weekcount;
+					$m_weekday_list[$m_count] = PublicMethod::translate_weekday($m_check_obj[0]->weekday);
 				
 					// 获取常检课室
 					$m_worker_obj = $this->Moa_worker_model->get($m_tmp_wid);
@@ -349,6 +346,8 @@ Class DailyReview extends CI_Controller {
 							$m_wid_list[$m_count] = $m_tmp_wid;
 							$m_prob_list[$m_count] = '';
 							$m_time_list[$m_count] = $m_check_obj[$i]->timestamp;
+							$m_weekcount_list[$m_count] = $m_check_obj[$i]->weekcount;
+							$m_weekday_list[$m_count] = PublicMethod::translate_weekday($m_check_obj[$i]->weekday);
 							$m_worker_obj = $this->Moa_worker_model->get($m_tmp_wid);
 							$m_room_list[$m_count] = $m_worker_obj->classroom;
 							$m_user_obj = $this->Moa_user_model->get($m_worker_obj->uid);
@@ -365,8 +364,8 @@ Class DailyReview extends CI_Controller {
 				
 					// 装载前端所需数据
 					$data['m_count'] = $m_count + 1;
-					$data['m_weekcount'] = $weekcount;
-					$data['m_weekday'] = $weekday_desc;
+					$data['m_weekcount_list'] = $m_weekcount_list;
+					$data['m_weekday_list'] = $m_weekday_list;
 					$data['m_name_list'] = $m_name_list;
 					$data['m_room_list'] = $m_room_list;
 					$data['m_prob_list'] = $m_prob_list;
@@ -391,6 +390,8 @@ Class DailyReview extends CI_Controller {
 					$n_wid_list[$n_count] = $n_tmp_wid;
 					$n_prob_list[$n_count] = '';
 					$n_time_list[$n_count] = $n_check_obj[0]->timestamp;
+					$n_weekcount_list[$n_count] = $n_check_obj[0]->weekcount;
+					$n_weekday_list[$n_count] = PublicMethod::translate_weekday($n_check_obj[0]->weekday);
 				
 					// 获取常检课室
 					$n_worker_obj = $this->Moa_worker_model->get($n_tmp_wid);
@@ -408,6 +409,8 @@ Class DailyReview extends CI_Controller {
 							$n_wid_list[$n_count] = $n_tmp_wid;
 							$n_prob_list[$n_count] = '';
 							$n_time_list[$n_count] = $n_check_obj[$j]->timestamp;
+							$n_weekcount_list[$n_count] = $n_check_obj[$j]->weekcount;
+							$n_weekday_list[$n_count] = PublicMethod::translate_weekday($n_check_obj[$j]->weekday);
 							$n_worker_obj = $this->Moa_worker_model->get($n_tmp_wid);
 							$n_room_list[$n_count] = $n_worker_obj->classroom;
 							$n_user_obj = $this->Moa_user_model->get($n_worker_obj->uid);
@@ -424,8 +427,8 @@ Class DailyReview extends CI_Controller {
 				
 					// 装载前端所需数据
 					$data['n_count'] = $n_count + 1;
-					$data['n_weekcount'] = $weekcount;
-					$data['n_weekday'] = $weekday_desc;
+					$data['n_weekcount_list'] = $n_weekcount_list;
+					$data['n_weekday_list'] = $n_weekday_list;
 					$data['n_name_list'] = $n_name_list;
 					$data['n_room_list'] = $n_room_list;
 					$data['n_prob_list'] = $n_prob_list;
@@ -450,6 +453,8 @@ Class DailyReview extends CI_Controller {
 					$e_wid_list[$e_count] = $e_tmp_wid;
 					$e_prob_list[$e_count] = '';
 					$e_time_list[$e_count] = $e_check_obj[0]->timestamp;
+					$e_weekcount_list[$e_count] = $e_check_obj[0]->weekcount;
+					$e_weekday_list[$e_count] = PublicMethod::translate_weekday($e_check_obj[0]->weekday);
 				
 					// 获取常检课室
 					$e_worker_obj = $this->Moa_worker_model->get($e_tmp_wid);
@@ -467,6 +472,8 @@ Class DailyReview extends CI_Controller {
 							$e_wid_list[$e_count] = $e_tmp_wid;
 							$e_prob_list[$e_count] = '';
 							$e_time_list[$e_count] = $e_check_obj[$k]->timestamp;
+							$e_weekcount_list[$e_count] = $e_check_obj[$k]->weekcount;
+							$e_weekday_list[$e_count] = PublicMethod::translate_weekday($e_check_obj[$k]->weekday);
 							$e_worker_obj = $this->Moa_worker_model->get($e_tmp_wid);
 							$e_room_list[$e_count] = $e_worker_obj->classroom;
 							$e_user_obj = $this->Moa_user_model->get($e_worker_obj->uid);
@@ -483,8 +490,8 @@ Class DailyReview extends CI_Controller {
 				
 					// 装载前端所需数据
 					$data['e_count'] = $e_count + 1;
-					$data['e_weekcount'] = $weekcount;
-					$data['e_weekday'] = $weekday_desc;
+					$data['e_weekcount_list'] = $e_weekcount_list;
+					$data['e_weekday_list'] = $e_weekday_list;
 					$data['e_name_list'] = $e_name_list;
 					$data['e_room_list'] = $e_room_list;
 					$data['e_prob_list'] = $e_prob_list;
