@@ -34,6 +34,31 @@ Class WeeklyReview extends CI_Controller {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
+			
+			// 取所有课室的roomid与room（课室编号）
+			$state = 0;
+			$room_obj_list = $this->Moa_room_model->get_by_state($state);
+				
+			for ($i = 0; $i < count($room_obj_list); $i++) {
+				$roomid_list[$i] = $room_obj_list[$i]->roomid;
+				$room_list[$i] = $room_obj_list[$i]->room;
+			}
+				
+			$data['roomid_list'] = $roomid_list;
+			$data['room_list'] = $room_list;
+				
+			// 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
+			$level = 0;
+			$common_worker = $this->Moa_user_model->get_by_level($level);
+				
+			for ($i = 0; $i < count($common_worker); $i++) {
+				$uid_list[$i] = $common_worker[$i]->uid;
+				$name_list[$i] = $common_worker[$i]->name;
+				$wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
+			}
+				
+			$data['name_list'] = $name_list;
+			$data['wid_list'] = $wid_list;
 				
 			// 周一为一周的第一天
 			$weekcount = PublicMethod::cal_week();
