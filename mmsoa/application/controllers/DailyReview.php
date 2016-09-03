@@ -282,7 +282,7 @@ Class DailyReview extends CI_Controller {
 				$post_end_time = $_POST['end_time'];
 				$post_actual_wid = $_POST['actual_wid'];
 				$post_roomid = $_POST['roomid'];
-				// 处理起始时间，开始时间处理为当天00:00:00，结束时间处理为第二天00:00:00
+				// 字符串转时间格式
 				$query_start_time = date('Y-m-d H:i:s', strtotime($post_start_time));
 				$query_end_time = date('Y-m-d H:i:s', strtotime($post_end_time));
 				$actual_wid = $post_actual_wid;
