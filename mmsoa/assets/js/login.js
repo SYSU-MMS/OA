@@ -20,8 +20,8 @@ $("#fetch-btn").click(function() {
 		type: 'post', 
 		url: 'Login/loginValidation',
 		data: {
-			username: un,
-			password: pw,
+			"username": un,
+			"password": pw,
 		},
 		success: function(msg) {
 			ret = JSON.parse(msg);

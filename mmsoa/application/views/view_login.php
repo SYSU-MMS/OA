@@ -20,9 +20,6 @@
     <!--[if lt IE 8]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
-    <script>
-        if(window.top!==window.self){window.top.location=window.location};
-    </script>
 
 </head>
 
