@@ -9,8 +9,8 @@ function rewardButton(widStr) {
 			"<div class='form-group'>" +
 	        	"<div class='col-sm-7 col-sm-offset-2'>" +
 	        		"<span id='timeAjustArea' class='input-group-btn'>" +
-	        			"<input type='text' id='rewardTime_" + wid + "' name='rewardTime' class='form-control' placeholder='请输入要奖励的工时数'/>" +
-	        			"<button type='button' id='reward_" + wid + "' name='reward' class='btn btn-primary' onclick='toReward(this.id)'> 奖励 </button>" +
+	        			"<input type='text' id='rewardTime_" + wid + "' name='rewardTime' class='form-control' placeholder='请输入要增加的工时数'/>" +
+	        			"<button type='button' id='reward_" + wid + "' name='reward' class='btn btn-primary' onclick='toReward(this.id)'> 增加 </button>" +
 	        		"</span>" +
 	        	"</div>" +
 	        "</div>" +

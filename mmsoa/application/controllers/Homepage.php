@@ -40,7 +40,6 @@ Class Homepage extends CI_Controller {
 			$user_obj = $this->Moa_user_model->get($uid);
 			$name = $user_obj->name;
 			$avatar = $user_obj->avatar;
-			
 			// 添加新留言
 			if (isset($_POST['post_content'])) {
 				// state：0-正常  1-已删除
@@ -56,7 +55,7 @@ Class Homepage extends CI_Controller {
 				} else {
 					$splited_date = PublicMethod::splitDate($timestamp);
 					echo json_encode(array("status" => TRUE, "msg" => "留言成功", "name" => $name, "avatar" => $avatar, 
-							"splited_date" => $splited_date, "bpid" => $bpid, "base_url" => base_url()));
+							"splited_date" => $splited_date, "bpid" => $bpid, "base_url" => base_url(), "site_url" => site_url(), "myid" => $uid));
 					return;
 				}
 			}
@@ -89,7 +88,7 @@ Class Homepage extends CI_Controller {
 				} else {
 					$splited_date = PublicMethod::splitDate($timestamp);
 					echo json_encode(array("status" => TRUE, "msg" => "评论成功", "name" => $name, "avatar" => $avatar, 
-							"splited_date" => $splited_date, "mbcid" => $mbcid, "base_url" => base_url()));
+							"splited_date" => $splited_date, "mbcid" => $mbcid, "base_url" => base_url(), "site_url" => site_url(), "myid" => $uid));
 					return;
 				}
 			}
@@ -132,6 +131,7 @@ Class Homepage extends CI_Controller {
 					$tmp_post_avatar = $tmp_post_user_obj->avatar;
 					
 					// 前端渲染所用数据
+                    $post_list[$i]['myid'] = $tmp_post_uid;
 					$post_list[$i]['bpid'] = $tmp_post_bpid;
 					$post_list[$i]['bptimestamp'] = $tmp_post_bptimestamp;
 					$post_list[$i]['body'] = $tmp_post_body;
@@ -156,6 +156,7 @@ Class Homepage extends CI_Controller {
 							$tmp_comment_avatar = $tmp_comment_user_obj->avatar;
 						
 							// 前端渲染所用数据
+                            $comment_list[$i][$j]['myid'] = $tmp_comment_uid;
 							$comment_list[$i][$j]['body'] = $tmp_comment_body;
 							$comment_list[$i][$j]['name'] = $tmp_comment_name;
 							$comment_list[$i][$j]['avatar'] = $tmp_comment_avatar;
@@ -165,7 +166,7 @@ Class Homepage extends CI_Controller {
 					}
 				}
 				echo json_encode(array("status" => TRUE, "msg" => "获取留言与评论成功", "cur_avatar" => $cur_avatar, "base_url" => base_url(), 
-						"post_list" => $post_list, "comment_list" => $comment_list));
+						"site_url" => site_url(), "post_list" => $post_list, "comment_list" => $comment_list));
 				return;
 			}
 		}

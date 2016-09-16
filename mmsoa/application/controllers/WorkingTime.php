@@ -96,8 +96,8 @@ Class WorkingTime extends CI_Controller {
 	 */
 	public function perWorkingTime() {
 		if (isset($_SESSION['user_id'])) {
-			// 检查权限: 0-普通助理 1-组长 2-负责人助理 3-助理负责人  6-超级管理员                            
-			if ($_SESSION['level'] != 0 && $_SESSION['level'] != 1 && 
+			// 检查权限: -1-离职人员 0-普通助理 1-组长 2-负责人助理 3-助理负责人  6-超级管理员                            
+			if ($_SESSION['level'] != -1 && $_SESSION['level'] != 0 && $_SESSION['level'] != 1 &&
 					$_SESSION['level'] != 2 && $_SESSION['level'] != 3 && $_SESSION['level'] != 6) {
 				// 提示权限不够
 				PublicMethod::permissionDenied();

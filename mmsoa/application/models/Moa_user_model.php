@@ -298,7 +298,7 @@ class Moa_user_model extends CI_Model {
 	 */
 	public function login_check($username, $password) {
 		if (isset($username) and isset($password)) {
-			$sb = 'SELECT username, password FROM MOA_User WHERE state = 0 AND username = "' . $username . '" AND password = "' . $password . '"';
+			$sb = 'SELECT username, password FROM MOA_User WHERE (state = 0 OR state = 3) AND username = "' . $username . '" AND password = "' . $password . '"';
 			$sqlquery = $this->db->query($sb);
 			$dataarr = $sqlquery->result();
 			if (count($dataarr) == 0) {

@@ -102,7 +102,7 @@
 	                                            <td>
 		                                            <button type="button" data-toggle="modal" data-target="#myModal" id="<?php echo 'reward_button_' . $wid_list[$i]; ?>" 
 		                                            name="reward_button" class="btn btn-xs btn-primary" onclick="rewardButton(this.id);">
-		                                            	奖励
+		                                            	增加
 		                                            </button>
 		                                            <button type="button" data-toggle="modal" data-target="#myModal" id="<?php echo 'penalty_button_' . $wid_list[$i]; ?>" 
 		                                            name="penalty_button" class="btn btn-xs btn-danger" onclick="penaltyButton(this.id);">

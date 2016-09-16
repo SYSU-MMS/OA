@@ -51,7 +51,7 @@ $("#post-btn").click(function() {
 						"<div class='social-avatar'><a href=''><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'></a></div>" +
 						"<div class='social-feed-box'>" +
 							"<div class='social-avatar'>" +
-								"<a href='#'>" + ret['name'] + "</a>" +
+								"<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" +
 							"</div>" +
 							"<div class='social-body'>" +
 								post_content +
@@ -121,7 +121,7 @@ $("body").on("click", ".comment-btn", function(){
 							"<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
 						"</a>" +
 						"<div class='media-body'>" +
-							"<a href='#'>" + ret['name'] + "</a>： " + comment_content + "<br/>" +
+                            "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>： " + comment_content + "<br/>" +
 							"<small class='text-muted'> " + ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
 							ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] + "</small>" +
 						"</div>" +
@@ -165,7 +165,8 @@ $("#more_posts").bind("getPostComment", function(event, base_date) {
 							"<div class='social-avatar'><a href=''><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['post_list'][i]['avatar'] + "'></a></div>" +
 							"<div class='social-feed-box'>" +
 								"<div class='social-avatar'>" +
-									"<a href='#'>" + ret['post_list'][i]['name'] + "</a>" +
+                                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['post_list'][i]['myid'] + "'>" + ret['post_list'][i]['name'] +
+									"</a>" +
 								"</div>" +
 								"<div class='social-body'>" +
 									ret['post_list'][i]['body'] +
@@ -196,7 +197,8 @@ $("#more_posts").bind("getPostComment", function(event, base_date) {
 										"<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['comment_list'][i][j]['avatar'] + "'>" +
 									"</a>" +
 									"<div class='media-body'>" +
-										"<a href='#'>" + ret['comment_list'][i][j]['name'] + "</a>： " + ret['comment_list'][i][j]['body'] + "<br/>" +
+                                        "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['comment_list'][i][j]['myid'] + "'>"
+                                        + ret['comment_list'][i][j]['name'] + "</a>： " + ret['comment_list'][i][j]['body'] + "<br/>" +
 										"<small class='text-muted'> " + ret['comment_list'][i][j]['splited_date']['month'] + "月" + ret['comment_list'][i][j]['splited_date']['day'] + "日 " +
 										ret['comment_list'][i][j]['splited_date']['hour'] + ":" + ret['comment_list'][i][j]['splited_date']['minute'] + "</small>" +
 									"</div>" +

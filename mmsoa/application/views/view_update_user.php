@@ -85,6 +85,7 @@
                                         		<option value="3">助理负责人</option>
                                         		<option value="4">管理员</option>
                                         		<option value="5">办公室负责人</option>
+                                                <option value="-1">离职人员</option>
                                         	</select>
                                         </div>
                                     </div>
@@ -98,6 +99,12 @@
 										        <input type="radio" value="2" id="group_B" name="group_radio"> B 组</label>
 										    <label class="radio-inline" style="font-size: 14px;">
 										        <input type="radio" value="3" id="group_C" name="group_radio"> C 组</label>
+                                            <label class="radio-inline" style="font-size: 14px;">
+										        <input type="radio" value="4" id="group_P" name="group_radio"> 拍摄</label>
+                                            <label class="radio-inline" style="font-size: 14px;">
+										        <input type="radio" value="5" id="group_W" name="group_radio"> 网页</label>
+                                            <label class="radio-inline" style="font-size: 14px;">
+										        <input type="radio" value="5" id="group_X" name="group_radio"> 系统</label>
 										</div>
 									</div>
                                     
@@ -274,6 +281,20 @@
                 radioClass: 'iradio_square-green',
             });
             
+            $('#group_P').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+            
+            $('#group_W').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+            
+            $('#group_X').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
 
             /* Calendar */
             $('#calendar_date .input-group.date').datepicker({

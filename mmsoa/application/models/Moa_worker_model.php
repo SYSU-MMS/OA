@@ -82,7 +82,26 @@ class Moa_worker_model extends CI_Model {
 			return false;
 		}
 	}
-
+    
+    /**
+	 * 取指定wid的用户组别
+	 * @param wid - 助理wid
+	 * @return 组别编号
+	 */
+	public function get_groupid($wid) {
+		if (isset($wid)) {
+			$this->db->where(array('wid'=>$wid));
+			$dataarr = $this->db->get('MOA_Worker')->result();
+			if (is_null($dataarr[0])) {
+				return false;
+			}
+			return $dataarr[0]->group;
+		}
+		else {
+			return false;
+		}
+	}
+    
     /**
 	 * 取指定uid对应的wid
 	 * @param uid - 用户id

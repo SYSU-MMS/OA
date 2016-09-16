@@ -87,8 +87,9 @@ Class UserManagement extends CI_Controller {
 			$username_list = array();
 			$level_arr = array(0, 1, 2, 3, 4, 5);
 			$state = 0;
-			$user_obj_list = $this->Moa_user_model->get_by_multiple_level($level_arr, $state);
-			
+			$user_obj_list_on = $this->Moa_user_model->get_by_multiple_level($level_arr, $state);
+			$user_obj_list_leave = $this->Moa_user_model->get_by_multiple_level(array(-1), 3);
+            $user_obj_list = array_merge($user_obj_list_on, $user_obj_list_leave);
 			if ($user_obj_list != FALSE) {
 				for ($i = 0; $i < count($user_obj_list); $i++) {
 					$userid_list[$i] = $user_obj_list[$i]->uid;
@@ -112,17 +113,17 @@ Class UserManagement extends CI_Controller {
 	 */
 	public function searchUser() {
 		if (isset($_SESSION['user_id'])) {
-			// state: 0-正常  1-锁定  2-已删除
+			// state: 0-正常  1-锁定  2-已删除  3-离职
 			$state = 0;
 			// 取状态为正常的所有用户
 			$users = $this->Moa_user_model->get_by_state($state);
 			// 获取普通助理的常检周检课室列表
 			$workers = array();
 			for ($i = 0; $i < count($users); $i++) {
-				if ($users[$i]->level == 0) {
-					$tmp_wid = $this->Moa_worker_model->get_wid_by_uid($users[$i]->uid);
-					$workers[$i] = $this->Moa_worker_model->get($tmp_wid);
-				}
+				//if ($users[$i]->level == 0) {
+			    $tmp_wid = $this->Moa_worker_model->get_wid_by_uid($users[$i]->uid);
+				$workers[$i] = $this->Moa_worker_model->get($tmp_wid);
+				//}
 			}
 			$data['users'] = $users;
 			$data['workers'] = $workers;
@@ -149,10 +150,10 @@ Class UserManagement extends CI_Controller {
 							$user_paras['name'] = $_POST['name'];
 							$user_paras['level'] = $_POST['level'];
 							$user_paras['indate'] = $_POST['indate'];
-							// state: 0-正常  1-锁定  2-已删除
-							$user_paras['state'] = 0;
+							// state: 0-正常  1-锁定  2-已删除  3-离职
+							$user_paras['state'] = $_POST['level'] == -1 ? 3 : 0;
 							$uid = $this->Moa_user_model->add($user_paras);
-							
+
 							if ($uid != FALSE) {
 								// 插入Moa_Worker表
 								$worker_paras['uid'] = $uid;
@@ -168,9 +169,9 @@ Class UserManagement extends CI_Controller {
 										$worker_paras['classroom'] = $_POST['classroom'];
 										$worker_paras['week_classroom'] = $_POST['week_classroom'];
 									}
-								// 非普通助理用户的组别为N
+								// 非普通助理用户的组别为管理
 								} else {
-									$worker_paras['group'] = 0;
+									$worker_paras['group'] = 7;
 								}
 								$wid = $this->Moa_worker_model->add($worker_paras);
 										
@@ -233,6 +234,13 @@ Class UserManagement extends CI_Controller {
 							if ($user_paras['level'] == "9") {
 								$user_paras['level'] = $update_user_obj->level;
 							}
+                            
+                            // 离职标记
+                            if ($user_paras['level'] == "-1") {
+                                $user_paras['state'] = 3;
+                            } else {
+                                $user_paras['state'] = 0;
+                            }
 							
 							$user_paras['indate'] = $_POST['indate'];
 							if ($user_paras['indate'] == NULL) {
@@ -267,9 +275,9 @@ Class UserManagement extends CI_Controller {
 											$worker_paras['week_classroom'] = $update_worker_obj->week_classroom;
 										}
 									}
-									// 非普通助理用户的组别为N
+									// 非普通助理用户的组别为管理
 								} else {
-									$worker_paras['group'] = 0;
+									$worker_paras['group'] = 7;
 								}
 								$worker_affected_rows = $this->Moa_worker_model->update($update_wid, $worker_paras);
 	

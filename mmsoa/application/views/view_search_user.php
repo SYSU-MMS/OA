@@ -77,9 +77,10 @@
                                         <tr>
                                         	<th>序号</th>
                                             <th>姓名</th>
+                                            <th>性别</th>
                                             <th>职务</th>
+                                            <th>组别</th>
                                             <th>手机</th>
-                                            <th>短号</th>
                                             <th>常检课室</th>
                                             <th>周检课室</th>
                                             <th>操作</th>
@@ -93,7 +94,8 @@
                                     	?>
 	                                        <tr>
 	                                        	<td><?php echo $i; ?></td>
-	                                            <td><?php echo $users[$i]->name; ?></td>
+                                                <td><?php echo('<a href="' . site_url() . '/PersonalData/showOthersPersonalData/' . $users[$i]->uid . '">' . $users[$i]->name . '</a>'); ?></td>
+                                                <td><?php echo($users[$i]->sex == 0 ? '男':'女'); ?></td>
 	                                            <td>
 	                                            	<?php 
 	                                            		switch ($users[$i]->level) {
@@ -107,29 +109,38 @@
 	                                            		}
 	                                            	 ?>
 	                                            </td>
+                                                <td>
+	                                            	<?php 
+	                                            		switch ($workers[$i]->group) {
+	                                            			case 0: echo 'N'; break;
+	                                            			case 1: echo 'A'; break;
+	                                            			case 2: echo 'B'; break;
+	                                            			case 3: echo 'C'; break;
+	                                            			case 4: echo '拍摄'; break;
+	                                            			case 5: echo '网页'; break;
+	                                            			case 6: echo '系统'; break;
+                                                            case 7: echo '管理'; break;
+	                                            		}
+	                                            	 ?>
+	                                            </td>
 	                                            <td><?php echo $users[$i]->phone; ?></td>
-	                                            <td><?php echo $users[$i]->shortphone; ?></td>
 	                                            <td>
 	                                            	<?php 
-	                                            		switch ($users[$i]->level) {
-	                                            			case 0: echo str_replace(',', ' ', $workers[$i]->classroom); break;
-	                                            			case 1: echo '无'; break;
-	                                            			case 2: echo '无'; break;
-	                                            			case 3: echo '无'; break;
-	                                            			case 4: echo '无'; break;
-	                                            			case 5: echo '无'; break;
+	                                            		switch ($workers[$i]->group) {
+                                                            case 0: echo str_replace(',', ' ', $workers[$i]->classroom); break;
+	                                            			case 1: echo str_replace(',', ' ', $workers[$i]->classroom); break;
+                                                            case 2: echo str_replace(',', ' ', $workers[$i]->classroom); break;
+	                                            			default: echo '无'; break;
 	                                            		}
 	                                            	 ?>
 	                                            </td>
 	                                            <td>
 	                                            	<?php 
-	                                            		switch ($users[$i]->level) {
+	                                            		switch ($workers[$i]->group) {
 	                                            			case 0: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
-	                                            			case 1: echo '无'; break;
-	                                            			case 2: echo '无'; break;
-	                                            			case 3: echo '无'; break;
-	                                            			case 4: echo '无'; break;
-	                                            			case 5: echo '无'; break;
+                                                            case 1: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
+                                                            case 2: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
+	                                            			default: echo '无'; break;
 	                                            		}
 	                                            	 ?>
 	                                            </td>
@@ -165,8 +176,12 @@
 	        <div class="modal-dialog">
 	            <div class="modal-content">
 	            	<div class="modal-header">
-	            		<h4 class='modal-title' id="modal_header" style='text-align: center'><?php echo $users[$i]->name; ?> - 详细信息</h4>
+	            		<h4 class='modal-title' id="modal_header" style='text-align: center'><?php echo($users[$i]->name . ' (' . ($users[$i]->sex == 0 ? '男':'女') .')'); ?> - 详细信息</h4>
 	                </div>
+                    <br>
+                    <div class="col-sm-offset-5">
+		            	&nbsp;&nbsp;&nbsp;&nbsp;<img alt="image" id="nav-avatar" class="img-circle" src="<?=base_url() . 'upload/avatar/' . $users[$i]->avatar ?>" />
+		            </div>
 	                <div class="modal-body">
 	                    <div class="row">
 	                    
@@ -174,6 +189,7 @@
 	                                <div class="list-group-item">
 	                                    <h3 class="list-group-item-heading">用户名</h3>
 	                                    <p class="list-group-item-text" id="info_username"><?php echo $users[$i]->username; ?></p>
+                                        </p>
 	                                </div>
 	
 	                                <div class="list-group-item">

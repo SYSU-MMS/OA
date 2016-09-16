@@ -107,10 +107,27 @@ Class PublicMethod extends CI_Controller {
 			case 4: $level_name = '管理员'; break;
 			case 5: $level_name = '办公室负责人'; break;
 			case 6: $level_name = '超级管理员'; break;
+            case -1: $level_name = '贵宾'; break;
 		}
 		return $level_name;
 	}
 	
+    /**
+	 * 将用户状态的数据库标识解析为状态名称
+	 * @param $state 状态码
+	 * @return 对应的职务名称
+	 */
+	public static function translate_state($state) {
+		$state_name = '';
+		switch ($state) {
+			case 0: $state_name = '在岗'; break;
+			case 1: $state_name = '封停'; break;
+			case 2: $state_name = '已删除'; break;
+			case 3: $state_name = '离职'; break;
+		}
+		return $state_name;
+	}
+    
 	/**
 	 * 将星期的数据库标识解析为中文
 	 * @param weekday_num 星期的数据库数字标号
@@ -141,6 +158,11 @@ Class PublicMethod extends CI_Controller {
 			case 0: $group_desc = 'N'; break;
 			case 1: $group_desc = 'A'; break;
 			case 2: $group_desc = 'B'; break;
+            case 3: $group_desc = 'C'; break;
+            case 4: $group_desc = '拍摄'; break;
+            case 5: $group_desc = '网页'; break;
+            case 6: $group_desc = '系统'; break;
+            case 7: $group_desc = '管理'; break;
 		}
 		return $group_desc;
 	}

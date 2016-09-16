@@ -117,7 +117,7 @@
 		                    '</li>' . 
 		                '</ul>' . 
 		            '</li>';
-		        } else if ($_SESSION['level'] == 0 || $_SESSION['level'] == 1) { echo
+		        } else if ($_SESSION['level'] == 0 || $_SESSION['level'] == 1 || $_SESSION['level'] == -1) { echo
 		            '<li id="active-timeStatistics">' .
 		            	'<a href="'. site_url('WorkingTime/perWorkingTime') . '"><i class="fa fa-rmb"></i> <span class="nav-label"> &nbsp;我的工时</span></a>' .
 		            '</li>';

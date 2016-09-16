@@ -66,6 +66,16 @@
                                     </div>
                                     
                                     <div class="form-group">
+                                        <label class="col-sm-2 col-sm-offset-1 control-label">性别</label>
+                                        <div class="col-sm-2">
+                                        	<label class="radio-inline radio-font-size">
+										        <input type="radio" <?php echo($personal_data->sex == 0 ? 'checked=""' : ''); ?> value="0" id="sex_boy" name="pd_sex"> 男</label>
+										    <label class="radio-inline radio-font-size">
+										        <input type="radio" <?php echo($personal_data->sex == 0 ? '' : 'checked=""'); ?> value="1" id="sex_girl" name="pd_sex"> 女</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
                                         <label class="col-sm-2 col-sm-offset-1 control-label">职务</label>
                                         <div class="col-sm-2">
                                             <input type="text" name="pd_level" placeholder="请输入职务" disabled="" 
@@ -186,6 +196,12 @@
     <!-- Dynamic date -->
     <script src="<?=base_url().'assets/js/dynamicDate.js' ?>"></script>
     
+    <!-- iCheck -->
+    <script src="<?=base_url().'assets/js/plugins/iCheck/icheck.min.js' ?>"></script>
+
+    <!-- Input Mask-->
+    <script src="<?=base_url().'assets/js/plugins/jasny/jasny-bootstrap.min.js' ?>"></script>
+    
     <!-- Jquery Validate -->
     <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/jquery.validate.min.js' ?>"></script>
     <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/messages_zh.min.js' ?>"></script>
@@ -234,6 +250,20 @@
                         maxlength: 19
                     }
                 }
+            });
+            
+        });
+        
+        $(document).ready(function () {
+        	 /* Radio */
+        	 $('#sex_boy').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+             
+            $('#sex_girl').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
             });
             
         });
