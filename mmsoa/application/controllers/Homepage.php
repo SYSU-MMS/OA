@@ -109,8 +109,8 @@ Class Homepage extends CI_Controller {
 					$base_date = date('Y-m-d H:i:s');
 				}
 				$post_state = 0;
-				$post_num = 10;
-				// 每次最多取指定时间之前的10条留言
+				$post_num = 15;
+				// 每次最多取指定时间之前的15条留言
 				$post_obj_list = $this->Moa_mmsboard_model->get_by_date($base_date, $post_state, $post_num);
 				
 				if (empty($post_obj_list)) {
