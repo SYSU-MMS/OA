@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="renderer" content="webkit">
 
-    <title>MOA-查看早检情况</title>
+    <title>MOA-查看常检情况</title>
     <?php $this->load->view('view_keyword'); ?>
     
     <link href="<?=base_url().'assets/images/moa.ico' ?>" rel="shortcut icon">

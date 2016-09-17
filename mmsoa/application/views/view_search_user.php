@@ -35,10 +35,11 @@
 </head>
 
 <body onload="startTime()">
+    <!-- 主部 -->
     <div id="wrapper">
         <?php $this->load->view('view_nav'); ?>
-
         <div id="page-wrapper" class="gray-bg dashbard-1">
+            <!-- 头部 -->
             <?php $this->load->view('view_header'); ?>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
@@ -63,105 +64,232 @@
 
                 </div>
             </div>
+            
+            <!-- 主内容 -->
             <div class="wrapper wrapper-content animated fadeInRight">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>通讯录</h5>
+                <div class="panel blank-panel">
+                    <div class="ibox-content">
+                        <div class="panel-heading">
+                            <div class="panel-options">
+                                <ul class="nav nav-tabs">
+                                    <li id="m_active" class="active"><a data-toggle="tab" href="tabs_panels.html#onwork">在岗员工</a>
+                                    </li>
+                                    <li id="n_active"><a data-toggle="tab" href="tabs_panels.html#allusr">全体用户</a>
+                                    </li>
+                                    <li id="e_active"><a data-toggle="tab" href="tabs_panels.html#stars">名人堂</a>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="ibox-content">
-                                
-                                <table class="table table-striped table-bordered table-hover users-dataTable">
-                                    <thead>
-                                        <tr>
-                                        	<th>序号</th>
-                                            <th>姓名</th>
-                                            <th>性别</th>
-                                            <th>职务</th>
-                                            <th>组别</th>
-                                            <th>手机</th>
-                                            <th>常检课室</th>
-                                            <th>周检课室</th>
-                                            <th>操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    	<?php for ($i = 0; $i < count($users); $i++) { 
-                                    		if ($users[$i]->level == 6) {
-                                    			continue;
-                                    		}
-                                    	?>
-	                                        <tr>
-	                                        	<td><?php echo $i; ?></td>
-                                                <td><?php echo('<a href="' . site_url() . '/PersonalData/showOthersPersonalData/' . $users[$i]->uid . '">' . $users[$i]->name . '</a>'); ?></td>
-                                                <td><?php echo($users[$i]->sex == 0 ? '男':'女'); ?></td>
-	                                            <td>
-	                                            	<?php 
-	                                            		switch ($users[$i]->level) {
-	                                            			case 0: echo '普通助理'; break;
-	                                            			case 1: echo '组长'; break;
-	                                            			case 2: echo '负责人助理'; break;
-	                                            			case 3: echo '助理负责人'; break;
-	                                            			case 4: echo '管理员'; break;
-	                                            			case 5: echo '办公室负责人'; break;
-	                                            			case 6: echo '超级管理员'; break;
-	                                            		}
-	                                            	 ?>
-	                                            </td>
-                                                <td>
-	                                            	<?php 
-	                                            		switch ($workers[$i]->group) {
-	                                            			case 0: echo 'N'; break;
-	                                            			case 1: echo 'A'; break;
-	                                            			case 2: echo 'B'; break;
-	                                            			case 3: echo 'C'; break;
-	                                            			case 4: echo '拍摄'; break;
-	                                            			case 5: echo '网页'; break;
-	                                            			case 6: echo '系统'; break;
-                                                            case 7: echo '管理'; break;
-	                                            		}
-	                                            	 ?>
-	                                            </td>
-	                                            <td><?php echo $users[$i]->phone; ?></td>
-	                                            <td>
-	                                            	<?php 
-	                                            		switch ($workers[$i]->group) {
-                                                            case 0: echo str_replace(',', ' ', $workers[$i]->classroom); break;
-	                                            			case 1: echo str_replace(',', ' ', $workers[$i]->classroom); break;
-                                                            case 2: echo str_replace(',', ' ', $workers[$i]->classroom); break;
-	                                            			default: echo '无'; break;
-	                                            		}
-	                                            	 ?>
-	                                            </td>
-	                                            <td>
-	                                            	<?php 
-	                                            		switch ($workers[$i]->group) {
-	                                            			case 0: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
-                                                            case 1: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
-                                                            case 2: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
-	                                            			default: echo '无'; break;
-	                                            		}
-	                                            	 ?>
-	                                            </td>
-	                                            <td>
-	                                            	<button type="button" data-toggle="modal" href="<?php echo 'searchuser#modal-form' . $i; ?>" id="<?php echo $i; ?>" name="more_info"
-	                                            	class="btn btn-xs btn-outline btn-default" value="<?php echo $i; ?>" onclick="showMore(event);" style="margin-bottom: -5px;">更多信息</button>
-	                                            	<?php 
-		                                            	// 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
-		                                            	if ($_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
-		                                            		echo '<button type="button" data-toggle="modal" data-target="#myModal" id="' .  $users[$i]->uid . '" name="delete"' . ' style="display: none;"' . 
-		                                            			'class="btn btn-xs btn-outline btn-danger" value="' . $users[$i]->uid . '" onclick="setId(this.id);" style="margin-bottom: -5px;"><i class="fa fa-close"></i><span> 移除</span></button>';
-		                                            	} else {
-		                                            		echo '<button type="button" data-toggle="modal" data-target="#myModal" id="' .  $users[$i]->uid . '" name="delete"' . 
-		                                            			'class="btn btn-xs btn-outline btn-danger" value="' . $users[$i]->uid . '" onclick="setId(this.id);" style="margin-bottom: -5px;"><i class="fa fa-close"></i><span> 移除</span></button>';
-		                                            	}
-	                                            	?>
-	                                            </td>
-	                                        </tr>
-	                                    <?php } ?>
-                                        </tbody>
-                                </table>
+                        </div>
+
+                        <div class="panel-body my-panel-body">
+                            <div class="tab-content">
+                                <div id="onwork" class="tab-pane active">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="ibox float-e-margins">
+                                                <table class="table table-striped table-bordered table-hover users-dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>序号</th>
+                                                            <th>姓名</th>
+                                                            <th>性别</th>
+                                                            <th>职务</th>
+                                                            <th>组别</th>
+                                                            <th>手机</th>
+                                                            <th>常检课室</th>
+                                                            <th>周检课室</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php for ($i = 0; $i < count($users); $i++) { 
+                                                            if ($users[$i]->level == 6) {
+                                                                continue;
+                                                            }
+                                                        ?>
+                                                            <tr>
+                                                                <td><?php echo $i; ?></td>
+                                                                <td><?php echo('<a href="' . site_url() . '/PersonalData/showOthersPersonalData/' . $users[$i]->uid . '">' . $users[$i]->name . '</a>'); ?></td>
+                                                                <td><?php echo($users[$i]->sex == 0 ? '男':'女'); ?></td>
+                                                                <td>
+                                                                    <?php 
+                                                                        switch ($users[$i]->level) {
+                                                                            case 0: echo '普通助理'; break;
+                                                                            case 1: echo '组长'; break;
+                                                                            case 2: echo '负责人助理'; break;
+                                                                            case 3: echo '助理负责人'; break;
+                                                                            case 4: echo '管理员'; break;
+                                                                            case 5: echo '办公室负责人'; break;
+                                                                            case 6: echo '超级管理员'; break;
+                                                                        }
+                                                                     ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php 
+                                                                        switch ($workers[$i]->group) {
+                                                                            case 0: echo 'N'; break;
+                                                                            case 1: echo 'A'; break;
+                                                                            case 2: echo 'B'; break;
+                                                                            case 3: echo 'C'; break;
+                                                                            case 4: echo '拍摄'; break;
+                                                                            case 5: echo '网页'; break;
+                                                                            case 6: echo '系统'; break;
+                                                                            case 7: echo '管理'; break;
+                                                                        }
+                                                                     ?>
+                                                                </td>
+                                                                <td><?php echo $users[$i]->phone; ?></td>
+                                                                <td>
+                                                                    <?php 
+                                                                        switch ($workers[$i]->group) {
+                                                                            case 0: echo str_replace(',', ' ', $workers[$i]->classroom); break;
+                                                                            case 1: echo str_replace(',', ' ', $workers[$i]->classroom); break;
+                                                                            case 2: echo str_replace(',', ' ', $workers[$i]->classroom); break;
+                                                                            default: echo '无'; break;
+                                                                        }
+                                                                     ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php 
+                                                                        switch ($workers[$i]->group) {
+                                                                            case 0: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
+                                                                            case 1: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
+                                                                            case 2: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
+                                                                            default: echo '无'; break;
+                                                                        }
+                                                                     ?>
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" data-toggle="modal" href="<?php echo 'searchuser#modal-form' . $i; ?>" id="<?php echo $i; ?>" name="more_info"
+                                                                    class="btn btn-xs btn-outline btn-default" value="<?php echo $i; ?>" onclick="showMore(event);" style="margin-bottom: -5px;">更多信息</button>
+                                                                    <?php 
+                                                                        // 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
+                                                                        if ($_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
+                                                                            echo '<button type="button" data-toggle="modal" data-target="#myModal" id="' .  $users[$i]->uid . '" name="delete"' . ' style="display: none;"' . 
+                                                                                'class="btn btn-xs btn-outline btn-danger" value="' . $users[$i]->uid . '" onclick="setId(this.id);" style="margin-bottom: -5px;"><i class="fa fa-close"></i><span> 移除</span></button>';
+                                                                        } else {
+                                                                            echo '<button type="button" data-toggle="modal" data-target="#myModal" id="' .  $users[$i]->uid . '" name="delete"' . 
+                                                                                'class="btn btn-xs btn-outline btn-danger" value="' . $users[$i]->uid . '" onclick="setId(this.id);" style="margin-bottom: -5px;"><i class="fa fa-close"></i><span> 移除</span></button>';
+                                                                        }
+                                                                    ?>
+                                                                </td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    
+                                <div id="allusr" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="ibox float-e-margins">
+                                                <table class="table table-striped table-bordered table-hover users-dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>序号</th>
+                                                            <th>姓名</th>
+                                                            <th>性别</th>
+                                                            <th>职务</th>
+                                                            <th>组别</th>
+                                                            <th>手机</th>
+                                                            <th>学院</th>
+                                                            <th>状态</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php for ($i = 0; $i < count($alusers); $i++) { 
+                                                            if ($alusers[$i]->level == 6) {
+                                                                continue;
+                                                            }
+                                                        ?>
+                                                            <tr>
+                                                                <td><?php echo $i; ?></td>
+                                                                <td><?php echo('<a href="' . site_url() . '/PersonalData/showOthersPersonalData/' . $alusers[$i]->uid . '">' . $alusers[$i]->name . '</a>'); ?></td>
+                                                                <td><?php echo($alusers[$i]->sex == 0 ? '男':'女'); ?></td>
+                                                                <td>
+                                                                    <?php 
+                                                                        switch ($alusers[$i]->level) {
+                                                                            case -1: echo '贵宾'; break;
+                                                                            case 0: echo '普通助理'; break;
+                                                                            case 1: echo '组长'; break;
+                                                                            case 2: echo '负责人助理'; break;
+                                                                            case 3: echo '助理负责人'; break;
+                                                                            case 4: echo '管理员'; break;
+                                                                            case 5: echo '办公室负责人'; break;
+                                                                            case 6: echo '超级管理员'; break;
+                                                                        }
+                                                                     ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php 
+                                                                        switch ($alworkers[$i]->group) {
+                                                                            case 0: echo 'N'; break;
+                                                                            case 1: echo 'A'; break;
+                                                                            case 2: echo 'B'; break;
+                                                                            case 3: echo 'C'; break;
+                                                                            case 4: echo '拍摄'; break;
+                                                                            case 5: echo '网页'; break;
+                                                                            case 6: echo '系统'; break;
+                                                                            case 7: echo '管理'; break;
+                                                                        }
+                                                                     ?>
+                                                                </td>
+                                                                <td><?php echo $alusers[$i]->phone; ?></td>
+                                                                <td><?php echo $alusers[$i]->school; ?></td>
+                                                                <td>
+                                                                    <?php 
+                                                                        switch ($alusers[$i]->state) {
+                                                                            case 0: echo '在岗'; break;
+                                                                            case 1: echo '封停'; break;
+                                                                            case 3: echo '离职'; break;
+                                                                        }
+                                                                     ?>
+                                                                </td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="stars" class="tab-pane" style="padding-bottom: 15px">
+                                    <?php
+                                        if ($_SESSION['level'] >= 3) {
+                                            echo('<div class="col-sm-12" style="text-align: right">');
+                                            echo('<h3><a href="' . site_url() . '/UserManagement/addStarMember">添加</a></h3>');
+                                            echo('</div>');
+                                            echo('<br/>');
+                                        }
+                                    ?>
+                                    <?php
+                                        $maxLen = count($starobj);
+                                        $maxLine = ceil($maxLen / 2.0);
+                                        for ($i = 0; $i < $maxLen; $i++) {
+                                            echo('<div class="col-sm-6 clearfix" style="margin-bottom:5px">');
+                                            echo('<img alt="image" id="nav-avatar" class="img-circle pull-left" style="margin-right: 15px" src="' . base_url() . 'upload/avatar/' . $starusrobj[$i]->avatar . '" />');
+                                            echo('<div style="margin-top: 5px; height: 65px">');
+                                            echo('<a href="' . site_url() . '/PersonalData/showOthersPersonalData/' . $starusrobj[$i]->uid . '"><b>' . $starusrobj[$i]->name . '</b></a>');
+                                            if ($_SESSION['level'] >= 3) {
+                                                echo('&nbsp;&nbsp;&nbsp;&nbsp;');
+                                                echo('<a href="' . site_url() . '/UserManagement/deleteStarInfo/' . $starobj[$i]->starid . '">删除</a>');
+                                            }
+                                            echo('<br/>');
+                                            echo($starobj[$i]->description);
+                                            echo('</div>');
+                                            echo('<br/>');
+                                            if (ceil(($i + 1) / 2.0) != $maxLine) {
+                                                echo('<div class="hr-line-dashed" style="margin: 10px"></div>');
+                                            }
+                                            echo('</div>');
+                                        }
+                                    ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -171,6 +299,7 @@
         </div>
     </div>
     
+    <!-- 弹出的详细框 -->
     <?php for ($i = 0; $i < count($users); $i++) { ?>
 	    <div id="<?php echo 'modal-form' . $i; ?>" class="modal fade" aria-hidden="true">
 	        <div class="modal-dialog">
@@ -227,6 +356,7 @@
 	    </div>
     <?php } ?>
     
+    <!-- 弹出的抛弃用户框 -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 10;">
 	    <div class="modal-dialog">
 	        <div class="modal-content">

@@ -120,6 +120,25 @@ class Moa_worker_model extends CI_Model {
 			return false;
 		}
 	}
+    
+    /**
+	 * 取指定wid对应的uid
+	 * @param wid - 工号wid
+	 * @return 用户号uid
+	 */
+	public function get_uid_by_wid($wid) {
+		if (isset($wid)) {
+			$this->db->where(array('wid'=>$wid));
+			$dataarr = $this->db->get('MOA_Worker')->result();
+			if (is_null($dataarr[0])) {
+				return false;
+			}
+			return $dataarr[0]->uid;
+		}
+		else {
+			return false;
+		}
+	}
 
 	/**
 	 * 返回某用户的level
