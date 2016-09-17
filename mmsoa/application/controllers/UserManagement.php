@@ -226,6 +226,7 @@ Class UserManagement extends CI_Controller {
 										$worker_paras['classroom'] = $_POST['classroom'];
 										$worker_paras['week_classroom'] = $_POST['week_classroom'];
 									}
+                                }
 								// 离职人员都是N组
                                 else if ($_POST['level'] == -1) {
                                     $worker_paras['group'] = 0;
