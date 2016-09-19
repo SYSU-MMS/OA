@@ -15,6 +15,47 @@ class Moa_leaderreport_model extends CI_Model {
 		}
 	}
 	
+    /**
+     * 获取指定的坐班日志
+     * @id - 坐班日志id
+     * @return 坐班日志基本信息向量
+     */
+	public function get($id) {
+        if (isset($id)) {            
+            $this->db->where(array('lrid'=>$id, 'state'=>0));
+			$res = $this->db->get('MOA_LeaderReport')->result();
+            if (count($res) != 0) {
+                return $res[0];
+            }
+        }
+        return FALSE;
+	}
+    
+	/**
+	 * 删除一个坐班日志
+	 * @param id - 用户id
+	 */
+	public function delete($id) {
+		if(isset($id)) {
+			$this->db->where(array('lrid'=>$id));
+			$this->db->update('MOA_LeaderReport', array('state'=>1));
+			return $this->db->affected_rows();
+		}
+		else {
+			return false;
+		}
+	}
+    
+    /**
+     * 获取所有坐班日志基本信息
+     * @return 坐班日志基本信息向量
+     */
+	public function get_baselist() {
+		$sb = 'SELECT lrid, wid, weekcount, weekday, timestamp FROM MOA_LeaderReport WHERE state = 0';
+		$sqlquery = $this->db->query($sb);
+		return $sqlquery->result();
+	}
+    
 	/**
 	 * 获取最近的一篇指定状态的坐班日志
 	 * @param mystate 日志状态

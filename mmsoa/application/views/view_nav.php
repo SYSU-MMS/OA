@@ -81,7 +81,7 @@
 		                '<ul class="nav nav-second-level">' . 
 		                    '<li id="active-writeJournal"><a href="'. site_url('Journal/writeJournal') . '">发布</a>' . 
 		                    '</li>' . 
-		                    '<li id="active-readJournal"><a href="'. site_url('Journal/readJournal') . '">查看</a>' . 
+		                    '<li id="active-readJournal"><a href="'. site_url('Journal/listJournal') . '">查看</a>' . 
 		                    '</li>' . 
 		                '</ul>' . 
 		            '</li>';

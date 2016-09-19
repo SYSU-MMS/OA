@@ -51,8 +51,131 @@ Class Journal extends CI_Controller {
 		}
 	}
 	
+    /**
+	 * 查看坐班日志列表
+	 */
+	public function listJournal() {
+		if (isset($_SESSION['user_id'])) {
+			// 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
+			if ($_SESSION['level'] <= 0) {
+				// 提示权限不够
+				PublicMethod::permissionDenied();
+			}
+			// 获取基本信息
+			$baselist = $this->Moa_leaderreport_model->get_baselist();
+            $namelist = array();
+			for ($i = 0; $i < count($baselist); $i++) {
+				$tmp_wid = $baselist[$i]->wid;
+				$tmp_uid = $this->Moa_worker_model->get_uid_by_wid($tmp_wid);
+				$namelist[$i] = $this->Moa_user_model->get($tmp_uid)->name;
+			}
+			$data['journallist'] = $baselist;
+			$data['journalname'] = $namelist;
+			$this->load->view('view_journal_review', $data);
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
+    
+    /**
+	 * 删除指定的坐班日志
+	 */
+	public function deleteJournalById($id) {
+		if (isset($_SESSION['user_id'])) {
+			// 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
+			if ($_SESSION['level'] <= 0) {
+				// 提示权限不够
+				PublicMethod::permissionDenied();
+			}
+			// 执行删除动作
+			$this->Moa_leaderreport_model->delete($id);
+            // 刷新
+            redirect('Journal/listJournal');
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
+    
 	/**
-	 * 查看坐班日志
+	 * 查看指定的坐班日志
+	 */
+	public function readJournalById($id) {
+		if (isset($_SESSION['user_id'])) {
+			// 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
+			if ($_SESSION['level'] <= 0) {
+				// 提示权限不够
+				PublicMethod::permissionDenied();
+			}
+            if (isset($id) == FALSE) {
+                return;
+            }
+				
+			// 获取最近的一篇坐班日志
+			$data['leader_name'] = '';
+			$data['group'] = '';
+			$data['timestamp'] = '';
+			$data['weekcount'] = '';
+			$data['weekday'] = '';
+			$data['body_list'] = array('', '', '', '', '', '');
+			$data['best_list'] = array();
+			$data['bad_list'] = array();
+				
+			// state： 0 - 正常  1- 已删除
+			$state = 0;
+			$report_obj = $this->Moa_leaderreport_model->get($id);
+			// 正确获取到所需记录
+			if ($report_obj) {
+				$data['group'] = PublicMethod::translate_group($report_obj->group);
+				$data['timestamp'] = $report_obj->timestamp;
+				$data['weekcount'] = $report_obj->weekcount;
+				$data['weekday'] = PublicMethod::translate_weekday($report_obj->weekday);
+				$body_list = explode(' ## ', $report_obj->body);
+				$data['body_list'] = $body_list;
+	
+				// 获取组长姓名
+				$leader_wid = $report_obj->wid;
+				$r_worker_obj = $this->Moa_worker_model->get($leader_wid);
+				$r_user_obj = $this->Moa_user_model->get($r_worker_obj->uid);
+				$data['leader_name'] = $r_user_obj->name;
+	
+				// 获取优秀助理姓名列表
+				$best_list = array();
+				if (!is_null($report_obj->bestlist)) {
+					$best_wid_list = explode(',', $report_obj->bestlist);
+					for ($i = 0; $i < count($best_wid_list); $i++) {
+						$best_wid = $best_wid_list[$i];
+						$best_worker_obj = $this->Moa_worker_model->get($best_wid);
+						$best_user_obj = $this->Moa_user_model->get($best_worker_obj->uid);
+						$best_list[$i] = $best_user_obj->name;
+					}
+				}
+				$data['best_list'] = $best_list;
+	
+				// 获取异常助理姓名列表
+				$bad_list = array();
+				if (!is_null($report_obj->badlist)) {
+					$bad_wid_list = explode(',', $report_obj->badlist);
+					for ($j = 0; $j < count($bad_wid_list); $j++) {
+						$bad_wid = $bad_wid_list[$j];
+						$bad_worker_obj = $this->Moa_worker_model->get($bad_wid);
+						$bad_user_obj = $this->Moa_user_model->get($bad_worker_obj->uid);
+						$bad_list[$j] = $bad_user_obj->name;
+					}
+				}
+				$data['bad_list'] = $bad_list;
+			}
+				
+			$this->load->view('view_read_journal', $data);
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
+
+	/**
+	 * 查看最新坐班日志
 	 */
 	public function readJournal() {
 		if (isset($_SESSION['user_id'])) {
