@@ -689,14 +689,15 @@ Class DutyArrange extends CI_Controller {
 						for ($j = 0; $j < count($tmp_wid_list); $j++) {
 							$tmp_wid = $tmp_wid_list[$j];
 							$tmp_worker_obj = $this->Moa_worker_model->get($tmp_wid);
+                            $tmp_groupname = PublicMethod::translate_group($tmp_worker_obj->group);
 							$tmp_uid = $tmp_worker_obj->uid;
 							$tmp_user_obj = $this->Moa_user_model->get($tmp_uid);
 							$tmp_name = $tmp_user_obj->name;
 							// 如果uid为当前访问用户自己，则高亮显示
 							if ($tmp_uid == $uid) {
-								$schedule[$tmp_weekday][$tmp_period] .= '<span style="color: #1AB394;"><b>' . $tmp_name . '</b></span> <br />';
+								$schedule[$tmp_weekday][$tmp_period] .= '<span style="color: #1AB394;"><b>' . $tmp_name . ' (' . $tmp_groupname . ')</b></span> <br />';
 							} else {
-								$schedule[$tmp_weekday][$tmp_period] .= $tmp_name . ' <br />';
+								$schedule[$tmp_weekday][$tmp_period] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
 							}
 						}
 					}
@@ -712,6 +713,195 @@ Class DutyArrange extends CI_Controller {
 			PublicMethod::requireLogin();
 		}
 	}
-	
+
+	/**
+	 * 查看空余时间总表
+	 */
+	public function freeTable() {
+		if (isset($_SESSION['user_id'])) {
+			
+			$uid = $_SESSION['user_id'];
+			
+			// 存放值班表助理名单的二维数组
+			$schedule = array();
+			$schedule[1][1] = '';
+			$schedule[1][2] = '';
+			$schedule[1][3] = '';
+			$schedule[1][4] = '';
+			$schedule[1][5] = '';
+			$schedule[1][6] = '';
+			$schedule[2][1] = '';
+			$schedule[2][2] = '';
+			$schedule[2][3] = '';
+			$schedule[2][4] = '';
+			$schedule[2][5] = '';
+			$schedule[2][6] = '';
+			$schedule[3][1] = '';
+			$schedule[3][2] = '';
+			$schedule[3][3] = '';
+			$schedule[3][4] = '';
+			$schedule[3][5] = '';
+			$schedule[3][6] = '';
+			$schedule[4][1] = '';
+			$schedule[4][2] = '';
+			$schedule[4][3] = '';
+			$schedule[4][4] = '';
+			$schedule[4][5] = '';
+			$schedule[4][6] = '';
+			$schedule[5][1] = '';
+			$schedule[5][2] = '';
+			$schedule[5][3] = '';
+			$schedule[5][4] = '';
+			$schedule[5][5] = '';
+			$schedule[5][6] = '';
+			$schedule[6][7] = '';
+			$schedule[6][8] = '';
+			$schedule[6][9] = '';
+			$schedule[7][7] = '';
+			$schedule[7][8] = '';
+			$schedule[7][9] = '';
+			
+			// 取所有值班报名记录
+			$duty_obj_list = $this->Moa_nschedule_model->get_all();
+					
+			if (!empty($duty_obj_list)) {
+				// 提取每个时段的值班助理名单wid-uid-name
+				for ($i = 0; $i < count($duty_obj_list); $i++) {
+                    $lineitem = $duty_obj_list[$i];
+					if (!empty($lineitem->wid)) {
+                        $tmp_wid = $lineitem->wid;
+                        $tmp_groupid = $lineitem->groupid;
+                        $tmp_periodList = explode(',', $lineitem->period);
+                        $tmp_worker_obj = $this->Moa_worker_model->get($tmp_wid);
+						$tmp_uid = $tmp_worker_obj->uid;
+                        $tmp_groupname = PublicMethod::translate_group($tmp_worker_obj->group);
+						$tmp_user_obj = $this->Moa_user_model->get($tmp_uid);
+						$tmp_name = $tmp_user_obj->name;
+                        // 将其加入到对应空余时间槽里
+                        for ($t = 0; $t < count($tmp_periodList); $t++) {
+                            switch ($tmp_periodList[$t]) {
+                                case 'MON1':
+                                    $schedule[1][1] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'MON2':
+                                    $schedule[1][2] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'MON3':
+                                    $schedule[1][3] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'MON4':
+                                    $schedule[1][4] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'MON5':
+                                    $schedule[1][5] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'MON6':
+                                    $schedule[1][6] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'TUE1':
+                                    $schedule[2][1] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'TUE2':
+                                    $schedule[2][2] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'TUE3':
+                                    $schedule[2][3] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'TUE4':
+                                    $schedule[2][4] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'TUE5':
+                                    $schedule[2][5] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'TUE6':
+                                    $schedule[2][6] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'WED1':
+                                    $schedule[3][1] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'WED2':
+                                    $schedule[3][2] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'WED3':
+                                    $schedule[3][3] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'WED4':
+                                    $schedule[3][4] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'WED5':
+                                    $schedule[3][5] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'WED6':
+                                    $schedule[3][6] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'THU1':
+                                    $schedule[4][1] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'THU2':
+                                    $schedule[4][2] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'THU3':
+                                    $schedule[4][3] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'THU4':
+                                    $schedule[4][4] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'THU5':
+                                    $schedule[4][5] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'THU6':
+                                    $schedule[4][6] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'FRI1':
+                                    $schedule[5][1] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'FRI2':
+                                    $schedule[5][2] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'FRI3':
+                                    $schedule[5][3] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'FRI4':
+                                    $schedule[5][4] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'FRI5':
+                                    $schedule[5][5] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'FRI6':
+                                    $schedule[5][6] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'SAT1':
+                                    $schedule[6][7] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'SAT2':
+                                    $schedule[6][8] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'SAT3':
+                                    $schedule[6][9] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'SUN1':
+                                    $schedule[7][7] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'SUN2':
+                                    $schedule[7][8] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                                case 'SUN3':
+                                    $schedule[7][9] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                                    break;
+                            }
+                        }
+					}
+				}
+			}
+
+			$data['schedule'] = $schedule;
+			
+			$this->load->view('view_duty_free', $data);
+			
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
 	
 }
