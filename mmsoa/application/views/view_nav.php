@@ -141,6 +141,7 @@
 			        	} 
 			        ?>
 		            <li id="active-dutySchedule"><a href="<?php echo site_url('DutyArrange/dutySchedule'); ?>">值班表</a>
+                    <li id="active-freeTable"><a href="<?php echo site_url('DutyArrange/freeTable'); ?>">空余时间表</a>
 		            </li>
 		        </ul>
 		    </li>
