@@ -41,13 +41,14 @@ class Moa_mbcomment_model extends CI_Model {
      * 取指定状态、bpid的所有评论
      * @param unknown $bpid 帖子id
      * @param unknown $state 评论状态
-     * @param string $nums 最大数目
+     * @param string $nums 最大数目,默认为15条
      * @param number $offset 偏移量
+     * @param string $order 顺序或倒序,'ASC','DSC',默认倒序
      */
-    public function get_by_bpid($bpid, $state, $nums = NULL, $offset = 0) {
+    public function get_by_bpid($bpid, $state, $nums = 15, $offset = 0, $order='DSC') {
     	if (isset($bpid) && isset($state)) {
     		$this->db->where(array('bpid' => $bpid, 'state' => $state));
-    		$this->db->order_by('mbctimestamp', 'ASC');
+    		$this->db->order_by('mbctimestamp', $order);
     		if (!is_null($nums)) {
     			$this->db->limit($nums, $offset);
     		}

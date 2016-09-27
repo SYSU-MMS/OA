@@ -55,7 +55,8 @@ Class Homepage extends CI_Controller {
 				} else {
 					$splited_date = PublicMethod::splitDate($timestamp);
 					echo json_encode(array("status" => TRUE, "msg" => "留言成功", "name" => $name, "avatar" => $avatar, 
-							"splited_date" => $splited_date, "bpid" => $bpid, "base_url" => base_url(), "site_url" => site_url(), "myid" => $uid));
+							"splited_date" => $splited_date, "bpid" => $bpid, "base_url" => base_url(),
+                            "site_url" => site_url(), "myid" => $uid));
 					return;
 				}
 			}
@@ -88,7 +89,8 @@ Class Homepage extends CI_Controller {
 				} else {
 					$splited_date = PublicMethod::splitDate($timestamp);
 					echo json_encode(array("status" => TRUE, "msg" => "评论成功", "name" => $name, "avatar" => $avatar, 
-							"splited_date" => $splited_date, "mbcid" => $mbcid, "base_url" => base_url(), "site_url" => site_url(), "myid" => $uid));
+							"splited_date" => $splited_date, "mbcid" => $mbcid, "base_url" => base_url(),
+                            "site_url" => site_url(), "myid" => $uid));
 					return;
 				}
 			}
@@ -165,7 +167,8 @@ Class Homepage extends CI_Controller {
 						}
 					}
 				}
-				echo json_encode(array("status" => TRUE, "msg" => "获取留言与评论成功", "cur_avatar" => $cur_avatar, "base_url" => base_url(), 
+				echo json_encode(array("status" => TRUE, "msg" => "获取留言与评论成功", "cur_avatar" => $cur_avatar,
+                        "base_url" => base_url(),
 						"site_url" => site_url(), "post_list" => $post_list, "comment_list" => $comment_list));
 				return;
 			}

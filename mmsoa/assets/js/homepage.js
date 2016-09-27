@@ -135,7 +135,7 @@ $("body").on("click", ".comment-btn", function(){
 });
 
 // 页面上显示的最后一条留言的发表时间
-var last_post_date;
+var last_post_date,last_comment_date;
 
 /**
  * 点击"更多"按钮触发getPostComment事件
@@ -173,6 +173,9 @@ $("#more_posts").bind("getPostComment", function(event, base_date) {
 									"<small class='text-muted'> " + ret['post_list'][i]['splited_date']['month'] + "月" + ret['post_list'][i]['splited_date']['day'] + "日 " +
 									ret['post_list'][i]['splited_date']['hour'] + ":" + ret['post_list'][i]['splited_date']['minute'] + " </small>" +
 								"</div>" +
+								"<div class='btn-group' style='margin-top: 2px' id='more_comment_div_" + ret['post_list'][i]['bpid'] + "'>" +
+									"<button class='comment-btn btn btn-primary btn-xs' id='more_comment_" + ret['postlist'][i]['bpid'] + "'>更早回复</button>" +
+								"</div>" +
 								"<div class='social-footer'>" +
 									"<div class='social-comment' id='write_comment_" + ret['post_list'][i]['bpid'] + "'>" +
 										"<div class='media-body'>" +
@@ -206,6 +209,7 @@ $("#more_posts").bind("getPostComment", function(event, base_date) {
 							);
 						}
 					}
+					//
 				}
 				// 更新最后一条留言的时间
 				last_post_date = ret['post_list'][ret['post_list'].length - 1]['bptimestamp'];
