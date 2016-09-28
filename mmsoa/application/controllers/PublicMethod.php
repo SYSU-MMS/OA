@@ -12,7 +12,7 @@ Class PublicMethod extends CI_Controller {
 	 */
 	public static function requireLogin() {
 		// 未登录的用户请先登录
-		echo "<script language=javascript>alert('要访问的页面需要先登录！');</script>";
+		echo "<script language=javascript>alert('请登录！');</script>";
 		$_SESSION['user_url'] = $_SERVER['REQUEST_URI'];
 		echo '<script language=javascript>window.location.href="' . site_url('Login') . '"</script>';
 	}
@@ -45,7 +45,7 @@ Class PublicMethod extends CI_Controller {
 	 */
 	public static function cal_week() {
 		// 周一为一周的第一天
-		$cur_week = date('W') - 7;
+		$cur_week = date('W') - 34;
 		// 周日为一周的第一天
 		//$cur_week = date("w") == 0 ? $cur_week + 1 : $cur_week;
 		return $cur_week;
@@ -107,10 +107,27 @@ Class PublicMethod extends CI_Controller {
 			case 4: $level_name = '管理员'; break;
 			case 5: $level_name = '办公室负责人'; break;
 			case 6: $level_name = '超级管理员'; break;
+            case -1: $level_name = '贵宾'; break;
 		}
 		return $level_name;
 	}
 	
+    /**
+	 * 将用户状态的数据库标识解析为状态名称
+	 * @param $state 状态码
+	 * @return 对应的职务名称
+	 */
+	public static function translate_state($state) {
+		$state_name = '';
+		switch ($state) {
+			case 0: $state_name = '在岗'; break;
+			case 1: $state_name = '封停'; break;
+			case 2: $state_name = '已删除'; break;
+			case 3: $state_name = '离职'; break;
+		}
+		return $state_name;
+	}
+    
 	/**
 	 * 将星期的数据库标识解析为中文
 	 * @param weekday_num 星期的数据库数字标号
@@ -125,7 +142,7 @@ Class PublicMethod extends CI_Controller {
 			case 4: $weekday_desc = '四'; break;
 			case 5: $weekday_desc = '五'; break;
 			case 6: $weekday_desc = '六'; break;
-			case 7: $weekday_desc = '天'; break;
+			case 7: $weekday_desc = '日'; break;
 		}
 		return $weekday_desc;
 	}
@@ -141,6 +158,11 @@ Class PublicMethod extends CI_Controller {
 			case 0: $group_desc = 'N'; break;
 			case 1: $group_desc = 'A'; break;
 			case 2: $group_desc = 'B'; break;
+            case 3: $group_desc = 'C'; break;
+            case 4: $group_desc = '拍摄'; break;
+            case 5: $group_desc = '网页'; break;
+            case 6: $group_desc = '系统'; break;
+            case 7: $group_desc = '管理'; break;
 		}
 		return $group_desc;
 	}
@@ -278,6 +300,9 @@ Class PublicMethod extends CI_Controller {
 					$p_end = $j + 1;
 				}
 			}
+			if ($p_start == 0 || $p_end == 0) {
+				return NULL;
+			}
 			for ($k = $p_start; $k <= $p_end; $k++) {
 				$periods[] = $k;
 			}
@@ -303,6 +328,9 @@ Class PublicMethod extends CI_Controller {
 					($t_to - $weekend_ends[$j]) <= (0.5 * 60 *60)) {
 						$p_end = $j + 7;
 					}
+			}
+			if ($p_start == 0 || $p_end == 0) {
+				return NULL;
 			}
 			for ($k = $p_start; $k <= $p_end; $k++) {
 				$periods[] = $k;

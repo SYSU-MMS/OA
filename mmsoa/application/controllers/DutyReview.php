@@ -10,10 +10,10 @@ require_once('PublicMethod.php');
 Class DutyReview extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_worker_model');
-		$this->load->model('moa_check_model');
-		$this->load->model('moa_attend_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
+		$this->load->model('Moa_check_model');
+		$this->load->model('Moa_attend_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -48,7 +48,7 @@ Class DutyReview extends CI_Controller {
 			// 获取今日所有值班记录
 			// 考勤类型：0 - 值班 1 - 早检 2 - 午检 3 - 晚检 4 - 周检
 			$attend_type = 0;
-			$d_attend_obj = $this->moa_attend_model->get_by_week_type($weekcount, $weekday, $attend_type);
+			$d_attend_obj = $this->Moa_attend_model->get_by_week_type($weekcount, $weekday, $attend_type);
 			if ($d_attend_obj != FALSE) {
 				// 获取已完成值班的助理名单
 				$d_wid_list = array();
@@ -67,8 +67,8 @@ Class DutyReview extends CI_Controller {
 					$d_duration_list[$d_count] = '<b>' . $d_tmp_duration . '</b> &nbsp;&nbsp;' . $d_tmp_hours . '小时';
 						
 					// 获取姓名
-					$d_worker_obj = $this->moa_worker_model->get($d_tmp_wid);
-					$d_user_obj = $this->moa_user_model->get($d_worker_obj->uid);
+					$d_worker_obj = $this->Moa_worker_model->get($d_tmp_wid);
+					$d_user_obj = $this->Moa_user_model->get($d_worker_obj->uid);
 					$d_name_list[$d_count] = $d_user_obj->name;
 	
 					// 若有代班，添加代班说明到$d_sub_list
@@ -77,8 +77,8 @@ Class DutyReview extends CI_Controller {
 					if ($d_attend_obj[$i]->isSubstitute == 1) {
 						// 获取被代班助理姓名
 						$d_subed_wid = $d_attend_obj[$i]->substituteFor;
-						$d_subed_worker_obj = $this->moa_worker_model->get($d_subed_wid);
-						$d_subed_user_obj = $this->moa_user_model->get($d_subed_worker_obj->uid);
+						$d_subed_worker_obj = $this->Moa_worker_model->get($d_subed_wid);
+						$d_subed_user_obj = $this->Moa_user_model->get($d_subed_worker_obj->uid);
 						$d_subed_tmp_name = $d_subed_user_obj->name;
 						$d_sub_list[$d_count] = '代 ' . $d_subed_tmp_name;
 					}

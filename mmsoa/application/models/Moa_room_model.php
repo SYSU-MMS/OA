@@ -1,5 +1,5 @@
 <?php
-class moa_room_model extends CI_Model {
+class Moa_room_model extends CI_Model {
 	/**
 	 * 添加课室
 	 * @param paras - 参数列表
@@ -32,5 +32,22 @@ class moa_room_model extends CI_Model {
 		}
 		return false;
 	}
+	
+	/**
+	 * 获取指定状态的课室信息
+	 * @param state - 课室state
+	 * @return roomid对应课室的所有信息
+	 */
+	public function get_by_state($state) {
+		if (isset($state)) {
+			$this->db->where(array('state'=>$state));
+			$this->db->order_by('room', 'ASC');
+			return $this->db->get('MOA_CheckRoom')->result();
+		}
+		else {
+			return false;
+		}
+	}
+	
 	
 }

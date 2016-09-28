@@ -84,7 +84,7 @@
 					                                    <td><?php echo $schedule[4][1]; ?></td>
 					                                    <td><?php echo $schedule[5][1]; ?></td>
 					                                    <td rowspan="2"><?php echo $schedule[6][7]; ?></td>
-					                                    <td rowspan="2"><?php echo $schedule[6][7]; ?></td>
+					                                    <td rowspan="2"><?php echo $schedule[7][7]; ?></td>
 					                                </tr>
 					                                <tr>
 					                                    <th scope="row">10:30-12:30</th>

@@ -72,7 +72,7 @@
 				                            </div>
 				                            <div class="row">
 				                            	<div class="form-group col-sm-12" style="text-align: center;  font-size: 14px;">
-				                            		<h1 style="padding-right: 50px;"><small>请留意<a href="<?php echo site_url('DutyArrange/dutySchedule'); ?>" style="color: #1AB394;">新值班表</a>的发布</small></h1>
+				                            		<h1 style="padding-right: 50px;"><small>请留意新值班表的发布</small></h1>
 				                            	</div>
 				                            </div>
 				                        <?php } else { ?>

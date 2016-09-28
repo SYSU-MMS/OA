@@ -10,9 +10,9 @@ require_once('PublicMethod.php');
 Class Duty extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_worker_model');
-		$this->load->model('moa_attend_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
+		$this->load->model('Moa_attend_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -31,15 +31,15 @@ Class Duty extends CI_Controller {
 				
 			// 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
 			$level = 0;
-			$common_worker = $this->moa_user_model->get_by_level($level);
+			$common_worker = $this->Moa_user_model->get_by_level($level);
 		
 			for ($i = 0; $i < count($common_worker); $i++) {
 				$uid_list[$i] = $common_worker[$i]->uid;
 				$name_list[$i] = $common_worker[$i]->name;
-				$wid_list[$i] = $this->moa_worker_model->get_wid_by_uid($uid_list[$i]);
+				$wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
 			}
 				
-			$wid = $this->moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
+			$wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
 			$data['wid'] = $wid;
 			$data['name_list'] = $name_list;
 			$data['wid_list'] = $wid_list;
@@ -57,7 +57,7 @@ Class Duty extends CI_Controller {
 	public function ondutyRecord() {
 		if (isset($_SESSION['user_id'])) {
 			$uid = $_SESSION['user_id'];
-			$wid = $this->moa_worker_model->get_wid_by_uid($uid);
+			$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
 			
 			if (isset($_POST['time_from']) && isset($_POST['time_to'])) {
 				// 1-周一  2-周二  ... 6-周六  7-周日
@@ -87,12 +87,12 @@ Class Duty extends CI_Controller {
 						// 多个时间段分别插入数据库
 						for ($i = 0; $i < count($periods_list); $i++) {
 							$attend_paras['dutyPeriod'] = $periods_list[$i];
-							$attend_id = $this->moa_attend_model->add($attend_paras);
+							$attend_id = $this->Moa_attend_model->add($attend_paras);
 							
 							// 更新工时
 							$contrib = PublicMethod::get_working_hours($periods_list[$i]);
-							$affected_rows = $this->moa_worker_model->update_worktime($wid, $contrib);
-							$affected_rows_u = $this->moa_user_model->update_contribution($uid, $contrib);
+							$affected_rows = $this->Moa_worker_model->update_worktime($wid, $contrib);
+							$affected_rows_u = $this->Moa_user_model->update_contribution($uid, $contrib);
 							
 							if (!($attend_id) || $affected_rows == 0 || $affected_rows_u == 0) {
 								echo json_encode(array("status" => FALSE, "msg" => "登记失败"));
@@ -112,12 +112,12 @@ Class Duty extends CI_Controller {
 						// 多个时间段分别插入数据库
 						for ($i = 0; $i < count($periods_list); $i++) {
 							$attend_paras['dutyPeriod'] = $periods_list[$i];
-							$attend_id = $this->moa_attend_model->add($attend_paras);
+							$attend_id = $this->Moa_attend_model->add($attend_paras);
 							
 							// 更新工时
 							$contrib = PublicMethod::get_working_hours($periods_list[$i]);
-							$affected_rows = $this->moa_worker_model->update_worktime($wid, $contrib);
-							$affected_rows_u = $this->moa_user_model->update_contribution($uid, $contrib);
+							$affected_rows = $this->Moa_worker_model->update_worktime($wid, $contrib);
+							$affected_rows_u = $this->Moa_user_model->update_contribution($uid, $contrib);
 							
 							if (!($attend_id) || $affected_rows == 0 || $affected_rows_u == 0) {
 								echo json_encode(array("status" => FALSE, "msg" => "登记失败"));

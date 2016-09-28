@@ -12,7 +12,8 @@ $("#submit_personaldata").click(function() {
 	var school = $("#pd_school").val();
 	var address = $("#pd_address").val();
 	var creditcard = $("#pd_creditcard").val();
-	
+	var sex = document.getElementById("sex_girl").checked ? 1 : 0;
+
 	$.ajax({
 		type: "POST", 
 		url: "PersonalData/personalDataUpdate",
@@ -25,6 +26,7 @@ $("#submit_personaldata").click(function() {
 			"pd_school": school,
 			"pd_address": address,
 			"pd_creditcard": creditcard,
+            "pd_sex": sex,
 		},
 		success: function(msg) {
 			ret = JSON.parse(msg);
@@ -37,6 +39,7 @@ $("#submit_personaldata").click(function() {
 				// 锁定所有按钮和输入框
 				$("#pd_phone").attr("disabled", true);
 				$("#pd_shortphone").attr("disabled", true);
+                $("#pd_sex").attr("disabled", true);
 				$("#pd_qq").attr("disabled", true);
 				$("#pd_wechat").attr("disabled", true);
 				$("#pd_studentid").attr("disabled", true);

@@ -13,23 +13,16 @@
     
     <link href="<?=base_url().'assets/css/bootstrap.min.css?v=3.4.0' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/font-awesome/css/font-awesome.min.css' ?>" rel="stylesheet">
-        
-    <link href="<?=base_url().'assets/css/plugins/iCheck/custom.css' ?>" rel="stylesheet">
-    
-    <link href="<?=base_url().'assets/css/plugins/simditor/simditor.css' ?>" rel="stylesheet">
     
     <link href="<?=base_url().'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
     
-    <link href="<?=base_url().'assets/css/plugins/jasny/jasny-bootstrap.min.css' ?>" rel="stylesheet">
-    
-    <link href="<?=base_url().'assets/css/plugins/datepicker/datepicker3.css' ?>" rel="stylesheet">
-    
-    <!-- Data Tables -->
     <link href="<?=base_url().'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
         
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
-
+	
+    <link href="<?=base_url().'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.css' ?>" rel="stylesheet">
+    
 </head>
 
 <body onload="startTime()">
@@ -66,42 +59,86 @@
                             </div>
                             <div class="ibox-content">
                             
-                                <table class="table table-striped table-bordered table-hover users-dataTable">
-                                    <thead>
-                                        <tr>
-                                        	<th>序号</th>
-                                            <th>周次</th>
-                                            <th>星期</th>
-                                            <th>姓名</th>
-                                            <th>课室</th>
-                                            <th>情况</th>
-                                            <th>灯时</th>
-                                            <th>登记时间</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    	<?php for ($i = 0; $i < $w_count; $i++) { ?>
+                            	<div class="row">
+                            		<div class="form-group col-md-4" id="dtp_group">
+	                                    <label class="font-noraml">选择时间段</label>
+	                                    <div class="input-daterange input-group" id="dtp">
+	                                        <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php echo date('Y-m-d H:i', strtotime("-7 day")); ?>" />
+	                                        <span class="input-group-addon dtp-addon">到</span>
+	                                        <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date('Y-m-d H:i',time()); ?>" />
+	                                    </div>
+	                                </div>
+	                                <div id="chosen_classroom" class="form-group col-md-3" style="height: 30px; position: relative; z-index: 999999;">
+                                        <label class="font-noraml">选择课室</label>
+                                        <div>
+	                                        <select id="select_classroom" name="select_classroom" data-placeholder="" class="chosen-select-classroom col-sm-12" tabindex="4">
+	                                        	<option value="">全部</option>
+	                                        	<?php 
+                                        			for ($i = 0; $i < count($room_list); $i++) {
+                                        				echo "<option value='" . $roomid_list[$i] . "'>" . $room_list[$i] . "</option>";
+                                        			} 
+                                        		?>
+	                                        </select>
+                                        </div>
+                                    </div>
+	                                <div id="chosen_name" class="form-group col-md-3" style="height: 30px; position: relative; z-index: 999999;">
+                                        <label class="font-noraml">选择助理</label>
+                                        <div>
+	                                        <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4">
+	                                        	<option value="">全部</option>
+	                                        	<?php 
+                                        			for ($i = 0; $i < count($name_list); $i++) {
+                                        				echo "<option value='" . $wid_list[$i] . "'>" . $name_list[$i] . "</option>";
+                                        			} 
+                                        		?>
+	                                        </select>
+                                        </div>
+                                    </div>
+                                    <div id="search_container" class="form-group col-md-2">
+                                        <label class="font-noraml search-btn">查找</label>
+                                        <div>
+	                                        <button id="search_btn" class="btn btn-primary btn-longer"><i class="fa fa-search"></i> &nbsp;查找</button>
+                                        </div>
+                                    </div>
+                            	</div>
+                            	<div id="table_container">
+	                                <table class="table table-striped table-bordered table-hover users-dataTable">
+	                                    <thead>
 	                                        <tr>
-	                                        	<td><?php echo $i + 1; ?></td>
-	                                            <td><?php echo $w_weekcount; ?></td>
-	                                            <td><?php echo $w_day_list[$i]; ?></td>
-	                                            <td><?php echo $w_name_list[$i]; ?></td>
-	                                            <td><?php echo $w_room_list[$i]; ?></td>
-	                                            <td  class="td-left">
-	                                            	<?php 
-	                                            		if ($w_prob_list[$i] == '') {
-	                                            			echo '正常';
-	                                            		} else {
-	                                            			echo $w_prob_list[$i];
-	                                            		}
-	                                            	?>
-	                                            </td>
-	                                            <td><?php echo $w_lamp_list[$i]; ?></td>
-	                                            <td><?php echo $w_time_list[$i]; ?></td>
+	                                        	<th>序号</th>
+	                                            <th>周次</th>
+	                                            <th>星期</th>
+	                                            <th>姓名</th>
+	                                            <th>课室</th>
+	                                            <th>情况</th>
+	                                            <th>灯时</th>
+	                                            <th>登记时间</th>
 	                                        </tr>
-	                                    <?php } ?>
-	                                </tbody>
-	                            </table>
+	                                    </thead>
+	                                    <tbody>
+	                                    	<?php for ($i = 0; $i < $w_count; $i++) { ?>
+		                                        <tr>
+		                                        	<td><?php echo $i + 1; ?></td>
+		                                            <td><?php echo $w_weekcount; ?></td>
+		                                            <td><?php echo $w_day_list[$i]; ?></td>
+		                                            <td><?php echo $w_name_list[$i]; ?></td>
+		                                            <td><?php echo $w_room_list[$i]; ?></td>
+		                                            <td  class="td-left">
+		                                            	<?php 
+		                                            		if ($w_prob_list[$i] == '') {
+		                                            			echo '正常';
+		                                            		} else {
+		                                            			echo $w_prob_list[$i];
+		                                            		}
+		                                            	?>
+		                                            </td>
+		                                            <td><?php echo $w_lamp_list[$i]; ?></td>
+		                                            <td><?php echo $w_time_list[$i]; ?></td>
+		                                        </tr>
+		                                    <?php } ?>
+		                                </tbody>
+		                            </table>
+	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
@@ -116,7 +153,7 @@
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-    <!-- <script src="<?=base_url().'assets/js/searchuser.js' ?>"></script> -->
+    <script src="<?=base_url().'assets/js/weeklyreview.js' ?>"></script>
     
     <!-- nav item active -->
 	<script>
@@ -134,24 +171,12 @@
     <!-- Dynamic date -->
     <script src="<?=base_url().'assets/js/dynamicDate.js' ?>"></script>
     
-    <!-- Jquery Validate -->
-    <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/jquery.validate.min.js' ?>"></script>
-    <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/messages_zh.min.js' ?>"></script>
-    
-    <!-- iCheck -->
-    <script src="<?=base_url().'assets/js/plugins/iCheck/icheck.min.js' ?>"></script>
-    
     <!-- Chosen -->
     <script src="<?=base_url().'assets/js/plugins/chosen/chosen.jquery.js' ?>"></script>
 
-    <!-- JSKnob -->
-    <script src="<?=base_url().'assets/js/plugins/jsKnob/jquery.knob.js' ?>"></script>
-
-    <!-- Input Mask-->
-    <script src="<?=base_url().'assets/js/plugins/jasny/jasny-bootstrap.min.js' ?>"></script>
-
-    <!-- Date picker -->
-    <script src="<?=base_url().'assets/js/plugins/datepicker/bootstrap-datepicker.js' ?>"></script>
+    <!-- Date time picker -->
+    <script src="<?=base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.js' ?>"></script>
+    <script src="<?=base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js' ?>"></script>
     
     <!-- Data Tables -->
     <script src="<?=base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
@@ -159,33 +184,81 @@
     
     <script>
         $(document).ready(function () {
-           
-        	$('.users-dataTable').dataTable();
 
-            /* Calendar */
-            $('#calendar_date .input-group.date').datepicker({
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true
+        	// dataTable
+        	$('.users-dataTable').dataTable({
+        		"iDisplayLength": 25
             });
+
+        	/* Calendar */
+        	$('#start_dtp').datetimepicker({
+        	    format: 'yyyy-mm-dd hh:ii',
+        	    language: 'zh-CN',
+                weekStart: 1,
+                todayBtn:  1,
+        		autoclose: 1,
+        		todayHighlight: 1,
+        		startView: 2,
+        		minView: 0,
+        		forceParse: 1
+        	});
+        	$('#end_dtp').datetimepicker({
+        	    format: 'yyyy-mm-dd hh:ii',
+        	    language: 'zh-CN',
+                weekStart: 1,
+                todayBtn:  1,
+        		autoclose: 1,
+        		todayHighlight: 1,
+        		startView: 2,
+        		minView: 0,
+        		forceParse: 1
+        	});
             
         });
 
-        /* Chosen */
+        /* Chosen name */
         var config = {
-                '.chosen-select': {},
-                '.chosen-select-deselect': {
+                '.chosen-select-classroom': {
+                	// 实现中间字符的模糊查询
+                	search_contains: true,
+                	no_results_text: "没有找到",
+                	disable_search_threshold: 10
+                },
+                '.chosen-select-classroom-deselect': {
                     allow_single_deselect: true
                 },
-                '.chosen-select-no-single': {
+                '.chosen-select-classroomt-no-single': {
                     disable_search_threshold: 10
                 },
-                '.chosen-select-no-results': {
+                '.chosen-select-classroom-no-results': {
                     no_results_text: 'Oops, nothing found!'
                 },
-                '.chosen-select-width': {
+                '.chosen-select-classroom-width': {
+                    width: "95%"
+                }
+            }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+
+        /* Chosen classroom */
+        var config = {
+                '.chosen-select-name': {
+                	// 实现中间字符的模糊查询
+                	search_contains: true,
+                	no_results_text: "没有找到",
+                	disable_search_threshold: 10
+                },
+                '.chosen-select-classroom-name': {
+                    allow_single_deselect: true
+                },
+                '.chosen-select-name-no-single': {
+                    disable_search_threshold: 10
+                },
+                '.chosen-select-name-no-results': {
+                    no_results_text: 'Oops, nothing found!'
+                },
+                '.chosen-select-name-width': {
                     width: "95%"
                 }
             }

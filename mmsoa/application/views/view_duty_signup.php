@@ -57,19 +57,28 @@
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>值班报名</h5>
+                                <?php 
+                                	// 助理负责人，超级管理员才可以导出报名情况
+						        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) { 
+						        		echo '<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger exportSignupBtn"><i class="fa fa-trash-o"></i><span> 清空报名记录</span></button>' . 
+								        		'<a id="export_signup" class="btn btn-primary exportSignupBtn" href="' . site_url('DutySignUp/exportToTxt') . '"><i class="fa fa-download"></i><span> 导出报名记录</span></a>';								        		;
+						        	}
+						        ?>
                             </div>
                             <div class="ibox-content">
                             	<form method="POST" action="<?php echo site_url('DutySignUp/signUp'); ?>">
                             		<div class="row form-group" id="radio_group" style="margin: 10px 35px 23px 0px;">
-	                                    <label class="col-sm-1 col-sm-offset-2 control-label" for="groupid"> 组别 </label>
-										<div class="col-sm-8">
-											<label class="radio-inline" style="font-size: 14px;">
+                            			<div class="col-sm-1 col-sm-offset-2">
+                            				<label class="control-label" for="groupid"> 组别 </label>
+                            			</div>
+										<div class="col-sm-6">
+											<label class="radio-inline radio-font-size">
 										        <input type="radio" checked="" value="N" id="group_N" name="groupid"> A/B</label>
-										    <label class="radio-inline" style="font-size: 14px;">
+										    <label class="radio-inline radio-font-size">
 										        <input type="radio" value="A" id="group_A" name="groupid"> A </label>
-										    <label class="radio-inline" style="font-size: 14px;">
+										    <label class="radio-inline radio-font-size">
 										        <input type="radio" value="B" id="group_B" name="groupid"> B </label>
-										    <label class="radio-inline" style="font-size: 14px;">
+										    <label class="radio-inline radio-font-size">
 										        <input type="radio" value="C" id="group_C" name="groupid"> C </label>
 										</div>
 									</div>
@@ -168,10 +177,34 @@
             <?php $this->load->view('view_footer'); ?>
 	    </div>
 	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 10;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+	            </div>
+	            <div class="modal-body">
+	                <h2 id="submit_result" style="text-align:center;"><i class="fa fa-exclamation-circle exclamation-info"><span class="exclamation-desc"> 记录清空后不可恢复，确定要清空吗？</span></i></h2>
+	            </div>
+	            <div class="modal-footer">
+	            	<div class="row">
+	            		<div class="col-sm-6">
+			            	<button id="confirm_clean" type="button" class="btn btn-primary" onclick="clean()">确定</button>
+	            		</div>
+	            		<div class="col-sm-6">
+	            			<button type="button" class="btn btn-danger cancelBtn" data-dismiss="modal">取消</button>
+	            		</div>
+	            	</div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
     <!-- Mainly scripts -->
     <script src="<?=base_url().'assets/js/jquery-2.1.1.min.js' ?>"></script>
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
+    <script src="<?=base_url().'assets/js/dutysignup.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
     

@@ -3,7 +3,7 @@
  * 助理模型类
  * @author Rinka
  */
-class moa_worker_model extends CI_Model {
+class Moa_worker_model extends CI_Model {
  	/**
 	 * 加入一个新的助理
 	 * @param paras - 参数列表
@@ -82,7 +82,26 @@ class moa_worker_model extends CI_Model {
 			return false;
 		}
 	}
-
+    
+    /**
+	 * 取指定wid的用户组别
+	 * @param wid - 助理wid
+	 * @return 组别编号
+	 */
+	public function get_groupid($wid) {
+		if (isset($wid)) {
+			$this->db->where(array('wid'=>$wid));
+			$dataarr = $this->db->get('MOA_Worker')->result();
+			if (is_null($dataarr[0])) {
+				return false;
+			}
+			return $dataarr[0]->group;
+		}
+		else {
+			return false;
+		}
+	}
+    
     /**
 	 * 取指定uid对应的wid
 	 * @param uid - 用户id
@@ -96,6 +115,25 @@ class moa_worker_model extends CI_Model {
 				return false;
 			}
 			return $dataarr[0]->wid;
+		}
+		else {
+			return false;
+		}
+	}
+    
+    /**
+	 * 取指定wid对应的uid
+	 * @param wid - 工号wid
+	 * @return 用户号uid
+	 */
+	public function get_uid_by_wid($wid) {
+		if (isset($wid)) {
+			$this->db->where(array('wid'=>$wid));
+			$dataarr = $this->db->get('MOA_Worker')->result();
+			if (is_null($dataarr[0])) {
+				return false;
+			}
+			return $dataarr[0]->uid;
 		}
 		else {
 			return false;

@@ -1,5 +1,5 @@
 <?php
-class moa_problem_model extends CI_Model {
+class Moa_problem_model extends CI_Model {
 	/**
 	 * 获取指定pid的problem信息
 	 * @param pid - 故障pid

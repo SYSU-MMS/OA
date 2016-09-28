@@ -77,7 +77,8 @@
     <!-- nav item active -->
 	<script>
 		$(document).ready(function () {
-			$("#mini").attr("href", "readNotice#");
+			var mini_value = "readNotice" + window.location.search + "#";
+			$("#mini").attr("href", mini_value);
 		});
 	</script>
 

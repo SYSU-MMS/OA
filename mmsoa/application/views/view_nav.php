@@ -81,7 +81,7 @@
 		                '<ul class="nav nav-second-level">' . 
 		                    '<li id="active-writeJournal"><a href="'. site_url('Journal/writeJournal') . '">发布</a>' . 
 		                    '</li>' . 
-		                    '<li id="active-readJournal"><a href="'. site_url('Journal/readJournal') . '">查看</a>' . 
+		                    '<li id="active-readJournal"><a href="'. site_url('Journal/listJournal') . '">查看</a>' . 
 		                    '</li>' . 
 		                '</ul>' . 
 		            '</li>';
@@ -94,6 +94,8 @@
 		                '<ul class="nav nav-second-level">' . 
 		                    '<li id="active-addUser"><a href="'. site_url('UserManagement/addUser') . '">添加</a>' . 
 		                    '</li>' . 
+		                    '<li id="active-updateUser"><a href="'. site_url('UserManagement/updateUser') . '">修改</a>' .
+		                    '</li>' .
 		                    '<li id="active-searchUser"><a href="'. site_url('UserManagement/searchUser') . '">通讯录</a>' . 
 		                    '</li>' . 
 		                '</ul>' . 
@@ -109,13 +111,13 @@
 		            '<li id="active-timeStatistics">' . 
 		                '<a href="Homepage#"><i class="fa fa-rmb"></i> <span class="nav-label"> &nbsp;工时统计</span><span class="fa arrow"></span></a>' . 
 		                '<ul class="nav nav-second-level">' . 
-		                    '<li id="active-personal"><a href="'. site_url('WorkingTime/perWorkingTime') . '">个人<span class="label label-warning pull-right">26</span></a>' . 
+		                    '<li id="active-personal"><a href="'. site_url('WorkingTime/perWorkingTime') . '">个人<span class="label label-warning pull-right"><i class="fa fa-heart-o heart-margin"></i></span></a>' . 
 		                    '</li>' . 
 		                    '<li id="active-allmembers"><a href="'. site_url('WorkingTime/allWorkingTime') . '">全员</a>' . 
 		                    '</li>' . 
 		                '</ul>' . 
 		            '</li>';
-		        } else if ($_SESSION['level'] == 0 || $_SESSION['level'] == 1) { echo
+		        } else if ($_SESSION['level'] == 0 || $_SESSION['level'] == 1 || $_SESSION['level'] == -1) { echo
 		            '<li id="active-timeStatistics">' .
 		            	'<a href="'. site_url('WorkingTime/perWorkingTime') . '"><i class="fa fa-rmb"></i> <span class="nav-label"> &nbsp;我的工时</span></a>' .
 		            '</li>';
@@ -129,16 +131,17 @@
 		        <a href="Homepage#"><i class="fa fa-calendar"></i> <span class="nav-label"> 值班安排</span><span class="fa arrow"></span></a>
 		        <ul class="nav nav-second-level">
 		        	<?php 
-		        	if ($_SESSION['level'] == 0 || $_SESSION['level'] == 3 || $_SESSION['level'] == 6) { echo
-		                '<li id="active-dutySignUp"><a href="'. site_url('DutySignUp') . '">报名</a>' . 
-		                '</li>';
-		        	} 
-		        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) { echo
-		                '<li id="active-dutyArrange"><a href="'. site_url('DutyArrange/dutyArrange') . '">排班</a>' . 
-		                '</li>';
-		        	} 
-		        ?>
+			        	if ($_SESSION['level'] == 0 || $_SESSION['level'] == 3 || $_SESSION['level'] == 6) { echo
+			                '<li id="active-dutySignUp"><a href="'. site_url('DutySignUp') . '">报名</a>' . 
+			                '</li>';
+			        	} 
+			        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) { echo
+			                '<li id="active-dutyArrange"><a href="'. site_url('DutyArrange/dutyArrange') . '">排班</a>' . 
+			                '</li>';
+			        	} 
+			        ?>
 		            <li id="active-dutySchedule"><a href="<?php echo site_url('DutyArrange/dutySchedule'); ?>">值班表</a>
+                    <li id="active-freeTable"><a href="<?php echo site_url('DutyArrange/freeTable'); ?>">空余时间表</a>
 		            </li>
 		        </ul>
 		    </li>

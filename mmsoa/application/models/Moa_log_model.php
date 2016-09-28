@@ -3,7 +3,7 @@
  * 日志模型类
  * @author Rinka
  */
-class moa_log_model extends CI_Model {
+class Moa_log_model extends CI_Model {
  	/**
 	 * 加入一个新记录
 	 * @param paras - 参数列表

@@ -6799,3 +6799,62 @@ body.skin-3 {
 	font-size: 17px;
 	line-height: 26px;
 }
+
+.exportSignupBtn {
+	float: right;
+    margin: -8px 12px 0 0 !important;
+}
+
+.cancelBtn {
+	float: left;
+}
+
+.exclamation-info {
+	color: #ED5565;
+}
+
+.exclamation-desc {
+	color: black;
+}
+
+.radio-font-size {
+	font-size: 14px !important;
+}
+
+.best-bad-lable {
+	padding-top: 63px !important;
+}
+
+.other-lable {
+	padding-top: 40px !important;
+}
+
+.other-height {
+	height: 100px !important;
+}
+
+#select_replaced_chosen {
+	font-weight: 300 !important;
+}
+
+.heart-margin {
+	margin-right: 0 !important;
+}
+
+.dtp-input-div {
+	height: 35px !important;
+	border: 1px solid #CBD5DD !important;
+    border-radius: 2px !important;
+}
+
+.dtp-addon {
+    background-color: #F3F3F4 !important;
+}
+
+.search-btn {
+	visibility: hidden !important;
+}
+
+.btn-longer {
+    width: 128px !important;
+}

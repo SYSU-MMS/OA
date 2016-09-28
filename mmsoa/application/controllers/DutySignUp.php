@@ -10,9 +10,9 @@ require_once('PublicMethod.php');
 Class DutySignUp extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
-		$this->load->model('moa_worker_model');
-		$this->load->model('moa_nschedule_model');
+		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
+		$this->load->model('Moa_nschedule_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -42,7 +42,7 @@ Class DutySignUp extends CI_Controller {
 	public function signUp() {
 		if (isset($_SESSION['user_id'])) {
 			$uid = $_SESSION['user_id'];
-			$wid = $this->moa_worker_model->get_wid_by_uid($uid);
+			$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
 			
 			$groupid = '';
 			if (isset($_POST['groupid'])) {
@@ -115,10 +115,10 @@ Class DutySignUp extends CI_Controller {
 			
 			// 写入数据库
 			if ($periods != '') {
-				$schedule_obj_list = $this->moa_nschedule_model->get($wid);
+				$schedule_obj_list = $this->Moa_nschedule_model->get($wid);
 				// 该助理已报过名，则删除原记录
 				if (count($schedule_obj_list) != 0) {
-					$delete_res = $this->moa_nschedule_model->delete($schedule_obj_list[0]->nsid);
+					$delete_res = $this->Moa_nschedule_model->delete($schedule_obj_list[0]->nsid);
 					if ($delete_res == 0) {
 						//echo json_encode(array("status" => FALSE, "msg" => "你之前报过名，请联系助理负责人"));
 						echo("提交失败");
@@ -127,7 +127,7 @@ Class DutySignUp extends CI_Controller {
 				}
 
 				// 增加新记录
-				$nsid = $this->moa_nschedule_model->add($ns_paras);
+				$nsid = $this->Moa_nschedule_model->add($ns_paras);
 				if ($nsid == FALSE) {
 					$this->signup_failure();
 					return;
@@ -201,18 +201,120 @@ Class DutySignUp extends CI_Controller {
 	}
 	
 	/**
-	 * 输出到txt文件
+	 * 清空报名记录
+	 */
+	public function cleanSignUp() {
+		// 检查权限: 3-助理负责人 6-超级管理员
+		if ($_SESSION['level'] != 3 && $_SESSION['level'] != 6) {
+			// 提示权限不够
+			PublicMethod::permissionDenied();
+		}
+		
+		$this->Moa_nschedule_model->clean();
+		echo json_encode(array("status" => TRUE, "msg" => "报名记录已清空"));
+		return;
+	}
+	
+	/**
+	 * 导出报名记录到txt文件
 	 */
 	public function exportToTxt() {
+		// 检查权限: 3-助理负责人 6-超级管理员
+		if ($_SESSION['level'] != 3 && $_SESSION['level'] != 6) {
+			// 提示权限不够
+			PublicMethod::permissionDenied();
+		}
+		
 		header('Content-type: application/octet-stream');
 		header('Accept-Ranges: bytes');
-		header('Content-Disposition: attachment; filename="test.txt"');
+		header('Content-Disposition: attachment; filename="signup.txt"');
 		header('Expires: 0');
 		header('Content-Transfer-Encoding: utf-8');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
-		echo "林伟,A,0,1,1,0\r\n";
-		echo "林伟彬,B,0,1,1,0\r\n";
+		
+		// 从数据库获取所有报名记录（空余时间记录）
+		$nschedule_obj_list = $this->Moa_nschedule_model->getAll();
+		for ($i = 0; $i < count($nschedule_obj_list); $i++) {
+			// 获取姓名
+			$worker_obj = $this->Moa_worker_model->get($nschedule_obj_list[$i]->wid);
+			$user_obj = $this->Moa_user_model->get($worker_obj->uid);
+			$name = $user_obj->name;
+			// 获取意向组别
+			$group = $nschedule_obj_list[$i]->groupid;
+			// 获取01表示的报名时间段字符串
+			$period = $this->periodConvertTo01($nschedule_obj_list[$i]->period);
+			// 写入到txt文件
+			echo $name . "," . $group . "," . $period . "\r\n";
+		}
+		return;
+	}
+	
+	/**
+	 * 将报名时间段字符串转换为01表示的字符串
+	 * @param $period_str 报名时间段字符串
+	 */
+	private function periodConvertTo01($period_str) {
+		$res_arr = array();
+		$period_arr = explode(",", $period_str);
+		// MON1~MON6
+		for ($i = 1; $i <= 6; $i++) {
+			if (in_array("MON".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// TUE1~TUE6
+		for ($i = 1; $i <= 6; $i++) {
+			if (in_array("TUE".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// WED1~WED6
+		for ($i = 1; $i <= 6; $i++) {
+			if (in_array("WED".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// THU1~THU6
+		for ($i = 1; $i <= 6; $i++) {
+			if (in_array("THU".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// FRI1~FRI6
+		for ($i = 1; $i <= 6; $i++) {
+			if (in_array("FRI".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// SAT1~SAT3
+		for ($i = 1; $i <= 3; $i++) {
+			if (in_array("SAT".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		// SUN1~SUN3
+		for ($i = 1; $i <= 3; $i++) {
+			if (in_array("SUN".$i, $period_arr)) {
+				$res_arr[] = "1";
+			} else {
+				$res_arr[] = "0";
+			}
+		}
+		$res_str = implode(",", $res_arr);
+		return $res_str;
 	}
 	
 }

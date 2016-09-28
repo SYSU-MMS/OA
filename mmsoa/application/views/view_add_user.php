@@ -74,13 +74,14 @@
                                         <label class="col-sm-3 col-sm-offset-1 control-label">职务</label>
                                         <div class="col-sm-4">
                                         	<select id="select_level" name="level" data-placeholder="请选择用户类型" class="chosen-select col-sm-12" tabindex="4">
-                                        		<option value="9">请选择用户类型</option>
+                                        		<option value="-1">请选择用户类型</option>
                                         		<option value="0">普通助理</option>
                                         		<option value="1">组长</option>
                                         		<option value="2">负责人助理</option>
                                         		<option value="3">助理负责人</option>
                                         		<option value="4">管理员</option>
                                         		<option value="5">办公室负责人</option>
+                                                <option value="-1">离职人员</option>
                                         	</select>
                                         </div>
                                     </div>

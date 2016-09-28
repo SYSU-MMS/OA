@@ -3,7 +3,7 @@
  * 空余时间表类
  * @author Rinka
  */
-class moa_nschedule_model extends CI_Model {
+class Moa_nschedule_model extends CI_Model {
  	/**
 	 * 加入一个新空余时间记录
 	 * @param paras - 参数列表
@@ -31,6 +31,13 @@ class moa_nschedule_model extends CI_Model {
 		else {
 			return false;
 		}
+	}
+	
+	/**
+	 * 获取所有空余时间记录
+	 */
+	public function get_all() {
+		return $this->db->get('MOA_nschedule')->result();
 	}
 
 	/**
@@ -66,7 +73,7 @@ class moa_nschedule_model extends CI_Model {
 	/**
 	 * 清空空余时间表
 	 */
-	public function clear() {
+	public function clean() {
 		$sb = 'DELETE FROM MOA_nschedule';
 		$sqlquery = $this->db->query($sb);
 		return $this->db->affected_rows();

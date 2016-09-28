@@ -1,6 +1,5 @@
-<?php
+﻿<?php
 header("Content-type: text/html; charset=utf-8");
-require 'CropAvatar.php';
 require_once('PublicMethod.php');
 
 /**
@@ -10,7 +9,7 @@ require_once('PublicMethod.php');
 Class ChangeAvatar extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('moa_user_model');
+		$this->load->model('Moa_user_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -23,7 +22,7 @@ Class ChangeAvatar extends CI_Controller {
 	public function index() {
 		if (isset($_SESSION['user_id'])) {
 			// 获取个人信息
-			$obj = $this->moa_user_model->get($_SESSION['user_id']);
+			$obj = $this->Moa_user_model->get($_SESSION['user_id']);
 			$data['username'] = $obj->username;
 			$data['error'] = '';
 			$this->load->view('view_change_avatar', $data);
@@ -33,16 +32,37 @@ Class ChangeAvatar extends CI_Controller {
 		}
 	}
 	
-	public function uploadAvatar_OOP() {
-		// 面向对象的头像裁剪上传  require 'Cropavatar.php';
-		$crop = new CropAvatar($_POST['avatar_src'], $_POST['avatar_data'], $_FILES['avatar_file']);
-		$response = array(
-				'state'  => 200,
-				'message' => $crop -> getMsg(),
-				'result' => $crop -> getResult()
-		);
-		echo json_encode($response);
+	/**
+	 * 获取最新头像（更换头像后，异步刷新左侧导航栏中的小头像）
+	 */
+	public function getLastedAvatar() {
+		if (isset($_POST['old_avatar_name'])) {
+			$sm_src_pic_name = $_POST['old_avatar_name'];
+			$obj = $this->Moa_user_model->get($_SESSION['user_id']);
+			if (('sm_' . $obj->avatar) != $sm_src_pic_name) {
+				// 更新session的avatar
+				$_SESSION['avatar'] = $obj->avatar;
+				// 删除旧的sm小头像,默认的除外
+				if (file_exists('upload/avatar/' . $sm_src_pic_name) && ($sm_src_pic_name != "sm_default.png")) {
+					unlink('upload/avatar/' . $sm_src_pic_name);
+				}
+			}
+			
+			echo json_encode(array("status" => TRUE, "imgSrc" => $obj->avatar));
+			return;
+		}
 	}
+	
+// 	public function uploadAvatar_OOP() {
+// 		// 面向对象的头像裁剪上传  require 'Cropavatar.php';
+// 		$crop = new CropAvatar($_POST['avatar_src'], $_POST['avatar_data'], $_FILES['avatar_file']);
+// 		$response = array(
+// 				'state'  => 200,
+// 				'message' => $crop -> getMsg(),
+// 				'result' => $crop -> getResult()
+// 		);
+// 		echo json_encode($response);
+// 	}
 	
 	/**
 	 * 头像裁剪上传与数据库记录
@@ -247,13 +267,13 @@ Class ChangeAvatar extends CI_Controller {
 				
 				/**** 头像文件名存入数据库 ****/
 				// 首先删除原有头像文件，默认头像除外
-				$old_avatar = $this->moa_user_model->get($uid)->avatar;
+				$old_avatar = $this->Moa_user_model->get($uid)->avatar;
 				if ($old_avatar != 'default.png') {
 					unlink('upload/avatar/' . $old_avatar);
 				}
-				
+				// 更新数据库头像文件名
 				$user_paras['avatar'] = $avatar_pic_name;
-				$res = $this->moa_user_model->update($uid, $user_paras);
+				$res = $this->Moa_user_model->update($uid, $user_paras);
 				
 				if ($res != FALSE && $res > 0) {
 					$_SESSION['avatar'] = $avatar_pic_name;
@@ -265,8 +285,9 @@ Class ChangeAvatar extends CI_Controller {
 				}
 				
 				// 不论更换是否成功，都删除原文件
-				unlink('upload/avatar/' . $src_pic_name);
-				unlink('upload/avatar/sm_' . $src_pic_name);
+				if (file_exists('upload/avatar/' . $src_pic_name) && ($src_pic_name != "default.png")) {
+					unlink('upload/avatar/' . $src_pic_name);
+				}
 				
 				/**** return ****/
 				$result = !empty($data) ? $dst : $src;

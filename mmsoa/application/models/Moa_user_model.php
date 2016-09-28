@@ -3,7 +3,7 @@
  * 用户模型类
  * @author Rinka
  */
-class moa_user_model extends CI_Model {
+class Moa_user_model extends CI_Model {
  	/**
 	 * 加入一个新的用户
 	 * @param paras - 参数列表
@@ -40,11 +40,11 @@ class moa_user_model extends CI_Model {
 	 * 删除/恢复一个用户
 	 * @param id - 用户id
 	 */
-	public function delete($id, $isrecovere = false) {
+	public function delete($id, $isrecover = false) {
 		if(isset($id)) {
 			$this->db->where(array('uid'=>$id));
-			if (!$isrecovere) {
-				$this->db->update('MOA_User', array('state'=>1));
+			if (!$isrecover) {
+				$this->db->update('MOA_User', array('state'=>2));
 			}
 			else {
 				$this->db->update('MOA_User', array('state'=>0));
@@ -298,7 +298,7 @@ class moa_user_model extends CI_Model {
 	 */
 	public function login_check($username, $password) {
 		if (isset($username) and isset($password)) {
-			$sb = 'SELECT username, password FROM MOA_User WHERE username = "' . $username . '" AND password = "' . $password . '"';
+			$sb = 'SELECT username, password FROM MOA_User WHERE (state = 0 OR state = 3) AND username = "' . $username . '" AND password = "' . $password . '"';
 			$sqlquery = $this->db->query($sb);
 			$dataarr = $sqlquery->result();
 			if (count($dataarr) == 0) {
@@ -328,4 +328,90 @@ class moa_user_model extends CI_Model {
 		}
 	}
 
+	/**
+	 * 获取名人堂中所有记录
+	 * @return 记录数组
+	 */
+	public function get_stars() {
+		$sb = 'SELECT * FROM MOA_Star';
+		$sqlquery = $this->db->query($sb);
+		return $sqlquery->result();
+	}
+    
+    /**
+	 * 获取名人堂中指定wid的记录
+     * @param wid - 工号id
+	 * @return 记录数组
+	 */
+	public function get_star_by_wid($wid) {
+		if (isset($wid)) {
+			$this->db->where(array('wid'=>$wid));
+			$res = $this->db->get('MOA_Star')->result();
+            if (is_null($res) == TRUE || count($res) == 0) {
+                return FALSE;
+            }
+			return $res[0];
+		}
+		return FALSE;
+	}
+    
+    /**
+	 * 获取名人堂中一条记录
+	 * @param id - 名人id
+	 */
+	public function get_star($starid) {
+		if (isset($id)) {
+			$this->db->where(array('starid'=>$starid));
+			$res = $this->db->get('MOA_Star')->result();
+			return $res[0];
+		}
+		return FALSE;
+	}
+    
+ 	/**
+	 * 加入一个名人
+	 * @param paras - 参数列表
+	 * @return 这个名人的starid
+	 */
+	public function add_star($paras) {
+		if (isset($paras)) {
+			$this->db->insert('MOA_Star', $paras);
+			return $this->db->insert_id();
+		}
+		else {
+			return FALSE;
+		}
+	}
+    
+    /**
+	 * 删除一个名人
+	 * @param id - 名人starid
+	 */
+	public function delete_star($id) {
+		if(isset($id)) {
+			$this->db->where(array('starid'=>$id));
+            $this->db->delete('MOA_Star');
+			return $this->db->affected_rows();
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * 更新一个用户信息
+	 * @param id - 名人starid
+	 * @param paras - 信息
+	 */
+	public function update_star($id, $paras) {
+		if(isset($id)) {
+			$this->db->where(array('starid'=>$id));
+			$this->db->update('MOA_Star', $paras);
+			return $this->db->affected_rows();
+		}
+		else {
+			return false;
+		}
+	}
+    
 }

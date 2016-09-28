@@ -76,43 +76,41 @@
 	                                    <div class="panel-body my-panel-body">
 	                                        <div class="tab-content">
 	                                            <div id="base" class="tab-pane active">
-	                                            	<div class="form-group"  style="height: 38px;">
-	                                            		<label class="col-sm-1 control-label" style="padding: 8px 0px 0px 0px; margin-right: -2px;">
-	                                            			<h5>签到：
-	                                            			</h5>
-	                                            		</label>
-	                                            		<div class="col-sm-11">
-	                                            			<input type="checkbox" name="signin_onduty" id="onduty" class="js-switch" />
-	                                            		</div>
+	                                            	<div style="height:50px;">
+	                                            		<h5>签到：
+	                                            			<span><input type="checkbox" name="signin_onduty" id="onduty" class="js-switch" /></span>
+	                                            		</h5>
 	                                            	</div>
 	                                            	
-	                                            	<div class="form-group" style="height: 30px;">
-					                                    <label class="col-sm-1 control-label" style="padding: 3px 0px 0px 0px; margin-right: -20px;"><h5>是否代班：</h5></label>
-														<div class="col-sm-11">
-														    <label class="radio-inline" style="font-size: 14px;">
-														        <input type="radio" checked="" disabled="" value="0" id="replaced_no" class="my_radio" name="group_radio"> 否 </label>
-														    <label class="radio-inline" style="font-size: 14px;">
-														        <input type="radio" disabled="" value="1" id="replaced_yes" class="my_radio" name="group_radio"> 是 </label>
-														</div>
-				                                    </div>
+	                                            	<div style="height: 30px;">
+	                                            		<h5>是否代班：
+	                                            			<span>
+	                                            				<label class="radio-inline" style="font-size: 14px;">
+														        	<input type="radio" checked="" disabled="" value="0" id="replaced_no" class="my_radio" name="group_radio"> 否 </label>
+														    	<label class="radio-inline" style="font-size: 14px;">
+														        	<input type="radio" disabled="" value="1" id="replaced_yes" class="my_radio" name="group_radio"> 是 </label>
+	                                            			</span>
+	                                            		</h5>
+	                                            	</div>
 				                                    
-				                                    <div class="form-group" id="chosen_replaced" style="height: 30px; position: relative; z-index: 999999;">
-				                                        <label class="col-sm-2 control-label" style="padding: 8px 0px 0px 0px; margin-right: -82px; "><h5>原值班助理：</h5></label>
-				                                        <div class="col-sm-3">
-				                                        	<select id="select_replaced" name="replaced_colleague" data-placeholder="请选择原值班助理" class="chosen-select col-sm-12" tabindex="4">
-				                                        		<option value="">请选择原值班助理</option>
-				                                        		<?php 
-				                                        			for ($i = 0; $i < count($name_list); $i++) {
-				                                        				// 排除自己
-				                                        				if ($wid_list[$i] != $wid) {
-				                                        		?>
-				                                        			<option value="<?php echo $wid_list[$i]; ?>"><?php echo $name_list[$i]; ?></option>
-				                                        		<?php 
-				                                        				}
-				                                        			} 
-				                                        		?>
-				                                        	</select>
-				                                        </div>
+				                                    <div  id="chosen_replaced" style="height: 30px; position: relative; z-index: 999999;">
+				                                        <h5>原值班助理：
+				                                        	<span>
+					                                        	<select id="select_replaced" name="replaced_colleague" data-placeholder="请选择原值班助理" class="chosen-select col-sm-12" tabindex="4">
+					                                        		<option value="">请选择原值班助理</option>
+					                                        		<?php 
+					                                        			for ($i = 0; $i < count($name_list); $i++) {
+					                                        				// 排除自己
+					                                        				if ($wid_list[$i] != $wid) {
+					                                        		?>
+					                                        			<option value="<?php echo $wid_list[$i]; ?>"><?php echo $name_list[$i]; ?></option>
+					                                        		<?php 
+					                                        				}
+					                                        			} 
+					                                        		?>
+					                                        	</select>
+				                                        	</span>
+				                                        </h5>
 				                                    </div>
 				                                    
 						                            <div class="ibox-content" style="margin-bottom: 0px; padding-bottom: 0px;">

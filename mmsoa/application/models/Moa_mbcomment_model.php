@@ -3,7 +3,7 @@
  * 站内论坛评论模型类
  * @author Rinka
  */
-class moa_mbcomment_model extends CI_Model {
+class Moa_mbcomment_model extends CI_Model {
     /**
      * 增加一个评论
      * @param paras - 参数列表
@@ -41,13 +41,14 @@ class moa_mbcomment_model extends CI_Model {
      * 取指定状态、bpid的所有评论
      * @param unknown $bpid 帖子id
      * @param unknown $state 评论状态
-     * @param string $nums 最大数目
+     * @param string $nums 最大数目,默认为10条
      * @param number $offset 偏移量
+     * @param string $order 顺序或倒序,'ASC','DESC',默认倒序
      */
-    public function get_by_bpid($bpid, $state, $nums = NULL, $offset = 0) {
+    public function get_by_bpid($bpid, $state, $nums = 10, $offset = 0, $order='DESC') {
     	if (isset($bpid) && isset($state)) {
     		$this->db->where(array('bpid' => $bpid, 'state' => $state));
-    		$this->db->order_by('mbctimestamp', 'ASC');
+    		$this->db->order_by('mbctimestamp', $order);
     		if (!is_null($nums)) {
     			$this->db->limit($nums, $offset);
     		}
