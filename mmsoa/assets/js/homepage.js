@@ -119,7 +119,7 @@ $("body").on("click", ".comment-btn", function () {
 			ret = JSON.parse(msg);
 			if (ret['status'] === true) {
 				$(write_comment_id_selector).before(
-					"<div class='social-comment'>" +
+					"<div class='social-comment social-comment-"+post_id+"'>" +
 					"<a href='' class='pull-left'>" +
 					"<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
 					"</a>" +
@@ -140,6 +140,7 @@ $("body").on("click", ".comment-btn", function () {
 // 页面上显示的最后一条留言的发表时间
 var last_post_date;
 
+//获取更多的评论
 function showMoreComment(bpid, offset){
 	$.ajax({
 		type: 'post',
@@ -149,14 +150,14 @@ function showMoreComment(bpid, offset){
 			"bpid": bpid
 		},
 		success: function (msg){
-			console.log(msg);
+			//console.log(msg);
 			var ret = JSON.parse(msg);
 			if (ret['status'] === true){
 				if (ret['comment_list'][0]!== null){
 					var write_comment_id_selector = "#write_comment_" + ret['post_list'][0]['bpid'];
 					for (var j = 0; j < ret['comment_list'][0].length; j++) {
 						$(write_comment_id_selector).before(
-							"<div class='social-comment'>" +
+							"<div class='social-comment social-comment-"+ret['post_list'][0]['bpid']+"'>" +
 							"<a href='' class='pull-left'>" +
 							"<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['comment_list'][0][j]['avatar'] + "'>" +
 							"</a>" +
@@ -168,12 +169,60 @@ function showMoreComment(bpid, offset){
 							"</div>" +
 							"</div>"
 						);
-						console.log(ret['post_list'][0]['bpid']);
-						console.log(comment_count[ret['post_list'][0]['bpid']]);
+						//console.log(ret['post_list'][0]['bpid']);
+						//console.log(comment_count[ret['post_list'][0]['bpid']]);
+						//新增显示的评论时给计数器+1s
 						comment_count[ret['post_list'][0]['bpid']]++;
-						console.log(comment_count[ret['post_list'][0]['bpid']]);
+						//console.log(comment_count[ret['post_list'][0]['bpid']]);
 					}
+					//更新"更多"按钮的onclick属性
 					$("#more_comment_btn_"+bpid).attr("onclick","showMoreComment("+bpid+","+
+						comment_count[bpid]+")");
+				}
+			}
+		}
+	});
+}
+
+//刷新评论区域,显示最新的10条评论
+function refreshComment(bpid){
+	$.ajax({
+		type: 'post',
+		url: 'Homepage/getMoreComment/'+bpid+"/"+"0",
+		data: {
+			//"offset": offset,
+			"bpid": bpid
+		},
+		success: function (msg){
+			//console.log(msg);
+			var ret = JSON.parse(msg);
+			if (ret['status'] === true){
+				if (ret['comment_list'][0]!== null){
+					var write_comment_id_selector = "#write_comment_" + ret['post_list'][0]['bpid'];
+					$(".social-comment-"+ret['post_list'][0]['bpid']).remove();
+					comment_count[ret['post_list'][0]['bpid']]=0;
+					for (var j = 0; j < ret['comment_list'][0].length; j++) {
+						$(write_comment_id_selector).before(
+							"<div class='social-comment social-comment-"+ret['post_list'][0]['bpid']+"'>" +
+							"<a href='' class='pull-left'>" +
+							"<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['comment_list'][0][j]['avatar'] + "'>" +
+							"</a>" +
+							"<div class='media-body'>" +
+							"<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['comment_list'][0][j]['myid'] + "'>"
+							+ ret['comment_list'][0][j]['name'] + "</a>： " + ret['comment_list'][0][j]['body'] + "<br/>" +
+							"<small class='text-muted'> " + ret['comment_list'][0][j]['splited_date']['month'] + "月" + ret['comment_list'][0][j]['splited_date']['day'] + "日 " +
+							ret['comment_list'][0][j]['splited_date']['hour'] + ":" + ret['comment_list'][0][j]['splited_date']['minute'] + "</small>" +
+							"</div>" +
+							"</div>"
+						);
+						//console.log(ret['post_list'][0]['bpid']);
+						//console.log(comment_count[ret['post_list'][0]['bpid']]);
+						//新增显示的评论时给计数器+1s
+						comment_count[ret['post_list'][0]['bpid']]++;
+						//console.log(comment_count[ret['post_list'][0]['bpid']]);
+					}
+					//更新"更多"按钮的onclick属性
+					$("#refresh_comment_btn_"+bpid).attr("onclick","refreshComment("+bpid+","+
 						comment_count[bpid]+")");
 				}
 			}
@@ -222,7 +271,8 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
 								"</div>" +
 								"<div class='social-footer'>" +
 									"<div class='btn-group' id='write_comment_" + ret['post_list'][i]['bpid'] + "' style='padding-top: 6px;'>" +
-										"<button class='more-comment-btn btn btn-primary btn-xs' id='more_comment_btn_" + ret['post_list'][i]['bpid'] + "'>更早回复</button>" +
+										"<button class='more-comment-btn btn btn-primary btn-xs' id='more_comment_btn_" + ret['post_list'][i]['bpid'] + "'><i class='fa fa-ellipsis-h'></i> 更早</button>" +
+										"<button class='refresh-comment-btn btn btn-primary btn-xs' id='refresh_comment_btn_"+ret['post_list'][i]['bpid']+"'><i class='fa fa-refresh'></i> 刷新</button>" +
 									"</div>" +
 									"<div class='social-comment'>" +
 										"<div class='media-body' style='margin-top: 4px;'>" +
@@ -242,13 +292,14 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
 					// 显示留言对应的所有评论
 					if (ret['comment_list'][i] !== null) {
 						var write_comment_id_selector = "#write_comment_" + ret['post_list'][i]['bpid'];
-						console.log(comment_count[ret['post_list'][i]['bpid']]);
+						//console.log(comment_count[ret['post_list'][i]['bpid']]);
+						//初始化留言评论计数器
 						if (comment_count[ret['post_list'][i]['bpid']]==undefined){
 							comment_count[ret['post_list'][i]['bpid']]=0;
 						}
 						for (var j = 0; j < ret['comment_list'][i].length; j++) {
 							$(write_comment_id_selector).before(
-								"<div class='social-comment'>" +
+								"<div class='social-comment social-comment-"+ret['post_list'][i]['bpid']+"'>" +
 								"<a href='' class='pull-left'>" +
 								"<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['comment_list'][i][j]['avatar'] + "'>" +
 								"</a>" +
@@ -260,6 +311,7 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
 								"</div>" +
 								"</div>"
 							);
+							//每显示一条回复计数器+1s
 							comment_count[ret['post_list'][i]['bpid']]++;
 							//console.log(comment_count[ret['post_list'][i]['bpid']]);
 						}
@@ -267,8 +319,11 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
 						//console.log("#more_comment_btn_"+ret['post_list'][i]['bpid']);
 						//console.log("showMoreComment("+ret['post_list'][i]['bpid']+","+
 						//	comment_count[ret['post_list'][i]['bpid']]+")");
+						//给"更多"按钮添加onclick属性
 						$("#more_comment_btn_"+ret['post_list'][i]['bpid']).attr("onclick","showMoreComment("+ret['post_list'][i]['bpid']+","+
 							comment_count[ret['post_list'][i]['bpid']]+")");
+						//给"刷新"按钮添加onclick属性
+						$("#refresh_comment_btn_"+ret['post_list'][i]['bpid']).attr("onclick","refreshComment("+ret['post_list'][i]['bpid']+")");
 
 					}
 
