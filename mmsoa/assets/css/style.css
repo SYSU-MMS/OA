@@ -37,6 +37,17 @@ h5 {
   margin-top: 5px;
   font-weight: 600;
 }
+.reply-to{
+  color:#9C9C9C;
+}
+.delete-comment{
+  color:#9C9C9C;
+}
+.reply-to-area{
+  margin-top:6px;
+  text-align:right;
+  display:none;
+}
 .nav > li > a {
   color: #a7b1c2;
   font-weight: 600;
