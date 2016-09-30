@@ -77,6 +77,11 @@ Class Homepage extends CI_Controller
             $user_obj = $this->Moa_user_model->get($uid);
             $name = $user_obj->name;
             $avatar = $user_obj->avatar;
+            if (isset($_POST['ruid'])) {
+                $ruid = $_POST['ruid'];
+            } else {
+                $ruid = 0;
+            }
 
             // 添加新评论
             if (isset($_POST['comment_content']) && isset($_POST['post_id'])) {
@@ -87,6 +92,13 @@ Class Homepage extends CI_Controller
                 $timestamp = date('Y-m-d H:i:s');
                 $comment_paras['mbctimestamp'] = $timestamp;
                 $comment_paras['body'] = $_POST['comment_content'];
+                $comment_paras['ruid'] = $ruid;
+                if ($ruid > 0) {
+                    $tmp_comment_user_rpl = $this->Moa_user_model->get($ruid);
+                    $ruser = $tmp_comment_user_rpl->name;
+                } else {
+                    $ruser = "";
+                }
                 $mbcid = $this->Moa_mbcomment_model->add($comment_paras);
                 if ($mbcid == FALSE) {
                     echo json_encode(array("status" => FALSE, "msg" => "评论失败"));
@@ -95,7 +107,7 @@ Class Homepage extends CI_Controller
                     $splited_date = PublicMethod::splitDate($timestamp);
                     echo json_encode(array("status" => TRUE, "msg" => "评论成功", "name" => $name, "avatar" => $avatar,
                         "splited_date" => $splited_date, "mbcid" => $mbcid, "base_url" => base_url(),
-                        "site_url" => site_url(), "myid" => $uid));
+                        "site_url" => site_url(), "myid" => $uid, "ruid" => $ruid, "ruser" => $ruser));
                     return;
                 }
             }
@@ -164,6 +176,14 @@ Class Homepage extends CI_Controller
                             $tmp_comment_user_obj = $this->Moa_user_model->get($tmp_comment_uid);
                             $tmp_comment_name = $tmp_comment_user_obj->name;
                             $tmp_comment_avatar = $tmp_comment_user_obj->avatar;
+                            $tmp_comment_mbcid = $comment_obj_list[$j]->mbcid;
+                            $tmp_comment_ruid = $comment_obj_list[$j]->ruid;
+                            $tmp_comment_ruser = "";
+
+                            if ($tmp_comment_ruid > 0) {
+                                $tmp_comment_user_rpl = $this->Moa_user_model->get($tmp_comment_ruid);
+                                $tmp_comment_ruser = $tmp_comment_user_rpl->name;
+                            }
 
                             // 前端渲染所用数据
                             $comment_list[$i][$j]['myid'] = $tmp_comment_uid;
@@ -171,6 +191,9 @@ Class Homepage extends CI_Controller
                             $comment_list[$i][$j]['name'] = $tmp_comment_name;
                             $comment_list[$i][$j]['avatar'] = $tmp_comment_avatar;
                             $comment_list[$i][$j]['splited_date'] = PublicMethod::splitDate($tmp_comment_mbctimestamp);
+                            $comment_list[$i][$j]['mbcid'] = $tmp_comment_mbcid;
+                            $comment_list[$i][$j]['ruid'] = $tmp_comment_ruid;
+                            $comment_list[$i][$j]['ruser'] = $tmp_comment_ruser;
 
                         }
                     }
@@ -186,7 +209,7 @@ Class Homepage extends CI_Controller
     /**获取更多评论
      *
      */
-    public function getMoreComment($bpid,$offset)
+    public function getMoreComment($bpid, $offset)
     {
         if (isset($_SESSION['user_id'])) {
             // 获取当前用户的头像，用于评论区
@@ -239,6 +262,14 @@ Class Homepage extends CI_Controller
                         $tmp_comment_user_obj = $this->Moa_user_model->get($tmp_comment_uid);
                         $tmp_comment_name = $tmp_comment_user_obj->name;
                         $tmp_comment_avatar = $tmp_comment_user_obj->avatar;
+                        $tmp_comment_mbcid = $comment_obj_list[$j]->mbcid;
+                        $tmp_comment_ruid = $comment_obj_list[$j]->ruid;
+                        $tmp_comment_ruser = "";
+
+                        if ($tmp_comment_ruid > 0) {
+                            $tmp_comment_user_rpl = $this->Moa_user_model->get($tmp_comment_ruid);
+                            $tmp_comment_ruser = $tmp_comment_user_rpl->name;
+                        }
 
                         // 前端渲染所用数据
                         $comment_list[$i][$j]['myid'] = $tmp_comment_uid;
@@ -246,6 +277,95 @@ Class Homepage extends CI_Controller
                         $comment_list[$i][$j]['name'] = $tmp_comment_name;
                         $comment_list[$i][$j]['avatar'] = $tmp_comment_avatar;
                         $comment_list[$i][$j]['splited_date'] = PublicMethod::splitDate($tmp_comment_mbctimestamp);
+                        $comment_list[$i][$j]['mbcid'] = $tmp_comment_mbcid;
+                        $commert_list[$i][$j]['ruid'] = $tmp_comment_ruid;
+                        $comment_list[$i][$j]['ruser'] = $tmp_comment_ruser;
+
+                    }
+                }
+            }
+            echo json_encode(array("status" => TRUE, "msg" => "获取留言与评论成功", "cur_avatar" => $cur_avatar,
+                "base_url" => base_url(),
+                "site_url" => site_url(), "post_list" => $post_list, "comment_list" => $comment_list));
+            return;
+            //}
+        }
+    }
+
+    /**获取所有评论
+     *
+     */
+    public function getAllComment($bpid, $offset)
+    {
+        if (isset($_SESSION['user_id'])) {
+            // 获取当前用户的头像，用于评论区
+            $cur_avatar = $this->Moa_user_model->get($_SESSION['user_id'])->avatar;
+            //$bpid=$_POST['bpid'];
+            //error_log($bpid,0);
+            //$offset=$_POST['offset'];
+
+            $post_obj_list = $this->Moa_mmsboard_model->get($bpid);
+
+            if (empty($post_obj_list)) {
+                echo json_encode(array("status" => FALSE, "msg" => "获取留言失败"));
+                return;
+            }
+
+            $post_list = array();
+            $comment_list = array();
+
+            for ($i = 0; $i < count($post_obj_list); $i++) {
+                $tmp_post_bpid = $post_obj_list->bpid;
+                $tmp_post_uid = $post_obj_list->uid;
+                $tmp_post_bptimestamp = $post_obj_list->bptimestamp;
+                $tmp_post_body = $post_obj_list->body;
+                $tmp_post_user_obj = $this->Moa_user_model->get($tmp_post_uid);
+                $tmp_post_name = $tmp_post_user_obj->name;
+                $tmp_post_avatar = $tmp_post_user_obj->avatar;
+
+                // 前端渲染所用数据
+                $post_list[$i]['myid'] = $tmp_post_uid;
+                $post_list[$i]['bpid'] = $tmp_post_bpid;
+                $post_list[$i]['bptimestamp'] = $tmp_post_bptimestamp;
+                $post_list[$i]['body'] = $tmp_post_body;
+                $post_list[$i]['name'] = $tmp_post_name;
+                $post_list[$i]['avatar'] = $tmp_post_avatar;
+                $post_list[$i]['splited_date'] = PublicMethod::splitDate($tmp_post_bptimestamp);
+
+                // 取该留言对应的评论
+                $comment_state = 0;
+                $nums = 999999999;
+                $comment_obj_list = $this->Moa_mbcomment_model->get_by_bpid($tmp_post_bpid, $comment_state, $nums, $offset);
+
+                //评论为空
+                if (empty($comment_obj_list)) {
+                    $comment_list[$i] = NULL;
+                } else {
+                    for ($j = 0; $j < count($comment_obj_list); $j++) {
+                        $tmp_comment_uid = $comment_obj_list[$j]->uid;
+                        $tmp_comment_mbctimestamp = $comment_obj_list[$j]->mbctimestamp;
+                        $tmp_comment_body = $comment_obj_list[$j]->body;
+                        $tmp_comment_user_obj = $this->Moa_user_model->get($tmp_comment_uid);
+                        $tmp_comment_name = $tmp_comment_user_obj->name;
+                        $tmp_comment_avatar = $tmp_comment_user_obj->avatar;
+                        $tmp_comment_mbcid = $comment_obj_list[$j]->mbcid;
+                        $tmp_comment_ruid = $comment_obj_list[$j]->ruid;
+                        $tmp_comment_ruser = "";
+
+                        if ($tmp_comment_ruid > 0) {
+                            $tmp_comment_user_rpl = $this->Moa_user_model->get($tmp_comment_ruid);
+                            $tmp_comment_ruser = $tmp_comment_user_rpl->name;
+                        }
+
+                        // 前端渲染所用数据
+                        $comment_list[$i][$j]['myid'] = $tmp_comment_uid;
+                        $comment_list[$i][$j]['body'] = $tmp_comment_body;
+                        $comment_list[$i][$j]['name'] = $tmp_comment_name;
+                        $comment_list[$i][$j]['avatar'] = $tmp_comment_avatar;
+                        $comment_list[$i][$j]['splited_date'] = PublicMethod::splitDate($tmp_comment_mbctimestamp);
+                        $comment_list[$i][$j]['mbcid'] = $tmp_comment_mbcid;
+                        $commert_list[$i][$j]['ruid'] = $tmp_comment_ruid;
+                        $comment_list[$i][$j]['ruser'] = $tmp_comment_ruser;
 
                     }
                 }
