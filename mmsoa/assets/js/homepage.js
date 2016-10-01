@@ -34,7 +34,7 @@ $("#post-btn").click(function () {
 
     var post_content = $("#new-post").val();
     if(post_content === "") {
-        alert("內容不能为空");
+        alert("内容不能为空");
         return;
     }
 
@@ -124,7 +124,7 @@ function replyTo(uid, post_id, mbcid) {
     var comment_textarea_selector = "#reply_to_textarea_" + mbcid;
     var comment_content = $(comment_textarea_selector).val();
     if(comment_content === "") {
-        alert("內容不能为空");
+        alert("内容不能为空");
         return;
     }
     var write_comment_id_selector = "#write_new_comment_" + post_id;
@@ -193,7 +193,7 @@ $("body").on("click", ".comment-btn", function () {
     var post_id = btn_id[btn_id.length - 1];
     var comment_content = $(this).parent().siblings("textarea").val();
     if(comment_content === "") {
-        alert("內容不能为空");
+        alert("内容不能为空");
         return;
     }
     // 通过post_id确定评论属于哪条留言

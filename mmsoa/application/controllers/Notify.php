@@ -46,17 +46,17 @@ Class Notify extends CI_Controller {
             $nid = $_GET['nid'];
 
             if($_GET['nid'] == 0) {
-                echo json_encode(array("status" => FALSE, "msg" => "刪除通知失敗"));
+                echo json_encode(array("status" => FALSE, "msg" => "删除通知失败"));
                 return;
             }
 
             $affected_row = $this->Moa_notice_model->erase($nid);
             if (empty($affected_row)) {
-                echo json_encode(array("status" => FALSE, "msg" => "刪除通知失敗"));
+                echo json_encode(array("status" => FALSE, "msg" => "删除通知失败"));
                 return;
             }
 
-            echo json_encode(array("status" => TRUE, "msg" => "刪除通知成功"));
+            echo json_encode(array("status" => TRUE, "msg" => "删除通知成功"));
             return;
         } else {
             // 未登录的用户请先登录
