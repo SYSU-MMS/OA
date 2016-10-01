@@ -48,6 +48,9 @@ h5 {
   text-align:right;
   display:none;
 }
+div.media-body:hover{
+  background-color: #f2f2f2;
+}
 .nav > li > a {
   color: #a7b1c2;
   font-weight: 600;
