@@ -18,6 +18,21 @@ class Moa_notice_model extends CI_Model {
             return false;
         }
     }
+
+    /**
+     * 刪除通知
+     * @param $nid - 通知nid
+     */
+    public function erase($nid) {
+        if (isset($nid)) {
+            $this->db->where(array('nid'=>$nid));
+            $this->db->update('MOA_Notice', array('state'=>1));
+            return $this->db->affected_rows();
+        }
+        else {
+            return false;
+        }
+    }
     
     /**
      * 用nid取通知信息
