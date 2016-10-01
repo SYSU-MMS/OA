@@ -29,15 +29,15 @@
             
             <div class="sidebard-panel">
                 <div>
-                	<?php 
-	                	// 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
-	                	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 5 || $_SESSION['level'] == 6) {
-	                		// 提示权限不够
-	                		echo '<a id="site_url" href="' . site_url('Notify') . '" class="btn btn-xs btn-primary pull-right m-t-n-xs"><i class="fa fa-gear"></i> 编辑</a>';
-	                	} else {
-	                		echo '<a id="site_url" href="' . site_url('Notify') . '" class="btn btn-xs btn-primary pull-right m-t-n-xs" style="display: none;"><i class="fa fa-gear"></i> 编辑</a>';
-	                	}
-                	?>
+					<?php
+					// 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
+					if ($_SESSION['level'] == 3 || $_SESSION['level'] == 5 || $_SESSION['level'] == 6) {
+						// 提示权限不够
+						echo '<a id="site_url" href="' . site_url('Notify') . '" class="btn btn-xs btn-primary pull-right m-t-n-xs"><i class="fa fa-gear"></i> 编辑</a>';
+					} else {
+						echo '<a id="site_url" href="' . site_url('Notify') . '" class="btn btn-xs btn-primary pull-right m-t-n-xs"><i class="fa fa-info"></i> 全部</a>';
+					}
+					?>
                     <h4>通知 </h4>
                     
                     <!-- 通知区 -->

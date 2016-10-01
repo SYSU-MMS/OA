@@ -33,6 +33,10 @@ $("#post-btn").click(function () {
     $("#submit_result").show();
 
     var post_content = $("#new-post").val();
+    if(post_content === "") {
+        alert("內容不能为空");
+        return;
+    }
 
     // 在文本首末分别添加字符串“<p>”和“</p>”,并将回车替换为“</p><p>”
     post_content = post_content.replace(/\n/g, "</p><p>");
@@ -119,6 +123,10 @@ function replyTo(uid, post_id, mbcid) {
     //console.log("nothing",uid);
     var comment_textarea_selector = "#reply_to_textarea_" + mbcid;
     var comment_content = $(comment_textarea_selector).val();
+    if(comment_content === "") {
+        alert("內容不能为空");
+        return;
+    }
     var write_comment_id_selector = "#write_new_comment_" + post_id;
     $.ajax({
         type: 'post',
@@ -184,6 +192,10 @@ $("body").on("click", ".comment-btn", function () {
     var btn_id = $(this)[0].id.split("_");
     var post_id = btn_id[btn_id.length - 1];
     var comment_content = $(this).parent().siblings("textarea").val();
+    if(comment_content === "") {
+        alert("內容不能为空");
+        return;
+    }
     // 通过post_id确定评论属于哪条留言
     var write_comment_id_selector = "#write_new_comment_" + post_id;
     var comment_textarea_selector = "#comment_textarea_" + post_id;
