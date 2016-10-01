@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6b7d80a7-2e4d-489c-8bfe-852278128f60" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mmsoa/assets/js/notice.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mmsoa/application/views/view_homepage.php" afterPath="$PROJECT_DIR$/mmsoa/application/views/view_homepage.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mmsoa/application/views/view_notice.php" afterPath="$PROJECT_DIR$/mmsoa/application/views/view_notice.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mmsoa/assets/js/homepage.js" afterPath="$PROJECT_DIR$/mmsoa/assets/js/homepage.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mmsoa/assets/js/notice_in.js" afterPath="$PROJECT_DIR$/mmsoa/assets/js/notice_in.js" />
     </list>
     <ignored path="Moa.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,12 +24,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Moa_notice_model.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Moa_notice_model.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mmsoa/application/models/Moa_notice_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-518">
-              <caret line="27" column="49" selection-start-line="27" selection-start-column="49" selection-end-line="27" selection-end-column="49" />
+            <state relative-caret-position="384">
+              <caret line="68" column="14" selection-start-line="68" selection-start-column="14" selection-end-line="68" selection-end-column="14" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="homepage.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mmsoa/assets/js/homepage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="283">
+              <caret line="127" column="15" selection-start-line="127" selection-start-column="15" selection-end-line="127" selection-end-column="15" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <marker date="1475313738519" expanded="true" signature="2517:2533" ph="..." />
+                <marker date="1475313738519" expanded="true" signature="6334:6349" ph="..." />
+                <marker date="1475313738519" expanded="true" signature="9884:9899" ph="..." />
+                <marker date="1475313738519" expanded="true" signature="13763:13778" ph="..." />
+                <marker date="1475313738519" expanded="true" signature="17282:17299" ph="..." />
+                <marker date="1475313738519" expanded="true" signature="17361:17377" ph="..." />
+                <marker date="1475313738519" expanded="true" signature="17589:17622" ph="..." />
+                <marker date="1475313738519" expanded="true" signature="18015:18032" ph="..." />
+                <marker date="1475313738519" expanded="true" signature="21526:21541" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -55,6 +74,8 @@
         <option value="$PROJECT_DIR$/mmsoa/assets/js/notice.js" />
         <option value="$PROJECT_DIR$/mmsoa/application/views/view_notice.php" />
         <option value="$PROJECT_DIR$/mmsoa/application/views/view_homepage.php" />
+        <option value="$PROJECT_DIR$/mmsoa/assets/js/notice_in.js" />
+        <option value="$PROJECT_DIR$/mmsoa/assets/js/homepage.js" />
       </list>
     </option>
   </component>
@@ -294,12 +315,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1475257525706</updated>
-      <workItem from="1475257529357" duration="2710000" />
+      <workItem from="1475257529357" duration="3406000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2710000" />
+    <option name="totallyTimeSpent" value="3406000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="86" y="4" width="1499" height="860" extended-state="0" />
@@ -379,25 +400,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mmsoa/assets/js/homepage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7937">
-          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <marker date="1475256874776" expanded="true" signature="2440:2456" ph="..." />
-            <marker date="1475256874776" expanded="true" signature="6177:6192" ph="..." />
-            <marker date="1475256874776" expanded="true" signature="9647:9662" ph="..." />
-            <marker date="1475256874776" expanded="true" signature="13526:13541" ph="..." />
-            <marker date="1475256874776" expanded="true" signature="17045:17062" ph="..." />
-            <marker date="1475256874776" expanded="true" signature="17124:17140" ph="..." />
-            <marker date="1475256874776" expanded="true" signature="17352:17385" ph="..." />
-            <marker date="1475256874776" expanded="true" signature="17778:17795" ph="..." />
-            <marker date="1475256874776" expanded="true" signature="21289:21304" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mmsoa/assets/js/notice.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
@@ -435,11 +437,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mmsoa/assets/js/notice_in.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mmsoa/application/models/Moa_notice_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-518">
-          <caret line="27" column="49" selection-start-line="27" selection-start-column="49" selection-end-line="27" selection-end-column="49" />
+        <state relative-caret-position="384">
+          <caret line="68" column="14" selection-start-line="68" selection-start-column="14" selection-end-line="68" selection-end-column="14" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mmsoa/assets/js/homepage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="127" column="15" selection-start-line="127" selection-start-column="15" selection-end-line="127" selection-end-column="15" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1475313738519" expanded="true" signature="2517:2533" ph="..." />
+            <marker date="1475313738519" expanded="true" signature="6334:6349" ph="..." />
+            <marker date="1475313738519" expanded="true" signature="9884:9899" ph="..." />
+            <marker date="1475313738519" expanded="true" signature="13763:13778" ph="..." />
+            <marker date="1475313738519" expanded="true" signature="17282:17299" ph="..." />
+            <marker date="1475313738519" expanded="true" signature="17361:17377" ph="..." />
+            <marker date="1475313738519" expanded="true" signature="17589:17622" ph="..." />
+            <marker date="1475313738519" expanded="true" signature="18015:18032" ph="..." />
+            <marker date="1475313738519" expanded="true" signature="21526:21541" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
