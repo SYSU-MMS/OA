@@ -38,7 +38,7 @@ var list_notice = function () {
                         "<a href='" + notice_href + "?nid=" + ret['notice_list'][i]['nid'] + "' id='notice_id_" + ret['notice_list'][i]['nid'] + "'>" +
                         "<b>详情</b>" +
                         "</a>" +
-                        "<button id='" + ret['notice_list'][i]['nid'] +"' type='button' class='btn btn-xs btn-outline btn-danger manager' style='margin-left: 10px;'>" +
+                        "<button id='delete_" + ret['notice_list'][i]['nid'] +"' type='button' class='btn btn-xs btn-outline btn-danger manager' onclick='delete_notice("+ ret['notice_list'][i]['nid'] +")' style='margin-left: 10px;'>" +
                         "<i class='fa fa-close'></i><span> 移除</span></button>" +
                         "</td>" +
                         "</tr>"
@@ -52,6 +52,29 @@ var list_notice = function () {
         }
 
     });
+};
+
+var delete_notice = function (nid) {
+    if(nid != undefined) {
+        $.ajax({
+            type: 'get',
+            url: 'Notify/deleteNotice/',
+            data: {
+                "nid": nid || 0,
+            },
+            success: function (msg) {
+                ret = JSON.parse(msg);
+                if (ret['status'] === true) {
+                    alert(ret['msg']);
+                    $(".users-dataTable").DataTable().row($("#delete_" + nid).parents('tr')).remove().draw();
+                }
+            },
+            error: function () {
+                alert(arguments[1]);
+            }
+
+        });
+    }
 };
 
 $(document).ready(list_notice);

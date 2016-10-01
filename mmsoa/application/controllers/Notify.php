@@ -29,63 +29,102 @@ Class Notify extends CI_Controller {
 			PublicMethod::requireLogin();
 		}
 	}
-	
-	/**
-	 * 获取工作通知的标题
-	 */
-	public function getNotice() {
-		if (isset($_SESSION['user_id'])) {
-			if (isset($_GET['base_date'])) {
-				$base_date = $_GET['base_date'];
-				
-				// 0表示当前时间
-				if ($_GET['base_date'] == '0') {
-					$base_date = date('Y-m-d H:i:s');
-				}
-				
-				// 每次最多取指定时间之前的10则通知
-				$notice_state = 0;
-				$notice_num = 10;
-				$notice_obj_list = $this->Moa_notice_model->get_by_date($base_date, $notice_state, $notice_num);
-				
-				if (empty($notice_obj_list)) {
-					echo json_encode(array("status" => FALSE, "msg" => "获取通知失败"));
-					return;
-				}
-				
-				$notice_list = array();
-				
-				for ($i = 0; $i < count($notice_obj_list); $i++) {
-					$tmp_notice_nid = $notice_obj_list[$i]->nid;
-					$tmp_notice_wid = $notice_obj_list[$i]->wid;
-					$tmp_notice_timestamp = $notice_obj_list[$i]->timestamp;
-					$tmp_notice_title = $notice_obj_list[$i]->title;
-					
-					// 获取uid
-					$tmp_notice_worker_obj = $this->Moa_worker_model->get($tmp_notice_wid);
-					$tmp_notice_uid = $tmp_notice_worker_obj->uid;
-					
-					// 获取姓名和头像
-					$tmp_notice_user_obj = $this->Moa_user_model->get($tmp_notice_uid);
-					$tmp_notice_name = $tmp_notice_user_obj->name;
-					$tmp_notice_avatar = $tmp_notice_user_obj->avatar;
-					
-					// 前端渲染所用数据
-					$notice_list[$i]['nid'] = $tmp_notice_nid;
-					$notice_list[$i]['timestamp'] = $tmp_notice_timestamp;
-					$notice_list[$i]['title'] = $tmp_notice_title;
-					$notice_list[$i]['name'] = $tmp_notice_name;
-					$notice_list[$i]['avatar'] = $tmp_notice_avatar;
-					$notice_list[$i]['splited_date'] = PublicMethod::splitDate($tmp_notice_timestamp);
-					
-				}
-				echo json_encode(array("status" => TRUE, "msg" => "获取通知成功", "base_url" => base_url(), 
-						"notice_list" => $notice_list));
-				return;
-			}
-	
-		}
-	}
+
+    /**
+     * 进入发布新通知页面
+     *
+     */
+    public function deleteNotice() {
+        if (isset($_SESSION['user_id'])) {
+            // 检查权限: 3-助理负责人 5-办公室负责人 6-超级管理员
+            if ($_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
+                // 提示权限不够
+                PublicMethod::permissionDenied();
+                return;
+            }
+
+            $nid = $_GET['nid'];
+
+            if($_GET['nid'] == 0) {
+                echo json_encode(array("status" => FALSE, "msg" => "刪除通知失敗"));
+                return;
+            }
+
+            $affected_row = $this->Moa_notice_model->erase($nid);
+            if (empty($affected_row)) {
+                echo json_encode(array("status" => FALSE, "msg" => "刪除通知失敗"));
+                return;
+            }
+
+            echo json_encode(array("status" => TRUE, "msg" => "刪除通知成功"));
+            return;
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+            return;
+        }
+    }
+
+    /**
+     * 获取工作通知的标题
+     * @param offset - 偏移量
+     * @param getall - 0則獲取10條，1則獲取全部
+     */
+    public function getNotice($offset = 0, $getall = 0) {
+        if (isset($_SESSION['user_id'])) {
+            if (isset($_GET['base_date'])) {
+                $base_date = $_GET['base_date'];
+
+                // 0表示当前时间
+                if ($_GET['base_date'] == '0') {
+                    $base_date = date('Y-m-d H:i:s');
+                }
+
+                // 每次最多取指定时间之前的10则通知
+                // 根據getall判斷是否獲取所有
+                $notice_state = 0;
+                $notice_num = 10;
+                if($getall == 1) $notice_num = NULL;
+                $notice_obj_list = $this->Moa_notice_model->get_by_date($base_date, $notice_state, $notice_num, $offset);
+
+                if (empty($notice_obj_list)) {
+                    echo json_encode(array("status" => FALSE, "msg" => "获取通知失败"));
+                    return;
+                }
+
+                $notice_list = array();
+
+                for ($i = 0; $i < count($notice_obj_list); $i++) {
+                    $tmp_notice_nid = $notice_obj_list[$i]->nid;
+                    $tmp_notice_wid = $notice_obj_list[$i]->wid;
+                    $tmp_notice_timestamp = $notice_obj_list[$i]->timestamp;
+                    $tmp_notice_title = $notice_obj_list[$i]->title;
+
+                    // 获取uid
+                    $tmp_notice_worker_obj = $this->Moa_worker_model->get($tmp_notice_wid);
+                    $tmp_notice_uid = $tmp_notice_worker_obj->uid;
+
+                    // 获取姓名和头像
+                    $tmp_notice_user_obj = $this->Moa_user_model->get($tmp_notice_uid);
+                    $tmp_notice_name = $tmp_notice_user_obj->name;
+                    $tmp_notice_avatar = $tmp_notice_user_obj->avatar;
+
+                    // 前端渲染所用数据
+                    $notice_list[$i]['nid'] = $tmp_notice_nid;
+                    $notice_list[$i]['timestamp'] = $tmp_notice_timestamp;
+                    $notice_list[$i]['title'] = $tmp_notice_title;
+                    $notice_list[$i]['name'] = $tmp_notice_name;
+                    $notice_list[$i]['avatar'] = $tmp_notice_avatar;
+                    $notice_list[$i]['splited_date'] = PublicMethod::splitDate($tmp_notice_timestamp);
+
+                }
+                echo json_encode(array("status" => TRUE, "msg" => "获取通知成功", "base_url" => base_url(),
+                    "notice_list" => $notice_list));
+                return;
+            }
+
+        }
+    }
 	
 	/**
 	 * 查看通知具体内容
