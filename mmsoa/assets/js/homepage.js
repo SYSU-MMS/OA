@@ -33,7 +33,7 @@ $("#post-btn").click(function () {
     $("#submit_result").show();
 
     var post_content = $("#new-post").val();
-    if(post_content === "") {
+    if($.trim(post_content) === "") {
         alert("内容不能为空");
         return;
     }
@@ -123,7 +123,7 @@ function replyTo(uid, post_id, mbcid) {
     //console.log("nothing",uid);
     var comment_textarea_selector = "#reply_to_textarea_" + mbcid;
     var comment_content = $(comment_textarea_selector).val();
-    if(comment_content === "") {
+    if($.trim(comment_content) === "") {
         alert("内容不能为空");
         return;
     }
@@ -192,7 +192,7 @@ $("body").on("click", ".comment-btn", function () {
     var btn_id = $(this)[0].id.split("_");
     var post_id = btn_id[btn_id.length - 1];
     var comment_content = $(this).parent().siblings("textarea").val();
-    if(comment_content === "") {
+    if($.trim(comment_content) === "") {
         alert("内容不能为空");
         return;
     }
