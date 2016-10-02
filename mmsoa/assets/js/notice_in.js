@@ -31,15 +31,15 @@ $('#text_content').bind('input propertychange', function() {
 $("#submit_notice").click(function() {
 	var notice_title = $("#text_title").val();
 	var notice_content = $("#text_content").val();
-	
+
 	// 在文本首末分别添加字符串“<p>”和“</p>”,并将回车替换为“</p><p>”
 	notice_content = notice_content.replace(/\n/g, "</p><p>");
 	notice_content = notice_content.replace(/ /g, "&nbsp;");
 	notice_content = "<p>" + notice_content;
 	notice_content += "</p>";
-	
+
 	$.ajax({
-		type: "POST", 
+		type: "POST",
 		url: "writeNoticeIn",
 		data: {
 			"notice_title": notice_title,
@@ -53,14 +53,14 @@ $("#submit_notice").click(function() {
 			} else {
 				$("#submit_result").attr("style", "color:#1AB394;text-align:center;");
 				$("#submit_result").html(ret["msg"]);
-				// 锁定所有按钮和输入框
-				$("#text_title").attr("disabled", true);
-				$("#text_content").attr("disabled", true);
+				// 鎖定按鈕，清空輸入框
 				$("#submit_notice").attr("disabled", true);
+				$("#text_title").val('');
+				$("#text_content").val('');
 			}
 		},
 		error: function(){
-		    alert(arguments[1]);
+			alert(arguments[1]);
 		}
 	});
 });
