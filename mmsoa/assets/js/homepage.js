@@ -53,6 +53,7 @@ $("#post-btn").click(function () {
         success: function (msg) {
             var ret = JSON.parse(msg);
             if (ret['status'] === true) {
+                console.log(ret['bpid']);
                 $("#post-circle").prepend(
                     "<div class='social-feed-separated' id='separated_" + ret['bpid'] + "'>" +
                     "<div class='social-avatar'><a href=''><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'></a></div>" +
@@ -69,7 +70,7 @@ $("#post-btn").click(function () {
                     "<div class='social-comment' id='write_comment_" + ret['bpid'] + "'>" +
                     "<div class='media-body'>" +
                     "<textarea id='comment_textarea_" + ret['bpid'] + "' class='form-control' placeholder='填写评论...'></textarea>" +
-                    "<div class='btn-group' style='margin-top: 4px;'>" +
+                    "<div class='btn-group' style='margin-top: 4px; text-align:right;'>" +
                     "<button id='comment_on_" + ret['bpid'] + "' class='comment-btn btn btn-primary btn-xs'><i class='fa fa-send-o'></i> 发送</button>" +
                     "</div>" +
                     "</div>" +
@@ -82,6 +83,8 @@ $("#post-btn").click(function () {
                 $("#submit_result").attr("style", "color:#1AB394; text-align:center; margin-top: 14px;");
                 $("#submit_result").html(ret["msg"]);
                 scrollToTop();
+                //暂时以刷新页面来回避不能显示新留言的评论的bug
+                location.reload();
             } else {
                 $("#submit_result").attr("style", "color:#ED5565; text-align:center; margin-top: 14px;");
                 $("#submit_result").html(ret["msg"]);
@@ -275,12 +278,15 @@ function showAllComment(bpid, offset) {
                 if (ret['comment_list'][0] !== null) {
                     var write_comment_id_selector = "#write_comment_" + ret['post_list'][0]['bpid'];
                     for (var j = 0; j < ret['comment_list'][0].length; j++) {
+                        //console.log(ret);
                         var reply_uid = ret['comment_list'][0][j]['ruid'];
                         var reply_user = ret['comment_list'][0][j]['ruser'];
                         var replyTo = "";
+                        //console.log(reply_uid);
                         if (reply_uid > 0) {
                             replyTo = " 回复 <a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + reply_uid + "'>"
                                 + reply_user + "</a>"
+                            //console.log("replyToMore");
                         }
                         $(write_comment_id_selector).before(
                             "<div class='social-comment social-comment-" + ret['post_list'][0]['bpid'] + "'>" +

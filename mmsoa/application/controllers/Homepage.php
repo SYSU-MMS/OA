@@ -278,7 +278,7 @@ Class Homepage extends CI_Controller
                         $comment_list[$i][$j]['avatar'] = $tmp_comment_avatar;
                         $comment_list[$i][$j]['splited_date'] = PublicMethod::splitDate($tmp_comment_mbctimestamp);
                         $comment_list[$i][$j]['mbcid'] = $tmp_comment_mbcid;
-                        $commert_list[$i][$j]['ruid'] = $tmp_comment_ruid;
+                        $comment_list[$i][$j]['ruid'] = $tmp_comment_ruid;
                         $comment_list[$i][$j]['ruser'] = $tmp_comment_ruser;
 
                     }
@@ -364,7 +364,7 @@ Class Homepage extends CI_Controller
                         $comment_list[$i][$j]['avatar'] = $tmp_comment_avatar;
                         $comment_list[$i][$j]['splited_date'] = PublicMethod::splitDate($tmp_comment_mbctimestamp);
                         $comment_list[$i][$j]['mbcid'] = $tmp_comment_mbcid;
-                        $commert_list[$i][$j]['ruid'] = $tmp_comment_ruid;
+                        $comment_list[$i][$j]['ruid'] = $tmp_comment_ruid;
                         $comment_list[$i][$j]['ruser'] = $tmp_comment_ruser;
 
                     }
