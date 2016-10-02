@@ -48,7 +48,7 @@ h5 {
   text-align:right;
   display:none;
 }
-div.media-body:hover{
+div.reply-msg-area:hover{
   background-color: #f2f2f2;
 }
 .nav > li > a {

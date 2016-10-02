@@ -112,6 +112,7 @@ function showReplyToArea(mbcid) {
     if ($("#reply_to_area_" + mbcid).css("display") == "none") {
         $(".reply-to-area").slideUp(200);
         $("#reply_to_area_" + mbcid).slideDown(200);
+        $("#reply_to_textarea_" + mbcid).focus();
     } else {
         $("#reply_to_area_" + mbcid).slideUp(200);
     }
@@ -155,7 +156,7 @@ function replyTo(uid, post_id, mbcid) {
                     "<a href='' class='pull-left'>" +
                     "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
                     "</a>" +
-                    "<div class='media-body'>" +
+                    "<div class='media-body reply-msg-area'>" +
                     "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + comment_content + "<br/>" +
                     "<small class='text-muted' id='text_muted_" + ret['mbcid'] + "'> " +
                     ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
@@ -227,7 +228,7 @@ $("body").on("click", ".comment-btn", function () {
                     "<a href='' class='pull-left'>" +
                     "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
                     "</a>" +
-                    "<div class='media-body'>" +
+                    "<div class='media-body reply-msg-area'>" +
                     "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + comment_content + "<br/>" +
                     "<small class='text-muted' id='text_muted_" + ret['mbcid'] + "'> " +
                     ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
@@ -293,7 +294,7 @@ function showAllComment(bpid, offset) {
                             "<a href='' class='pull-left'>" +
                             "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['comment_list'][0][j]['avatar'] + "'>" +
                             "</a>" +
-                            "<div class='media-body'>" +
+                            "<div class='media-body reply-msg-area'>" +
                             "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['comment_list'][0][j]['myid'] + "'>"
                             + ret['comment_list'][0][j]['name'] + "</a>" + replyTo + "： " + ret['comment_list'][0][j]['body'] + "<br/>" +
                             "<small class='text-muted' id='text_muted_" + ret['comment_list'][0][j]['mbcid'] + "'> " +
@@ -410,7 +411,7 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
                                 "<a href='' class='pull-left'>" +
                                 "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['comment_list'][i][j]['avatar'] + "'>" +
                                 "</a>" +
-                                "<div class='media-body'>" +
+                                "<div class='media-body reply-msg-area'>" +
                                 "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['comment_list'][i][j]['myid'] + "'>"
                                 + ret['comment_list'][i][j]['name'] + "</a>" + replyTo + "： " + ret['comment_list'][i][j]['body'] + "<br/>" +
                                 "<small class='text-muted' id='text_muted_" + ret['comment_list'][i][j]['mbcid'] + "'> " +
