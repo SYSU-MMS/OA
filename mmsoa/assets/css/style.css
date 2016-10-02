@@ -43,10 +43,19 @@ h5 {
 .delete-comment{
   color:#9C9C9C;
 }
+.delete-post{
+  color:#9C9C9C;
+}
 .reply-to-area{
   margin-top:6px;
   text-align:right;
   display:none;
+}
+.delete-area{
+  margin-right:0px;
+  text-align:right;
+  display: inline-block;
+  float:right;
 }
 div.reply-msg-area:hover{
   background-color: #f2f2f2;
