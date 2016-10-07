@@ -45,6 +45,7 @@ Class PublicMethod extends CI_Controller {
 	 */
 	public static function cal_week() {
 		// 周一为一周的第一天
+        date_default_timezone_set('PRC');
 		$cur_week = date('W') - 34;
 		// 周日为一周的第一天
 		//$cur_week = date("w") == 0 ? $cur_week + 1 : $cur_week;
@@ -68,6 +69,7 @@ Class PublicMethod extends CI_Controller {
 	 * @return number 工龄
 	 */
 	public static function cal_working_age($indate) {
+        date_default_timezone_set('PRC');
 		$now = date('Y-m-d H:i:s');
 		$service_days =  (strtotime($now)-strtotime($indate)) / (60 * 60 * 24);
 		$year = intval($service_days / 365);
