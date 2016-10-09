@@ -6,3 +6,6 @@
 		<strong>Copyright</strong> MOA &copy; Since 2016
 	</div>
 </div>
+<script src="<?=base_url().'assets/js/socket.io-client/socket.io.js' ?>"></script>
+<script src="<?=base_url().'assets/js/header_notice.js' ?>"></script>
+
