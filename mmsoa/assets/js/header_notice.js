@@ -67,7 +67,6 @@ var getNowUser = function() {
         '                </div>'+
         '            </a>'+
         '       </li>'+
-        '        <li class="divider"></li>'+
         '    </ul>'+
         '</li>'+
         '<li>'+

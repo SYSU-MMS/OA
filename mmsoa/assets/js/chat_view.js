@@ -159,16 +159,18 @@ var socket = io('http://'+document.domain+':2020').connect();
       sendAlreadyRead(mid);
     }
 
-
     var getEnterkey = function() {
       var msg;
       $(".message-input").keydown(function(event) {
         msg = $(".message-input").val();
         if (event.keyCode == 13) {
-          console.log(msg);
           insertContent(msg);
           createNotice(msg);
-          $(".message-input").val('');
+
+          //等最后一个空格输出后,再清空所有内容
+          setTimeout(function() {
+            $(".message-input").val("");
+          }, 0);
         }
       })
     }
