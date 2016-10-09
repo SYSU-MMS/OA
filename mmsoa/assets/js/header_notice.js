@@ -18,7 +18,6 @@ socket.on("newnotice", function(data) {
 var getNowUser = function() {
     chaturl = baseurl + 'index.php/Chat/getNowUser';
     console.log("getNowUser");
-    console.log(chaturl);
     $.ajax({
       type: 'get',
       url: '/OA/mmsoa/index.php/Chat/getNowUser',
@@ -26,8 +25,6 @@ var getNowUser = function() {
       success: function(result) {
         result = JSON.parse(result);
         user.uid = result.uid;
-        console.log(result);
-        console.log(user.uid);
         checkUnread();
       },
       error: function() {
