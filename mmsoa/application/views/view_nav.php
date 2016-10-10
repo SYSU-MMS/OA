@@ -114,7 +114,9 @@
 		                    '<li id="active-personal"><a href="'. site_url('WorkingTime/perWorkingTime') . '">个人<span class="label label-warning pull-right"><i class="fa fa-heart-o heart-margin"></i></span></a>' . 
 		                    '</li>' . 
 		                    '<li id="active-allmembers"><a href="'. site_url('WorkingTime/allWorkingTime') . '">全员</a>' . 
-		                    '</li>' . 
+		                    '</li>' .
+							'<li id="active-batchEditWorkingTime"><a href="'. site_url('WorkingTime/batchEditWorkingTime'). '">批量修改工时</a>' .
+							'</li>' .
 		                '</ul>' . 
 		            '</li>';
 		        } else if ($_SESSION['level'] == 0 || $_SESSION['level'] == 1 || $_SESSION['level'] == -1) { echo
