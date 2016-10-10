@@ -582,7 +582,7 @@ $("#more_notices").bind("getNotice", function (event, base_date) {
             "base_date": base_date,
         },
         success: function (msg) {
-            ret = JSON.parse(msg);
+            var ret = JSON.parse(msg);
             if (ret['status'] === true) {
                 // 每次最多获取10条留言
                 for (var i = 0; i < ret['notice_list'].length; i++) {

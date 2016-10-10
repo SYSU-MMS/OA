@@ -79,12 +79,12 @@
                                         <tr>
                                         	<th>序号</th>
                                             <th>姓名</th>
-                                            <th><i class="fa fa-clock-o"></i><span> 本月工时</span></th>
-                                            <th><i class="fa fa-rmb"></i><span> 本月工资</span></th>
+                                            <th><i class="fa fa-clock-o"></i><span> 本期工时</span></th>
+                                            <th><i class="fa fa-rmb"></i><span> 本期工资</span></th>
                                             <th><i class="fa fa-credit-card"></i><span> 银行卡号</span></th>
                                             <th><i class="fa fa-phone"></i><span> 联系电话</span></th>
-                                            <th>历史累计工时</th>
-                                            <th>历史累计工资</th>
+                                            <th>历史工时</th>
+                                            <th>历史工资</th>
                                             <th>调整工时</th>
                                         </tr>
                                     </thead>
@@ -101,11 +101,15 @@
 	                                            <td id="<?php echo 'total_salary_' . $wid_list[$i]; ?>"><?php echo $total_salary_list[$i]; ?></td>
 	                                            <td>
 		                                            <button type="button" data-toggle="modal" data-target="#myModal" id="<?php echo 'reward_button_' . $wid_list[$i]; ?>" 
-		                                            name="reward_button" class="btn btn-xs btn-primary" onclick="rewardButton(this.id);">
+		                                                    name="reward_button" class="btn btn-xs btn-primary" onclick="rewardButton(this.id);">
 		                                            	增加
 		                                            </button>
+                                                    <button type="button" data-toggle="modal" data-target="#myModal" id="<?php echo 'reduce_button_' . $wid_list[$i]; ?>"
+                                                            name="reduce_button" class="btn btn-xs btn-danger" onclick="reduceButton(this.id);">
+                                                        减少
+                                                    </button>
 		                                            <button type="button" data-toggle="modal" data-target="#myModal" id="<?php echo 'penalty_button_' . $wid_list[$i]; ?>" 
-		                                            name="penalty_button" class="btn btn-xs btn-danger" onclick="penaltyButton(this.id);">
+		                                                    name="penalty_button" class="btn btn-xs btn-danger" onclick="penaltyButton(this.id);">
 		                                            	扣除
 		                                            </button>
 	                                            </td>
