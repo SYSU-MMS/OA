@@ -297,8 +297,8 @@ class Moa_worker_model extends CI_Model {
 	 * @return 该助理最新的本月被扣除工时
 	 */
 	public function update_penalty($wid, $contrib = 1) {
-		if (isset($uid) and isset($contrib)) {
-			$sb = 'UPDATE MOA_User SET penalty = penalty + ' . $contrib . ' WHERE wid = ' . $wid;
+		if (isset($wid) and isset($contrib)) {
+			$sb = 'UPDATE MOA_Worker SET penalty = penalty + ' . $contrib . ' WHERE wid = ' . $wid;
 			$affected_lines = $this->db->query($sb);
 			return $affected_lines;
 		}
