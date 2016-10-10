@@ -40,6 +40,18 @@ var getNowUser = function() {
       })
     }
 
+    var sendAlreadyRead = function() {
+      for(var i of noticelist) {
+        var _mid = i.mid;
+        socket.emit('alreadyread', {
+            userId: user.uid,
+            mid: _mid,
+        });
+      }
+      setTimeout(function() {
+        window.location.href= baseurl+'index.php/Notify'
+        }, 0);
+    }
     var insertToHeader = function(_user, index) {
         $('.navbar-top-links').empty();
         var allnums = noticelist.length + messagelist.length;
@@ -52,9 +64,9 @@ var getNowUser = function() {
         '        <i class="fa fa-bell"></i>  <span class="label label-primary">'+ allnums +'</span>'+
         '    </a>'+
         '    <ul class="dropdown-menu dropdown-alerts">'+
-        '        <li>'+
-        '            <a href="'+baseurl+'index.php/Notify">'+
-        '                <div>'+
+        '        <li onclick =\"sendAlreadyRead()\">'+
+        '            <a>'+
+        '                <div >'+
         '                    <i class="fa fa-envelope fa-fw"></i> 您有'+ noticelist.length +'条未读消息'+
         '                </div>'+
         '            </a>'+
@@ -67,7 +79,6 @@ var getNowUser = function() {
         '                </div>'+
         '            </a>'+
         '       </li>'+
-        '        <li class="divider"></li>'+
         '    </ul>'+
         '</li>'+
         '<li>'+
