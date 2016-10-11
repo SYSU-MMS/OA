@@ -1,7 +1,7 @@
 <?php
 /**
  * 日志模型类
- * @author Rinka
+ * @author RKK
  */
 class Moa_log_model extends CI_Model {
  	/**

@@ -38,12 +38,19 @@ Class MoaSystemLog extends CI_Controller {
 			$desclist = array();
 			$timelist = array();
 			for ($i = 0; $i < count($logarr); $i++) {
+			    // dasher
 				$tmp_dash_wid = $logarr[$i]->dash_wid;
-				$tmp_affect_wid = $logarr[$i]->affect_wid;
 				$tmp_dash_uid = $this->Moa_worker_model->get_uid_by_wid($tmp_dash_wid);
-				$tmp_affect_uid = $this->Moa_worker_model->get_uid_by_wid($tmp_affect_wid);
 				$dashlist[$i] = $this->Moa_user_model->get($tmp_dash_uid)->name;
-				$affectlist[$i] = $this->Moa_user_model->get($tmp_affect_uid)->name;
+				// affector
+				$tmp_affect_wid = $logarr[$i]->affect_wid;
+			    if ($tmp_affect_wid != -1) {
+					$tmp_affect_uid = $this->Moa_worker_model->get_uid_by_wid($tmp_affect_wid);
+					$affectlist[$i] = $this->Moa_user_model->get($tmp_affect_uid)->name;
+				} else {
+					$affectlist[$i] = "无";
+				}
+				// other
 				$desclist[$i] = $logarr[$i]->description;
 				$timelist[$i] = $logarr[$i]->logtimestamp;
 			}
