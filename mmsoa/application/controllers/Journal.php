@@ -5,7 +5,7 @@ require_once('PublicMethod.php');
 
 /**
  * 坐班日志录入控制类
- * @author 伟
+ * @author 伟、RKK
  */
 Class Journal extends CI_Controller {
 	public function __construct() {
@@ -90,6 +90,13 @@ Class Journal extends CI_Controller {
 			}
 			// 执行删除动作
 			$this->Moa_leaderreport_model->delete($id);
+			// 写日志
+			$this->load->model('Moa_log_model');
+			$ttparas['dash_wid'] = $_SESSION['worker_id'];
+			$ttparas['affect_wid'] = -1;
+			$ttparas['description'] = '删除一篇坐班日志（ID：'.$id.'）';
+			$ttparas['logtimestamp'] = date('Y-m-d H:i:s');
+			$this->Moa_log_model->add($ttparas);
             // 刷新
             redirect('Journal/listJournal');
 		} else {
@@ -289,9 +296,16 @@ Class Journal extends CI_Controller {
 				if (isset($_POST['badlist']) && !empty($_POST['badlist'])) {
 					$journal_paras['badlist'] = implode(',', $_POST['badlist']);
 				}
+				// 添加到数据库
 				$lrid = $this->Moa_leaderreport_model->add($journal_paras);
-				
 				if ($lrid) {
+					// 写日志
+					$this->load->model('Moa_log_model');
+					$ttparas['dash_wid'] = $_SESSION['worker_id'];
+					$ttparas['affect_wid'] = -1;
+					$ttparas['description'] = '添加一篇坐班日志（ID：'.$lrid.'）';
+					$ttparas['logtimestamp'] = date('Y-m-d H:i:s');
+					$this->Moa_log_model->add($ttparas);
 					echo json_encode(array("status" => TRUE, "msg" => "发布成功"));
 					return;
 				} else {

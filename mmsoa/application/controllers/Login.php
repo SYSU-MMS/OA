@@ -7,6 +7,7 @@ Class Login extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
  		$this->load->model('Moa_user_model');
+		$this->load->model('Moa_worker_model');
  		$this->load->helper(array('form', 'url'));
  		$this->load->library('session');
  		$this->load->helper('cookie');
@@ -60,7 +61,7 @@ Class Login extends CI_Controller {
 				$_SESSION['name'] = $obj->name;
 				$_SESSION['level'] = $obj->level;
 				$_SESSION['level_name'] = PublicMethod::translate_level($obj->level);
-				
+				$_SESSION['worker_id'] = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
 				if (isset($_SESSION['user_url'])) {
 					// Save the url needed to be jumped
 					// eg. 从"/MOA/mmsoa/index.php/Backend/dailycheck"中截取"Backend/dailycheck"
