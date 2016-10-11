@@ -3,6 +3,11 @@ header("Content-type: text/html; charset=utf-8");
 
 require_once('PublicMethod.php');
 
+
+/**
+ * 私信系统类
+ * @author 高少彬
+ */
 class chat extends CI_Controller {
 
     /**

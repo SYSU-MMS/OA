@@ -190,12 +190,13 @@ var socket = io('http://'+document.domain+':2020').connect();
       var _noticebody = words + '';
       //0代表私信
       var _visibility = 0;
-      var _receive_uids = receiveUser.uid + '';
+      var _receive_uids = receiveUser.uid ;
+      console.log("_receive_uids:", _receive_uids);
       socket.emit('createnotice', {
         userId: user.uid,
         noticebody: _noticebody,
         visibility: _visibility,
-        receive_uids: _receive_uids
+        receiveUser: _receive_uids
       });
     }
     //检查与指定用户之间是否还有新信息（主要是在对话窗口）

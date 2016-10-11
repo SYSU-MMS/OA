@@ -129,6 +129,19 @@
 		            '</li>';
 		        } 
 		    ?>
+			<?php 
+		        if ($_SESSION['level'] >= 3) { echo 
+		            '<li id="active-systemConfig">' . 
+		                '<a href="Homepage#"><i class="fa fa-gear"></i> <span class="nav-label"> 系统设置</span><span class="fa arrow"></span></a>' . 
+		                '<ul class="nav nav-second-level">' . 
+		                    '<li id="active-syslog"><a href="'. site_url('MoaSystemLog/Review') . '">系统日志</a>' . 
+		                    '</li>' . 
+		                    '<li id="active-sysreset"><a href="#">重置系统</a>' .
+		                    '</li>' . 
+		                '</ul>' . 
+		            '</li>';
+		        }
+		    ?>
 		    <li id="active-scheduleManagement">
 		        <a href="Homepage#"><i class="fa fa-calendar"></i> <span class="nav-label"> 值班安排</span><span class="fa arrow"></span></a>
 		        <ul class="nav nav-second-level">
