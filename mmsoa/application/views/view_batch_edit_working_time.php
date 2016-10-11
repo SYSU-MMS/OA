@@ -41,10 +41,10 @@ made by 钟凌山-->
                         MOA
                     </li>
                     <li>
-                        值班安排
+                        工时统计
                     </li>
                     <li>
-                        <strong>排班</strong>
+                        <strong>批量调整工时</strong>
                     </li>
                 </ol>
             </div>
@@ -57,9 +57,9 @@ made by 钟凌山-->
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>排班</h5>
+                            <h5>批量调整工时</h5>
                         </div>
-                        <div class="ibox-content" style="padding: 30px 65px;">
+                        <!--div class="ibox-content" style="padding: 30px 65px;">
                             <div class="form-group">
                                 <div class="row" style="margin-bottom: -15px;">
                                     <div class="col-sm-12">
@@ -361,7 +361,7 @@ made by 钟凌山-->
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div-->
                     </div>
                 </div>
             </div>
