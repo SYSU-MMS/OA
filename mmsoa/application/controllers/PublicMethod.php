@@ -1,6 +1,10 @@
 <?php
 header("Content-type: text/html; charset=utf-8");
 
+/**
+ * 公共函数类
+ * @author 伟、RKK
+ */
 Class PublicMethod extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
@@ -24,7 +28,7 @@ Class PublicMethod extends CI_Controller {
 		echo "<script language=javascript>alert('Sorry, 你没有权限访问！将跳转到主页');</script>";
 		echo '<script language=javascript>window.location.href="' . site_url('Homepage') . '"</script>';
 	}
-	
+
 	/**
 	 * 提取日期格式中的年月日时分秒
 	 * @param string $timestamp
