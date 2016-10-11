@@ -382,9 +382,9 @@ made by 钟凌山-->
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        $("#active-scheduleManagement").addClass("active");
-        $("#active-dutyArrange").addClass("active");
-        $("#mini").attr("href", "dutyArrange#");
+        $("#active-timeStatistics").addClass("active");
+        $("#active-batchEditWorkingTime").addClass("active");
+        $("#mini").attr("href", "batchEditWorkingTime#");
     });
 </script>
 

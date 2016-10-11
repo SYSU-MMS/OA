@@ -267,7 +267,7 @@ Class WorkingTime extends CI_Controller
     }
 
     public function batchEditWorkingTime(){
-
+        $this->load->view('view_batch_edit_working_time');
     }
 
 }
