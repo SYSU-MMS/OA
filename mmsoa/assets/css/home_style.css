@@ -13,10 +13,16 @@ h1, .h1, h2, .h2, h3, .h3 {
 a{
     color:#3d84e6;
 }
+
+.reply-to a{
+	color:#9C9C9C;
+}
+
 a:hover, a:focus{
     color:#3d84e6;
     text-decoration: underline;
 }
+
 .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
   border-color: #101010;
   margin: 0 auto;

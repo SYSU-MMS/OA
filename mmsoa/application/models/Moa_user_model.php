@@ -24,6 +24,7 @@ class Moa_user_model extends CI_Model {
 	 * @param id - 用户id
 	 */
 	public function get($id) {
+	    if ($id<=0) return false;
 		if (isset($id)) {
 			$this->db->where(array('uid'=>$id));
 			$res = $this->db->get('MOA_User')->result();
@@ -220,6 +221,22 @@ class Moa_user_model extends CI_Model {
 			return false;
 		}
 	}
+
+    /**
+     * 给指定用户修改罚时
+     * @param $uid - 用户id
+     * @param int $contrib - 修改量
+     */
+	public function update_penalty($uid, $contrib = 1) {
+        if (isset($uid) and isset($contrib)) {
+            $sb = 'UPDATE MOA_User SET totalPenalty = totalPenalty + ' . $contrib . ' WHERE uid = ' . $uid;
+            $affected_lines = $this->db->query($sb);
+            return $affected_lines;
+        }
+        else {
+            return false;
+        }
+    }
 
 	/**
 	 * 给指定用户修改抽查优秀次数 
