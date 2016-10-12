@@ -108,7 +108,7 @@
 		$(document).ready(function () {
 			$("#active-systemConfig").addClass("active");
 			$("#active-syslog").addClass("active");
-			$("#mini").attr("href", "MoaSystemLog#");
+			$("#mini").attr("href", "Review#");
 		});
 	</script>
 
