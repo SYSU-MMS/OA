@@ -51,6 +51,7 @@ Class WorkingTime extends CI_Controller
             $u_total_salary_list = array();
             $w_month_contri_list = array();
             $w_month_salary_list = array();
+            $w_month_penalty_list = array();
             $count = 0;
 
             if ($u_obj_list != FALSE) {
@@ -74,6 +75,7 @@ Class WorkingTime extends CI_Controller
                     $tmp_month_real_contri = $tmp_month_contri - $tmp_month_penalty;
                     $w_month_contri_list[$count] = $tmp_month_real_contri;
                     $w_month_salary_list[$count] = PublicMethod::cal_salary($tmp_month_real_contri);
+                    $w_month_penalty_list[$count] = $tmp_month_penalty;
                     $w_wid_list[$count] = $tmp_wid;
                 }
             }
@@ -87,6 +89,7 @@ Class WorkingTime extends CI_Controller
             $data['total_salary_list'] = $u_total_salary_list;
             $data['month_contri_list'] = $w_month_contri_list;
             $data['month_salary_list'] = $w_month_salary_list;
+            $data['month_penalty_list'] = $w_month_penalty_list;
 
             $this->load->view('view_all_time', $data);
         } else {
