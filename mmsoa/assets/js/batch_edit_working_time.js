@@ -148,3 +148,18 @@ function toPenalizeGroup() {
         }
     });
 }
+
+
+function batchSelect(groupID){
+    $(".group_"+groupID).attr("selected","");
+    $('#select_worker').trigger('chosen:updated');
+    console.log("group "+groupID+" selected");
+}
+
+
+function removeBatchSelect(){
+    if (confirm("确定要清空选择吗?")){
+        $("option").removeAttr("selected");
+        $('#select_worker').trigger('chosen:updated');
+    }
+}

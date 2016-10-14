@@ -284,12 +284,6 @@ Class WorkingTime extends CI_Controller
             }
 
             $w_obj_list = $this->Moa_worker_model->get_all();
-            /*
-            $data['wid_list']=$w_obj_list['wid'];
-            $data['name_list']=$w_obj_list['name'];
-            $data['uid_list']=$w_obj_list['uid'];
-            $data['group_list']=$w_obj_list['group'];
-            */
             $data = array();
             $data['wid_list'] = array();
             $data['uid_list'] = array();
