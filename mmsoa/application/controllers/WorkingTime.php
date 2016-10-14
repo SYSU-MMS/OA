@@ -328,7 +328,8 @@ Class WorkingTime extends CI_Controller
                     echo json_encode(array("status" => FALSE, "msg" => "扣除失败"));
                     return;
                 }
-                $wids = implode(',', $_POST['wids']);
+                //$wids = implode(',', $_POST['wids']);
+                $wids = $_POST['wids'];
                 $time = $_POST['time'];
 
                 $all_edited = true;
@@ -378,7 +379,7 @@ Class WorkingTime extends CI_Controller
                     echo json_encode(array("status" => FALSE, "msg" => "扣除失败"));
                     return;
                 }
-                $wids = implode(',', $_POST['wids']);
+                $wids = $_POST['wids'];
                 $ajust_contrib = $_POST['time'];
                 $all_edited = true;
                 for ($i = 0; $i < count($wids); $i++) {

@@ -14,7 +14,7 @@ function rewardGroupButton() {
         "<div class='col-sm-7 col-sm-offset-2'>" +
         "<span id='timeAjustArea' class='input-group-btn'>" +
         "<input type='text' id='rewardTime' name='rewardTime' class='form-control' placeholder='工时'/>" +
-        "<button type='button' id='reward" + "' name='reward' class='btn btn-primary' onclick='toRewardGroup()'> 增加 </button>" +
+        "<button type='button' id='reward' name='reward' class='btn btn-primary' onclick='toRewardGroup()'> 增加 </button>" +
         "</span>" +
         "</div>" +
         "</div>" +
@@ -30,8 +30,8 @@ function reduceGroupButton() {
         "<div class='form-group'>" +
         "<div class='col-sm-7 col-sm-offset-2'>" +
         "<span id='timeAjustArea' class='input-group-btn'>" +
-        "<input type='text' id='reduceTime" + "' name='reduceTime' class='form-control' placeholder='工时'/>" +
-        "<button type='button' id='reduce" + "' name='reduce' class='btn btn-primary' onclick='toReduceGroup()'> 减少 </button>" +
+        "<input type='text' id='reduceTime' name='reduceTime' class='form-control' placeholder='工时'/>" +
+        "<button type='button' id='reduce' name='reduce' class='btn btn-primary' onclick='toReduceGroup()'> 减少 </button>" +
         "</span>" +
         "</div>" +
         "</div>" +
@@ -47,8 +47,8 @@ function penaltyGroupButton() {
         "<div class='form-group'>" +
         "<div class='col-sm-7 col-sm-offset-2'>" +
         "<span id='timeAjustArea' class='input-group-btn'>" +
-        "<input type='text' id='penaltyTime" + "' name='penaltyTime' class='form-control' placeholder='工时'/>" +
-        "<button type='button' id='penalty" + "' name='penalty' class='btn btn-primary' onclick='toPenalizeGroup()'> 扣除 </button>" +
+        "<input type='text' id='penaltyTime' name='penaltyTime' class='form-control' placeholder='工时'/>" +
+        "<button type='button' id='penalty' name='penalty' class='btn btn-primary' onclick='toPenalizeGroup()'> 扣除 </button>" +
         "</span>" +
         "</div>" +
         "</div>" +
@@ -58,7 +58,7 @@ function penaltyGroupButton() {
 
 
 function toRewardGroup() {
-    var rewardTime = $("#rewardTime").val();
+    var rewardTime = parseInt($("#rewardTime").val());
     var wids = $("#select_worker").val();
     console.log(rewardTime,wids);
     $.ajax({
@@ -91,7 +91,7 @@ function toRewardGroup() {
 
 
 function toReduceGroup() {
-    var reduceTime = $("#reduceTime").val();
+    var reduceTime = parseInt($("#reduceTime").val());
     var wids = $("#select_worker").val();
     $.ajax({
         type: 'POST',
@@ -121,7 +121,7 @@ function toReduceGroup() {
 
 
 function toPenalizeGroup() {
-    var penaltyTime = $("#penaltyTime").val();
+    var penaltyTime = parseInt($("#penaltyTime").val());
     var wids = $("#select_worker").val();
     $.ajax({
         type: 'POST',
