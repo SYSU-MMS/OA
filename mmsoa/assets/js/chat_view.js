@@ -13,26 +13,27 @@ var socket = io('http://'+document.domain+':2020').connect();
     //——————————————————————————————————————————————————
     //服务端事件
     //——————————————————————————————————————————————————
-      socket.on('newnotice', function(data) {
+      socket.on('new notice', function(data) {
         console.log("new notice");
         noticelist = data.noticelist;
         messagelist = data.messagelist;
         //拉取用户列表
+        console.log(noticelist)
         console.log(messagelist);
         updateUserList();
       });
     //拉取历史纪录
-    socket.on('initchat', function(data) {
+    socket.on('init chat', function(data) {
       console.log('----init chat');
       initChat(data);
     });
 
-    socket.on('newmessage', function(data) {
+    socket.on('new message', function(data) {
       console.log('----new message');
       getNewMessage(data);
     });
 
-    socket.on('checknewnotice', function(data) {
+    socket.on('check new notice', function(data) {
       checkMessage(receiveUser.uid);
     });
 
@@ -50,14 +51,13 @@ var socket = io('http://'+document.domain+':2020').connect();
         '        <span class=\"message-content\">' + str + '</span>' +
         '    </div>' +
         '</div>';
-      console.log(temp);
       $('.chat-discussion').append(temp);
     }
 
     //插入一句对方的话
     var insertReceiveContent = function(str) {
 
-      let temp =
+      var temp =
         '<div class=\"chat-message\" >' +
         '    <img class=\"message-avatar-left\" src=\"' + receiveUser.avatar + '\" alt=\"\">' +
         '    <div class=\"message-left\">' +
@@ -74,7 +74,7 @@ var socket = io('http://'+document.domain+':2020').connect();
         if(_user.msgnums != 0) {
           msgnums = _user.msgnums + '';
         }
-        let temp =
+        var temp =
           '<div class="chat-user" onclick="choseReceiveUser(' + index + ')">' +
           '    <img class="chat-avatar" src="' + _user.avatar + '" alt="">' +
           '    <span class="pull-right label label-primary">'+ msgnums +'</span>'+
@@ -101,8 +101,6 @@ var socket = io('http://'+document.domain+':2020').connect();
       $('.chat-discussion').empty();
       if(receiveUser.msgnums != 0) {
         for(var i of messagelist) {
-          console.log(i);
-          console.log(i.receive_uids == user.uid);
           if (i.receive_uids == user.uid) {
             insertReceiveContent(i.body);
             sendAlreadyRead(i.mid);
@@ -180,7 +178,8 @@ var socket = io('http://'+document.domain+':2020').connect();
     //客户端事件
     //——————————————————————————————————————————————————
     var sendAlreadyRead = function(_mid) {
-      socket.emit('alreadyread', {
+      console.log("Emit: already read");
+      socket.emit('already read', {
         userId: user.uid,
         mid: _mid,
       });
@@ -190,9 +189,8 @@ var socket = io('http://'+document.domain+':2020').connect();
       var _noticebody = words + '';
       //0代表私信
       var _visibility = 0;
-      var _receive_uids = receiveUser.uid ;
-      console.log("_receive_uids:", _receive_uids);
-      socket.emit('createnotice', {
+      var _receive_uids = receiveUser.uid + '';
+      socket.emit('create notice', {
         userId: user.uid,
         noticebody: _noticebody,
         visibility: _visibility,
@@ -201,7 +199,7 @@ var socket = io('http://'+document.domain+':2020').connect();
     }
     //检查与指定用户之间是否还有新信息（主要是在对话窗口）
     var checkMessage = function(receiveUser) {
-      socket.emit('checkmessage', {
+      socket.emit('check message', {
         userId: user.uid,
         receiveUser: receiveUser.uid
       });
@@ -209,14 +207,14 @@ var socket = io('http://'+document.domain+':2020').connect();
 
     //包括私信以及通知
     var checkUnread = function() {
-      console.log("checkUnread");
-      socket.emit('checkunread', {
+      console.log("check Unread");
+      socket.emit('check unread', {
         userId: user.uid
       })
     }
 
     var getChatHistory = function() {
-      socket.emit('newchat', {
+      socket.emit('new chat', {
         userId: user.uid,
         receiveUser: receiveUser.uid
       });
@@ -227,6 +225,8 @@ var socket = io('http://'+document.domain+':2020').connect();
       $('.users-list').empty();
       console.log("updateUserList");
 
+      console.log(allUser);
+      console.log(messagelist);
       //处理有新消息的好友
       for (var msg of messagelist) {
         allUser[msg.uid].msgnums++;
@@ -245,6 +245,7 @@ var socket = io('http://'+document.domain+':2020').connect();
 
     var addUserList = function() {
       console.log("addUserList");
+      allUser = [];
       user.avatar = protocol + '//' + url + '/OA/mmsoa/upload/avatar/sm_' + user.avatar; 
 
       //处理allUser为以uid为索引的userlist
@@ -262,6 +263,7 @@ var socket = io('http://'+document.domain+':2020').connect();
         }
       }
 
+      console.log(allUser);
       //进行dom操作
       allUser.forEach(function(temp,index){  
         insertUserList(temp, index);
@@ -269,13 +271,8 @@ var socket = io('http://'+document.domain+':2020').connect();
     }
 
 
-
-
-
-    //checkUnread会触发new notice，之后调用getUserlist
-    //getUserlist在拉取数据后，会回调strat
     var start = function() {
-      checkUnread();
+      // checkUnread();
       addUserList();
       getEnterkey();
     }
