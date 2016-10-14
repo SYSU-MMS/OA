@@ -51,6 +51,7 @@ Class WorkingTime extends CI_Controller
             $u_total_salary_list = array();
             $w_month_contri_list = array();
             $w_month_salary_list = array();
+            $w_month_penalty_list = array();
             $count = 0;
 
             if ($u_obj_list != FALSE) {
@@ -74,6 +75,7 @@ Class WorkingTime extends CI_Controller
                     $tmp_month_real_contri = $tmp_month_contri - $tmp_month_penalty;
                     $w_month_contri_list[$count] = $tmp_month_real_contri;
                     $w_month_salary_list[$count] = PublicMethod::cal_salary($tmp_month_real_contri);
+                    $w_month_penalty_list[$count] = $tmp_month_penalty;
                     $w_wid_list[$count] = $tmp_wid;
                 }
             }
@@ -87,6 +89,7 @@ Class WorkingTime extends CI_Controller
             $data['total_salary_list'] = $u_total_salary_list;
             $data['month_contri_list'] = $w_month_contri_list;
             $data['month_salary_list'] = $w_month_salary_list;
+            $data['month_penalty_list'] = $w_month_penalty_list;
 
             $this->load->view('view_all_time', $data);
         } else {
@@ -266,7 +269,11 @@ Class WorkingTime extends CI_Controller
         }
     }
 
-    public function batchEditWorkingTime(){
+    /**
+     * 批量调整工时
+     */
+    public function batchEditWorkingTime()
+    {
         if (isset($_SESSION['user_id'])) {
             // 检查权限: 2-负责人助理 3-助理负责人 5-办公室负责人  6-超级管理员
             if ($_SESSION['level'] != 2 && $_SESSION['level'] != 3 &&
@@ -276,34 +283,124 @@ Class WorkingTime extends CI_Controller
                 PublicMethod::permissionDenied();
             }
 
-            $w_obj_list=$this->Moa_worker_model->get_all();
+            $w_obj_list = $this->Moa_worker_model->get_all();
             /*
             $data['wid_list']=$w_obj_list['wid'];
             $data['name_list']=$w_obj_list['name'];
             $data['uid_list']=$w_obj_list['uid'];
             $data['group_list']=$w_obj_list['group'];
             */
-            $data=array();
-            $data['wid_list']=array();
-            $data['uid_list']=array();
-            $data['group_list']=array();
-            $data['name_list']=array();
-            for ($i=0;$i<count($w_obj_list);$i++){
-                $data['wid_list'][$i]=$w_obj_list[$i]->wid;
-                $data['uid_list'][$i]=$w_obj_list[$i]->uid;
-                $data['group_list'][$i]=$w_obj_list[$i]->group;
+            $data = array();
+            $data['wid_list'] = array();
+            $data['uid_list'] = array();
+            $data['group_list'] = array();
+            $data['name_list'] = array();
+            for ($i = 0; $i < count($w_obj_list); $i++) {
+                $data['wid_list'][$i] = $w_obj_list[$i]->wid;
+                $data['uid_list'][$i] = $w_obj_list[$i]->uid;
+                $data['group_list'][$i] = $w_obj_list[$i]->group;
                 //$user=array();
-                $uid=(int)$data['uid_list'][$i];
-                $user=$this->Moa_user_model->get($uid);
-                if ($user==false) echo "<script>console.log(".$data['uid_list'][$i].",".$i.")</script>";
-                $data['name_list'][$i]=$user->name;
+                $uid = (int)$data['uid_list'][$i];
+                $user = $this->Moa_user_model->get($uid);
+                if ($user == false) echo "<script>console.log(" . $data['uid_list'][$i] . "," . $i . ")</script>";
+                $data['name_list'][$i] = $user->name;
             }
 
-            $this->load->view('view_batch_edit_working_time',$data);
+            $this->load->view('view_batch_edit_working_time', $data);
         } else {
             // 未登录的用户请先登录
             PublicMethod::requireLogin();
         }
     }
 
+    public function batchEdit()
+    {
+        if (isset($_SESSION['user_id'])) {
+            // 检查权限: 2-负责人助理 3-助理负责人 5-办公室负责人  6-超级管理员
+            if ($_SESSION['level'] != 2 && $_SESSION['level'] != 3 &&
+                $_SESSION['level'] != 5 && $_SESSION['level'] != 6
+            ) {
+                // 提示权限不够
+                PublicMethod::permissionDenied();
+            }
+            if (isset($_POST['wids']) && isset($_POST['time'])) {
+                if (!is_numeric($_POST['time'])) {
+                    echo json_encode(array("status" => FALSE, "msg" => "扣除失败"));
+                    return;
+                }
+                $wids = implode(',', $_POST['wids']);
+                $time = $_POST['time'];
+
+                $all_edited = true;
+                for ($i = 0; $i < count($wids); $i++) {
+                    $uid = $this->Moa_worker_model->get($wids[$i])->uid;
+                    // <s>累计工时仅统计已经结算过的,未结算的工时不计入</s>
+                    $affected_rows_u = $this->Moa_user_model->update_contribution($uid, $time);
+                    $affected = $this->Moa_worker_model->update_worktime($wids[$i], $time);
+                    //echo "<script>console.log(".$affected.",".$affected_rows_u.",".$uid.")</script>";
+                    if ($affected == false) {
+                        //echo "<script>console.log('update worktime failed. wid:" . $wids[$i] . ")</script>";
+                        $all_edited = false;
+                    }
+                }
+
+                if ($all_edited == false) {
+                    echo json_encode(array("status" => FALSE, "msg" => "调整失败"));
+                    return;
+                }
+                echo json_encode(array("status" => TRUE, "msg" => "调整成功"));
+            } else {
+                return;
+            }
+
+
+
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+        }
+    }
+
+    public function batchPenalize()
+    {
+        if (isset($_SESSION['user_id'])) {
+            // 检查权限: 2-负责人助理 3-助理负责人 5-办公室负责人  6-超级管理员
+            if ($_SESSION['level'] != 2 && $_SESSION['level'] != 3 &&
+                $_SESSION['level'] != 5 && $_SESSION['level'] != 6
+            ) {
+                // 提示权限不够
+                PublicMethod::permissionDenied();
+            }
+
+            if (isset($_POST['wids']) && isset($_POST['time'])) {
+
+                if (!is_numeric($_POST['time'])) {
+                    echo json_encode(array("status" => FALSE, "msg" => "扣除失败"));
+                    return;
+                }
+                $wids = implode(',', $_POST['wids']);
+                $ajust_contrib = $_POST['time'];
+                $all_edited = true;
+                for ($i = 0; $i < count($wids); $i++) {
+                    $uid = $this->Moa_worker_model->get($wids[$i])->uid;
+                    // 更新工时
+                    $affected_rows = $this->Moa_worker_model->update_penalty($wids[$i], $ajust_contrib);
+                    // <s>累计工时仅统计已经结算过的,未结算的工时不计入</s>
+                    $affected_rows_u = $this->Moa_user_model->update_penalty($uid, $ajust_contrib);
+                    if ($affected_rows == false) $all_edited = false;
+                }
+                if ($all_edited == false) {
+                    echo json_encode(array("status" => FALSE, "msg" => "扣除失败"));
+                    return;
+                }
+
+                echo json_encode(array("status" => TRUE, "msg" => "扣除成功"));
+                return;
+            }
+
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+        }
+    }
 }

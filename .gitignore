@@ -23,7 +23,8 @@ mmsoa/application/controllers/Homepage_0921.php
 
 mmsoa/assets/js/homepage_0928.js
 
-
-mmsoa/application/config/database.php
+mmsoa/upload/avatar
 
 mmsoa/application/config/config.php
+
+mmsoa/application/config/database.php
