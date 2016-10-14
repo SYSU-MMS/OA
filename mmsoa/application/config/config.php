@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'http://localhost/OA/mmsoa';
+$config['base_url'] = 'http://222.200.161.121:8080/OA/mmsoa';
 
 /*
 |--------------------------------------------------------------------------

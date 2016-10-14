@@ -64,10 +64,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'lw',
-	'database' => 'mydb',
+	'hostname' => '222.200.161.121',
+	'username' => 'moa',
+	'password' => 'moaLY',
+	'database' => 'moadb',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
