@@ -22,3 +22,8 @@ mmsoa/.idea/misc.xml
 mmsoa/application/controllers/Homepage_0921.php
 
 mmsoa/assets/js/homepage_0928.js
+
+
+mmsoa/application/config/database.php
+
+mmsoa/application/config/config.php
