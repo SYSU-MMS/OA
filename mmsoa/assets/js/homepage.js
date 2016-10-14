@@ -212,7 +212,7 @@ function replyTo(uid, post_id, mbcid) {
             var deleteCommentHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_comment_area_"+ret['mbcid']+"'><a class='delete-post' onclick='deleteComment("+ret['mbcid']+")'>删除</a></small></div>";
             if (ret['status'] === true) {
                 $(write_comment_id_selector).after(
-                    "<div class='social-comment social-comment-" + post_id + "'>" +
+                    "<div class='social-comment social-comment-" + post_id + "' display='none'>" +
                     "<a href='' class='pull-left'>" +
                     "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
                     "</a>" +
@@ -239,6 +239,7 @@ function replyTo(uid, post_id, mbcid) {
             //console.log(post_id);
             //console.log(comment_count[post_id]);
             comment_count[post_id]++;
+            $("#text_muted_"+ret['mbcid']).parent().parent().slideDown(200);
             //console.log(comment_count[post_id]);
             //更新"更多"按钮的onclick属性
             $("#more_comment_btn_" + post_id).attr("onclick", "showAllComment(" + post_id + "," + comment_count[post_id] + ")");
@@ -285,7 +286,7 @@ $("body").on("click", ".comment-btn", function () {
                 }
                 var deleteCommentHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_comment_area_"+ret['mbcid']+"'><a class='delete-post' onclick='deleteComment("+ret['mbcid']+")'>删除</a></small></div>";
                 $(write_comment_id_selector).after(
-                    "<div class='social-comment social-comment-" + post_id + "'>" +
+                    "<div class='social-comment social-comment-" + post_id + "' display='none'>" +
                     "<a href='' class='pull-left'>" +
                     "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
                     "</a>" +
@@ -312,6 +313,7 @@ $("body").on("click", ".comment-btn", function () {
             //console.log(post_id);
             //console.log(comment_count[post_id]);
             comment_count[post_id]++;
+            $("#text_muted_"+ret['mbcid']).parent().parent().slideDown(200);
             //console.log(comment_count[post_id]);
             //更新"更多"按钮的onclick属性
             $("#more_comment_btn_" + post_id).attr("onclick", "showAllComment(" + post_id + "," + comment_count[post_id] + ")");
