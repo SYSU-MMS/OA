@@ -72,11 +72,11 @@ function toRewardGroup() {
             console.log(msg);
             var ret = JSON.parse(msg);
             if (ret["status"] === false) {
-                $("#submit_result").attr("style", "color:#ED5565;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                $(".modal-body").attr("style", "color:#ED5565;text-align:center;");
+                $(".modal-body").html(ret["msg"]);
             } else {
-                $("#submit_result").attr("style", "color:#1AB394;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                $(".modal-body").attr("style", "color:#1AB394;text-align:center;");
+                $(".modal-body").html(ret["msg"]);
                 // 锁定所有按钮和输入框
                 $('.chosen-select').prop('disabled', true).trigger("chosen:updated");
                 $("div #batch_edit_submit_area button").attr("disabled", true);
@@ -103,14 +103,14 @@ function toReduceGroup() {
         success: function (msg) {
             var ret = JSON.parse(msg);
             if (ret["status"] === false) {
-                $("#submit_result").attr("style", "color:#ED5565;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                $(".modal-body").attr("style", "color:#ED5565;text-align:center;");
+                $(".modal-body").html(ret["msg"]);
             } else {
-                $("#submit_result").attr("style", "color:#1AB394;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                $(".modal-body").attr("style", "color:#1AB394;text-align:center;");
+                $(".modal-body").html(ret["msg"]);
                 // 锁定所有按钮和输入框
                 $('.chosen-select').prop('disabled', true).trigger("chosen:updated");
-                $("#submit_duty").attr("disabled", true);
+                $("div #batch_edit_submit_area button").attr("disabled", true);
             }
         },
         error: function () {
@@ -133,14 +133,14 @@ function toPenalizeGroup() {
         success: function (msg) {
             var ret = JSON.parse(msg);
             if (ret["status"] === false) {
-                $("#submit_result").attr("style", "color:#ED5565;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                $(".modal-body").attr("style", "color:#ED5565;text-align:center;");
+                $(".modal-body").html(ret["msg"]);
             } else {
-                $("#submit_result").attr("style", "color:#1AB394;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                $(".modal-body").attr("style", "color:#1AB394;text-align:center;");
+                $(".modal-body").html(ret["msg"]);
                 // 锁定所有按钮和输入框
                 $('.chosen-select').prop('disabled', true).trigger("chosen:updated");
-                $("#submit_duty").attr("disabled", true);
+                $("div #batch_edit_submit_area button").attr("disabled", true);
             }
         },
         error: function () {
