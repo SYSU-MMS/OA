@@ -7,7 +7,7 @@ var url = window.location.host;
 var protocol = window.location.protocol + '';
 baseurl = protocol + '//' + url + '/OA/mmsoa/';
 // index.php/chat/index';
-socket.on("newnotice", function(data) {
+socket.on("new notice", function(data) {
         console.log("new notice");
         noticelist = data.noticelist;
         messagelist = data.messagelist;
@@ -35,7 +35,7 @@ var getNowUser = function() {
   }
 
     var checkUnread = function() {
-      socket.emit('checkunread', {
+      socket.emit('check unread', {
         userId: user.uid
       })
     }
@@ -43,7 +43,7 @@ var getNowUser = function() {
     var sendAlreadyRead = function() {
       for(var i of noticelist) {
         var _mid = i.mid;
-        socket.emit('alreadyread', {
+        socket.emit('already read', {
             userId: user.uid,
             mid: _mid,
         });
@@ -58,7 +58,7 @@ var getNowUser = function() {
         if (allnums == 0) {
             allnums = '';
         }
-        let temp =
+        var temp =
         '<li class="dropdown">'+
         '    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="index.html#">'+
         '        <i class="fa fa-bell"></i>  <span class="label label-primary">'+ allnums +'</span>'+
