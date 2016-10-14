@@ -114,7 +114,9 @@
 		                    '<li id="active-personal"><a href="'. site_url('WorkingTime/perWorkingTime') . '">个人<span class="label label-warning pull-right"><i class="fa fa-heart-o heart-margin"></i></span></a>' . 
 		                    '</li>' . 
 		                    '<li id="active-allmembers"><a href="'. site_url('WorkingTime/allWorkingTime') . '">全员</a>' . 
-		                    '</li>' . 
+		                    '</li>' .
+							'<li id="active-batchEditWorkingTime"><a href="'. site_url('WorkingTime/batchEditWorkingTime'). '">批量调整工时</a>' .
+							'</li>' .
 		                '</ul>' . 
 		            '</li>';
 		        } else if ($_SESSION['level'] == 0 || $_SESSION['level'] == 1 || $_SESSION['level'] == -1) { echo
@@ -126,6 +128,19 @@
 		            	'<a href="'. site_url('WorkingTime/allWorkingTime') . '"><i class="fa fa-rmb"></i> <span class="nav-label"> &nbsp;工时统计</span></a>' .
 		            '</li>';
 		        } 
+		    ?>
+			<?php 
+		        if ($_SESSION['level'] >= 3) { echo 
+		            '<li id="active-systemConfig">' . 
+		                '<a href="Homepage#"><i class="fa fa-gear"></i> <span class="nav-label"> 系统设置</span><span class="fa arrow"></span></a>' . 
+		                '<ul class="nav nav-second-level">' . 
+		                    '<li id="active-syslog"><a href="'. site_url('MoaSystemLog/Review') . '">系统日志</a>' . 
+		                    '</li>' . 
+		                    '<li id="active-sysreset"><a href="#">重置系统</a>' .
+		                    '</li>' . 
+		                '</ul>' . 
+		            '</li>';
+		        }
 		    ?>
 		    <li id="active-scheduleManagement">
 		        <a href="Homepage#"><i class="fa fa-calendar"></i> <span class="nav-label"> 值班安排</span><span class="fa arrow"></span></a>

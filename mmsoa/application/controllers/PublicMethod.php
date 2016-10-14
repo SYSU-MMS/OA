@@ -1,6 +1,10 @@
 <?php
 header("Content-type: text/html; charset=utf-8");
 
+/**
+ * 公共函数类
+ * @author 伟、RKK
+ */
 Class PublicMethod extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
@@ -24,7 +28,7 @@ Class PublicMethod extends CI_Controller {
 		echo "<script language=javascript>alert('Sorry, 你没有权限访问！将跳转到主页');</script>";
 		echo '<script language=javascript>window.location.href="' . site_url('Homepage') . '"</script>';
 	}
-	
+
 	/**
 	 * 提取日期格式中的年月日时分秒
 	 * @param string $timestamp
@@ -45,6 +49,7 @@ Class PublicMethod extends CI_Controller {
 	 */
 	public static function cal_week() {
 		// 周一为一周的第一天
+        date_default_timezone_set('PRC');
 		$cur_week = date('W') - 34;
 		// 周日为一周的第一天
 		//$cur_week = date("w") == 0 ? $cur_week + 1 : $cur_week;
@@ -68,6 +73,7 @@ Class PublicMethod extends CI_Controller {
 	 * @return number 工龄
 	 */
 	public static function cal_working_age($indate) {
+        date_default_timezone_set('PRC');
 		$now = date('Y-m-d H:i:s');
 		$service_days =  (strtotime($now)-strtotime($indate)) / (60 * 60 * 24);
 		$year = intval($service_days / 365);

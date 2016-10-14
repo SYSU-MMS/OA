@@ -1,7 +1,7 @@
 <?php
 /**
  * 日志模型类
- * @author Rinka
+ * @author RKK
  */
 class Moa_log_model extends CI_Model {
  	/**
@@ -25,7 +25,7 @@ class Moa_log_model extends CI_Model {
 	 * @param nums - 最大条目
 	 * @param offset - 偏移量
 	 */
-	public function get($id, $nums = NULL, $offset = 0) {
+	public function get($id = NULL, $nums = NULL, $offset = 0) {
 		if (isset($id)) {
 			$this->db->where(array('logid'=>$id));
 			if (!is_null($nums)) {
@@ -34,7 +34,7 @@ class Moa_log_model extends CI_Model {
 			return $this->db->get('MOA_Log')->result();
 		}
 		else {
-			return false;
+			return $this->db->get('MOA_Log')->result();
 		}
 	}
 

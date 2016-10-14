@@ -26,6 +26,64 @@ $(function () {
 var comment_count = new Array();
 
 /**
+ * 删除回复
+ * @param mbcid
+ */
+function deleteComment(mbcid) {
+    if (confirm("您确定要删除这条回复吗?")) {
+        $.ajax({
+            type: 'post',
+            url: 'Homepage/deleteComment/' + mbcid,
+            data: {
+                "mbcid": mbcid,
+            },
+            success: function (msg) {
+                var ret = JSON.parse(msg);
+                if (ret['status'] === true) {
+                    $("#text_muted_" + mbcid).parent().parent().slideUp(200);
+                    delay(200);
+                    $("#text_muted_" + mbcid).parent().parent().remove();
+                } else {
+                    alert("删除失败");
+                }
+            },
+            error: function () {
+                alert("删除失败");
+            }
+        });
+    }
+}
+
+/**
+ * 删除留言
+ * @param bpid
+ */
+function deletePost(bpid) {
+    if (confirm("您确定要删除这条留言吗?")) {
+        $.ajax({
+            type: 'post',
+            url: 'Homepage/deletePost/' + bpid,
+            data: {
+                "bpid": bpid,
+            },
+            success: function (msg) {
+                var ret = JSON.parse(msg);
+                if (ret['status'] === true) {
+                    $("#separated_" + bpid).slideUp(400);
+                    delay(400);
+                    $("#separated_" + bpid).remove();
+                } else {
+                    alert("删除失败");
+                }
+            },
+            error: function () {
+                alert("删除失败");
+            }
+        });
+    }
+}
+
+/**
  * 发送留言
  */
 $("#post-btn").click(function () {
@@ -33,7 +91,7 @@ $("#post-btn").click(function () {
     $("#submit_result").show();
 
     var post_content = $("#new-post").val();
-    if($.trim(post_content) === "") {
+    if ($.trim(post_content) === "") {
         alert("内容不能为空");
         return;
     }
@@ -53,7 +111,8 @@ $("#post-btn").click(function () {
         success: function (msg) {
             var ret = JSON.parse(msg);
             if (ret['status'] === true) {
-                console.log(ret['bpid']);
+                //console.log(ret['bpid']);
+                var deletePostHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_area_"+ret['bpid']+"'><a class='delete-post' onclick='deletePost("+ret['bpid']+")'>删除</a></small></div>";
                 $("#post-circle").prepend(
                     "<div class='social-feed-separated' id='separated_" + ret['bpid'] + "'>" +
                     "<div class='social-avatar'><a href=''><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'></a></div>" +
@@ -64,7 +123,7 @@ $("#post-btn").click(function () {
                     "<div class='social-body'>" +
                     post_content +
                     "<small class='text-muted'> " + ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
-                    ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] + " </small>" +
+                    ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] + " </small>" + deletePostHTML +
                     "</div>" +
                     "<div class='social-footer'>" +
                     "<div class='social-comment' id='write_comment_" + ret['bpid'] + "'>" +
@@ -112,6 +171,7 @@ function showReplyToArea(mbcid) {
     if ($("#reply_to_area_" + mbcid).css("display") == "none") {
         $(".reply-to-area").slideUp(200);
         $("#reply_to_area_" + mbcid).slideDown(200);
+        $("#reply_to_textarea_" + mbcid).focus();
     } else {
         $("#reply_to_area_" + mbcid).slideUp(200);
     }
@@ -126,7 +186,7 @@ function replyTo(uid, post_id, mbcid) {
     //console.log("nothing",uid);
     var comment_textarea_selector = "#reply_to_textarea_" + mbcid;
     var comment_content = $(comment_textarea_selector).val();
-    if($.trim(comment_content) === "") {
+    if ($.trim(comment_content) === "") {
         alert("内容不能为空");
         return;
     }
@@ -149,18 +209,19 @@ function replyTo(uid, post_id, mbcid) {
                 replyTo = " 回复 <a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + reply_uid + "'>"
                     + reply_user + "</a>"
             }
+            var deleteCommentHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_comment_area_"+ret['mbcid']+"'><a class='delete-post' onclick='deleteComment("+ret['mbcid']+")'>删除</a></small></div>";
             if (ret['status'] === true) {
                 $(write_comment_id_selector).after(
                     "<div class='social-comment social-comment-" + post_id + "'>" +
                     "<a href='' class='pull-left'>" +
                     "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
                     "</a>" +
-                    "<div class='media-body'>" +
+                    "<div class='media-body reply-msg-area'>" +
                     "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + comment_content + "<br/>" +
                     "<small class='text-muted' id='text_muted_" + ret['mbcid'] + "'> " +
                     ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
                     ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] +
-                    "<a href='javascript:void(0);' class='reply-to' id='reply_to_" + ret['mbcid'] + "'> 回复</a>" +
+                    "<a href='javascript:void(0);' class='reply-to' id='reply_to_" + ret['mbcid'] + "'> 回复</a>" + deleteCommentHTML +
                     "</small>" +
                     "<div class='reply-to-area' id='reply_to_area_" + ret['mbcid'] + "'>" +
                     "<textarea id='reply_to_textarea_" + ret['mbcid'] + "' class='form-control reply-to-textarea' placeholder='回复 " + ret['name'] + "'></textarea>" +
@@ -195,7 +256,7 @@ $("body").on("click", ".comment-btn", function () {
     var btn_id = $(this)[0].id.split("_");
     var post_id = btn_id[btn_id.length - 1];
     var comment_content = $(this).parent().siblings("textarea").val();
-    if($.trim(comment_content) === "") {
+    if ($.trim(comment_content) === "") {
         alert("内容不能为空");
         return;
     }
@@ -222,18 +283,19 @@ $("body").on("click", ".comment-btn", function () {
                     replyTo = " 回复 <a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + reply_uid + "'>"
                         + reply_user + "</a>"
                 }
+                var deleteCommentHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_comment_area_"+ret['mbcid']+"'><a class='delete-post' onclick='deleteComment("+ret['mbcid']+")'>删除</a></small></div>";
                 $(write_comment_id_selector).after(
                     "<div class='social-comment social-comment-" + post_id + "'>" +
                     "<a href='' class='pull-left'>" +
                     "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
                     "</a>" +
-                    "<div class='media-body'>" +
+                    "<div class='media-body reply-msg-area'>" +
                     "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + comment_content + "<br/>" +
                     "<small class='text-muted' id='text_muted_" + ret['mbcid'] + "'> " +
                     ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
                     ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] +
                     "<a href='javascript:void(0);' class='reply-to' id='reply_to_" + ret['mbcid'] + "'> 回复</a>" +
-                    "</small>" +
+                    "</small>" + deleteCommentHTML +
                     "<div class='reply-to-area' id='reply_to_area_" + ret['mbcid'] + "'>" +
                     "<textarea id='reply_to_textarea_" + ret['mbcid'] + "' class='form-control reply-to-textarea' placeholder='回复 " + ret['name'] + "'></textarea>" +
                     "<button class='reply-to-btn btn btn-primary btn-xs' id='reply_to_btn_" + ret['mbcid'] + "' style='margin-top:6px;'><i class='fa fa-send-o'> 发送</i></button>" +
@@ -288,19 +350,23 @@ function showAllComment(bpid, offset) {
                                 + reply_user + "</a>"
                             //console.log("replyToMore");
                         }
+                        var deleteCommentHTML="";
+                        if (ret['comment_list'][0][j]['deletable']===true){
+                            deleteCommentHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_comment_area_"+ret['comment_list'][0][j]['mbcid']+"'><a class='delete-post' onclick='deleteComment("+ret['comment_list'][0][j]['mbcid']+")'>删除</a></small></div>";
+                        }
                         $(write_comment_id_selector).before(
                             "<div class='social-comment social-comment-" + ret['post_list'][0]['bpid'] + "'>" +
                             "<a href='' class='pull-left'>" +
                             "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['comment_list'][0][j]['avatar'] + "'>" +
                             "</a>" +
-                            "<div class='media-body'>" +
+                            "<div class='media-body reply-msg-area'>" +
                             "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['comment_list'][0][j]['myid'] + "'>"
                             + ret['comment_list'][0][j]['name'] + "</a>" + replyTo + "： " + ret['comment_list'][0][j]['body'] + "<br/>" +
                             "<small class='text-muted' id='text_muted_" + ret['comment_list'][0][j]['mbcid'] + "'> " +
                             ret['comment_list'][0][j]['splited_date']['month'] + "月" + ret['comment_list'][0][j]['splited_date']['day'] + "日 " +
                             ret['comment_list'][0][j]['splited_date']['hour'] + ":" + ret['comment_list'][0][j]['splited_date']['minute'] +
                             "<a href='javascript:void(0);' class='reply-to' id='reply_to_" + ret['comment_list'][0][j]['mbcid'] + "'> 回复</a>" +
-                            "</small>" +
+                            "</small>" + deleteCommentHTML +
                             "<div class='reply-to-area' id='reply_to_area_" + ret['comment_list'][0][j]['mbcid'] + "'>" +
                             "<textarea id='reply_to_textarea_" + ret['comment_list'][0][j]['mbcid'] + "' class='form-control reply-to-textarea' placeholder='回复 " + ret['comment_list'][0][j]['name'] + "'></textarea>" +
                             "<button class='reply-to-btn btn btn-primary btn-xs' id='reply_to_btn_" + ret['comment_list'][0][j]['mbcid'] + "' style='margin-top:6px;'><i class='fa fa-send-o'> 发送</i></button>" +
@@ -355,6 +421,12 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
                 // 每次最多获取10条留言
                 for (var i = 0; i < ret['post_list'].length; i++) {
                     //var onClick="onclick=\"showMoreComment("+ret['post_list'][i]['bpid']+","+comment_count[ret['post_list'][i]['bpid']]+")\"";
+                    var deletePostHTML="";
+                    console.log(ret['post_list'][i]['deletable']);
+                    if (ret['post_list'][i]['deletable']===true){
+                        deletePostHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_area_"+ret['post_list'][i]['bpid']+"'><a class='delete-post' onclick='deletePost("+ret['post_list'][i]['bpid']+")'>删除</a></small></div>";
+                        console.log(deletePostHTML);
+                    }
                     $("#more-btn").before(
                         "<div class='social-feed-separated' id='separated_" + ret['post_list'][i]['bpid'] + "'>" +
                         "<div class='social-avatar'><a href=''><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['post_list'][i]['avatar'] + "'></a></div>" +
@@ -366,7 +438,7 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
                         "<div class='social-body'>" +
                         ret['post_list'][i]['body'] +
                         "<small class='text-muted'> " + ret['post_list'][i]['splited_date']['month'] + "月" + ret['post_list'][i]['splited_date']['day'] + "日 " +
-                        ret['post_list'][i]['splited_date']['hour'] + ":" + ret['post_list'][i]['splited_date']['minute'] + " </small>" +
+                        ret['post_list'][i]['splited_date']['hour'] + ":" + ret['post_list'][i]['splited_date']['minute'] + " </small>" + deletePostHTML +
                         "</div>" +
                         "<div class='social-footer'>" +
                         "<div class='social-comment" + "' id='write_new_comment_" + ret['post_list'][i]['bpid'] + "' style='text-align:right;'>" +
@@ -405,19 +477,23 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
                                 replyTo = " 回复 <a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + reply_uid + "'>"
                                     + reply_user + "</a>"
                             }
+                            var deleteCommentHTML="";
+                            if (ret['comment_list'][i][j]['deletable']===true){
+                                deleteCommentHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_comment_area_"+ret['comment_list'][i][j]['mbcid']+"'><a class='delete-post' onclick='deleteComment("+ret['comment_list'][i][j]['mbcid']+")'>删除</a></small></div>";
+                            }
                             $(write_comment_id_selector).before(
                                 "<div class='social-comment social-comment-" + ret['post_list'][i]['bpid'] + "'>" +
                                 "<a href='' class='pull-left'>" +
                                 "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['comment_list'][i][j]['avatar'] + "'>" +
                                 "</a>" +
-                                "<div class='media-body'>" +
+                                "<div class='media-body reply-msg-area'>" +
                                 "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['comment_list'][i][j]['myid'] + "'>"
                                 + ret['comment_list'][i][j]['name'] + "</a>" + replyTo + "： " + ret['comment_list'][i][j]['body'] + "<br/>" +
                                 "<small class='text-muted' id='text_muted_" + ret['comment_list'][i][j]['mbcid'] + "'> " +
                                 ret['comment_list'][i][j]['splited_date']['month'] + "月" + ret['comment_list'][i][j]['splited_date']['day'] + "日 " +
                                 ret['comment_list'][i][j]['splited_date']['hour'] + ":" + ret['comment_list'][i][j]['splited_date']['minute'] +
                                 "<a href='javascript:void(0);' class='reply-to' id='reply_to_" + ret['comment_list'][i][j]['mbcid'] + "'> 回复</a>" +
-                                "</small>" +
+                                "</small>" + deleteCommentHTML +
                                 "<div class='reply-to-area' id='reply_to_area_" + ret['comment_list'][i][j]['mbcid'] + "'>" +
                                 "<textarea id='reply_to_textarea_" + ret['comment_list'][i][j]['mbcid'] + "' class='form-control reply-to-textarea' placeholder='回复 " + ret['comment_list'][i][j]['name'] + "'></textarea>" +
                                 "<button class='reply-to-btn btn btn-primary btn-xs' id='reply_to_btn_" + ret['comment_list'][i][j]['mbcid'] + "' style='margin-top:6px;'><i class='fa fa-send-o'> 发送</i></button>" +
@@ -506,7 +582,7 @@ $("#more_notices").bind("getNotice", function (event, base_date) {
             "base_date": base_date,
         },
         success: function (msg) {
-            ret = JSON.parse(msg);
+            var ret = JSON.parse(msg);
             if (ret['status'] === true) {
                 // 每次最多获取10条留言
                 for (var i = 0; i < ret['notice_list'].length; i++) {
