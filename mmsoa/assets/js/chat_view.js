@@ -4,6 +4,7 @@ var allUser = [];
 var userlist = [];
 var noticelist = [];
 var messagelist = [];
+var scrollHight = 0;
 
 var url = window.location.host;
 var protocol = window.location.protocol + '';
@@ -13,15 +14,16 @@ var socket = io('http://'+document.domain+':2020').connect();
     //——————————————————————————————————————————————————
     //服务端事件
     //——————————————————————————————————————————————————
-      socket.on('new notice', function(data) {
-        console.log("new notice");
-        noticelist = data.noticelist;
-        messagelist = data.messagelist;
-        //拉取用户列表
-        console.log(noticelist)
-        console.log(messagelist);
-        updateUserList();
-      });
+    socket.on('new notice', function(data) {
+      console.log("new notice");
+      noticelist = data.noticelist;
+      messagelist = data.messagelist;
+      //拉取用户列表
+      console.log(noticelist)
+      console.log(messagelist);
+      updateUserList();
+    });
+
     //拉取历史纪录
     socket.on('init chat', function(data) {
       console.log('----init chat');
@@ -30,43 +32,56 @@ var socket = io('http://'+document.domain+':2020').connect();
 
     socket.on('new message', function(data) {
       console.log('----new message');
-      getNewMessage(data);
+      var msglist = data.messagelist;
+      for (var i of msglist) {
+        getNewMessage(i);
+      }
     });
 
     socket.on('check new notice', function(data) {
-      checkMessage(receiveUser.uid);
+      console.log("----check new notice");
+      checkMessage();
     });
 
     //——————————————————————————————————————————————————
     //DOM操作
     //——————————————————————————————————————————————————
     //插入一句我的话
-    var insertContent = function(str) {
+    var insertContent = function(data) {
+      var initTime = new Date(data.timestamp);
+      initTime = initTime.toLocaleTimeString();
+
       var temp =
         '<div class=\"chat-message\">' +
         '    <img class=\"message-avatar-right\" src=\"' + user.avatar + '\" alt=\"\">' +
         '    <div class=\"message-right\">' +
         '        <a class=\"message-author\"> ' + user.name + '</a>' +
-        '        <span class=\"message-date-right\"> ' + getNowTime() + ' </span>' +
-        '        <span class=\"message-content\">' + str + '</span>' +
+        '        <span class=\"message-date-right\"> ' + initTime + ' </span>' +
+        '        <span class=\"message-content\">' + data.body + '</span>' +
         '    </div>' +
         '</div>';
       $('.chat-discussion').append(temp);
+      scrollToEnd();
+
     }
 
     //插入一句对方的话
-    var insertReceiveContent = function(str) {
+    var insertReceiveContent = function(data) {
+      var initTime = new Date(data.timestamp);
+      initTime = initTime.toLocaleTimeString();
 
       var temp =
         '<div class=\"chat-message\" >' +
         '    <img class=\"message-avatar-left\" src=\"' + receiveUser.avatar + '\" alt=\"\">' +
         '    <div class=\"message-left\">' +
         '        <a class=\"message-author\"> ' + receiveUser.name + '</a>' +
-        '        <span class=\"message-date-left\"> ' + getNowTime() + ' </span>' +
-        '        <span class=\"message-content\">' + str + '</span>' +
+        '        <span class=\"message-date-left\"> ' + initTime + ' </span>' +
+        '        <span class=\"message-content\">' + data.body + '</span>' +
         '    </div>' +
         '</div>';
       $('.chat-discussion').append(temp);
+      scrollToEnd();
+
     }
 
     var insertUserList = function(_user, index) {
@@ -89,29 +104,44 @@ var socket = io('http://'+document.domain+':2020').connect();
     //工具函数
     //——————————————————————————————————————————————————
     var getNowTime = function() {
-      var date = new Date();
-      var str = '';
-      str = date.toLocaleTimeString();
-      return str;
+      var time = new Date();
+      return time;
     }
 
     var choseReceiveUser = function(index) {
-      receiveUser = allUser[index];
-      //clear对话框
-      $('.chat-discussion').empty();
-      if(receiveUser.msgnums != 0) {
-        for(var i of messagelist) {
-          if (i.receive_uids == user.uid) {
-            insertReceiveContent(i.body);
-            sendAlreadyRead(i.mid);
-          }
-        }
-      }
-      else {
-        insertReceiveContent("我们可以进行聊天啦～");
+      if(receiveUser != allUser[index]) {
+     
+          scrollHight = 0;
+          receiveUser = allUser[index];
+          $('.ibox-title').html(receiveUser.name);
+          console.log("choseReceiveUser");
+          console.log(receiveUser);
+          //clear对话框
+          $('.chat-discussion').empty();
+          //消除
+          $('.label-primary').remove();
+
+          getChatHistory();
+          // if(receiveUser.msgnums != 0) {
+          //   for(var i of messagelist) {
+          //     if (i.receive_uids == user.uid) {
+          //       insertReceiveContent(i);
+          //       if(i.isread == 0)
+          //         sendAlreadyRead(i.mid);
+          //     }
+          //   }
+          // }
+          // else {
+          // }
       }
     }
 
+    var scrollToEnd = function () {
+
+      scrollHight = scrollHight + 80;
+      $('.chat-discussion').scrollTop(scrollHight);
+
+    }
     //——————————————————————————————————————————————————
 
     //ajax请求
@@ -141,7 +171,13 @@ var socket = io('http://'+document.domain+':2020').connect();
 
     //事件处理函数
     //——————————————————————————————————————————————————
-    var initChat = function() {}
+    var initChat = function(data) {
+      console.log('----initChat');
+      console.log(data);
+      for (var i of data.messagelist) {
+        initHistoryMessage(i);
+      }
+    }
 
     var getNewMessage = function(data) {
       var mid = data.mid;
@@ -153,8 +189,32 @@ var socket = io('http://'+document.domain+':2020').connect();
       var receive_uids = data.receive_uids;
       var body = data.body;
 
-      insertReceiveContent(body);
+      insertReceiveContent(data);
       sendAlreadyRead(mid);
+    }
+
+    var initHistoryMessage = function(data) {
+      var mid = data.mid;
+      var uid = data.uid;
+      var state = data.state;
+      var visibility = data.visibility;
+      var isread = data.isread;
+      var timestamp = data.timestamp;
+      var receive_uids = data.receive_uids;
+      var body = data.body;
+
+
+      if(uid == user.uid) {
+        insertContent(data);
+      }
+
+      if (uid == receiveUser.uid) {
+        insertReceiveContent(data);
+      }
+
+      if(data.isread == 0) {
+        sendAlreadyRead(mid);
+      } 
     }
 
     var getEnterkey = function() {
@@ -162,7 +222,10 @@ var socket = io('http://'+document.domain+':2020').connect();
       $(".message-input").keydown(function(event) {
         msg = $(".message-input").val();
         if (event.keyCode == 13) {
-          insertContent(msg);
+          var temp = {};
+          temp.body =  msg;
+          temp.timestamp = getNowTime();
+          insertContent(temp);
           createNotice(msg);
 
           //等最后一个空格输出后,再清空所有内容
@@ -198,11 +261,18 @@ var socket = io('http://'+document.domain+':2020').connect();
       });
     }
     //检查与指定用户之间是否还有新信息（主要是在对话窗口）
-    var checkMessage = function(receiveUser) {
-      socket.emit('check message', {
-        userId: user.uid,
-        receiveUser: receiveUser.uid
-      });
+    var checkMessage = function() {
+      console.log("receiveUser.uid: ");
+      console.log(receiveUser);
+      console.log(receiveUser.uid);
+      if(receiveUser != "undefine") {
+        console.log("Emit : check message");
+        socket.emit('check message', {
+          userId: user.uid,
+          receiveUser: receiveUser.uid
+        });
+      }
+
     }
 
     //包括私信以及通知
@@ -320,7 +390,7 @@ var socket = io('http://'+document.domain+':2020').connect();
 
 // ----init chat
 // --------个人：聊天窗口，发回个人聊天记录
-//         'history' => $history;
+//         messagelist => $history;
 
 // ----new message
 // --------个人：聊天窗口，发回新消息
