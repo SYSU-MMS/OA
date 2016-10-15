@@ -64,9 +64,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '222.200.161.121',
-	'username' => 'moa',
-	'password' => 'moaLY',
+	'hostname' => '127.0.0.1',
+	'username' => 'root',
+	'password' => '123456',
 	'database' => 'moadb',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
