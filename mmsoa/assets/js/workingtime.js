@@ -88,11 +88,8 @@ function toReward(widStr) {
 				$("#total_salary_" + wid).text(total_salary);
 				$("#month_contri_" + wid).text(month_contri);
 				$("#month_salary_" + wid).text(month_salari);
-				$(".modal-body").attr("style", "color:#ED5565;text-align:center;");
-				$(".modal-body").html(ret["msg"]);
 			}else{
-				$(".modal-body").attr("style", "color:#1AB394;text-align:center;");
-				$(".modal-body").html(ret["msg"]);
+				alert("更新失败!");
 			}
 		},
 		error: function(){
@@ -131,11 +128,8 @@ function toReduce(widStr){
 				$("#total_salary_" + wid).text(total_salary);
 				$("#month_contri_" + wid).text(month_contri);
 				$("#month_salary_" + wid).text(month_salari);
-				$(".modal-body").attr("style", "color:#ED5565;text-align:center;");
-				$(".modal-body").html(ret["msg"]);
 			}else{
-				$(".modal-body").attr("style", "color:#1AB394;text-align:center;");
-				$(".modal-body").html(ret["msg"]);
+				alert("更新失败!");
 			}
 		},
 		error: function(){
@@ -167,11 +161,8 @@ function toPenalty(widStr) {
 				console.log(month_penalty);
 				month_penalty += reduce_time_num * 1;
 				$("#month_penalty_"+wid).text(month_penalty);
-				$(".modal-body").attr("style", "color:#ED5565;text-align:center;");
-				$(".modal-body").html(ret["msg"]);
 			}else{
-				$(".modal-body").attr("style", "color:#1AB394;text-align:center;");
-				$(".modal-body").html(ret["msg"]);
+				alert("更新失败!");
 			}
 		},
 		error: function(){
