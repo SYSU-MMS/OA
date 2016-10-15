@@ -9,7 +9,6 @@ var scrollHight = 0;
 var url = window.location.host;
 var protocol = window.location.protocol + '';
 
-
 socketurl = protocol + '//' + url + ':2022';
 var socket = io('http://'+document.domain+':2020').connect();
 
