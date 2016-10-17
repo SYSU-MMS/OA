@@ -167,5 +167,7 @@ function removeBatchSelect(){
     if (confirm("确定要清空选择吗?")){
         $("option").removeAttr("selected");
         $('#select_worker').trigger('chosen:updated');
+        $('.chosen-select').prop('disabled', false).trigger("chosen:updated");
+        $("div #batch_edit_submit_area button").attr("disabled", false);
     }
 }
