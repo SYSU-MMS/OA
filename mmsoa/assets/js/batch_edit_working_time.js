@@ -8,6 +8,7 @@ $(function () {
 
 function rewardGroupButton() {
     var wids = $("#select_worker").val();
+    console.log(wids);
     if (wids == ""){
         alert("请选择助理!");
         return;
@@ -29,6 +30,7 @@ function rewardGroupButton() {
 
 
 function reduceGroupButton() {
+    var wids = $("#select_worker").val();
     if (wids == ""){
         alert("请选择助理!");
         return;
@@ -50,6 +52,7 @@ function reduceGroupButton() {
 
 
 function penaltyGroupButton() {
+    var wids = $("#select_worker").val();
     if (wids == ""){
         alert("请选择助理!");
         return;
