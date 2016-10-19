@@ -1,3 +1,6 @@
+mmsoa/application/config/config.php
+
+mmsoa/application/config/database.php
 
 mmsoa/.idea/copyright/profiles_settings.xml
 
@@ -22,3 +25,6 @@ mmsoa/.idea/misc.xml
 mmsoa/application/controllers/Homepage_0921.php
 
 mmsoa/assets/js/homepage_0928.js
+
+mmsoa/upload/avatar
+

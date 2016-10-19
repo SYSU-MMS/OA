@@ -31,7 +31,7 @@ function reduceButton(widStr){
 		"<div class='col-sm-7 col-sm-offset-2'>" +
 		"<span id='timeAjustArea' class='input-group-btn'>" +
 		"<input type='text' id='reduceTime_" + wid + "' name='reduceTime' class='form-control' placeholder='请输入要减少的工时数'/>" +
-		"<button type='button' id='reduce_" + wid + "' name='reduce' class='btn btn-danger' onclick='toReduce(this.id)'> 扣除 </button>" +
+		"<button type='button' id='reduce_" + wid + "' name='reduce' class='btn btn-danger' onclick='toReduce(this.id)'> 减少 </button>" +
 		"</span>" +
 		"</div>" +
 		"</div>" +
@@ -88,8 +88,11 @@ function toReward(widStr) {
 				$("#total_salary_" + wid).text(total_salary);
 				$("#month_contri_" + wid).text(month_contri);
 				$("#month_salary_" + wid).text(month_salari);
+				$(".modal-body").attr("style", "color:#ED5565;text-align:center;");
+				$(".modal-body").html(ret["msg"]);
 			}else{
-				alert("更新失败!");
+				$(".modal-body").attr("style", "color:#1AB394;text-align:center;");
+				$(".modal-body").html(ret["msg"]);
 			}
 		},
 		error: function(){
@@ -128,8 +131,11 @@ function toReduce(widStr){
 				$("#total_salary_" + wid).text(total_salary);
 				$("#month_contri_" + wid).text(month_contri);
 				$("#month_salary_" + wid).text(month_salari);
+				$(".modal-body").attr("style", "color:#ED5565;text-align:center;");
+				$(".modal-body").html(ret["msg"]);
 			}else{
-				alert("更新失败!");
+				$(".modal-body").attr("style", "color:#1AB394;text-align:center;");
+				$(".modal-body").html(ret["msg"]);
 			}
 		},
 		error: function(){
@@ -156,9 +162,16 @@ function toPenalty(widStr) {
 			var ret=JSON.parse(msg);
 			console.log(ret);
 			if (ret['status']===true) {
-				alert("扣除成功!");
+				//alert("扣除成功!");
+				var month_penalty = parseInt($("#month_penalty_"+wid).text());
+				console.log(month_penalty);
+				month_penalty += reduce_time_num * 1;
+				$("#month_penalty_"+wid).text(month_penalty);
+				$(".modal-body").attr("style", "color:#ED5565;text-align:center;");
+				$(".modal-body").html(ret["msg"]);
 			}else{
-				alert("更新失败!");
+				$(".modal-body").attr("style", "color:#1AB394;text-align:center;");
+				$(".modal-body").html(ret["msg"]);
 			}
 		},
 		error: function(){

@@ -37,6 +37,15 @@ class Moa_worker_model extends CI_Model {
 		return false;
 	}
 
+    /**
+     * 取得所有助理信息
+     * @return mixed
+     */
+	public function get_all(){
+	    $res=$this->db->get('MOA_Worker')->result();
+        return $res;
+    }
+
 	/**
 	 * 删除一个助理
 	 * @param wid - 助理wid

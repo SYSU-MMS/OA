@@ -115,7 +115,7 @@
 		                    '</li>' . 
 		                    '<li id="active-allmembers"><a href="'. site_url('WorkingTime/allWorkingTime') . '">全员</a>' . 
 		                    '</li>' .
-							'<li id="active-batchEditWorkingTime"><a href="'. site_url('WorkingTime/batchEditWorkingTime'). '">批量修改工时</a>' .
+							'<li id="active-batchEditWorkingTime"><a href="'. site_url('WorkingTime/batchEditWorkingTime'). '">批量调整工时</a>' .
 							'</li>' .
 		                '</ul>' . 
 		            '</li>';

@@ -81,8 +81,9 @@
                                             <th>姓名</th>
                                             <th><i class="fa fa-clock-o"></i><span> 本期工时</span></th>
                                             <th><i class="fa fa-rmb"></i><span> 本期工资</span></th>
+                                            <th><i class="fa fa-ban"></i><span> 本期罚时</span></th>
                                             <th><i class="fa fa-credit-card"></i><span> 银行卡号</span></th>
-                                            <th><i class="fa fa-phone"></i><span> 联系电话</span></th>
+                                            <!--th><i class="fa fa-phone"></i><span> 联系电话</span></th-->
                                             <th>历史工时</th>
                                             <th>历史工资</th>
                                             <th>调整工时</th>
@@ -95,8 +96,9 @@
 	                                            <td><?php echo $name_list[$i]; ?></td>
 	                                            <td><strong id="<?php echo 'month_contri_' . $wid_list[$i]; ?>"><?php echo $month_contri_list[$i]; ?></strong></td>
 	                                            <td><strong id="<?php echo 'month_salary_' . $wid_list[$i]; ?>"><?php echo $month_salary_list[$i]; ?></strong></td>
+                                                <td><strong id="<?php echo 'month_penalty_' . $wid_list[$i]; ?>"><?php echo $month_penalty_list[$i]; ?></strong></td>
 	                                            <td><?php echo $card_list[$i]; ?></td>
-	                                            <td><?php echo $phone_list[$i]; ?></td>
+	                                            <!--td><?php echo $phone_list[$i]; ?></td-->
 	                                            <td id="<?php echo 'total_contri_' . $wid_list[$i]; ?>"><?php echo $total_contri_list[$i]; ?></td>
 	                                            <td id="<?php echo 'total_salary_' . $wid_list[$i]; ?>"><?php echo $total_salary_list[$i]; ?></td>
 	                                            <td>
