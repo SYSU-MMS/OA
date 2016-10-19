@@ -8,8 +8,8 @@ $(function () {
 
 function rewardGroupButton() {
     var wids = $("#select_worker").val();
-    console.log(wids);
-    if (wids == ""){
+    console.log(wids.length);
+    if (wids.length==0){
         alert("请选择助理!");
         return;
     }
@@ -30,11 +30,6 @@ function rewardGroupButton() {
 
 
 function reduceGroupButton() {
-    var wids = $("#select_worker").val();
-    if (wids == ""){
-        alert("请选择助理!");
-        return;
-    }
     $("#myModalLabel").text("批量减少工时");
     $(".modal-body").html(
         "<form id='inputTime' class='input-group input-group-sm'>" +
@@ -52,11 +47,6 @@ function reduceGroupButton() {
 
 
 function penaltyGroupButton() {
-    var wids = $("#select_worker").val();
-    if (wids == ""){
-        alert("请选择助理!");
-        return;
-    }
     $("#myModalLabel").text("批量扣除工时");
     $(".modal-body").html(
         "<form id='inputTime' class='input-group input-group-sm'>" +
