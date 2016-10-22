@@ -9,7 +9,7 @@ var scrollHight = 0;
 var url = window.location.host;
 var protocol = window.location.protocol + '';
 socketurl = protocol + '//' + url + ':2022';
-var socket = io('http://'+document.domain+':2020').connect();
+var socket = io('http://222.200.161.121:2020').connect();
 
     //——————————————————————————————————————————————————
     //服务端事件
