@@ -316,11 +316,11 @@ var socket = io('http://'+document.domain+':2020').connect();
     var addUserList = function() {
       console.log("addUserList");
       allUser = [];
-      user.avatar = protocol + '//' + url + '/OA/mmsoa/upload/avatar/sm_' + user.avatar; 
+      user.avatar = protocol + '//' + url + '/index.php/upload/avatar/sm_' + user.avatar; 
 
       //处理allUser为以uid为索引的userlist
       for (var _user of userlist) {
-        realavatar = protocol + '//' + url + '/OA/mmsoa/upload/avatar/sm_' + _user.avatar;
+        realavatar = protocol + '//' + url + '/index.php/upload/avatar/sm_' + _user.avatar;
         _user.avatar = realavatar;
         if(_user.uid != user.uid) {
           allUser[_user.uid] = {
