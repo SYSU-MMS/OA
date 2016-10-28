@@ -64,22 +64,22 @@ made by 钟凌山-->
                             <h6>快速按组选择助理,或在下方添加、删除单个助理</h6>
                             <div id="batch_edit_btn_group" style="width:100%">
                                 <div class="btn-group" id="select_edit_group" style="float:left;">
-                                    <button type="button" class="btn btn-xs btn-primary" id="select_group_1">A组</button>
-                                    <button type="button" class="btn btn-xs btn-primary" id="select_group_2">B组</button>
-                                    <button type="button" class="btn btn-xs btn-primary" id="select_group_3">C组</button>
-                                    <button type="button" class="btn btn-xs btn-primary" id="select_group_4">视频组
+                                    <button type="button" class="btn btn-xs btn-primary" id="select_group_1" onclick="batchSelect(1)">A组</button>
+                                    <button type="button" class="btn btn-xs btn-primary" id="select_group_2" onclick="batchSelect(2)">B组</button>
+                                    <button type="button" class="btn btn-xs btn-primary" id="select_group_3" onclick="batchSelect(3)">C组</button>
+                                    <button type="button" class="btn btn-xs btn-primary" id="select_group_4" onclick="batchSelect(4)">视频组
                                     </button>
-                                    <button type="button" class="btn btn-xs btn-primary" id="select_group_5">系统组
+                                    <button type="button" class="btn btn-xs btn-primary" id="select_group_5" onclick="batchSelect(5)">系统组
                                     </button>
                                 </div>
                                 <div class="btn-group" id="select_reset_group" style="float:right;">
-                                    <button type="button" class="btn btn-xs btn-danger" id="select_reset">清空</button>
+                                    <button type="button" class="btn btn-xs btn-danger" id="select_reset" onclick="removeBatchSelect()">清空</button>
                                 </div>
                             </div>
                             <select id="select_worker" data-placeholder="选择助理" class="chosen-select" multiple
                                     tabindex="4">
                                 <?php for ($i = 0; $i < count($wid_list); $i++) { ?>
-                                    <option value="<?php echo $wid_list[$i]; ?>" hassubinfo="true">
+                                    <option value="<?php echo $wid_list[$i]; ?>" hassubinfo="true" id="<?php echo 'wid_'.$wid_list[$i];?>" class="<?php echo 'group_'.$group_list[$i]?>">
                                         <?php echo $name_list[$i]; ?>
                                     </option>
                                 <?php } ?>

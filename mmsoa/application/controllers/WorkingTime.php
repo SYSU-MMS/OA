@@ -284,12 +284,6 @@ Class WorkingTime extends CI_Controller
             }
 
             $w_obj_list = $this->Moa_worker_model->get_all();
-            /*
-            $data['wid_list']=$w_obj_list['wid'];
-            $data['name_list']=$w_obj_list['name'];
-            $data['uid_list']=$w_obj_list['uid'];
-            $data['group_list']=$w_obj_list['group'];
-            */
             $data = array();
             $data['wid_list'] = array();
             $data['uid_list'] = array();
@@ -328,7 +322,8 @@ Class WorkingTime extends CI_Controller
                     echo json_encode(array("status" => FALSE, "msg" => "扣除失败"));
                     return;
                 }
-                $wids = implode(',', $_POST['wids']);
+                //$wids = implode(',', $_POST['wids']);
+                $wids = $_POST['wids'];
                 $time = $_POST['time'];
 
                 $all_edited = true;
@@ -378,7 +373,7 @@ Class WorkingTime extends CI_Controller
                     echo json_encode(array("status" => FALSE, "msg" => "扣除失败"));
                     return;
                 }
-                $wids = implode(',', $_POST['wids']);
+                $wids = $_POST['wids'];
                 $ajust_contrib = $_POST['time'];
                 $all_edited = true;
                 for ($i = 0; $i < count($wids); $i++) {

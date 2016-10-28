@@ -7,6 +7,12 @@ $(function () {
 });
 
 function rewardGroupButton() {
+    var wids = $("#select_worker").val();
+    if (wids == null) {
+        var html = "<h3 style='color:#ED5565;text-align:center;'>" + "请选择助理!" + "</h3>";
+        $(".modal-body").html(html);
+        return;
+    }
     $("#myModalLabel").text("批量增加工时");
     $(".modal-body").html(
         "<form id='inputTime' class='input-group input-group-sm'>" +
@@ -14,7 +20,7 @@ function rewardGroupButton() {
         "<div class='col-sm-7 col-sm-offset-2'>" +
         "<span id='timeAjustArea' class='input-group-btn'>" +
         "<input type='text' id='rewardTime' name='rewardTime' class='form-control' placeholder='工时'/>" +
-        "<button type='button' id='reward" + "' name='reward' class='btn btn-primary' onclick='toRewardGroup()'> 增加 </button>" +
+        "<button type='button' id='reward' name='reward' class='btn btn-primary' onclick='toRewardGroup()'> 增加 </button>" +
         "</span>" +
         "</div>" +
         "</div>" +
@@ -24,14 +30,20 @@ function rewardGroupButton() {
 
 
 function reduceGroupButton() {
+    var wids = $("#select_worker").val();
+    if (wids == null) {
+        var html = "<h3 style='color:#ED5565;text-align:center;'>" + "请选择助理!" + "</h3>";
+        $(".modal-body").html(html);
+        return;
+    }
     $("#myModalLabel").text("批量减少工时");
     $(".modal-body").html(
         "<form id='inputTime' class='input-group input-group-sm'>" +
         "<div class='form-group'>" +
         "<div class='col-sm-7 col-sm-offset-2'>" +
         "<span id='timeAjustArea' class='input-group-btn'>" +
-        "<input type='text' id='reduceTime" + "' name='reduceTime' class='form-control' placeholder='工时'/>" +
-        "<button type='button' id='reduce" + "' name='reduce' class='btn btn-primary' onclick='toReduceGroup()'> 减少 </button>" +
+        "<input type='text' id='reduceTime' name='reduceTime' class='form-control' placeholder='工时'/>" +
+        "<button type='button' id='reduce' name='reduce' class='btn btn-primary' onclick='toReduceGroup()'> 减少 </button>" +
         "</span>" +
         "</div>" +
         "</div>" +
@@ -41,14 +53,20 @@ function reduceGroupButton() {
 
 
 function penaltyGroupButton() {
+    var wids = $("#select_worker").val();
+    if (wids == null) {
+        var html = "<h3 style='color:#ED5565;text-align:center;'>" + "请选择助理!" + "</h3>";
+        $(".modal-body").html(html);
+        return;
+    }
     $("#myModalLabel").text("批量扣除工时");
     $(".modal-body").html(
         "<form id='inputTime' class='input-group input-group-sm'>" +
         "<div class='form-group'>" +
         "<div class='col-sm-7 col-sm-offset-2'>" +
         "<span id='timeAjustArea' class='input-group-btn'>" +
-        "<input type='text' id='penaltyTime" + "' name='penaltyTime' class='form-control' placeholder='工时'/>" +
-        "<button type='button' id='penalty" + "' name='penalty' class='btn btn-primary' onclick='toPenalizeGroup()'> 扣除 </button>" +
+        "<input type='text' id='penaltyTime' name='penaltyTime' class='form-control' placeholder='工时'/>" +
+        "<button type='button' id='penalty' name='penalty' class='btn btn-primary' onclick='toPenalizeGroup()'> 扣除 </button>" +
         "</span>" +
         "</div>" +
         "</div>" +
@@ -58,9 +76,9 @@ function penaltyGroupButton() {
 
 
 function toRewardGroup() {
-    var rewardTime = $("#rewardTime").val();
+    var rewardTime = parseInt($("#rewardTime").val());
     var wids = $("#select_worker").val();
-    console.log(rewardTime,wids);
+    console.log(rewardTime, wids);
     $.ajax({
         type: 'POST',
         url: 'batchEdit',
@@ -72,11 +90,13 @@ function toRewardGroup() {
             console.log(msg);
             var ret = JSON.parse(msg);
             if (ret["status"] === false) {
-                $("#submit_result").attr("style", "color:#ED5565;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                //$(".modal-body").attr("style", "color:#ED5565;text-align:center;");
+                var html = "<h3 style='color:#ED5565;text-align:center;'>" + ret['msg'] + "</h3>";
+                $(".modal-body").html(html);
             } else {
-                $("#submit_result").attr("style", "color:#1AB394;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                //$(".modal-body").attr("style", "color:#1AB394;text-align:center;");
+                var html = "<h3 style='color:#1AB394;text-align:center;'>" + ret['msg'] + "</h3>";
+                $(".modal-body").html(html);
                 // 锁定所有按钮和输入框
                 $('.chosen-select').prop('disabled', true).trigger("chosen:updated");
                 $("div #batch_edit_submit_area button").attr("disabled", true);
@@ -91,7 +111,7 @@ function toRewardGroup() {
 
 
 function toReduceGroup() {
-    var reduceTime = $("#reduceTime").val();
+    var reduceTime = parseInt($("#reduceTime").val());
     var wids = $("#select_worker").val();
     $.ajax({
         type: 'POST',
@@ -103,14 +123,16 @@ function toReduceGroup() {
         success: function (msg) {
             var ret = JSON.parse(msg);
             if (ret["status"] === false) {
-                $("#submit_result").attr("style", "color:#ED5565;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                //$(".modal-body").attr("style", "color:#ED5565;text-align:center;");
+                var html = "<h3 style='color:#ED5565;text-align:center;'>" + ret['msg'] + "</h3>";
+                $(".modal-body").html(html);
             } else {
-                $("#submit_result").attr("style", "color:#1AB394;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                //$(".modal-body").attr("style", "color:#1AB394;text-align:center;");
+                var html = "<h3 style='color:#1AB394;text-align:center;'>" + ret['msg'] + "</h3>";
+                $(".modal-body").html(html);
                 // 锁定所有按钮和输入框
                 $('.chosen-select').prop('disabled', true).trigger("chosen:updated");
-                $("#submit_duty").attr("disabled", true);
+                $("div #batch_edit_submit_area button").attr("disabled", true);
             }
         },
         error: function () {
@@ -121,7 +143,7 @@ function toReduceGroup() {
 
 
 function toPenalizeGroup() {
-    var penaltyTime = $("#penaltyTime").val();
+    var penaltyTime = parseInt($("#penaltyTime").val());
     var wids = $("#select_worker").val();
     $.ajax({
         type: 'POST',
@@ -133,18 +155,37 @@ function toPenalizeGroup() {
         success: function (msg) {
             var ret = JSON.parse(msg);
             if (ret["status"] === false) {
-                $("#submit_result").attr("style", "color:#ED5565;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                //$(".modal-body").attr("style", "color:#ED5565;text-align:center;");
+                var html = "<h3 style='color:#ED5565;text-align:center;'>" + ret['msg'] + "</h3>";
+                $(".modal-body").html(html);
             } else {
-                $("#submit_result").attr("style", "color:#1AB394;text-align:center;");
-                $("#submit_result").html(ret["msg"]);
+                //$(".modal-body").attr("style", "color:#1AB394;text-align:center;");
+                var html = "<h3 style='color:#1AB394;text-align:center;'>" + ret['msg'] + "</h3>";
+                $(".modal-body").html(html);
                 // 锁定所有按钮和输入框
                 $('.chosen-select').prop('disabled', true).trigger("chosen:updated");
-                $("#submit_duty").attr("disabled", true);
+                $("div #batch_edit_submit_area button").attr("disabled", true);
             }
         },
         error: function () {
             alert(arguments[1]);
         }
     });
+}
+
+
+function batchSelect(groupID) {
+    $(".group_" + groupID).attr("selected", "");
+    $('#select_worker').trigger('chosen:updated');
+    console.log("group " + groupID + " selected");
+}
+
+
+function removeBatchSelect() {
+    if (confirm("确定要清空选择吗?")) {
+        $("option").removeAttr("selected");
+        $('#select_worker').trigger('chosen:updated');
+        $('.chosen-select').prop('disabled', false).trigger("chosen:updated");
+        $("div #batch_edit_submit_area button").attr("disabled", false);
+    }
 }
