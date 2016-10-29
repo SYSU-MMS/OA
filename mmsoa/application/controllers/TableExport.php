@@ -1,7 +1,19 @@
 <?php 
 
 require_once('PublicMethod.php');
-
+/**
+ * 测试流程：
+ * 1、清空工时，并设置工时
+ *     update moa_user set contribution = 0, totalPenalty = 0;
+ *     update moa_worker set worktime = 40, penalty = 10;
+ * 2、删除生成的excel目录下的文件(因为未超过15，不允许再次清算)
+ *     /var/www/html/OA/mmsoa/assets/excel
+ * 3、完成
+ *
+ * 查看数据库工时的语句
+ *
+ *    select contribution, totalPenalty, worktime, penalty from moa_worker natural join moa_user where state = 0 \G
+*/
 class TableExport extends CI_Controller { 
 
     function __construct() { 
