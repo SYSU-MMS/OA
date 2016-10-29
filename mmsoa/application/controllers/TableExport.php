@@ -102,7 +102,7 @@ class TableExport extends CI_Controller {
             $objPHPExcel->getActiveSheet()->setCellValue('L' . $i,  $one_user['phone']);
         }
 
-        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+        $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
         $objWriter->save("./assets/excel/".$excelname); 
     }
 
