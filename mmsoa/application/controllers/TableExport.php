@@ -38,10 +38,11 @@ class TableExport extends CI_Controller {
     public function getLastExcel() {
         $all_files = TableExport::getAllFile();
         rsort($all_files); //对日期进行排序，$all_files[0]为最新的日期
-
-        $filename = $all_files[0]."";
-        $name = './assets/excel/'.$filename;
-        force_download($name, NULL);
+        if(count($all_files) != 0) {
+            $filename = $all_files[0]."";
+            $name = './assets/excel/'.$filename;
+            force_download($name, NULL);
+        }
     }
 
     public function getExcel($filename) {
