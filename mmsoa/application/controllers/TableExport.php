@@ -70,18 +70,12 @@ class TableExport extends CI_Controller {
 
         $objPHPExcel->getProperties()->setTitle("MOA_Salary");   //标题
 
-        $objPHPExcel->getActiveSheet()->setCellValue('A1',  "序号"); 
-        $objPHPExcel->getActiveSheet()->setCellValue('B1',  "校区");
-        $objPHPExcel->getActiveSheet()->setCellValue('C1',  "工作单位"); 
-        $objPHPExcel->getActiveSheet()->setCellValue('D1',  "工作部门"); 
-        $objPHPExcel->getActiveSheet()->setCellValue('E1',  "学号"); 
-        $objPHPExcel->getActiveSheet()->setCellValue('F1',  "姓名"); 
-        $objPHPExcel->getActiveSheet()->setCellValue('G1',  "原本工时"); 
-        $objPHPExcel->getActiveSheet()->setCellValue('H1',  "扣除工时"); 
-        $objPHPExcel->getActiveSheet()->setCellValue('I1',  "本月实发工时");
-        $objPHPExcel->getActiveSheet()->setCellValue('J1',  "实发金额"); 
-        $objPHPExcel->getActiveSheet()->setCellValue('K1',  "账号"); 
-        $objPHPExcel->getActiveSheet()->setCellValue('L1',  "联系电话"); 
+        $col    = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L");
+        $head   = array("序号", "校区", "工作单位", "工作门", "学号", "姓名", "原本工时", "扣除工时", "本月实发工时", "实发金额", "账号", "联系电话");
+
+        for($i = 0; $i < count($col); $i++) { /*设置表头*/
+            $objPHPExcel->getActiveSheet()->setCellValue($col[$i]."1",  $head[$i]); 
+        }
  
         for($i = 2; $i <= count($user_list)+1; $i++) {
             $one_user = $user_list[$i-2];
@@ -101,7 +95,18 @@ class TableExport extends CI_Controller {
             $objPHPExcel->getActiveSheet()->setCellValue('K' . $i,  $one_user['creditcard']." ");
             $objPHPExcel->getActiveSheet()->setCellValue('L' . $i,  $one_user['phone']);
         }
+        //             ("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L");
+        $width  = array(  5,   8,  10,  10,  10,  15,  10,  10,  15,  10,  25,  15);
 
+        for($i = 0; $i < count($col); $i++) {   /*设置列宽度*/
+            $objPHPExcel->getActiveSheet()->getColumnDimension($col[$i])->setWidth($width[$i]);;
+        }
+
+        for($i = 0; $i < count($col); $i++) {
+            for($j = 1; $j <= count($user_list) + 1; $j++) {
+                $objPHPExcel->getActiveSheet()->getStyle($col[$i].$j."")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            }
+        }
         $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
         $objWriter->save("./assets/excel/".$excelname); 
     }
