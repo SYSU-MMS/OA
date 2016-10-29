@@ -102,7 +102,7 @@ class TableExport extends CI_Controller {
         }
 
         $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-        $objWriter->save("./assets/excel/".$excelname.".xlsx"); 
+        $objWriter->save("./assets/excel/".$excelname); 
     }
 
     function writeBack($user_list) {
