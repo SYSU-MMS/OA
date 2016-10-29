@@ -4,7 +4,7 @@
  */
 function calculate() {
 	$.ajax({
-		url: '/OA/mmsoa/index.php/TableExport/calculate',
+		url: '../TableExport/calculate',
 		success: function(msg){
 			var ret=JSON.parse(msg);
 			if (ret['status']===true) {
@@ -33,7 +33,7 @@ function getExcel() {
 	// 		alert(arguments[1]);
 	// 	}
 	// });
-	location.href="/OA/mmsoa/index.php/TableExport/getLastExcel";
+	location.href="http://moa.sysu.alau.top/index.php/TableExport/getLastExcel";
 }
 
 /**
