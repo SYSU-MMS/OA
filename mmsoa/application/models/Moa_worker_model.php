@@ -46,6 +46,58 @@ class Moa_worker_model extends CI_Model {
         return $res;
     }
 
+    /**
+     * 获取处于某种状态的助理(包含用户信息)
+     * @param state(0正常，1锁定，2删除，3离职？)
+     * @author 高少彬
+     * @return 某个状态的所有用户
+     */
+    public function get_by_state($state) {
+        $sql = 'SELECT * '. 
+        'FROM '.
+        '    MOA_User natural join MOA_Worker '.
+        'WHERE '.
+        '    state = '.$state.'; ';
+    	$res = $this->db->query($sql);
+    	return $res;
+    }
+
+    /**
+     * 批量清算工时写回数据库（事务）
+     * @param $userlist
+     * @author 高少彬
+     * @return 受影响行数
+     */
+    public function update_all_worktime($userlist) {
+		//设置时区为东八区
+        date_default_timezone_set('PRC');
+        $now_time = date('Y-m-d H:i:s');
+
+		$this->db->trans_start();
+		foreach ($userlist as $one_user) {
+
+			$sql =	'UPDATE '.
+				    '    MOA_User '.
+				    'SET '.
+				    '    contribution = '.$one_user['update_contribution'].', '.
+				    '    totalPenalty = '.$one_user['update_totalPenalty'].' '.
+				    'WHERE'.
+				    '    uid = '.$one_user['uid'].';';
+		    $this->db->query($sql);
+
+		    $sql1 =	'UPDATE '.
+	    			'    MOA_Worker '.
+	    			'SET '.
+	    			'    worktime  = '.$one_user['update_worktime'].', '.
+	    			'    penalty   = '.$one_user['update_penalty'].','.
+            		'    lastmonth = \''.$now_time.'\' '.
+	    			'WHERE'.
+	    			'    uid = '.$one_user['uid'].';';
+    		$this->db->query($sql1);
+    	}
+		$this->db->trans_complete();
+		return $this->db->trans_status();
+    }
 	/**
 	 * 删除一个助理
 	 * @param wid - 助理wid
