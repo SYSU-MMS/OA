@@ -157,16 +157,25 @@ class TableExport extends CI_Controller {
     function lessThanHalfMonth() {
 
         $all_files = TableExport::getAllFile();
+        if(count($all_files) == 0)
+            return false;
+
         rsort($all_files); //对日期进行排序，$all_files[0]为最新的日期
 
         date_default_timezone_set('PRC');
-        $now_time   = date('Y-m-d');
+        $time   = date('Y-m-d');
 
-        if(count($all_files) == 0)
-            return false;
-        $startdate  = $now_time."";
+        $startdate  = $time."";
+
+        //截取文件的日期, 如2016-10-30.xlsx, 则取2016-10-30
         $enddate    = $all_files[0]."";
-        $days       = round(($enddate-$startdate)/86400)+1;
+        $enddate    = substr($enddate, 0,10);
+
+        $nowdate  = strtotime($startdate);
+        $filedate    = strtotime($enddate);
+
+        $days       = round(($nowdate-$filedate)/86400);
+
         if($days <= 15) 
             return true;
         return false;
