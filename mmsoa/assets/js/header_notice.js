@@ -5,7 +5,7 @@ var socket = io('http://'+document.domain+':2020').connect();;
 
 var url = window.location.host;
 var protocol = window.location.protocol + '';
-baseurl = protocol + '//' + url + '/OA/mmsoa/';
+baseurl = protocol + '//' + url + '/';
 // index.php/chat/index';
 socket.on("new notice", function(data) {
         console.log("new notice");
@@ -20,7 +20,7 @@ var getNowUser = function() {
     console.log("getNowUser");
     $.ajax({
       type: 'get',
-      url: '/OA/mmsoa/index.php/Chat/getNowUser',
+      url: '/index.php/Chat/getNowUser',
       data: {},
       success: function(result) {
         result = JSON.parse(result);

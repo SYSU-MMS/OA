@@ -1,3 +1,41 @@
+
+/**
+ * 工时一键清算
+ */
+function calculate() {
+	$.ajax({
+		url: '../TableExport/calculate',
+		success: function(msg){
+			var ret=JSON.parse(msg);
+			if (ret['status']===true) {
+				alert("清算成功");
+			}else{
+				alert(ret['msg']);
+			}
+		},
+		error: function(){
+			alert(arguments[1]);
+		}
+	});
+}
+
+/**
+ * 下载excel
+ */
+function getExcel() {
+	// console.log("getExcel");
+	// $.ajax({
+	// 	url: '/OA/mmsoa/index.php/TableExport/getLastExcel',
+	// 	success: function(msg){
+
+	// 	},
+	// 	error: function(){
+	// 		alert(arguments[1]);
+	// 	}
+	// });
+	location.href="http://moa.sysu.alau.top/index.php/TableExport/getLastExcel";
+}
+
 /**
  * 奖励工时弹框
  */
@@ -179,3 +217,4 @@ function toPenalty(widStr) {
 		}
 	});
 }
+

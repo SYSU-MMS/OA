@@ -9,7 +9,7 @@ var scrollHight = 0;
 var url = window.location.host;
 var protocol = window.location.protocol + '';
 socketurl = protocol + '//' + url + ':2022';
-var socket = io('http://'+document.domain+':2020').connect();
+var socket = io('http://222.200.161.121:2020').connect();
 
     //——————————————————————————————————————————————————
     //服务端事件
@@ -316,11 +316,11 @@ var socket = io('http://'+document.domain+':2020').connect();
     var addUserList = function() {
       console.log("addUserList");
       allUser = [];
-      user.avatar = protocol + '//' + url + '/OA/mmsoa/upload/avatar/sm_' + user.avatar; 
+      user.avatar = protocol + '//' + url + '/upload/avatar/sm_' + user.avatar; 
 
       //处理allUser为以uid为索引的userlist
       for (var _user of userlist) {
-        realavatar = protocol + '//' + url + '/OA/mmsoa/upload/avatar/sm_' + _user.avatar;
+        realavatar = protocol + '//' + url + '/upload/avatar/sm_' + _user.avatar;
         _user.avatar = realavatar;
         if(_user.uid != user.uid) {
           allUser[_user.uid] = {
