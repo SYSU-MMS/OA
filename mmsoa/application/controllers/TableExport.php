@@ -70,7 +70,7 @@ class TableExport extends CI_Controller {
     function createExcel($user_list) {
         date_default_timezone_set('PRC');
         $now_time = date('Y-m-d');
-        $excelname = $now_time.".xlsx";
+        $excelname = $now_time.".xls";
 
         if(TableExport::isExist($excelname)) { /*文件已经存在，不允许再次覆盖*/
             echo json_encode(array("status" => FALSE, "msg" => "创建excel失败，文件已经存在"));
@@ -179,7 +179,7 @@ class TableExport extends CI_Controller {
 
         $startdate  = $time."";
 
-        //截取文件的日期, 如2016-10-30.xlsx, 则取2016-10-30
+        //截取文件的日期, 如2016-10-30.xls, 则取2016-10-30
         $enddate    = $all_files[0]."";
         $enddate    = substr($enddate, 0,10);
 
