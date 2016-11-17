@@ -48,3 +48,5 @@ mmsoa/upload/avatar
 .project
 
 .idea/copyright/profiles_settings.xml
+
+.idea/workspace.xml
