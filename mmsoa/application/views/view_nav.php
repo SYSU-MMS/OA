@@ -55,6 +55,8 @@
 		                    '</li>' .
 		                    '<li id="active-onduty"><a href="'. site_url('Duty') . '">值班</a>' .
 		                    '</li>' .
+                            '<li id="active-dutyOut"><a href="'. site_url('DutyOut/dutyOut') . '">出勤</a>'.
+                            '</li>' .
 		                '</ul>' .
 		            '</li>';
 		        }
@@ -70,8 +72,6 @@
 		                    '</li>' .
 		                    '<li id="active-dutyReview"><a href="'. site_url('DutyReview/dutyReview') . '">值班</a>' .
 		                    '</li>' .
-							'<li id="active-dutyOut"><a href="'. site_url('DutyOut/dutyOut') . '">出勤</a>'.
-							'</li>' .
 		                '</ul>' .
 		            '</li>';
 		        }

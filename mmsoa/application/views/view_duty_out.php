@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="renderer" content="webkit">
 
-    <title>MOA-查看值班记录</title>
+    <title>MOA-查看和记录出勤</title>
     <?php $this->load->view('view_keyword'); ?>
 
 <link href="<?=base_url().'assets/images/moa.ico' ?>" rel="shortcut icon">
@@ -121,7 +121,7 @@
     $(document).ready(function () {
         $("#active-workReview").addClass("active");
         $("#active-dutyReview").addClass("active");
-        $("#mini").attr("href", "dutyReview#");
+        $("#mini").attr("href", "dutyOut#");
     });
 </script>
 

@@ -11,6 +11,19 @@ require_once('PublicMethod.php');
 
 class DutyOut extends CI_Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Moa_user_model');
+        $this->load->model('Moa_worker_model');
+        $this->load->model('Moa_problem_model');
+        $this->load->model('Moa_room_model');
+        $this->load->model('Moa_duty_model');
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('session');
+        $this->load->helper('cookie');
+    }
+
     public function dutyOut(){
         if (isset($_SESSION['user_id'])) {
             // 检查权限: 2-负责人助理 3-助理负责人 5-办公室负责人 6-超级管理员
