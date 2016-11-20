@@ -24,7 +24,7 @@ class DutyOut extends CI_Controller {
         $this->load->helper('cookie');
     }
 
-    public function dutyOut(){
+    public function index(){
         if (isset($_SESSION['user_id'])) {
             // 检查权限: 2-负责人助理 3-助理负责人 5-办公室负责人 6-超级管理员
             if ($_SESSION['level'] != 2 && $_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {

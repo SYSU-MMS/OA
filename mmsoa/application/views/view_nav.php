@@ -55,7 +55,7 @@
 		                    '</li>' .
 		                    '<li id="active-onduty"><a href="'. site_url('Duty') . '">值班</a>' .
 		                    '</li>' .
-                            '<li id="active-dutyOut"><a href="'. site_url('DutyOut/dutyOut') . '">出勤</a>'.
+                            '<li id="active-dutyOut"><a href="'. site_url('DutyOut') . '">出勤</a>'.
                             '</li>' .
 		                '</ul>' .
 		            '</li>';
