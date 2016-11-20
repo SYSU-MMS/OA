@@ -101,8 +101,8 @@
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        $("#active-workRecord").addClass("active");
-        $("#active-dutyOut").addClass("active");
+        $("#active-workrecord").addClass("active");
+        $("#active-dutyout").addClass("active");
         $("#mini").attr("href", "dutyOut#");
     });
 </script>
