@@ -79,25 +79,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php for ($i = 0; $i < $d_count; $i++) { ?>
-                                    <tr>
-                                        <td><?php echo $i + 1; ?></td>
-                                        <td><?php echo $d_weekcount; ?></td>
-                                        <td><?php echo $d_weekday; ?></td>
-                                        <td><?php echo $d_name_list[$i]; ?></td>
-                                        <td><?php echo $d_duration_list[$i]; ?></td>
-                                        <td>
-                                            <?php
-                                            if ($d_sub_list[$i] == '') {
-                                                echo '无';
-                                            } else {
-                                                echo $d_sub_list[$i];
-                                            }
-                                            ?>
-                                        </td>
-                                        <td><?php echo $d_time_list[$i]; ?></td>
-                                    </tr>
-                                <?php } ?>
+                                
                                 </tbody>
                             </table>
                         </div>
