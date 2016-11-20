@@ -79,7 +79,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                
+
                                 </tbody>
                             </table>
                         </div>
@@ -101,8 +101,8 @@
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        $("#active-workReview").addClass("active");
-        $("#active-dutyReview").addClass("active");
+        $("#active-workRecord").addClass("active");
+        $("#active-dutyOut").addClass("active");
         $("#mini").attr("href", "dutyOut#");
     });
 </script>
