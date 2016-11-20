@@ -121,6 +121,14 @@
 	                            </table>
 	                        </div>
 	                    </div>
+                        <div>
+                            <span style="float: right; margin: 5px;">
+                            <button onclick="calculate()" class="btn btn-primary calculate" type="button"><i class="fa fa-check"></i>&nbsp;一键清算</button>
+                            </span>
+                            <span style="float: right; margin: 5px;">
+                            <button onclick="getExcel()" class="btn btn-success getexcel" type="button"><i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">下载excel文件</span>
+                            </span>
+                        </div>
 	                </div>
 	            </div>
             </div>
