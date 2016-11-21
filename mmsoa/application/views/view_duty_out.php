@@ -84,7 +84,7 @@
                                 </thead>
                                 <tbody>
                                 <?php for ($i = 0; $i < count($d_doid); $i++) { ?>
-                                    <tr>
+                                    <tr class="duty_content" id="duty_content_<?php echo $d_doid[$i];?>">
                                         <td><?php echo $d_doid[$i]; ?></td>
                                         <td><?php echo $d_room[$i]; ?></td>
                                         <td><?php echo $d_description[$i]; ?></td>
@@ -151,7 +151,6 @@
 <script src="<?= base_url() . 'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
 <script src="<?= base_url() . 'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
 <script src="<?= base_url() . 'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-<!-- <script src="<?= base_url() . 'assets/js/searchuser.js' ?>"></script> -->
 <script src="<?= base_url() . 'assets/js/dutyout.js' ?>"></script>
 
 <!-- nav item active -->

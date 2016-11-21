@@ -78,6 +78,16 @@ class Moa_dutyout_model extends CI_Model
         }
     }
 
+    public function get_by_doid($doid)
+    {
+        if (isset($_SESSION['user_id'])) {
+            $sql = "select * from moa_dutyout where doid = " . $this->db->escape($doid);
+            $query = $this->db->query($sql);
+            $res = $query->result();
+            return $res[0];
+        }
+    }
+
     public function update_by_id($doid, $wid, $time)
     {
         if (isset($_SESSION['user_id'])) {
@@ -94,6 +104,15 @@ class Moa_dutyout_model extends CI_Model
             }
         } else {
             return false;
+        }
+    }
+
+    public function delete_by_doid($doid)
+    {
+        if (isset($_SESSION['user_id'])) {
+            $sql = "update moa_dutyout set state = 1 where doid = " . $this->db->escape($doid);
+            $query = $this->db->query($sql);
+            return $query;
         }
     }
 

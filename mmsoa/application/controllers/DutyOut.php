@@ -132,4 +132,30 @@ class DutyOut extends CI_Controller
         }
     }
 
+    public function add($paras)
+    {
+
+    }
+
+    public function update($paras)
+    {
+
+    }
+
+    public function delete_dutyout($doid)
+    {
+        $deleting_record = $this->Moa_dutyout_model->get_by_doid($doid);
+        $deleting_record_uid = $this->Moa_worker_model->get_uid_by_wid($deleting_record->wid);
+        $current_uid = $_SESSION['user_id'];
+        $current_level = $this->Moa_user_model->get($current_uid)->level;
+        if ($deleting_record_uid == $current_uid || $current_level >= 2) {
+            $state = $this->Moa_dutyout_model->delete_by_doid($doid);
+            if ($state == true) {
+
+            } else {
+
+            }
+        }
+    }
+
 }
