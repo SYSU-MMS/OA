@@ -74,6 +74,8 @@ class DutyOut extends CI_Controller
                     $d_solveuid = $this->Moa_worker_model->get_uid_by_wid($d_solvewid);
                     $d_solveuser = $this->Moa_user_model->get($d_solveuid);
                     $d_solvename = $d_solveuser[0]->name;
+                    var_dump($d_solveuid);
+                    var_dump($d_solveuser);
                 }
 
 
