@@ -2,7 +2,7 @@
 /**
  * 抽查 Alcanderian
  */
-class Moa_duty_model extends CI_Model{
+class Moa_sampling_model extends CI_Model{
     /*
      * $paras 參數表
      */
