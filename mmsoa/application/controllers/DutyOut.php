@@ -38,17 +38,17 @@ class DutyOut extends CI_Controller
             $dutyout_list = $this->Moa_dutyout_model->get_all();
 
 
-            $d_doid = $dutyout_list['doid'];
-            $d_dutyid = $dutyout_list['dutyid'];
-            $d_wid = $dutyout_list['wid'];
-            $d_week = $dutyout_list['weekcount'];
-            $d_outtime = $dutyout_list['outtimestamp'];
-            $d_roomid = $dutyout_list['roomid'];
-            $d_problemid = $dutyout_list['problemid'];
+            $d_doid = $dutyout_list->doid;
+            $d_dutyid = $dutyout_list->dutyid;
+            $d_wid = $dutyout_list->wid;
+            $d_week = $dutyout_list->weekcount;
+            $d_outtime = $dutyout_list->outtimestamp;
+            $d_roomid = $dutyout_list->roomid;
+            $d_problemid = $dutyout_list->problemid;
             $d_problem = $this->Moa_problem_model->get($d_problemid);
-            $d_solvewid = $d_problem['solve_wid'];
-            $d_description = $d_problem['description'];
-            $d_solution = $d_problem['solution'];
+            $d_solvewid = $d_problem->solve_wid;
+            $d_description = $d_problem->description;
+            $d_solution = $d_problem->solution;
             $d_uid = $this->Moa_worker_model->get_uid_by_wid($d_wid);
             $d_name = $this->Moa_user_model->get($d_uid)->name;
             $d_solvename = "";
