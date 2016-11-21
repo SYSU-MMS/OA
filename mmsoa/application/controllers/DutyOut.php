@@ -79,7 +79,6 @@ class DutyOut extends CI_Controller
 
                 $d_problemid = $dutyout_list[$i]->problemid;
                 $d_problem = $this->Moa_problem_model->get($d_problemid);
-
                 $d_solvewid = $d_problem->solve_wid;
                 $d_description = $d_problem->description;
                 $d_solution = $d_problem->solution;
@@ -100,7 +99,7 @@ class DutyOut extends CI_Controller
                     $d_solvewid = false;
                     $d_solvename = false;
                     $d_solvetime = false;
-                    $d_description = false;
+                    //$d_description = false;
                     $d_solution = false;
                 }
 
