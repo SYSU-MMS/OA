@@ -49,9 +49,10 @@ class Moa_duty_model extends CI_Model
     public function get_by_id($dutyid)
     {
         if (isset($dutyid)) {
-            $sql = "select * from moa_duty where dutyid =" . $this->db->escape($dutyid);
+            $sql = "select * from `moa_duty` where `dutyid` =" . $this->db->escape($dutyid);
             $query = $this->db->query($sql);
-            return $query->result();
+            $ret = $query->result();
+            return $ret[0];
         }
     }
 
