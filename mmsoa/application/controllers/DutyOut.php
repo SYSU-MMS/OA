@@ -34,10 +34,10 @@ class DutyOut extends CI_Controller
                 // 提示权限不够
                 PublicMethod::permissionDenied();
             }
-
+            
             $dutyout_list = $this->Moa_dutyout_model->get_all();
 
-            echo"<script>console.log('$dutyout_list')</script>";
+            echo "<script>console.log('$dutyout_list[0]')</script>";
 
 
             $d_doid = $dutyout_list['doid'];
@@ -52,11 +52,13 @@ class DutyOut extends CI_Controller
             $d_description = $d_problem['description'];
             $d_solution = $d_problem['solution'];
             $d_uid = $this->Moa_worker_model->get_uid_by_wid($d_wid);
-            $d_name = $this->Moa_user_model->get($d_uid)->name;
+            $d_user = $this->Moa_user_model->get($d_uid);
+            $d_name = $d_user['name'];
             $d_solvename = "";
             if ($d_solvewid != null || $d_solvewid >= 0) {
                 $d_solveuid = $this->Moa_worker_model->get_uid_by_wid($d_solvewid);
-                $d_solvename = $this->Moa_user_model->get($d_solveuid)->name;
+                $d_solveuser = $this->Moa_user_model->get($d_solveuid);
+                $d_solvename = $d_solveuser['name'];
             }
 
 

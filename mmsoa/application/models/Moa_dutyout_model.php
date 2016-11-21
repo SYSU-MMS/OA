@@ -68,7 +68,7 @@ class Moa_dutyout_model extends CI_Model
         if (isset($_SESSION['user_id'])) {
             $query = $this->db->query("select * from `moa_dutyout` order by `doid` DESC");
             //$this->db->order_by('doid','DESC');
-            $this->db->select();
+            //$this->db->select();
             $result = $query->result();
             //echo json_encode(array("status" => true, "data" => $result));
             return $result;
