@@ -47,6 +47,8 @@ class DutyOut extends CI_Controller
             $data['d_weekdaytranslate'] = array();
             $data['d_periodtime'] = array();
             $data['d_wid'] = array();
+            $data['d_uid'] = array();
+            $data['d_level'] = array();
             $data['d_week'] = array();
             $data['d_outtime'] = array();
             $data['d_roomid'] = array();
@@ -87,6 +89,7 @@ class DutyOut extends CI_Controller
                 $d_uid = $this->Moa_worker_model->get_uid_by_wid($d_wid);
                 $d_user = $this->Moa_user_model->get($d_uid);
                 $d_name = $d_user->name;
+                $d_level = $this->Moa_user_model->get($d_uid)->level;
                 $d_solvename = "";
 
                 if ($d_solvewid != null && $d_solvewid != false) {
@@ -111,6 +114,8 @@ class DutyOut extends CI_Controller
                 $data['d_weekdaytranslate'][$i] = $d_weekdaytranslate;
                 $data['d_periodtime'][$i] = $d_periodtime;
                 $data['d_wid'][$i] = $d_wid;
+                $data['d_uid'][$i] = $d_uid;
+                $data['d_level'][$i] = $d_level;
                 $data['d_week'][$i] = $d_week;
                 $data['d_outtime'][$i] = $d_outtime;
                 $data['d_roomid'][$i] = $d_roomid;

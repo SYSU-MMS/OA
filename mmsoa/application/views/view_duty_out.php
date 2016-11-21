@@ -84,7 +84,7 @@
                                 </thead>
                                 <tbody>
                                 <?php for ($i = 0; $i < count($d_doid); $i++) { ?>
-                                    <tr class="duty_content" id="duty_content_<?php echo $d_doid[$i];?>">
+                                    <tr class="duty_content" id="duty_content_<?php echo $d_doid[$i]; ?>">
                                         <td><?php echo $d_doid[$i]; ?></td>
                                         <td><?php echo $d_room[$i]; ?></td>
                                         <td><?php echo $d_description[$i]; ?></td>
@@ -123,12 +123,18 @@
                                             if ($d_solvetime[$i] == false) {
                                                 echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
                                                 echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" . $d_doid[$i] . "'>解决</button>";
-                                                echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
+                                                if ($_SESSION['user_id'] == $d_uid[$i] || $d_level >= 2) {
+                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
+                                                }
                                                 echo "</div>";
                                             } else {
                                                 echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
                                                 //echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_".$d_doid[$i]."'>解决</button>";
-                                                echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
+                                                if ($_SESSION['user_id'] == $d_uid[$i] || $d_level >= 2) {
+                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
+                                                }else{
+                                                    echo "<p>已解决</p>";
+                                                }
                                                 echo "</div>";
                                             }
                                             ?>
