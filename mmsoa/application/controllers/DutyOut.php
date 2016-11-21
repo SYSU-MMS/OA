@@ -44,6 +44,7 @@ class DutyOut extends CI_Controller
             $data['d_doid'] = array();
             $data['d_dutyid'] = array();
             $data['d_weekday'] = array();
+            $data['d_weekdaytranslate'] = array();
             $data['d_periodtime'] = array();
             $data['d_wid'] = array();
             $data['d_week'] = array();
@@ -63,8 +64,9 @@ class DutyOut extends CI_Controller
 
                 $d_dutyid = $dutyout_list[$i]->dutyid;
                 $d_duty = $this->Moa_duty_model->get_by_id($d_dutyid);
-                var_dump($d_duty);
+                //var_dump($d_duty);
                 $d_weekday = $d_duty->weekday;
+                $d_weekdaytranslate = PublicMethod::translate_weekday($d_weekday);
                 $d_period = $d_duty->period;
                 $d_periodtime = PublicMethod::get_duty_duration($d_period);
 
@@ -73,7 +75,7 @@ class DutyOut extends CI_Controller
                 $d_outtime = $dutyout_list[$i]->outtimestamp;
 
                 $d_roomid = $dutyout_list[$i]->roomid;
-                $d_room = $this->Moa_room_model->get($d_roomid);
+                $d_room = $this->Moa_room_model->get($d_roomid)->room;
 
                 $d_problemid = $dutyout_list[$i]->problemid;
                 $d_problem = $this->Moa_problem_model->get($d_problemid);
@@ -107,6 +109,7 @@ class DutyOut extends CI_Controller
                 $data['d_doid'][$i] = $d_doid;
                 $data['d_dutyid'][$i] = $d_dutyid;
                 $data['d_weekday'][$i] = $d_weekday;
+                $data['d_weekdaytranslate'][$i] = $d_weekdaytranslate;
                 $data['d_periodtime'][$i] = $d_periodtime;
                 $data['d_wid'][$i] = $d_wid;
                 $data['d_week'][$i] = $d_week;

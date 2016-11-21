@@ -88,7 +88,7 @@
                                         <td><?php echo $d_doid[$i]; ?></td>
                                         <td><?php echo $d_room[$i]; ?></td>
                                         <td><?php echo $d_description[$i]; ?></td>
-                                        <td><?php echo "星期" . $d_weekday[$i] . "&nbsp;" . $d_periodtime[$i]; ?></td>
+                                        <td><?php echo "星期" . $d_weekdaytranslate[$i] . "&nbsp;" . $d_periodtime[$i]; ?></td>
                                         <td><?php echo $d_outtime[$i]; ?></td>
                                         <td><?php echo $d_name[$i]; ?></td>
                                         <td>
