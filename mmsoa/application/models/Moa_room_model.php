@@ -27,7 +27,7 @@ class Moa_room_model extends CI_Model
         if (isset($roomid)) {
             $this->db->where(array('roomid' => $roomid));
             $res = $this->db->get('MOA_CheckRoom')->result();
-            var_dump($res);
+            //var_dump($res);
             return $res[0];
         } else {
             $res = $this->db->get('MOA_CheckRoom')->result();

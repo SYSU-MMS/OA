@@ -121,12 +121,12 @@
                                         <td>
                                             <?php
                                             if ($d_solvetime[$i] == false) {
-                                                echo "<div class='btn btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
+                                                echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
                                                 echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" . $d_doid[$i] . "'>解决</button>";
                                                 echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
                                                 echo "</div>";
                                             } else {
-                                                echo "<div class='btn btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
+                                                echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
                                                 //echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_".$d_doid[$i]."'>解决</button>";
                                                 echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
                                                 echo "</div>";
