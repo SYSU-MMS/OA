@@ -19,6 +19,7 @@ class DutyOut extends CI_Controller {
         $this->load->model('Moa_problem_model');
         $this->load->model('Moa_room_model');
         $this->load->model('Moa_duty_model');
+        $this->load->model('Moa_dutyout_model');
         $this->load->helper(array('form', 'url'));
         $this->load->library('session');
         $this->load->helper('cookie');

@@ -70,12 +70,15 @@
                                 <thead>
                                 <tr>
                                     <th>序号</th>
-                                    <th>周次</th>
-                                    <th>星期</th>
-                                    <th>姓名</th>
+                                    <th>课室</th>
+                                    <th>问题</th>
                                     <th>值班时段</th>
-                                    <th>代班</th>
                                     <th>登记时间</th>
+                                    <th>出勤人</th>
+                                    <th>解决时间</th>
+                                    <th>解决人</th>
+                                    <th>解决方法</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -97,6 +100,7 @@
 <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
 <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
 <!-- <script src="<?=base_url().'assets/js/searchuser.js' ?>"></script> -->
+<script src="<?=base_url().'assets/js/dutyout.js' ?>"></script>
 
 <!-- nav item active -->
 <script>
