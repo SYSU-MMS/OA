@@ -62,8 +62,8 @@ Class Sampling extends CI_Controller
                 $week = PublicMethod::get_week($term[0]->termbeginstamp, $today);
             }
 
-            $group_a = $this->Moa_worker_model->get_by_group_and_level(1, 0);
-            $group_b = $this->Moa_worker_model->get_by_group_and_level(2, 0);
+            $group_a = $this->Moa_worker_model->get_by_group(1);
+            $group_b = $this->Moa_worker_model->get_by_group(2);
 
             $table_list = array();
             if (isset($group_a) && isset($group_b)) {

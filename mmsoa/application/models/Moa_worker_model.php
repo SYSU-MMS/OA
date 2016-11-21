@@ -146,11 +146,11 @@ class Moa_worker_model extends CI_Model {
 
     /**
      * 取某組别所有助理
-     * @param mylevel - 組别
+     * @param group - 組别
      */
-    public function get_by_group_and_level($group, $mylevel) {
-        if (isset($mylevel) && isset($group)) {
-            $this->db->where(array('group'=>$group, 'level' => $mylevel));
+    public function get_by_group($group) {
+        if (isset($group)) {
+            $this->db->where(array('group'=>$group));
             return $this->db->get('MOA_Worker')->result();
         }
         else {
