@@ -50,7 +50,7 @@ class Moa_duty_model extends CI_Model
     {
         if (isset($dutyid)) {
             $sql = "select * from moa_duty where dutyid =" . $this->db->escape($dutyid);
-            $query = $this->db->query();
+            $query = $this->db->query($sql);
             return $query->result();
         }
     }
