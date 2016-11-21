@@ -125,6 +125,7 @@
                                                 echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" . $d_doid[$i] . "'>解决</button>";
                                                 if ($_SESSION['user_id'] == $d_uid[$i] || $d_level >= 2) {
                                                     echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
+                                                    var_dump($_SESSION['user_id'],$d_uid[$i]);
                                                 }
                                                 echo "</div>";
                                             } else {

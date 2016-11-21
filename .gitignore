@@ -50,3 +50,7 @@ mmsoa/upload/avatar
 .idea/copyright/profiles_settings.xml
 
 .idea/workspace.xml
+
+mmsoa/application/config/config.php
+
+mmsoa/application/config/database.php
