@@ -2,6 +2,9 @@
 /**
  * User: alcanderian
  */
+header("Content-type: text/html; charset=utf-8");
+
+require_once('PublicMethod.php');
 
 Class Notify extends CI_Controller {
     public function __construct() {
@@ -70,14 +73,17 @@ Class Notify extends CI_Controller {
                 $res = $this->Moa_sampling_model->add_new_table($table_list);
 
                 if($res === false) {
-                    return json_encode(array("status" => FALSE, "msg" => "创建表单失败"));
+                    echo json_encode(array("status" => FALSE, "msg" => "创建表单失败"));
+                    return;
                 } else {
-                    return json_encode(array("status" => TRUE, "msg" => "创建表单成功"));
+                    echo json_encode(array("status" => TRUE, "msg" => "创建表单成功"));
+                    return;
                 }
 
 
             } else {
-                return json_encode(array("status" => FALSE, "msg" => "获取用户列表失败"));
+                echo json_encode(array("status" => FALSE, "msg" => "获取用户列表失败"));
+                return;
             }
 
         } else {
@@ -98,6 +104,23 @@ Class Notify extends CI_Controller {
                 PublicMethod::permissionDenied();
                 return;
             }
+
+            $today = date("Y-m-d H:i:s");
+
+            $tmp_stamp = array();
+            $index = 0;
+            $ret_list = array();
+
+            do {
+                $tmp_stamp = $this->Moa_sampling_model->get_by_date($today, 1, 1, 0);
+                if($tmp_stamp != false) {
+                    $ret_list[$index] = $tmp_stamp[0];
+                }
+            } while($tmp_stamp != false || !empty($tmp_stamp));
+
+            echo json_encode(array("status" => TRUE, "msg" => "获取抽查表单列表成功", "base_url" => base_url(),
+                "sample_list" => $ret_list));
+            return;
 
 
         } else {
