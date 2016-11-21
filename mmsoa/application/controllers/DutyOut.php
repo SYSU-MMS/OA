@@ -43,55 +43,82 @@ class DutyOut extends CI_Controller
             $data = array();
             $data['d_doid'] = array();
             $data['d_dutyid'] = array();
+            $data['d_weekday'] = array();
+            $data['d_periodtime'] = array();
             $data['d_wid'] = array();
             $data['d_week'] = array();
             $data['d_outtime'] = array();
             $data['d_roomid'] = array();
+            $data['d_room'] = array();
             $data['d_problemid'] = array();
             $data['d_solvewid'] = array();
             $data['d_description'] = array();
             $data['d_solution'] = array();
             $data['d_name'] = array();
             $data['d_solvename'] = array();
+            $data['d_solvetime'] = array();
 
-            for ($i=0;$i<count($dutyout_list);$i++) {
+            for ($i = 0; $i < count($dutyout_list); $i++) {
                 $d_doid = $dutyout_list[$i]->doid;
+
                 $d_dutyid = $dutyout_list[$i]->dutyid;
+                $d_duty = $this->Moa_duty_model->get_by_id($d_dutyid);
+                $d_weekday = $d_duty->weekday;
+                $d_period = $d_duty->period;
+                $d_periodtime = PublicMethod::get_duty_duration($d_period);
+
                 $d_wid = $dutyout_list[$i]->wid;
                 $d_week = $dutyout_list[$i]->weekcount;
                 $d_outtime = $dutyout_list[$i]->outtimestamp;
+
                 $d_roomid = $dutyout_list[$i]->roomid;
+                $d_room = $this->Moa_room_model->get($d_roomid);
+
                 $d_problemid = $dutyout_list[$i]->problemid;
                 $d_problem = $this->Moa_problem_model->get($d_problemid);
+
                 $d_solvewid = $d_problem->solve_wid;
                 $d_description = $d_problem->description;
                 $d_solution = $d_problem->solution;
+                $d_solvetime = $d_problem->solved_time;
+
                 $d_uid = $this->Moa_worker_model->get_uid_by_wid($d_wid);
                 $d_user = $this->Moa_user_model->get($d_uid);
                 $d_name = $d_user->name;
                 $d_solvename = "";
+
                 if ($d_solvewid != null && $d_solvewid != false) {
                     $d_solveuid = $this->Moa_worker_model->get_uid_by_wid($d_solvewid);
                     $d_solveuser = $this->Moa_user_model->get($d_solveuid);
                     $d_solvename = $d_solveuser->name;
                     //var_dump($d_solveuid);
                     //var_dump($d_solveuser);
+                } else {
+                    $d_solvewid = false;
+                    $d_solvename = false;
+                    $d_solvetime = false;
+                    $d_description = false;
+                    $d_solution = false;
                 }
 
 
                 //$data = array();
                 $data['d_doid'][$i] = $d_doid;
                 $data['d_dutyid'][$i] = $d_dutyid;
+                $data['d_weekday'][$i] = $d_weekday;
+                $data['d_periodtime'][$i] = $d_periodtime;
                 $data['d_wid'][$i] = $d_wid;
                 $data['d_week'][$i] = $d_week;
                 $data['d_outtime'][$i] = $d_outtime;
                 $data['d_roomid'][$i] = $d_roomid;
+                $data['d_room'][$i] = $d_room;
                 $data['d_problemid'][$i] = $d_problemid;
                 $data['d_solvewid'][$i] = $d_solvewid;
                 $data['d_description'][$i] = $d_description;
                 $data['d_solution'][$i] = $d_solution;
                 $data['d_name'][$i] = $d_name;
                 $data['d_solvename'][$i] = $d_solvename;
+                $data['d_solvetime'][$i] = $d_solvetime;
             }
 
             $this->load->view('view_duty_out', $data);
