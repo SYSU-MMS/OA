@@ -38,7 +38,7 @@ class DutyOut extends CI_Controller
             $dutyout_list = $this->Moa_dutyout_model->get_all();
 
             //echo $dutyout_list;
-            var_dump($dutyout_list);
+            //var_dump($dutyout_list);
 
             $data = array();
             $data['d_doid'] = array();
@@ -73,7 +73,7 @@ class DutyOut extends CI_Controller
                 if ($d_solvewid != null || $d_solvewid >= 0) {
                     $d_solveuid = $this->Moa_worker_model->get_uid_by_wid($d_solvewid);
                     $d_solveuser = $this->Moa_user_model->get($d_solveuid);
-                    $d_solvename = $d_solveuser->name;
+                    $d_solvename = $d_solveuser[0]->name;
                 }
 
 
