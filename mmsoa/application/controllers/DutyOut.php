@@ -40,26 +40,32 @@ class DutyOut extends CI_Controller
             //echo $dutyout_list;
             var_dump($dutyout_list);
 
+            for ($i = 0; $i < count($dutyout_list); $i++) {
+                $d_doid = $dutyout_list[$i]->doid;
+                $d_dutyid = $dutyout_list[$i]->dutyid;
+                $d_wid = $dutyout_list[$i]->wid;
+                $d_week = $dutyout_list[$i]->weekcount;
+                $d_outtime = $dutyout_list[$i]->outtimestamp;
+                $d_roomid = $dutyout_list[$i]->roomid;
+                $d_problemid = $dutyout_list[$i]->problemid;
+                $d_problem = $this->Moa_problem_model->get($d_problemid);
+                $d_solvewid = $d_problem->solve_wid;
+                $d_description = $d_problem->description;
+                $d_solution = $d_problem->solution;
+                $d_uid = $this->Moa_worker_model->get_uid_by_wid($d_wid);
+                $d_user = $this->Moa_user_model->get($d_uid);
+                $d_name = $d_user->name;
+                $d_solvename = "";
 
-            $d_doid = $dutyout_list->doid;
-            $d_dutyid = $dutyout_list->dutyid;
-            $d_wid = $dutyout_list->wid;
-            $d_week = $dutyout_list->weekcount;
-            $d_outtime = $dutyout_list->outtimestamp;
-            $d_roomid = $dutyout_list->roomid;
-            $d_problemid = $dutyout_list->problemid;
-            $d_problem = $this->Moa_problem_model->get($d_problemid);
-            $d_solvewid = $d_problem->solve_wid;
-            $d_description = $d_problem->description;
-            $d_solution = $d_problem->solution;
-            $d_uid = $this->Moa_worker_model->get_uid_by_wid($d_wid);
-            $d_user = $this->Moa_user_model->get($d_uid);
-            $d_name = $d_user->name;
-            $d_solvename = "";
-            if ($d_solvewid != null || $d_solvewid >= 0) {
-                $d_solveuid = $this->Moa_worker_model->get_uid_by_wid($d_solvewid);
-                $d_solveuser = $this->Moa_user_model->get($d_solveuid);
-                $d_solvename = $d_solveuser->name;
+                var_dump($d_problem);
+
+                if ($d_solvewid != null || $d_solvewid >= 0) {
+                    $d_solveuid = $this->Moa_worker_model->get_uid_by_wid($d_solvewid);
+                    $d_solveuser = $this->Moa_user_model->get($d_solveuid);
+                    $d_solvename = $d_solveuser->name;
+
+                    var_dump($d_solveuser);
+                }
             }
 
 
