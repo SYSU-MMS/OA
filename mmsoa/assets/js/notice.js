@@ -57,7 +57,7 @@ var list_notice = function () {
 var delete_notice = function (nid) {
     if(nid != undefined) {
         $.ajax({
-            type: 'get',
+            type: 'post',
             url: 'Notify/deleteNotice/',
             data: {
                 "nid": nid || 0,

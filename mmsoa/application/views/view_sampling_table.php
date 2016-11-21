@@ -57,20 +57,20 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>所有抽查记录表</h5>
-                            <div class="ibox-tools">
-                                <a class="btn btn-primary btn-xs manager" id="add_new_table">新建抽查记录表</a>
-                            </div>
+                        <div class="ibox-title" id="title-box">
+                           <!-- <h5>抽查记录</h5> -->
                         </div>
-                        <div class="ibox-content" style="padding-bottom: 20px;">
+                        <div id="table-contianer" class="ibox-content" style="padding-bottom: 20px;">
                             <table class="table table-striped table-bordered table-hover users-dataTable">
                                 <thead>
                                 <tr>
-                                    <th>序号</th>
-                                    <th>创建时间</th>
-                                    <th>抽查记录标题</th>
                                     <th>操作</th>
+                                    <th>助理</th>
+                                    <th>抽查时间段</th>
+                                    <th>抽查教室</th>
+                                    <th>抽查者</th>
+                                    <th>评分</th>
+                                    <th>出现问题</th>
                                 </tr>
                                 </thead>
                                 <tbody id="sample-list">
@@ -94,7 +94,7 @@
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        $("#mini").attr("href", "Sampling#");
+        $("#mini").attr("href", "getTable#");
     });
 </script>
 

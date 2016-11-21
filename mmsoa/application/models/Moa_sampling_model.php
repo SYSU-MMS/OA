@@ -25,10 +25,10 @@ class Moa_sampling_model extends CI_Model{
      * @param $paras 要刪除的抽查表的創建時間
      * @return bool
      */
-    public function delete_table($paras) {
+    public function delete_table($timestamp) {
         if (isset($paras)) {
             $this->db->where(array(
-                'timestamp' => $paras['timestamp'],
+                'timestamp' => $timestamp,
                 'on_use' => 1,
             ));
             $this->db->update('MOA_Sampling', array('on_use' => 0));
@@ -39,10 +39,20 @@ class Moa_sampling_model extends CI_Model{
         }
     }
 
+    public function get_table($timestamp) {
+        if (isset($timestamp)) {
+            $this->db->where(array('on_use' => 1, 'timestamp =' => $timestamp));
+            return $this->db->get('MOA_Sampling')->result();
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * $paras 參數表
      */
-    public function update_a_recode($paras) {
+    public function update_a_record($paras) {
         if (isset($paras)) {
             $this->db->where(array(
                 'target_uid' => $paras['target_uid'],
