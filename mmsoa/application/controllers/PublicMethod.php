@@ -55,6 +55,54 @@ Class PublicMethod extends CI_Controller {
 		//$cur_week = date("w") == 0 ? $cur_week + 1 : $cur_week;
 		return $cur_week;
 	}
+
+    /**
+     *  计算当前周数
+     * @param timestamp_from 開始時間
+     * @param $timestamp_to 結束時間
+     */
+    public static function get_week($timestamp_from, $timestamp_to) {
+        $dayofmonth[13]=array(0,31,28,31,30,31,30,31,31,30,31,30,31);
+
+        $date_from['year'] = intval(substr($timestamp_from, 0, 4));
+        $date_from['month'] = intval(substr($timestamp_from, 5, 2));
+        $date_from['day'] = intval(substr($timestamp_from, 8, 2));
+
+        $date_to['year'] = intval(substr($timestamp_to, 0, 4));
+        $date_to['month'] = intval(substr($timestamp_to, 5, 2));
+        $date_to['day'] = intval(substr($timestamp_to, 8, 2));
+
+        $len_form = $date_from['day'];
+        $len_to = $date_to['day'];
+
+        if(($date_from['year']%4==0&&$date_from['year']%100!=0)||$date_from['year']%400==0) {
+            $dayofmonth[2] += 1;
+            for($i = 1; $i <$date_from['month']; ++$i) {
+                $len_form += $dayofmonth[$i];
+            }
+            $dayofmonth[2] -= 1;
+        } else {
+            for($i = 1; $i <$date_from['month']; ++$i) {
+                $len_form += $dayofmonth[$i];
+            }
+        }
+
+        if(($date_to['year']%4==0&&$date_to['year']%100!=0)||$date_to['year']%400==0) {
+            $dayofmonth[2] += 1;
+            for($i = 1; $i < $date_to['month']; ++$i) {
+                $len_to += $dayofmonth[$i];
+            }
+            $dayofmonth[2] -= 1;
+        } else {
+            for($i = 1; $i < $date_to['month']; ++$i) {
+                $len_to += $dayofmonth[$i];
+            }
+        }
+
+        $cur_week = ( $len_to - $len_form - ( $len_to - $len_form ) % 7 ) / 7;
+
+        return $cur_week;
+    }
 	
 	/**
 	 * 计算工资
