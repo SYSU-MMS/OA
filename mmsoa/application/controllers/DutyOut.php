@@ -37,6 +37,8 @@ class DutyOut extends CI_Controller
 
             $dutyout_list = $this->Moa_dutyout_model->get_all();
 
+            echo"<script>console.log('$dutyout_list')</script>";
+
 
             $d_doid = $dutyout_list['doid'];
             $d_dutyid = $dutyout_list['dutyid'];
