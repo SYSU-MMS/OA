@@ -63,6 +63,7 @@ class DutyOut extends CI_Controller
 
                 $d_dutyid = $dutyout_list[$i]->dutyid;
                 $d_duty = $this->Moa_duty_model->get_by_id($d_dutyid);
+                var_dump($d_duty);
                 $d_weekday = $d_duty->weekday;
                 $d_period = $d_duty->period;
                 $d_periodtime = PublicMethod::get_duty_duration($d_period);
