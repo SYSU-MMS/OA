@@ -84,53 +84,55 @@
                                 </thead>
                                 <tbody>
                                 <?php for ($i = 0; $i < count($d_doid); $i++) { ?>
-                                    <tr><?php echo $d_doid[$i]; ?></tr>
-                                    <tr><?php echo $d_room[$i]; ?></tr>
-                                    <tr><?php echo $d_description[$i]; ?></tr>
-                                    <tr><?php echo "星期" . $d_weekday[$i] . "&nbsp;" . $d_periodtime[$i]; ?></tr>
-                                    <tr><?php echo $d_outtime[$i]; ?></tr>
-                                    <tr><?php echo $d_name[$i]; ?></tr>
                                     <tr>
-                                        <?php
-                                        if ($d_solvetime[$i] != false) {
-                                            echo $d_solvetime[$i];
-                                        } else {
-                                            echo "&nbsp;";
-                                        }
-                                        ?>
-                                    </tr>
-                                    <tr>
-                                        <?php
-                                        if ($d_solvename[$i] != false) {
-                                            echo $d_solvename[$i];
-                                        } else {
-                                            echo "&nbsp;";
-                                        }
-                                        ?>
-                                    </tr>
-                                    <tr>
-                                        <?php
-                                        if ($d_solution[$i] != false) {
-                                            echo $d_solution[$i];
-                                        } else {
-                                            echo "&nbsp;";
-                                        }
-                                        ?>
-                                    </tr>
-                                    <tr>
-                                        <?php
-                                        if ($d_solvetime[$i] == false) {
-                                            echo "<div class='btn btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
-                                            echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" . $d_doid[$i] . "'>解决</button>";
-                                            echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
-                                            echo "</div>";
-                                        } else {
-                                            echo "<div class='btn btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
-                                            //echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_".$d_doid[$i]."'>解决</button>";
-                                            echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
-                                            echo "</div>";
-                                        }
-                                        ?>
+                                        <td><?php echo $d_doid[$i]; ?></td>
+                                        <td><?php echo $d_room[$i]; ?></td>
+                                        <td><?php echo $d_description[$i]; ?></td>
+                                        <td><?php echo "星期" . $d_weekday[$i] . "&nbsp;" . $d_periodtime[$i]; ?></td>
+                                        <td><?php echo $d_outtime[$i]; ?></td>
+                                        <td><?php echo $d_name[$i]; ?></td>
+                                        <td>
+                                            <?php
+                                            if ($d_solvetime[$i] != false) {
+                                                echo $d_solvetime[$i];
+                                            } else {
+                                                echo "&nbsp;";
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if ($d_solvename[$i] != false) {
+                                                echo $d_solvename[$i];
+                                            } else {
+                                                echo "&nbsp;";
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if ($d_solution[$i] != false) {
+                                                echo $d_solution[$i];
+                                            } else {
+                                                echo "&nbsp;";
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if ($d_solvetime[$i] == false) {
+                                                echo "<div class='btn btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
+                                                echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" . $d_doid[$i] . "'>解决</button>";
+                                                echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
+                                                echo "</div>";
+                                            } else {
+                                                echo "<div class='btn btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
+                                                //echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_".$d_doid[$i]."'>解决</button>";
+                                                echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
+                                                echo "</div>";
+                                            }
+                                            ?>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                                 </tbody>
