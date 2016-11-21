@@ -34,10 +34,10 @@ class DutyOut extends CI_Controller
                 // 提示权限不够
                 PublicMethod::permissionDenied();
             }
-            
+
             $dutyout_list = $this->Moa_dutyout_model->get_all();
 
-            echo "<script>console.log('$dutyout_list[0]')</script>";
+            echo $dutyout_list;
 
 
             $d_doid = $dutyout_list['doid'];
