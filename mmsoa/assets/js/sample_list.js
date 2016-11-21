@@ -4,8 +4,7 @@
 
 
 var link_time_stamp = function (timestamp) {
-    var ret = "";
-    ret += timestamp.substr(0,4);
+    var ret = timestamp.substr(0,4);
     ret += timestamp.substr(5,2);
     ret += timestamp.substr(8,2);
     ret += timestamp.substr(11,2);

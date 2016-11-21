@@ -59,7 +59,7 @@ class Moa_sampling_model extends CI_Model{
                 'on_use' => 1,
             ));
             $this->db->update('MOA_Sampling', $paras);
-            return $this->db->affected_rows();
+            return $this->db->affected_rows() + 1;
         }
         else {
             return false;

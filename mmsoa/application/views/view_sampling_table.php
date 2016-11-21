@@ -59,7 +59,9 @@
                     <div class="ibox float-e-margins">
                         <div class="ibox-title" id="title-box">
                            <h5><?php echo $title ?>抽查记录</h5>
-                            <a class="btn btn-primary btn-xs manager" onclick="post_table()">提交更改</a>
+                            <div class="ibox-tools">
+                                <a class="btn btn-primary btn-xs manager" onclick="post_table(0)">提交更改</a>
+                            </div>
                         </div>
                         <div id="table-contianer" class="ibox-content" style="padding-bottom: 20px;">
                             <table class="table table-striped table-bordered table-hover users-dataTable">
@@ -82,6 +84,8 @@
                 </div>
             </div>
         </div>
+        <a id="timestring" style="display: none;"><?php echo $data?></a>
+        <a id="baseurl" style="display: none;"><?php echo base_url()?></a>
         <?php $this->load->view('view_footer'); ?>
     </div>
 </div>
@@ -91,11 +95,12 @@
 <script src="<?= base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-
+<script src="<?= base_url().'assets/js/sample_table.js' ?>"></script>
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        $("#mini").attr("href", "getTable#");
+        var mini = "<?php echo $data?>";
+        $("#mini").attr("href", mini + "#");
     });
 </script>
 
@@ -113,8 +118,7 @@
 <script src="<?= base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
 
-<a id="timestring" style="display: none;"><?php echo $data?></a>
-<script src="<?= base_url().'assets/js/sample_table.js' ?>"></script>
+
 
 
 <script>

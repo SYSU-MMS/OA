@@ -162,7 +162,7 @@ Class Sampling extends CI_Controller
     /**
      * 獲取一個抽查表
      */
-    public function getTable($timestring)
+    public function getTable()
     {
         if (isset($_SESSION['user_id'])) {
             // 检查权限
@@ -172,16 +172,17 @@ Class Sampling extends CI_Controller
                 return;
             }
 
-            if (!isset($timestring)) {
+            if (!isset($_POST['timestring'])) {
                 echo json_encode(array("status" => false, "msg" => "获取抽查表单失败，没有时间标签"));
                 return;
             } else {
-                $date = substr($timestring, 0, 4)."-".substr($timestring, 4, 2).
-                    "-".substr($timestring, 6, 2)." ".substr($timestring, 8, 2).
-                    ":".substr($timestring, 10, 2).":".substr($timestring, 12, 2);
+                $date = substr($_POST['timestring'], 0, 4)."-".substr($_POST['timestring'], 4, 2).
+                    "-".substr($_POST['timestring'], 6, 2)." ".substr($_POST['timestring'], 8, 2).
+                    ":".substr($_POST['timestring'], 10, 2).":".substr($_POST['timestring'], 12, 2);
 
                 $sample_object_list = $this->Moa_sampling_model->get_table($date);
                 $len = count($sample_object_list);
+
                 $ret = array();
                 for($i = 0;$i < $len; $i++) {
                     $ret[$i]['sid'] = $sample_object_list[$i]->sid;
@@ -194,22 +195,23 @@ Class Sampling extends CI_Controller
                     $ret[$i]['target_name'] = $target_obj->name;
 
                     if($sample_object_list[$i]->target_time_point == NULL) {
-                        $ret[$i]['target_time_point'] = -1;
+                        $ret[$i]['target_time_point'] = NULL;
                     } else {
                         $ret[$i]['target_time_point'] = $sample_object_list[$i]->target_time_point;
                     }
 
                     if($sample_object_list[$i]->target_room == NULL) {
-                        $ret[$i]['target_room'] = "";
+                        $ret[$i]['target_room'] = NULL;
                     } else {
                         $ret[$i]['target_room'] = $sample_object_list[$i]->target_room;
                     }
 
-                    $target_worker_obj = $this->Moa_worker_model->get($target_obj->uid);
-                    $ret[$i]['classroom'] = $target_worker_obj->classroom;
+                    $wid = $this->Moa_worker_model->get_wid_by_uid($target_obj->uid);
+                    $target_worker_obj = $this->Moa_worker_model->get($wid);
+                    $ret[$i]['classroom'] = explode(",", $target_worker_obj->classroom);
 
                     if($sample_object_list[$i]->operator_uid == NULL) {
-                        $ret[$i]['operator_uid'] = 0;
+                        $ret[$i]['operator_uid'] = NULL;
                         $ret[$i]['operator_name'] = "";
                     } else {
                         $ret[$i]['operator_uid'] = $sample_object_list[$i]->operator_uid;
@@ -256,6 +258,7 @@ Class Sampling extends CI_Controller
                 ":".substr($timestring, 10, 2).":".substr($timestring, 12, 2);
 
             $term = $this->Moa_school_term_model->get_term($date);
+
             $week = PublicMethod::get_week($term[0]->termbeginstamp, $date);
 
             $school_year = $term[0]->schoolyear;
@@ -264,7 +267,7 @@ Class Sampling extends CI_Controller
             $title = $school_year . $school_term .
                 "第" . $week ."周";
 
-            $this->load->view('view_sampling_list', array('data' => $timestring, 'title' => $title));
+            $this->load->view('view_sampling_table', array('data' => $timestring, 'title' => $title));
 
         } else {
             // 未登录的用户请先登录
@@ -315,26 +318,32 @@ Class Sampling extends CI_Controller
     {
         if (isset($_SESSION['user_id'])) {
             // 检查权限
-            if ($_SESSION['level'] != 1) {
+            if ($_SESSION['level'] != 1 && $_SESSION['level'] != 6) {
                 // 提示权限不够
                 PublicMethod::permissionDenied();
                 return;
             }
 
             $record = array();
-            $record['target_time_point'] = $_POST['target_time_point'];
-            $record['target_room'] = $_POST['target_room'];
-            $record['state'] = $_POST['state'];
+            if($_POST['target_time_point'] != 'NULL')
+                $record['target_time_point'] = $_POST['target_time_point'];
+
+            if($_POST['target_room'] != 'NULL')
+                $record['target_room'] = $_POST['target_room'];
+
+            if($_POST['state'] != 0)
+                $record['state'] = $_POST['state'];
+
             $record['problem'] = $_POST['problem'];
             $record['operator_uid'] = $_SESSION['user_id'];
 
             $ret = $this->Moa_sampling_model->update_a_record($record, $_POST['sid']);
 
-            if($ret != false) {
-                echo json_encode(array("status" => TRUE, "msg" => "更新失败"));
+            if($ret == false) {
+                echo json_encode(array("status" => false, "msg" => "更新失败"));
                 return;
             } else {
-                echo json_encode(array("status" => false, "msg" => "更新成功"));
+                echo json_encode(array("status" => true, "msg" => "更新成功"));
                 return;
             }
 
