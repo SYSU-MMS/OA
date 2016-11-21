@@ -17,5 +17,12 @@ class Moa_problem_model extends CI_Model {
 		}
 		return false;
 	}
+
+	public function add($paras){
+        if (isset($paras)){
+            $this->db->insert('moa_problem',$paras);
+            return $this->db->insert_id();
+        }
+    }
 	
 }
