@@ -6,7 +6,7 @@ header("Content-type: text/html; charset=utf-8");
 
 require_once('PublicMethod.php');
 
-Class Notify extends CI_Controller {
+Class Sampling extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('Moa_user_model');
