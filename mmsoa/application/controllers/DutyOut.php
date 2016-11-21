@@ -30,10 +30,10 @@ class DutyOut extends CI_Controller
     {
         if (isset($_SESSION['user_id'])) {
             // 检查权限: 2-负责人助理 3-助理负责人 5-办公室负责人 6-超级管理员
-            if ($_SESSION['level'] != 2 && $_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
+            //if ($_SESSION['level'] != 2 && $_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
                 // 提示权限不够
-                PublicMethod::permissionDenied();
-            }
+            //    PublicMethod::permissionDenied();
+            //}
 
             $dutyout_list = $this->Moa_dutyout_model->get_all();
 
