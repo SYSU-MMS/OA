@@ -50,7 +50,13 @@ Class Sampling extends CI_Controller
             $today = date("Y-m-d H:i:s");
             $week = 0;
             if (isset($_POST['week'])) {
-                $week = $_POST['week'];
+                if($_POST['week'] == -1) {
+                    $term = $this->Moa_school_term_model->get_term($today);
+                    $week = PublicMethod::get_week($term[0]->termbeginstamp, $today);
+                    $week -= 1;
+                } else {
+                    $week = $_POST['week'];
+                }
             } else {
                 $term = $this->Moa_school_term_model->get_term($today);
                 $week = PublicMethod::get_week($term[0]->termbeginstamp, $today);
@@ -124,8 +130,12 @@ Class Sampling extends CI_Controller
                     $ret_list[$index]["timestamp"] = $tmp_stamp[0]->timestamp;
                     $term = $this->Moa_school_term_model->get_term($tmp_stamp[0]->timestamp);
 
-                    $ret_list[$index]["title"] = $term->schoolyear.$term->schoolterm.
-                        "第".$tmp_stamp[0]->week."周";
+                    $school_year = $term[0]->schoolyear;
+                    $school_term = $term[0]->schoolterm;
+                    $week = $tmp_stamp[0]->week;
+
+                    $ret_list[$index]["title"] = $school_year . $school_term .
+                        "第" . $week ."周";
 
 
                     $today = $tmp_stamp[0]->timestamp;
@@ -137,7 +147,7 @@ Class Sampling extends CI_Controller
                     "sample_list" => $ret_list));
                 return;
             } else {
-                echo json_encode(array("status" => TRUE, "msg" => "获取抽查表单列表失败"));
+                echo json_encode(array("status" => false, "msg" => "获取抽查表单列表失败"));
                 return;
             }
 
@@ -195,13 +205,16 @@ Class Sampling extends CI_Controller
                         $ret[$i]['target_room'] = $sample_object_list[$i]->target_room;
                     }
 
+                    $target_worker_obj = $this->Moa_worker_model->get($target_obj->uid);
+                    $ret[$i]['classroom'] = $target_worker_obj->classroom;
+
                     if($sample_object_list[$i]->operator_uid == NULL) {
                         $ret[$i]['operator_uid'] = 0;
-                        $ret[$i]['name'] = "";
+                        $ret[$i]['operator_name'] = "";
                     } else {
                         $ret[$i]['operator_uid'] = $sample_object_list[$i]->operator_uid;
                         $operator_obj = $this->Moa_user_model->get($sample_object_list[$i]->operator_uid);
-                        $ret[$i]['name'] = $operator_obj->name;
+                        $ret[$i]['operator_name'] = $operator_obj->name;
                     }
 
                     if($sample_object_list[$i]->problem == NULL) {
@@ -212,10 +225,46 @@ Class Sampling extends CI_Controller
 
                 }
 
-                $to_view['data'] = $ret;
-                $this->load->view('view_sampling_table', $to_view);
+                if (!empty($ret)) {
+                    echo json_encode(array("status" => TRUE, "msg" => "获取抽查表单成功", "base_url" => base_url(),
+                        "sample_table" => $ret));
+                    return;
+                } else {
+                    echo json_encode(array("status" => false, "msg" => "获取抽查表单失败"));
+                    return;
+                }
             }
 
+
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+            return;
+        }
+    }
+
+    public function showTable($timestring) {
+        if (isset($_SESSION['user_id'])) {
+            // 检查权限
+            if ($_SESSION['level'] != 1 && $_SESSION['level'] != 6) {
+                // 提示权限不够
+                PublicMethod::permissionDenied();
+                return;
+            }
+            $date = substr($timestring, 0, 4)."-".substr($timestring, 4, 2).
+                "-".substr($timestring, 6, 2)." ".substr($timestring, 8, 2).
+                ":".substr($timestring, 10, 2).":".substr($timestring, 12, 2);
+
+            $term = $this->Moa_school_term_model->get_term($date);
+            $week = PublicMethod::get_week($term[0]->termbeginstamp, $date);
+
+            $school_year = $term[0]->schoolyear;
+            $school_term = $term[0]->schoolterm;
+
+            $title = $school_year . $school_term .
+                "第" . $week ."周";
+
+            $this->load->view('view_sampling_list', array('data' => $timestring, 'title' => $title));
 
         } else {
             // 未登录的用户请先登录
@@ -243,7 +292,7 @@ Class Sampling extends CI_Controller
                 return;
             } else {
                 $ret = $this->Moa_sampling_model->delete_table($_POST['timestamp']);
-                if (!empty($ret)) {
+                if ($ret != false) {
                     echo json_encode(array("status" => TRUE, "msg" => "删除抽查表单成功"));
                     return;
                 } else {
@@ -279,7 +328,7 @@ Class Sampling extends CI_Controller
             $record['problem'] = $_POST['problem'];
             $record['operator_uid'] = $_SESSION['user_id'];
 
-            $ret = $this->Moa_sampling_model->update_a_record($record);
+            $ret = $this->Moa_sampling_model->update_a_record($record, $_POST['sid']);
 
             if($ret != false) {
                 echo json_encode(array("status" => TRUE, "msg" => "更新失败"));

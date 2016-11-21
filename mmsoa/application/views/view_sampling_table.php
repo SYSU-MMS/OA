@@ -58,13 +58,14 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title" id="title-box">
-                           <!-- <h5>抽查记录</h5> -->
+                           <h5><?php echo $title ?>抽查记录</h5>
+                            <a class="btn btn-primary btn-xs manager" onclick="post_table()">提交更改</a>
                         </div>
                         <div id="table-contianer" class="ibox-content" style="padding-bottom: 20px;">
                             <table class="table table-striped table-bordered table-hover users-dataTable">
                                 <thead>
                                 <tr>
-                                    <th>操作</th>
+                                    <th>序号</th>
                                     <th>助理</th>
                                     <th>抽查时间段</th>
                                     <th>抽查教室</th>
@@ -111,6 +112,9 @@
 <!-- Data Tables -->
 <script src="<?= base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
+
+<a id="timestring" style="display: none;"><?php echo $data?></a>
+<script src="<?= base_url().'assets/js/sample_table.js' ?>"></script>
 
 
 <script>

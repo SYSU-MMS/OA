@@ -17,7 +17,7 @@ var link_time_stamp = function (timestamp) {
 };
 
 var show_list = function () {
-    var detailherf = "Sampling/getTable/";
+    var detailherf = "Sampling/showTable/";
     $.ajax({
         url: 'Sampling/getTableList',
         success: function (msg) {
@@ -27,29 +27,29 @@ var show_list = function () {
                 for (var i = 0; i < ret['sample_list'].length; i++) {
                     table_temp+=
                         "<tr>" +
-                            "<td>" +
-                                (ret['notice_list'].length - i) +
-                            "</td>" +
-                            "<td>" +
-                                ret['notice_list'][i]['timestamp'] +
-                            "</td>" +
-                            "<td>" +
-                                "<a href='" + detailherf + link_time_stamp(ret['notice_list'][i]['timestamp']) + "'>" +
-                                     ret['notice_list'][i]['title'] +
-                                "</a>" +
-                            "</td>" +
-                            "<td>" +
-                                "<a href='" + detailherf + link_time_stamp(ret['notice_list'][i]['timestamp']) + "'>" +
-                                    "<b>详情</b>" +
-                                "</a>" +
-                                "<button id='delete_" + link_time_stamp(ret['notice_list'][i]['timestamp']) +"' type='button' class='btn btn-xs btn-outline btn-danger manager' onclick='delete_table("+ ret['notice_list'][i]['timestamp'] +")' style='margin-left: 10px;'>" +
-                                "<i class='fa fa-close'></i><span> 移除</span></button>" +
-                            "</td>" +
+                        "<td>" +
+                        (ret['sample_list'].length - i) +
+                        "</td>" +
+                        "<td>" +
+                        ret['sample_list'][i]['timestamp'] +
+                        "</td>" +
+                        "<td>" +
+                        "<a href='" + detailherf + link_time_stamp(ret['sample_list'][i]['timestamp']) + "'>" +
+                        ret['sample_list'][i]['title'] +
+                        "</a>" +
+                        "</td>" +
+                        "<td>" +
+                        "<a href='" + detailherf + link_time_stamp(ret['sample_list'][i]['timestamp']) + "'>" +
+                        "<b>查看/修改</b>" +
+                        "</a>" +
+                        "<button id='delete_" + link_time_stamp(ret['sample_list'][i]['timestamp']) +"' type='button' class='btn btn-xs btn-outline btn-danger manager' value='"+ret['sample_list'][i]['timestamp']+"' onclick='delete_table(this.value)' style='margin-left: 10px;'>" +
+                        "<i class='fa fa-close'></i><span> 移除</span></button>" +
+                        "</td>" +
                         "</tr>"
                 }
-                $("sample-list").html(table_temp);
+                $("#sample-list").html(table_temp);
             }
-            $(".users-dataTable").dataTable();
+            $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]]});
         },
         error: function () {
             alert("error");
@@ -58,10 +58,11 @@ var show_list = function () {
 };
 
 var delete_table = function (time) {
+    console.log(time);
     if(time != undefined) {
         $.ajax({
             type: 'post',
-            url: 'Sampling/deleteTable/',
+            url: 'Sampling/deleteTable',
             data: {
                 timestamp: time
             },
@@ -70,6 +71,8 @@ var delete_table = function (time) {
                 if (ret['status'] === true) {
                     alert(ret['msg']);
                     $(".users-dataTable").DataTable().row($("#delete_" + link_time_stamp(time)).parents('tr')).remove().draw();
+                } else {
+                    alert(arguments[1]);
                 }
             },
             error: function () {
@@ -78,6 +81,58 @@ var delete_table = function (time) {
 
         });
     }
+};
+
+var new_this_week = function () {
+    $.ajax({
+        type: 'post',
+        url: 'Sampling/newTable',
+        success: function (msg) {
+            ret = JSON.parse(msg);
+            alert(ret['msg']);
+            location.reload();
+        },
+        error: function () {
+            alert(arguments[1]);
+        }
+    });
+};
+
+var new_last_week = function () {
+    $.ajax({
+        type: 'post',
+        url: 'Sampling/newTable',
+        data: {
+          week: -1
+        },
+        success: function (msg) {
+            ret = JSON.parse(msg);
+            alert(ret['msg']);
+            location.reload();
+        },
+        error: function () {
+            alert(arguments[1]);
+        }
+    });
+};
+
+var new_n_week = function () {
+    var n_week = $("#n_week option:selected").attr("value");
+    $.ajax({
+        type: 'post',
+        url: 'Sampling/newTable',
+        data: {
+            week: n_week
+        },
+        success: function (msg) {
+            ret = JSON.parse(msg);
+            alert(ret['msg']);
+            location.reload();
+        },
+        error: function () {
+            alert(arguments[1]);
+        }
+    });
 };
 
 $(document).ready(show_list);

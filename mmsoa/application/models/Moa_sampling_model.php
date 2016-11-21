@@ -26,7 +26,7 @@ class Moa_sampling_model extends CI_Model{
      * @return bool
      */
     public function delete_table($timestamp) {
-        if (isset($paras)) {
+        if (isset($timestamp)) {
             $this->db->where(array(
                 'timestamp' => $timestamp,
                 'on_use' => 1,
@@ -52,11 +52,10 @@ class Moa_sampling_model extends CI_Model{
     /**
      * $paras 參數表
      */
-    public function update_a_record($paras) {
-        if (isset($paras)) {
+    public function update_a_record($paras, $sid) {
+        if (isset($paras) && isset($sid)) {
             $this->db->where(array(
-                'target_uid' => $paras['target_uid'],
-                'timestamp' => $paras['timestamp'],
+                'sid' => $sid,
                 'on_use' => 1,
             ));
             $this->db->update('MOA_Sampling', $paras);
