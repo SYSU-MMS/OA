@@ -123,7 +123,7 @@ var show_table = function () {
             } else {
                 alert(ret["msg"]);
             }
-            $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]]});
+            $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]], "paging": false});
         },
         error: function () {
             alert("error");
