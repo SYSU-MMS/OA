@@ -1,6 +1,7 @@
 /**
  * Created by alcanderian on 22/11/2016.
  */
+var table_tmp = [];
 var duty_list = [
     "周一上午", "周一中午", "周一下午",
     "周二上午", "周二中午", "周二下午",
@@ -46,8 +47,9 @@ var show_table = function () {
             if (ret['status'] === true) {
                 var table_temp = "";
                 table_len = ret['sample_table'].length;
+                table_tmp = ret['sample_table'];
                 for (var i = 0; i < ret['sample_table'].length; i++) {
-                    table_temp+=
+                    table_temp +=
                         "<tr>" +
                         "<td>" +
                         (ret['sample_table'].length - i) +
@@ -58,7 +60,7 @@ var show_table = function () {
                         "</td>" +
 
 
-                        "<td><select class='form-control' id='time_point_" + i + "'>";
+                        "<td><select class='form-control manager' id='time_point_" + i + "'>";
                     table_temp +=
                         "<option value='NULL'>未选择</option>";
                     for(var j = 0; j < duty_list.length; ++j) {
@@ -69,12 +71,19 @@ var show_table = function () {
                         }
                         table_temp += ">" + duty_list[j] + "</option>";
                     }
-                    table_temp+=
-                        "</select></td>" +
+                    table_temp +=
+                        "</select><div class='viewer'>";
+                    if(ret['sample_table'][i]['target_time_point'] != undefined ) {
+                        table_temp += duty_list[ret['sample_table'][i]['target_time_point']];
+                    } else {
+                        table_temp += "未选择";
+                    }
+                    table_temp +=
+                        "</div></td>" +
 
 
 
-                        "<td><select class='form-control' id='classroom_" + i + "'>";
+                        "<td><select class='form-control manager' id='classroom_" + i + "'>";
                     table_temp +=
                         "<option value='NULL'>未选择</option>";
                     for(var j = 0; j < ret['sample_table'][i]['classroom'].length; ++j) {
@@ -85,8 +94,15 @@ var show_table = function () {
                         }
                         table_temp += ">" + ret['sample_table'][i]['classroom'][j] + "</option>";
                     }
-                    table_temp+=
-                        "</select></td>" +
+                    table_temp +=
+                            "</select><div class='viewer'>";
+                    if(ret['sample_table'][i]['target_room'] != undefined ) {
+                        table_temp += ret['sample_table'][i]['target_room'];
+                    } else {
+                        table_temp += "未选择";
+                    }
+                    table_temp +=
+                            "</div></td>" +
 
 
                         "<td>" +
@@ -94,7 +110,7 @@ var show_table = function () {
                         "</td>" +
 
 
-                        "<td><select class='form-control' id='state_" + i + "'>";
+                        "<td><select class='form-control manager' id='state_" + i + "'>";
                     for(var j = 0; j < score.length; ++j) {
                         table_temp +=
                             "<option value='" + j +"' ";
@@ -103,18 +119,29 @@ var show_table = function () {
                         }
                         table_temp += ">" + score[j] + "</option>";
                     }
-                    table_temp+=
-                        "</select></td>" +
+                    table_temp +=
+                        "</select><div class='viewer'>";
+                    table_temp += score[ret['sample_table'][i]['state']];
+                    table_temp +=
+                        "</div></td>" +
 
-                        "<td><p id='problem_p_" + i + "' onclick='edit_text(" + i + ")'>";
+                        "<td class='text-center' style='max-width: 25em;'><pre style='white-space:pre-wrap; background: none;border: none;font-family: \"open sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif' class='manager' id='problem_p_" + i + "' onclick='edit_text(" + i + ")'>";
                     if(ret['sample_table'][i]['problem'] == "") {
-                        table_temp+="暂无问题"
+                        table_temp +="暂无问题"
                     } else {
-                        table_temp+=ret['sample_table'][i]['problem'];
+                        table_temp +=ret['sample_table'][i]['problem'];
                     }
-                    table_temp+=
-                        "</p><textarea onblur='edit_fin(" + i + ")' type='text' cols='25' rows='3' style='display: none;' id='problem_edit_" + i +
+                    table_temp +=
+                        "</pre><textarea class='manager' onblur='edit_fin(" + i + ")' type='text' cols='25' rows='3' wrap='physical' style='display: none; word-break: break-all;' id='problem_edit_" + i +
                         "'>" + ret['sample_table'][i]['problem'] + "</textarea>" +
+                        "<pre class='viewer' style='white-space:pre-wrap; background: none;border: none;font-family: \"open sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif'>";
+                    if(ret['sample_table'][i]['problem'] == "") {
+                        table_temp +="暂无问题"
+                    } else {
+                        table_temp +=ret['sample_table'][i]['problem'];
+                    }
+                    table_temp +=
+                        "</pre>" +
                         "</td>" +
 
                         "</tr>"
@@ -140,29 +167,33 @@ var post_table = function (num) {
             tr = "NULL";
         }
         var st = $("#state_" + num + " option:selected").attr("value");
-        var text = $("#problem_edit_" + num).val();
-        $.ajax({
-            url: $("#baseurl").html() + "index.php/Sampling/upDateRecord",
-            type: 'post',
-            data: {
-                sid: sid,
-                target_time_point: ttp,
-                target_room: tr,
-                state: st,
-                problem: text
-            },
-            success: function (msg) {
-                ret = JSON.parse(msg);
-                if(ret['status'] != false) {
-                    post_table(num + 1);
-                } else {
+        var text = $.trim($("#problem_edit_" + num).val());
+        if((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']) && (tr == "NULL" || tr == table_tmp[num]['classroom']) && st == table_tmp[num]['state'] && (text == table_tmp[num]['problem'])) {
+            post_table(num + 1);
+        } else {
+            $.ajax({
+                url: $("#baseurl").html() + "index.php/Sampling/upDateRecord",
+                type: 'post',
+                data: {
+                    sid: sid,
+                    target_time_point: ttp,
+                    target_room: tr,
+                    state: st,
+                    problem: text
+                },
+                success: function (msg) {
+                    ret = JSON.parse(msg);
+                    if (ret['status'] != false) {
+                        post_table(num + 1);
+                    } else {
+                        alert("更改失败");
+                    }
+                },
+                error: function () {
                     alert("更改失败");
                 }
-            },
-            error: function () {
-                alert("更改失败");
-            }
-        });
+            });
+        }
     } else {
         alert("更改成功");
         location.reload();
