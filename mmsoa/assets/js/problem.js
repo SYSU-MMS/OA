@@ -14,10 +14,10 @@ function getFormatDate(date_in) {
 
   var year = date_in.getFullYear();
   var month = (date_in.getMonth()+1) >= 10 ? ((date_in.getMonth()+1)) : ('0' + (date_in.getMonth()+1));
-  var day = date_in.getDate() >= 10 date_in.getDate() : ('0' + date_in.getDate());
-  var hour = date_in.getHours() >= 10 date_in.getHours() : ('0' + date_in.getHours());
-  var minute =  date_in.getMinutes() >= 10 date_in.getMinutes() : ('0' + date_in.getMinutes());
-  var second = date_in.getSeconds() >= 10 date_in.getSeconds() : ('0' + date_in.getSeconds());
+  var day = date_in.getDate() >= 10 ? date_in.getDate() : ('0' + date_in.getDate());
+  var hour = date_in.getHours() >= 10 ? date_in.getHours() : ('0' + date_in.getHours());
+  var minute =  date_in.getMinutes() >= 10 ? date_in.getMinutes() : ('0' + date_in.getMinutes());
+  var second = date_in.getSeconds() >= 10 ? date_in.getSeconds() : ('0' + date_in.getSeconds());
   return year + '-' + month + '-' + day + ' '
         + hour + ':' + minute+ ':'+ second;
 }
