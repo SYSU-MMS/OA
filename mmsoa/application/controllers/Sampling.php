@@ -79,7 +79,7 @@ Class Sampling extends CI_Controller
                 for ($j = 0; $j < $len_b; $j++) {
                     $table_list[$j + $len_a] = array(
                         "state" => 0, "timestamp" => $today,
-                        "target_uid" => $group_b[$j + $len_a]->uid,
+                        "target_uid" => $group_b[$j]->uid,
                         "on_use" => 1, "week" => $week);
                 }
 
