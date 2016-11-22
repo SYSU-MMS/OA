@@ -9,10 +9,10 @@
  */
 class Moa_dutyout_model extends CI_Model
 {
-    public function add_dutyout($room_id, $problem_id, $duty, $time)
+    public function add_dutyout($room_id, $problem_id, $duty, $time,$wid)
     {
-        if (isset($_SESSION['user_id'])) {
-            $wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
+        if (isset($_SESSION['user_id'])&&isset($wid)) {
+            //$wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
             //$time = date("Y-m-d H:i:s");
             $weekday = date("w") == 0 ? 7 : date("w");
             $shorttime = date("H:i:s");
@@ -40,7 +40,7 @@ class Moa_dutyout_model extends CI_Model
 
         } else {
             //echo json_encode(array("status" => false));
-            return false;
+            return;
         }
     }
 
@@ -90,7 +90,7 @@ class Moa_dutyout_model extends CI_Model
         }
     }
 
-    public function update_by_id($doid, $wid, $time)
+    /*public function update_by_id($doid, $wid, $time)
     {
         if (isset($_SESSION['user_id'])) {
             //$time = date("Y-m-d H:i:s");
@@ -107,7 +107,7 @@ class Moa_dutyout_model extends CI_Model
         } else {
             return false;
         }
-    }
+    }*/
 
     public function delete_by_doid($doid)
     {
