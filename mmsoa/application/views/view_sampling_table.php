@@ -26,7 +26,10 @@
     <?php
         $is_manager = ($_SESSION['level'] == 1 || $_SESSION['level'] == 6);
         if (!$is_manager) {
-            echo '.manager { display: none; }';
+            echo '.manager { display: none !important; }';
+            echo "@media (min-width: 768px) { .manager { display: none !important; } }";
+        } else {
+            echo '.viewer { display: none !important; }';
         }
     ?>
 </style>
