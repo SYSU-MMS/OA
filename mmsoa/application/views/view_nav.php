@@ -55,6 +55,8 @@
 		                    '</li>' .
 		                    '<li id="active-onduty"><a href="'. site_url('Duty') . '">值班</a>' .
 		                    '</li>' .
+                            '<li id="active-dutyout"><a href="'. site_url('DutyOut') . '">出勤</a>'.
+                            '</li>' .
 		                '</ul>' .
 		            '</li>';
 		        }
@@ -70,9 +72,11 @@
 		                    '</li>' .
 		                    '<li id="active-dutyReview"><a href="'. site_url('DutyReview/dutyReview') . '">值班</a>' .
 		                    '</li>' .
-							'<li id="active-dutyOut"><a href="'. site_url('DutyOut/dutyOut') . '">出勤</a>'.
-							'</li>' .
-		                '</ul>' .
+												'<li id="active-problem"><a href="'. site_url('Problem/index') . '">故障汇总</a>' .
+												'</li>' .
+												'<li id="active-problemStatistics"><a href="'. site_url('Problem/statistics') . '">故障统计信息</a>' .
+												'</li>' .
+										'</ul>' .
 		            '</li>';
 		        }
 		    ?>
