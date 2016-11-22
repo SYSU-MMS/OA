@@ -12,7 +12,6 @@ var  wid_list     = [];
  */
 function getFormatDate(date_in) {
 
-  var final =
   var year = date_in.getFullYear();
   var month = (date_in.getMonth()+1) >= 10 ? ((date_in.getMonth()+1)) : ('0' + (date_in.getMonth()+1));
   var day = date_in.getDate() >= 10 date_in.getDate() : ('0' + date_in.getDate());
