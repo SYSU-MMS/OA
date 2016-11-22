@@ -57,3 +57,4 @@ class Moa_room_model extends CI_Model {
 		$sql = 'select roomid, room, state from MOA_CheckRoom;';
 		return $this->db->query($sql)->result();
 	}
+}
