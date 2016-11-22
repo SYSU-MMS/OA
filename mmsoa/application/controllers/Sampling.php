@@ -26,7 +26,7 @@ Class Sampling extends CI_Controller
     public function index()
     {
         if (isset($_SESSION['user_id'])) {
-            if ($_SESSION['level'] < 1) {
+            if (!isset($_SESSION['level'])) {
                 // 提示权限不够
                 PublicMethod::permissionDenied();
                 return;
@@ -112,7 +112,7 @@ Class Sampling extends CI_Controller
     {
         if (isset($_SESSION['user_id'])) {
             // 检查权限
-            if ($_SESSION['level'] != 1 && $_SESSION['level'] != 6) {
+            if (!isset($_SESSION['level'])) {
                 // 提示权限不够
                 PublicMethod::permissionDenied();
                 return;
@@ -166,7 +166,7 @@ Class Sampling extends CI_Controller
     {
         if (isset($_SESSION['user_id'])) {
             // 检查权限
-            if ($_SESSION['level'] != 1 && $_SESSION['level'] != 6) {
+            if (!isset($_SESSION['level'])) {
                 // 提示权限不够
                 PublicMethod::permissionDenied();
                 return;
@@ -248,7 +248,7 @@ Class Sampling extends CI_Controller
     public function showTable($timestring) {
         if (isset($_SESSION['user_id'])) {
             // 检查权限
-            if ($_SESSION['level'] != 1 && $_SESSION['level'] != 6) {
+            if (!isset($_SESSION['level'])) {
                 // 提示权限不够
                 PublicMethod::permissionDenied();
                 return;
