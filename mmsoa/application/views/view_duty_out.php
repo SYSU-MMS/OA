@@ -248,55 +248,7 @@
     }
 
 </script>
-<!--解决故障模态框>
-<div class="modal fade" id="solve_modal" tabindex="-1" role="dialog" aria-labelledby="solve_modal_label"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title" id="solve_modal_title">解决故障</h1>
-            </div>
-            <div class="modal-body">
-                <form class="input-group input-group-sm" id="solve_input_group">
-                    <div class="form-group">
-                        <div class="col-sm-7 col-sm-offset-2">
-                            <select id="solve_wid"></select>
-                        </div>
-                        <div class="col-sm-7 col-sm-offset-2">
-                            <input type="datetime" placeholder="解决时间" id="solve_time">
-                        </div>
-                        <div class="col-sm-7 col-sm-offset-2">
-                            <input type="text" placeholder="解决方法" id="solution">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">提交</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!--新增记录模态框>
-<div class="modal fade" id="new_record_modal" tabindex="-1" role="dialog" aria-labelledby="new_record_label"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title" id="new_record_title">新增记录</h1>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">提交</button>
-            </div>
-        </div>
-    </div>
-</div-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      style="z-index: 10;">
     <div class="modal-dialog">
