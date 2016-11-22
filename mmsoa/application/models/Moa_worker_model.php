@@ -143,6 +143,20 @@ class Moa_worker_model extends CI_Model {
 			return false;
 		}
 	}
+
+    /**
+     * 取某組别所有助理
+     * @param group - 組别
+     */
+    public function get_by_group($group) {
+        if (isset($group)) {
+            $this->db->where(array('group'=>$group));
+            return $this->db->get('MOA_Worker')->result();
+        }
+        else {
+            return false;
+        }
+    }
     
     /**
 	 * 取指定wid的用户组别
