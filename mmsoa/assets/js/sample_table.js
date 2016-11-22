@@ -1,6 +1,7 @@
 /**
  * Created by alcanderian on 22/11/2016.
  */
+var table_tmp = [];
 var duty_list = [
     "周一上午", "周一中午", "周一下午",
     "周二上午", "周二中午", "周二下午",
@@ -46,6 +47,7 @@ var show_table = function () {
             if (ret['status'] === true) {
                 var table_temp = "";
                 table_len = ret['sample_table'].length;
+                table_tmp = ret['sample_table'];
                 for (var i = 0; i < ret['sample_table'].length; i++) {
                     table_temp+=
                         "<tr>" +
@@ -140,29 +142,33 @@ var post_table = function (num) {
             tr = "NULL";
         }
         var st = $("#state_" + num + " option:selected").attr("value");
-        var text = $("#problem_edit_" + num).val();
-        $.ajax({
-            url: $("#baseurl").html() + "index.php/Sampling/upDateRecord",
-            type: 'post',
-            data: {
-                sid: sid,
-                target_time_point: ttp,
-                target_room: tr,
-                state: st,
-                problem: text
-            },
-            success: function (msg) {
-                ret = JSON.parse(msg);
-                if(ret['status'] != false) {
-                    post_table(num + 1);
-                } else {
+        var text = $.trim($("#problem_edit_" + num).val());
+        if((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']) && (tr == "NULL" || tr == table_tmp[num]['classroom']) && st == table_tmp[num]['state'] && (text == table_tmp[num]['problem'])) {
+            post_table(num + 1);
+        } else {
+            $.ajax({
+                url: $("#baseurl").html() + "index.php/Sampling/upDateRecord",
+                type: 'post',
+                data: {
+                    sid: sid,
+                    target_time_point: ttp,
+                    target_room: tr,
+                    state: st,
+                    problem: text
+                },
+                success: function (msg) {
+                    ret = JSON.parse(msg);
+                    if (ret['status'] != false) {
+                        post_table(num + 1);
+                    } else {
+                        alert("更改失败");
+                    }
+                },
+                error: function () {
                     alert("更改失败");
                 }
-            },
-            error: function () {
-                alert("更改失败");
-            }
-        });
+            });
+        }
     } else {
         alert("更改成功");
         location.reload();
