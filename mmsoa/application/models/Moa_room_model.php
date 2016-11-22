@@ -48,6 +48,15 @@ class Moa_room_model extends CI_Model {
 			return false;
 		}
 	}
+
+	/**
+	 * 获取所有可选的课室信息
+	 * @return 包含roomid,room, state的课室信息
+	 */
+	public function get_all() {
+		$sql = 'select roomid, room, state from MOA_CheckRoom;';
+		return $this->db->query($sql)->result();
+	}
 	
 	
 }
