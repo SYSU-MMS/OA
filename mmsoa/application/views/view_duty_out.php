@@ -64,6 +64,10 @@
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>查看和登记出勤</h5>
+                            <div class="btn_group"
+                                 style="margin-right:15px;margin-left:auto;width:50px;text-align: right;">
+                                <button class="btn btn-primary btn-xs" id="new_record_btn" onclick="new_record()" data-toggle="modal" data-target="#new_record_modal">新增记录</button>
+                            </div>
                         </div>
                         <div class="ibox-content">
 
@@ -122,18 +126,20 @@
                                             <?php
                                             if ($d_solvetime[$i] == false) {
                                                 echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
-                                                echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" . $d_doid[$i] . "'>解决</button>";
-                                                if ($_SESSION['user_id'] == $d_uid[$i] || $d_level >= 2) {
-                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
-                                                    var_dump($_SESSION['user_id'],$d_uid[$i]);
+                                                echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" .
+                                                    $d_doid[$i] . "' onclick='solve_by_doid(" . $d_doid[$i] . ")'".
+                                                    " data-toggle='modal' data-target='#solve_modal'>解决</button>";
+                                                if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
+                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
+                                                    //echo var_dump($_SESSION['user_id'], $d_uid[$i]);
                                                 }
                                                 echo "</div>";
                                             } else {
                                                 echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
                                                 //echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_".$d_doid[$i]."'>解决</button>";
-                                                if ($_SESSION['user_id'] == $d_uid[$i] || $d_level >= 2) {
-                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
-                                                }else{
+                                                if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
+                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
+                                                } else {
                                                     echo "<p>已解决</p>";
                                                 }
                                                 echo "</div>";
@@ -236,6 +242,41 @@
     }
 
 </script>
+<!--解决故障模态框-->
+<div class="modal fade" id="solve_modal" tabindex="-1" role="dialog" aria-labelledby="solve_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="solve_modal_title">解决故障</h1>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--新增记录模态框-->
+<div class="modal fade" id="new_record_modal" tabindex="-1" role="dialog" aria-labelledby="new_record_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="new_record_title">新增记录</h1>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 

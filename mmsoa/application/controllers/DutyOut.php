@@ -35,7 +35,7 @@ class DutyOut extends CI_Controller
             //    PublicMethod::permissionDenied();
             //}
 
-            $dutyout_list = $this->Moa_dutyout_model->get_all();
+            $dutyout_list = $this->Moa_dutyout_model->get_all(1);
 
             //echo $dutyout_list;
             //var_dump($dutyout_list);
@@ -48,7 +48,7 @@ class DutyOut extends CI_Controller
             $data['d_periodtime'] = array();
             $data['d_wid'] = array();
             $data['d_uid'] = array();
-            $data['d_level'] = array();
+            //$data['d_level'] = array();
             $data['d_week'] = array();
             $data['d_outtime'] = array();
             $data['d_roomid'] = array();
@@ -89,7 +89,7 @@ class DutyOut extends CI_Controller
                 $d_uid = $this->Moa_worker_model->get_uid_by_wid($d_wid);
                 $d_user = $this->Moa_user_model->get($d_uid);
                 $d_name = $d_user->name;
-                $d_level = $d_user->level;
+                //$d_level = $this->Moa_user_model->get($_SESSION['user_id'])->level;
                 $d_solvename = "";
 
                 if ($d_solvewid != null && $d_solvewid != false) {
@@ -115,7 +115,7 @@ class DutyOut extends CI_Controller
                 $data['d_periodtime'][$i] = $d_periodtime;
                 $data['d_wid'][$i] = $d_wid;
                 $data['d_uid'][$i] = $d_uid;
-                $data['d_level'][$i] = $d_level;
+                //$data['d_level'][$i] = $d_level;
                 $data['d_week'][$i] = $d_week;
                 $data['d_outtime'][$i] = $d_outtime;
                 $data['d_roomid'][$i] = $d_roomid;
@@ -144,23 +144,28 @@ class DutyOut extends CI_Controller
 
     }
 
-    public function update($paras)
+    public function update($doid, $paras)
     {
 
     }
 
-    public function delete_dutyout($doid)
+    public function delete_dutyout()
     {
-        $deleting_record = $this->Moa_dutyout_model->get_by_doid($doid);
-        $deleting_record_uid = $this->Moa_worker_model->get_uid_by_wid($deleting_record->wid);
-        $current_uid = $_SESSION['user_id'];
-        $current_level = $this->Moa_user_model->get($current_uid)->level;
-        if ($deleting_record_uid == $current_uid || $current_level >= 2) {
-            $state = $this->Moa_dutyout_model->delete_by_doid($doid);
-            if ($state == true) {
-
+        if (isset($_POST['doid'])) {
+            $doid = $_POST['doid'];
+            $deleting_record = $this->Moa_dutyout_model->get_by_doid($doid);
+            $deleting_record_uid = $this->Moa_worker_model->get_uid_by_wid($deleting_record->wid);
+            $current_uid = $_SESSION['user_id'];
+            $current_level = $this->Moa_user_model->get($current_uid)->level;
+            if ($deleting_record_uid == $current_uid || $current_level >= 2) {
+                $state = $this->Moa_dutyout_model->delete_by_doid($doid);
+                if ($state == true) {
+                    echo json_encode(array("status" => true, "msg" => "已删除！"));
+                } else {
+                    echo json_encode(array("status" => false, "msg" => "删除失败！"));
+                }
             } else {
-
+                echo json_encode(array("status" => false, "msg" => "删除失败！"));
             }
         }
     }

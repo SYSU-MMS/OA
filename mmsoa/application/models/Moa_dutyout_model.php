@@ -63,16 +63,18 @@ class Moa_dutyout_model extends CI_Model
 
     }
 
-    public function get_all()
+    public function get_all($para=0)
     {
         if (isset($_SESSION['user_id'])) {
-            $query = $this->db->query("select * from moa_dutyout order by `doid` DESC");
-            //$this->db->order_by('doid','DESC');
-            //$this->db->select();
-            //var_dump($query);
-            $result = $query->result();
-            //echo json_encode(array("status" => true, "data" => $result));
-            return $result;
+            if ($para==0) {
+                $query = $this->db->query("select * from moa_dutyout order by `doid` DESC");
+                $result = $query->result();
+                return $result;
+            }else{
+                $query = $this->db->query("select * from moa_dutyout where state = 0 order by `doid` DESC");
+                $result = $query->result();
+                return $result;
+            }
         } else {
             //PublicMethod::requireLogin();
         }
@@ -110,10 +112,13 @@ class Moa_dutyout_model extends CI_Model
     public function delete_by_doid($doid)
     {
         if (isset($_SESSION['user_id'])) {
-            $sql = "update moa_dutyout set state = 1 where doid = " . $this->db->escape($doid);
-            $query = $this->db->query($sql);
-            return $query;
+            if ($_SESSION['level'] >= 2) {
+                $sql = "update moa_dutyout set state = 1 where doid = " . $this->db->escape($doid);
+                $query = $this->db->query($sql);
+                return $query;
+            }
         }
+        return false;
     }
 
 
