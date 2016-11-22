@@ -132,7 +132,7 @@ var show_table = function () {
                         table_temp +=ret['sample_table'][i]['problem'];
                     }
                     table_temp +=
-                        "</pre><textarea class='manager' onblur='edit_fin(" + i + ")' type='text' cols='25' rows='3' wrap='physical' style='display: none; word-break: break-all;' id='problem_edit_" + i +
+                        "</pre><textarea class='form-control manager' onblur='edit_fin(" + i + ")' type='text' cols='40' rows='5' wrap='physical' style='display: none; word-break: break-all;' id='problem_edit_" + i +
                         "'>" + ret['sample_table'][i]['problem'] + "</textarea>" +
                         "<pre class='viewer' style='white-space:pre-wrap; background: none;border: none;font-family: \"open sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif'>";
                     if(ret['sample_table'][i]['problem'] == "") {
