@@ -102,6 +102,15 @@
 						'</li>' .
 					'</ul>' .
 				'</li>';
+			} else {	echo
+				'<li id="active-sampling">' .
+					'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 抽查日志</span> <span class="fa arrow"></span></a>' .
+					'<ul class="nav nav-second-level">' .
+						'<li id="active-getTableList"><a href="'. site_url('Sampling') . '">查看</a>' .
+						'</li>' .
+					'</ul>' .
+				'</li>';
+
 			}
 			?>
 			<?php
