@@ -11,10 +11,16 @@ var  wid_list     = [];
  * yyyy-mm-dd hh:ii
  */
 function getFormatDate(date_in) {
-  return date_in =  date_in.getFullYear() + '-' + (date_in.getMonth()+1) + '-' + date_in.getDate() + ' '
-        + date_in.getHours() + ':' + date_in.getMinutes()+ ':'+ date_in.getSeconds();
-}
 
+  var year = date_in.getFullYear();
+  var month = (date_in.getMonth()+1) >= 10 ? ((date_in.getMonth()+1)) : ('0' + (date_in.getMonth()+1));
+  var day = date_in.getDate() >= 10 ? date_in.getDate() : ('0' + date_in.getDate());
+  var hour = date_in.getHours() >= 10 ? date_in.getHours() : ('0' + date_in.getHours());
+  var minute =  date_in.getMinutes() >= 10 ? date_in.getMinutes() : ('0' + date_in.getMinutes());
+  var second = date_in.getSeconds() >= 10 ? date_in.getSeconds() : ('0' + date_in.getSeconds());
+  return year + '-' + month + '-' + day + ' '
+        + hour + ':' + minute+ ':'+ second;
+}
 $.ajax({
    type: "GET",
    url: "getInformation",
@@ -135,23 +141,23 @@ function newProblemButton(){
     '          <div class="form-group"> '+
     '              <label class="col-sm-3 control-label">发现人：</label> '+
     '              <div class="col-sm-8"> '+
-    '                  <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name form-control m-b" tabindex="4"> '+
+    '                  <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4"> '+
     '                    <option value="">选择助理</option> '+ worker_options +
     '                  </select> '+
+    '              </div> '+
+    '          </div> '+
+    '          <div class="form-group"> '+
+    '              <label class="col-sm-3 control-label">故障课室：</label> '+
+    '              <div class="col-sm-8"> '+
+    '                   <select id="select_classroom" name="select_classroom" data-placeholder="" class="form-control m-b chosen-select-classroom" tabindex="4"> '+
+    '                     <option value="">选择课室</option> '+ room_options +
+    '                   </select>' +
     '              </div> '+
     '          </div> '+
     '          <div class="form-group"> '+
     '              <label class="col-sm-3 control-label">发现时刻：</label> '+
     '              <div class="col-sm-8"> '+
     '                  <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="'+ initTime +'" />'+
-    '              </div> '+
-    '          </div> '+
-    '          <div class="form-group"> '+
-    '              <label class="col-sm-3 control-label">故障课室</label> '+
-    '              <div class="col-sm-8"> '+
-    '                   <select id="select_classroom" name="select_classroom" data-placeholder="" class="form-control m-b chosen-select-classroom" tabindex="4"> '+
-    '                     <option value="">选择课室</option> '+ room_options +
-    '                 </div> '+
     '              </div> '+
     '          </div> '+
     '          <div class="form-group"> '+
@@ -190,6 +196,34 @@ function newProblemButton(){
       minView: 0,
       forceParse: 1
   });
+
+  /* Chosen name */
+  var config = {
+          '.chosen-select-classroom': {
+            // 实现中间字符的模糊查询
+            search_contains: true,
+            no_results_text: "没有找到",
+            disable_search_threshold: 10,
+            width: "200px"
+          }
+      }
+  for (var selector in config) {
+      $(selector).chosen(config[selector]);
+  }
+
+  /* Chosen classroom */
+  var config = {
+          '.chosen-select-name': {
+            // 实现中间字符的模糊查询
+            search_contains: true,
+            no_results_text: "没有找到",
+            disable_search_threshold: 10,
+            width: "200px"
+          }
+      }
+  for (var selector in config) {
+      $(selector).chosen(config[selector]);
+  }
 }
 
 
@@ -209,8 +243,8 @@ function newSolveButton(pid){
     '      <form class="form-horizontal m-t" id="commentForm"> '+
     '          <div class="form-group"> '+
     '              <label class="col-sm-3 control-label">发现人：</label> '+
-    '              <div class="col-sm-8"> '+
-    '                  <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name form-control m-b" tabindex="4"> '+
+    '              <div class="col-sm-8" id="total-chosen-select_name"> '+
+    '                  <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4"> '+
     '                    <option value="">选择助理</option> '+ worker_options +
     '                  </select> '+
     '              </div> '+
@@ -257,4 +291,18 @@ function newSolveButton(pid){
       minView: 0,
       forceParse: 1
   });
+
+  /* Chosen name */
+  var config = {
+          '#select_name': {
+            // 实现中间字符的模糊查询
+            search_contains: true,
+            no_results_text: "没有找到",
+            disable_search_threshold: 10,
+            width:"200px"
+          }
+      }
+  for (var selector in config) {
+      $(selector).chosen(config[selector]);
+  }
 }
