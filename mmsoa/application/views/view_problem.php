@@ -85,7 +85,7 @@
                                                 <tr>
                                                     <td><?php echo $i + 1; ?></td>
                                                     <td><?php echo $problem->room ?></td>
-                                                    <td><?php echo $problem->description ?></td>
+                                                    <td><?php echo "<pre>".$problem->description."</pre>" ?></td>
                                                     <td><?php echo $problem->found_time ?></td>
                                                     <td><?php echo $problem->founder_name ?></td>
                                                     <td><?php
@@ -110,10 +110,11 @@
                                                                 "  data-toggle=\"modal\" data-target=\"#myModal\" >解决".
                                                                 "</button>";
                                                       ?>
-                                                      <button type="button" value="<?php echo $problem->pid ?>"
-                                                        onclick="deleteProblemButton(this.value)" class="btn btn-m btn-danger">
-                                                        删除
-                                                      </button>
+                                                      <?php
+                                                          	if ($_SESSION['level'] == 1 )
+                                                              echo  '<button type="button" value="<?php echo $problem->pid ?>"'.
+                                                                    '  onclick="deleteProblemButton(this.value)" class="btn btn-m btn-danger">删除</button>';
+                                                       ?>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
