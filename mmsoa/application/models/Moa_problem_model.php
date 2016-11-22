@@ -153,4 +153,12 @@ class Moa_problem_model extends CI_Model {
 						'order by times DESC;';
 		return $this->db->query($sql)->result();
 	}
+	
+	public function add($paras){
+        if (isset($paras)){
+            $this->db->insert('moa_problem',$paras);
+            return $this->db->insert_id();
+        }
+    }
+
 }

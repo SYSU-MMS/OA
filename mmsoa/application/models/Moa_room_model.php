@@ -14,7 +14,7 @@ class Moa_room_model extends CI_Model {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 获取指定roomid的课室信息
 	 * @param roomid - 课室id
@@ -32,7 +32,7 @@ class Moa_room_model extends CI_Model {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 获取指定状态的课室信息
 	 * @param state - 课室state
@@ -57,6 +57,3 @@ class Moa_room_model extends CI_Model {
 		$sql = 'select roomid, room, state from MOA_CheckRoom;';
 		return $this->db->query($sql)->result();
 	}
-	
-	
-}
