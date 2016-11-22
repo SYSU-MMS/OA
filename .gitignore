@@ -2,29 +2,18 @@ mmsoa/application/config/config.php
 
 mmsoa/application/config/database.php
 
-mmsoa/.idea/copyright/profiles_settings.xml
-
-mmsoa/.idea/mmsoa.iml
-
-mmsoa/.idea/modules.xml
-
-mmsoa/.idea/vcs.xml
-
-mmsoa/.idea/workspace.xml
-
 .DS_Store
 
-mmsoa/.idea/dictionaries/Jerry.xml
-
-mmsoa/.idea/inspectionProfiles/profiles_settings.xml
-
-mmsoa/.idea/inspectionProfiles/Project_Default.xml
-
-mmsoa/.idea/misc.xml
+mmsoa/.idea/*
 
 mmsoa/application/controllers/Homepage_0921.php
 
 mmsoa/assets/js/homepage_0928.js
 
-mmsoa/upload/avatar
+mmsoa/upload/avatar/*
 
+/.idea/*
+
+.project
+
+mmsoa/assets/excel
