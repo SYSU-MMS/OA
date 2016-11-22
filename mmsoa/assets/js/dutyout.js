@@ -1,36 +1,36 @@
 /**
  * Created by Jerry on 2016/11/20.
  */
-var  room_list    = [];
-var  roomid_list  = [];
-var  name_list    = [];
-var  wid_list     = [];
+var room_list = [];
+var roomid_list = [];
+var name_list = [];
+var wid_list = [];
 
 /*
  * 获得标准格式的当前时间
  * yyyy-mm-dd hh:ii
  */
 function getFormatDate(date_in) {
-    return date_in =  date_in.getFullYear() + '-' + (date_in.getMonth()+1) + '-' + date_in.getDate() + ' '
-        + date_in.getHours() + ':' + date_in.getMinutes()+ ':'+ date_in.getSeconds();
+    return date_in = date_in.getFullYear() + '-' + (date_in.getMonth() + 1) + '-' + date_in.getDate() + ' '
+        + date_in.getHours() + ':' + date_in.getMinutes() + ':' + date_in.getSeconds();
 }
 
 $.ajax({
     type: "GET",
     url: "DutyOut/getInformation",
-    success: function(msg) {
+    success: function (msg) {
         ret = JSON.parse(msg);
         if (ret['status'] === false) {
             alert(ret['msg']);
         } else {
-            data         = ret.data;
-            room_list    = data.room_list;
-            roomid_list  = data.roomid_list;
-            name_list    = data.name_list;
-            wid_list     = data.wid_list;
+            data = ret.data;
+            room_list = data.room_list;
+            roomid_list = data.roomid_list;
+            name_list = data.name_list;
+            wid_list = data.wid_list;
         }
     },
-    error: function(){
+    error: function () {
         alert(arguments[1]);
     }
 });
@@ -132,7 +132,7 @@ function new_record() {
     });
 }
 
-function solve_by_doid(doid) {
+function solve_by_pid(doid) {
     var initTime = getFormatDate(new Date());
     var worker_options = "";
     name_list.forEach(function (item, index) {
@@ -194,6 +194,27 @@ function solve_by_doid(doid) {
     });
 }
 
-function update_duty(doid) {
-
+function update_duty(pid) {
+    var solved_time = getFormatDate(new Date($('#start_dtp').val()));
+    var wid = $('#select_name').val();
+    var solution = $('#ccomment').val();
+    $.ajax({
+        type: "POST",
+        url: "DutyOut/updateProblem",
+        data: {
+            "solve_wid": wid,
+            "solved_time": solved_time,
+            "solution": solution,
+            "pid": pid
+        },
+        success: function (msg) {
+            ret = JSON.parse(msg);
+            if (ret['status'] === false) {
+                alert(ret['msg']);
+            }
+        },
+        error: function () {
+            alert(arguments[1]);
+        }
+    });
 }

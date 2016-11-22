@@ -199,18 +199,19 @@ class DutyOut extends CI_Controller
         }
     }
 
-    public function getInformation() {
+    public function getInformation()
+    {
         // 取所有课室的roomid与room（课室编号）
-        $state          = 0;
-        $room_obj_list  = $this->Moa_room_model->get_by_state($state);
+        $state = 0;
+        $room_obj_list = $this->Moa_room_model->get_by_state($state);
 
         for ($i = 0; $i < count($room_obj_list); $i++) {
-            $roomid_list[$i]    = $room_obj_list[$i]->roomid;
-            $room_list[$i]      = $room_obj_list[$i]->room;
+            $roomid_list[$i] = $room_obj_list[$i]->roomid;
+            $room_list[$i] = $room_obj_list[$i]->room;
         }
 
-        $data['roomid_list']    = $roomid_list;
-        $data['room_list']      = $room_list;
+        $data['roomid_list'] = $roomid_list;
+        $data['room_list'] = $room_list;
 
         // 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
         $level = 0;
@@ -226,7 +227,28 @@ class DutyOut extends CI_Controller
         $data['wid_list'] = $wid_list;
 
         echo json_encode(array("status" => TRUE, "msg" => "获取课室等信息成功", "data" => $data));
-        return ;
+        return;
+    }
+
+    public function updateProblem()
+    {
+        if (isset($_SESSION['user_id'])) {
+
+            $pid = $_POST['pid'];
+            $solved_time = $_POST['solved_time'];
+            $solve_wid = $_POST['solve_wid'];
+            $solution = $_POST['solution'];
+
+            $affected_rows = $this->Moa_problem_model->update($pid, $solved_time, $solve_wid, $solution);
+            if ($affected_rows > 0)
+                echo json_encode(array("status" => TRUE, "msg" => "更新成功"));
+            else
+                echo json_encode(array("status" => FALSE, "msg" => "更新失败"));
+        } else {
+            // 未登录的用户请先登录
+            echo json_encode(array("status" => FALSE, "msg" => "未登陆"));
+        }
+
     }
 
 }
