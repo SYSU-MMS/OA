@@ -121,7 +121,7 @@
                                                       ?>
                                                       <?php
                                                           	if ($_SESSION['level'] >= 1 )
-                                                              echo  '<button type="button" value="<?php echo $problem->pid ?>"'.
+                                                              echo  '<button type="button" value="'. $problem->pid.'"'.
                                                                     '  onclick="deleteProblemButton(this.value)" class="btn btn-m btn-danger">删除</button>';
                                                        ?>
                                                     </td>
