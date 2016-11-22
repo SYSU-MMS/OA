@@ -66,7 +66,9 @@
                             <h5>查看和登记出勤</h5>
                             <div class="btn_group"
                                  style="margin-right:15px;margin-left:auto;width:50px;text-align: right;">
-                                <button class="btn btn-primary btn-xs" id="new_record_btn" onclick="new_record()" data-toggle="modal" data-target="#new_record_modal">新增记录</button>
+                                <button class="btn btn-primary btn-xs" id="new_record_btn" onclick="new_record()"
+                                        data-toggle="modal" data-target="#myModal">新增记录
+                                </button>
                             </div>
                         </div>
                         <div class="ibox-content">
@@ -127,8 +129,8 @@
                                             if ($d_solvetime[$i] == false) {
                                                 echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
                                                 echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" .
-                                                    $d_doid[$i] . "' onclick='solve_by_doid(" . $d_doid[$i] . ")'".
-                                                    " data-toggle='modal' data-target='#solve_modal'>解决</button>";
+                                                    $d_doid[$i] . "' onclick='solve_by_doid(" . $d_doid[$i] . ")'" .
+                                                    " data-toggle='modal' data-target='#myModal'>解决</button>";
                                                 if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
                                                     echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
                                                     //echo var_dump($_SESSION['user_id'], $d_uid[$i]);
@@ -201,6 +203,10 @@
 <!-- Date picker -->
 <script src="<?= base_url() . 'assets/js/plugins/datepicker/bootstrap-datepicker.js' ?>"></script>
 
+<!-- Date time picker -->
+<script src="<?= base_url() . 'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.js' ?>"></script>
+<script src="<?= base_url() . 'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js' ?>"></script>
+
 <!-- Data Tables -->
 <script src="<?= base_url() . 'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
 <script src="<?= base_url() . 'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
@@ -242,15 +248,28 @@
     }
 
 </script>
-<!--解决故障模态框-->
-<div class="modal fade" id="solve_modal" tabindex="-1" role="dialog" aria-labelledby="solve_modal_label" aria-hidden="true">
+<!--解决故障模态框>
+<div class="modal fade" id="solve_modal" tabindex="-1" role="dialog" aria-labelledby="solve_modal_label"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title" id="solve_modal_title">解决故障</h1>
             </div>
             <div class="modal-body">
-
+                <form class="input-group input-group-sm" id="solve_input_group">
+                    <div class="form-group">
+                        <div class="col-sm-7 col-sm-offset-2">
+                            <select id="solve_wid"></select>
+                        </div>
+                        <div class="col-sm-7 col-sm-offset-2">
+                            <input type="datetime" placeholder="解决时间" id="solve_time">
+                        </div>
+                        <div class="col-sm-7 col-sm-offset-2">
+                            <input type="text" placeholder="解决方法" id="solution">
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
@@ -260,8 +279,9 @@
     </div>
 </div>
 
-<!--新增记录模态框-->
-<div class="modal fade" id="new_record_modal" tabindex="-1" role="dialog" aria-labelledby="new_record_label" aria-hidden="true">
+<!--新增记录模态框>
+<div class="modal fade" id="new_record_modal" tabindex="-1" role="dialog" aria-labelledby="new_record_label"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -273,6 +293,18 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="z-index: 10;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 90px;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabelTitle"></h4>
+            </div>
+            <div id="modalBody" class="modal-body">
             </div>
         </div>
     </div>

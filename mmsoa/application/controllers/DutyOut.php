@@ -139,15 +139,44 @@ class DutyOut extends CI_Controller
         }
     }
 
-    public function add($paras)
+    public function add()
     {
-
+        if (isset($_SESSION['user_id']) && isset($_POST['wid'])) {
+            $wid = $_POST['wid'];
+            $dutyid = $_POST['dutyid'];
+            $outtimestamp = $_POST['outtimestamp'];
+            $roomid = $_POST['roomid'];
+            $pid = $_POST['problemid'];
+            $result = $this->Moa_dutyout_model->add($wid, $roomid, $pid, $dutyid, $outtimestamp);
+            if ($result > 0) {
+                echo json_encode(array("status" => true, "msg" => "添加成功！", "doid" => $result));
+            } else {
+                echo json_encode(array("status" => false, "msg" => "添加失败！"));
+            }
+        } else {
+            echo json_encode(array("status" => false, "msg" => "添加失败！"));
+        }
     }
 
-    public function update($doid, $paras)
+    public function update()
     {
-
+        if (isset($_SESSION['user_id']) && isset($_POST['doid']) && isset($_POST['wid']) && isset($_POST['solve_time'])) {
+            $doid = $_POST['doid'];
+            $pid = $this->Moa_dutyout_model->get_by_doid($doid)->pid;
+            $wid = $_POST['wid'];
+            $solve_time = $_POST['solve_time'];
+            $solution = $_POST['solution'];
+            $result = $this->Moa_problem_model->update($pid, $solve_time, $wid, $solution);
+            if (result > 0) {
+                echo json_encode(array("status" => true, "msg" => "已解决！"));
+            } else {
+                echo json_encode(array("status" => true, "msg" => "更新失败！"));
+            }
+        } else {
+            echo json_encode(array("status" => true, "msg" => "更新失败！"));
+        }
     }
+
 
     public function delete_dutyout()
     {
@@ -168,6 +197,36 @@ class DutyOut extends CI_Controller
                 echo json_encode(array("status" => false, "msg" => "删除失败！"));
             }
         }
+    }
+
+    public function getInformation() {
+        // 取所有课室的roomid与room（课室编号）
+        $state          = 0;
+        $room_obj_list  = $this->Moa_room_model->get_by_state($state);
+
+        for ($i = 0; $i < count($room_obj_list); $i++) {
+            $roomid_list[$i]    = $room_obj_list[$i]->roomid;
+            $room_list[$i]      = $room_obj_list[$i]->room;
+        }
+
+        $data['roomid_list']    = $roomid_list;
+        $data['room_list']      = $room_list;
+
+        // 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
+        $level = 0;
+        $common_worker = $this->Moa_user_model->get_by_level($level);
+
+        for ($i = 0; $i < count($common_worker); $i++) {
+            $uid_list[$i] = $common_worker[$i]->uid;
+            $name_list[$i] = $common_worker[$i]->name;
+            $wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
+        }
+
+        $data['name_list'] = $name_list;
+        $data['wid_list'] = $wid_list;
+
+        echo json_encode(array("status" => TRUE, "msg" => "获取课室等信息成功", "data" => $data));
+        return ;
     }
 
 }

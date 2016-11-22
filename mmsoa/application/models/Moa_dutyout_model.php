@@ -9,24 +9,10 @@
  */
 class Moa_dutyout_model extends CI_Model
 {
-    public function add_dutyout($room_id, $problem_id, $duty, $time,$wid)
+    public function add_dutyout($wid, $room_id, $problem_id, $duty, $time, $weekcount)
     {
-        if (isset($_SESSION['user_id'])&&isset($wid)) {
-            //$wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
-            //$time = date("Y-m-d H:i:s");
-            $weekday = date("w") == 0 ? 7 : date("w");
-            $shorttime = date("H:i:s");
-            //$duty = PublicMethod::get_duty_periods($weekday, $shorttime, $shorttime);
-            $weekcount = PublicMethod::cal_week();
-            /*$isSuccess = $this->db->query("insert into `moa_dutyout` (`dutyid`,`wid`,`weekcount`,`outtimestamp`," .
-                "`roomid`,`problemid`) values(" .
-                $this->db->escape($duty) .
-                $this->db->escape($wid) .
-                $this->db->escape($weekcount) .
-                $this->db->escape($time) .
-                $this->db->escape($room_id) .
-                $this->db->escape($problem_id) .
-                ")");*/
+        if (isset($_SESSION['user_id']) && isset($wid)) {
+
             $insert_data = array();
             $insert_data['dutyid'] = $duty;
             $insert_data['wid'] = $wid;
@@ -44,16 +30,12 @@ class Moa_dutyout_model extends CI_Model
         }
     }
 
-    public function add($room_id, $description, $duty, $time)
+    public function add($wid, $room_id, $pid, $duty, $time)
     {
         if (isset($_SESSION['user_id'])) {
-            $wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
-            $insert_data = array();
-            $insert_data['founder_wid'] = $wid;
-            $insert_data['roomid'] = $room_id;
-            $insert_data['description'] = $description;
-            $problem_id = $this->Moa_problem_model->add($insert_data);
-            $do_id = $this->add_dutyout($room_id, $problem_id, $duty, $time);
+            //$wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
+            $weekcount = PublicMethod::cal_week();
+            $do_id = $this->add_dutyout($wid, $room_id, $pid, $duty, $time, $weekcount);
             return $do_id;
         }
     }
@@ -63,14 +45,14 @@ class Moa_dutyout_model extends CI_Model
 
     }
 
-    public function get_all($para=0)
+    public function get_all($para = 0)
     {
         if (isset($_SESSION['user_id'])) {
-            if ($para==0) {
+            if ($para == 0) {
                 $query = $this->db->query("select * from moa_dutyout order by `doid` DESC");
                 $result = $query->result();
                 return $result;
-            }else{
+            } else {
                 $query = $this->db->query("select * from moa_dutyout where state = 0 order by `doid` DESC");
                 $result = $query->result();
                 return $result;
