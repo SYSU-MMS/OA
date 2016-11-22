@@ -74,6 +74,7 @@
                                                 <th>发生时间</th>
                                                 <th>发现人</th>
                                                 <th>解决时间</th>
+                                                <th>解决方法</th>
                                                 <th>解决人</th>
                                                 <th></th>
                                             </tr>
@@ -85,7 +86,7 @@
                                                 <tr>
                                                     <td><?php echo $i + 1; ?></td>
                                                     <td><?php echo $problem->room ?></td>
-                                                    <td><?php echo "<pre>".$problem->description."</pre>" ?></td>
+                                                    <td style ="max-width:200px;overflow:scoll;word-wrap: break-word;"><?php echo $problem->description?></td>
                                                     <td><?php echo $problem->found_time ?></td>
                                                     <td><?php echo $problem->founder_name ?></td>
                                                     <td><?php
@@ -100,6 +101,14 @@
                                                         else
                                                         echo $problem->solve_name;
                                                     ?></td>
+                                                    <td style ="max-width:200px;overflow:scoll;word-wrap: break-word;">
+                                                      <?php
+                                                        if($problem->solution == NULL)
+                                                          echo "<span style=\"color:red;\">待解决</span>";
+                                                        else
+                                                          echo $problem->solution;
+                                                      ?>
+                                                    </td>
                                                     <td><?php
 
                                                       if($problem->solved_time != NULL)
@@ -111,7 +120,7 @@
                                                                 "</button>";
                                                       ?>
                                                       <?php
-                                                          	if ($_SESSION['level'] == 1 )
+                                                          	if ($_SESSION['level'] >= 1 )
                                                               echo  '<button type="button" value="<?php echo $problem->pid ?>"'.
                                                                     '  onclick="deleteProblemButton(this.value)" class="btn btn-m btn-danger">删除</button>';
                                                        ?>
