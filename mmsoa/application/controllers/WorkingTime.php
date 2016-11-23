@@ -349,7 +349,6 @@ Class WorkingTime extends CI_Controller
             }
 
 
-
         } else {
             // 未登录的用户请先登录
             PublicMethod::requireLogin();
