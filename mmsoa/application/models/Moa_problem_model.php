@@ -59,6 +59,11 @@ class Moa_problem_model extends CI_Model {
 		return $this->db->query($sql)->result();
 	}
 
+	public function get_unsolve(){
+        $sql = "select * from moa_problem where solved_time = NULL";
+        return $this->db->query($sql)->result();
+    }
+
 	// public function test() {
 	// 	$sql = 'insert into moa_problem (solve_wid, roomid, founder_wid, description, found_time) value (108, 30286, 108, \'测试111\', \'2016-11-21 11:32:07\');';
 	//

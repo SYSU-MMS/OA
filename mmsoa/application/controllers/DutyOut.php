@@ -61,12 +61,51 @@ class DutyOut extends CI_Controller
             $data['d_solvename'] = array();
             $data['d_solvetime'] = array();
 
-            for ($i = 0; $i < count($dutyout_list); $i++) {
-                $d_doid = $dutyout_list[$i]->doid;
+            //取课室列表
+            $state = 0;
+            $room_obj_list = $this->Moa_room_model->get_by_state($state);
 
+            for ($i = 0; $i < count($room_obj_list); $i++) {
+
+                $roomid_list[$i] = $room_obj_list[$i]->roomid;
+                $room_list[$i] = $room_obj_list[$i]->room;
+            }
+
+            $data['roomid_list'] = $roomid_list;
+            $data['room_list'] = $room_list;
+
+            // 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
+            $level = 0;
+            $common_worker = $this->Moa_user_model->get_by_level($level);
+
+            for ($i = 0; $i < count($common_worker); $i++) {
+                $uid_list[$i] = $common_worker[$i]->uid;
+                $name_list[$i] = $common_worker[$i]->name;
+                $wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
+            }
+
+            $data['name_list'] = $name_list;
+            $data['wid_list'] = $wid_list;
+
+
+            //room | pid | founder_wid | founder_name | solve_wid | solve_name | roomid | description | solution| found_time| state | solved_time
+            $obj = $this->Moa_problem_model->get_unsolve(); /*获取所有未解决的problem的信息*/
+            if ($obj == FALSE) {
+                $data['problem_list'] = array();
+                $data['problemid_list'] = array();
+            } else {
+                $data['problem_list'] = $obj->description;
+                $data['problemid_list'] = $obj->pid;
+            }
+
+            for ($i = 0; $i < count($dutyout_list); $i++) {
+                //取出勤id
+                $d_doid = $dutyout_list[$i]->doid;
+                //值班时段id
                 $d_dutyid = $dutyout_list[$i]->dutyid;
                 $d_duty = $this->Moa_duty_model->get_by_id($d_dutyid);
                 //var_dump($d_duty);
+                //星期
                 $d_weekday = $d_duty->weekday;
                 $d_weekdaytranslate = PublicMethod::translate_weekday($d_weekday);
                 $d_period = $d_duty->period;
@@ -129,7 +168,7 @@ class DutyOut extends CI_Controller
                 $data['d_solvetime'][$i] = $d_solvetime;
             }
 
-            echo "<script>console.log(" . json_encode($data) . ")</script>";
+            //echo "<script>console.log(" . json_encode($data) . ")</script>";
 
             $this->load->view('view_duty_out', $data);
 
