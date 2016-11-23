@@ -186,7 +186,7 @@ var post_table = function (num) {
                     if (ret['status'] != false) {
                         post_table(num + 1);
                     } else {
-                        alert("更改失败");
+                        alert(ret['msg']);
                     }
                 },
                 error: function () {

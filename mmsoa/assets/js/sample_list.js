@@ -47,6 +47,8 @@ var show_list = function () {
                         "</tr>"
                 }
                 $("#sample-list").html(table_temp);
+            } else {
+                alert(ret['msg']);
             }
             $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]]});
         },
@@ -71,11 +73,11 @@ var delete_table = function (time) {
                     alert(ret['msg']);
                     $(".users-dataTable").DataTable().row($("#delete_" + link_time_stamp(time)).parents('tr')).remove().draw();
                 } else {
-                    alert(arguments[1]);
+                    alert(ret['msg']);
                 }
             },
             error: function () {
-                alert(arguments[1]);
+                alert("删除失败");
             }
 
         });
