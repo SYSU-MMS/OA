@@ -60,7 +60,7 @@ class Moa_problem_model extends CI_Model {
 	}
 
 	public function get_unsolve(){
-        $sql = "select * from moa_problem where solved_time = NULL";
+        $sql = "select * from moa_problem where solved_time is NULL";
         return $this->db->query($sql)->result();
     }
 

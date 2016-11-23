@@ -5,6 +5,8 @@ var room_list = [];
 var roomid_list = [];
 var name_list = [];
 var wid_list = [];
+var problem_list = [];
+var problemid_list = [];
 
 /*
  * 获得标准格式的当前时间
@@ -19,6 +21,7 @@ $.ajax({
     type: "GET",
     url: "DutyOut/getInformation",
     success: function (msg) {
+        console.log(msg);
         ret = JSON.parse(msg);
         if (ret['status'] === false) {
             alert(ret['msg']);
@@ -28,6 +31,9 @@ $.ajax({
             roomid_list = data.roomid_list;
             name_list = data.name_list;
             wid_list = data.wid_list;
+            problem_list = data.problem_list;
+            problemid_list = data.problemid_list;
+
         }
     },
     error: function () {
@@ -84,31 +90,11 @@ function new_record() {
         '                  </select> '+
         '              </div> '+
         '          </div> '+
-        '          <!--div class="form-group"> '+
-        '              <label class="col-sm-3 control-label">故障课室：</label> '+
-        '              <div class="col-sm-8"> '+
-        '                   <select id="select_classroom" name="select_classroom" data-placeholder="" class="form-control m-b chosen-select-classroom" tabindex="4"> '+
-        '                     <option value="">选择课室</option> '+ room_options +
-        '                   </select>' +
-        '              </div> '+
-        '          </div> '+
-        '          <div class="form-group"> '+
-        '              <label class="col-sm-3 control-label">发现时刻：</label> '+
-        '              <div class="col-sm-8"> '+
-        '                  <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="'+ initTime +'" />'+
-        '              </div> '+
-        '          </div> '+
-        '          <div class="form-group"> '+
-        '              <label class="col-sm-3 control-label">故障说明：</label> '+
-        '              <div class="col-sm-8"> '+
-        '                  <textarea id="ccomment" name="comment" class="form-control" required="" aria-required="true"></textarea> '+
-        '              </div> '+
-        '          </div--> '+
         '          <div class="form-group"> '+
         '              <label class="col-sm-3 control-label">故障：</label> '+
         '              <div class="col-sm-8"> '+
         '                   <select id="select_classroom" name="select_classroom" data-placeholder="" class="form-control m-b chosen-select-classroom" tabindex="4"> '+
-        '                     <option value="">选择故障</option> '+ room_options +
+        '                     <option value="">选择故障</option> '+ problem_options +
         '                   </select>' +
         '              </div> '+
         '          </div> '+
