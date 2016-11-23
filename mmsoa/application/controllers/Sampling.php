@@ -52,6 +52,10 @@ Class Sampling extends CI_Controller
             if (isset($_POST['week'])) {
                 if($_POST['week'] == -1) {
                     $term = $this->Moa_school_term_model->get_term($today);
+                    if(count($term) == 0) {
+                        echo json_encode(array("status" => FALSE, "msg" => "没有本学期时间信息，请联系管理员"));
+                        return;
+                    }
                     $week = PublicMethod::get_week($term[0]->termbeginstamp, $today);
                     $week -= 1;
                 } else {
@@ -59,6 +63,10 @@ Class Sampling extends CI_Controller
                 }
             } else {
                 $term = $this->Moa_school_term_model->get_term($today);
+                if(count($term) == 0) {
+                    echo json_encode(array("status" => FALSE, "msg" => "没有本学期时间信息，请联系管理员"));
+                    return;
+                }
                 $week = PublicMethod::get_week($term[0]->termbeginstamp, $today);
             }
 
@@ -126,7 +134,7 @@ Class Sampling extends CI_Controller
 
             do {
                 $tmp_stamp = $this->Moa_sampling_model->get_by_date($today, 1, 1, 0);
-                if ($tmp_stamp != false) {
+                if ($tmp_stamp != false || count($tmp_stamp) != 0) {
                     $ret_list[$index]["timestamp"] = $tmp_stamp[0]->timestamp;
                     $term = $this->Moa_school_term_model->get_term($tmp_stamp[0]->timestamp);
 
@@ -258,6 +266,10 @@ Class Sampling extends CI_Controller
                 ":".substr($timestring, 10, 2).":".substr($timestring, 12, 2);
 
             $term = $this->Moa_school_term_model->get_term($date);
+            if(count($term) == 0) {
+                echo json_encode(array("status" => FALSE, "msg" => "没有本学期时间信息，请联系管理员"));
+                return;
+            }
 
             $week = PublicMethod::get_week($term[0]->termbeginstamp, $date);
 
