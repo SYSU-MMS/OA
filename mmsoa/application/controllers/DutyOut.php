@@ -9,8 +9,11 @@ header("Content-type: text/html; charset=utf-8");
 
 require_once('PublicMethod.php');
 
+
+
 class DutyOut extends CI_Controller
 {
+
 
     public function __construct()
     {
@@ -94,8 +97,12 @@ class DutyOut extends CI_Controller
                 $data['problem_list'] = array();
                 $data['problemid_list'] = array();
             } else {
-                $data['problem_list'] = $obj->description;
-                $data['problemid_list'] = $obj->pid;
+                //$data['problem_list'] = $obj->description;
+                //$data['problemid_list'] = $obj->pid;
+                for ($i=0;$i<count($obj);$i++){
+                    $data['problem_list'][$i] = $obj[$i]->description;
+                    $data['problemid_list'][$i] = $obj[$i]->pid;
+                }
             }
 
             for ($i = 0; $i < count($dutyout_list); $i++) {
@@ -264,6 +271,17 @@ class DutyOut extends CI_Controller
 
         $data['name_list'] = $name_list;
         $data['wid_list'] = $wid_list;
+
+        $obj = $this->Moa_problem_model->get_unsolve(); /*获取所有未解决的problem的信息*/
+        if ($obj == FALSE) {
+            $data['problem_list'] = array();
+            $data['problemid_list'] = array();
+        } else {
+            for ($i=0;$i<count($obj);$i++){
+                $data['problem_list'][$i] = $obj[$i]->description;
+                $data['problemid_list'][$i] = $obj[$i]->pid;
+            }
+        }
 
         echo json_encode(array("status" => TRUE, "msg" => "获取课室等信息成功", "data" => $data));
         return;
