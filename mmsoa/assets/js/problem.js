@@ -242,7 +242,7 @@ function newSolveButton(pid){
 	$("#modalBody").html(
     '      <form class="form-horizontal m-t" id="commentForm"> '+
     '          <div class="form-group"> '+
-    '              <label class="col-sm-3 control-label">发现人：</label> '+
+    '              <label class="col-sm-3 control-label">解决人：</label> '+
     '              <div class="col-sm-8" id="total-chosen-select_name"> '+
     '                  <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4"> '+
     '                    <option value="">选择助理</option> '+ worker_options +
