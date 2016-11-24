@@ -89,17 +89,19 @@ function updateProblem(pid) {
     var solved_time = getFormatDate(date);
     var wid = $('#select_name').val();
     var solution = $('#ccomment').val();
+    console.log(wid,pid,solved_time,solution);
     $.ajax({
-        type: "POST",
-        url: "DutyOut/updateProblem",
+        type: "post",
+        url: "Problem/updateProblem",
         data: {
             "solve_wid": wid,
             "solved_time": solved_time,
             "solution": solution,
             "pid" : pid
         },
+        async:false,
         success: function(msg) {
-            ret = JSON.parse(msg);
+            var ret = JSON.parse(msg);
             if (ret['status'] === false) {
                 alert(ret['msg']);
             }
@@ -387,29 +389,4 @@ function solve_by_pid(pid) {
     for (var selector in config) {
         $(selector).chosen(config[selector]);
     }
-}
-
-function update_duty(pid) {
-    var solved_time = getFormatDate(new Date($('#start_dtp').val()));
-    var wid = $('#select_name').val();
-    var solution = $('#ccomment').val();
-    $.ajax({
-        type: "POST",
-        url: "DutyOut/updateProblem",
-        data: {
-            "solve_wid": wid,
-            "solved_time": solved_time,
-            "solution": solution,
-            "pid": pid
-        },
-        success: function (msg) {
-            var ret = JSON.parse(msg);
-            if (ret['status'] === false) {
-                alert(ret['msg']);
-            }
-        },
-        error: function () {
-            alert(arguments[1]);
-        }
-    });
 }
