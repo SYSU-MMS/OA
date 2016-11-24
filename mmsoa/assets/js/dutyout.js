@@ -147,7 +147,7 @@ function insert_dutyout() {
     var flag = true;//记录插入状态
     var pid = 0;
     //console.log(dutyout_wid, dutyid, found_name, found_time, description);
-    alert("ffff");
+    //alert("ffff");
     if (!(not_null(dutyout_wid) && not_null(dutyid) && not_null(found_name) && not_null(found_time) &&
         not_null(description))) {
         alert("请正确填写信息！");
@@ -188,7 +188,7 @@ function insert_dutyout() {
             alert("插入失败！");
         }
     }
-    alert("bbbb");
+    //alert("bbbb");
 }
 
 function new_record() {
