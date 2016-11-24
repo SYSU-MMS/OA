@@ -296,6 +296,31 @@ class DutyOut extends CI_Controller
         return;
     }
 
+    //插入新problem
+    public function insertProblem()
+    {
+        if (isset($_SESSION['user_id'])) {
+            date_default_timezone_set('PRC');
+
+            $founder_wid = date($_POST['founder_wid']);
+            $found_time = $_POST['found_time'];
+            $roomid = $_POST['roomid'];
+            $description = $_POST['description'];
+
+            $insert_id = $this->Moa_dutyout_model->insert($founder_wid, $found_time, $roomid, $description);
+            if ($insert_id > 0)
+                echo json_encode(array("status" => TRUE, "msg" => "新建故障信息成功", "insert_id" => $insert_id));
+            else
+                echo json_encode(array("status" => FALSE, "msg" => "新建故障信息失败"));
+
+        } else {
+            // 未登录的用户请先登录
+            echo json_encode(array("status" => FALSE, "msg" => "未登陆"));
+        }
+
+    }
+
+    //更新Problem状态
     public function updateProblem()
     {
         if (isset($_SESSION['user_id'])) {
