@@ -14,11 +14,11 @@ class Moa_dutyout_model extends CI_Model
         if (isset($_SESSION['user_id']) && isset($wid)) {
 
             $sql = "insert into moa_dutyout (dutyid, wid, weekcount, outtimestamp, roomid, problemid) values(" .
-                $this->db->escape($duty) .
-                $this->db->escape($wid) .
-                $this->db->escape($weekcount) .
-                $this->db->escape($time) .
-                $this->db->escape($room_id) .
+                $this->db->escape($duty) . ',' .
+                $this->db->escape($wid) . ',' .
+                $this->db->escape($weekcount) . ',' .
+                $this->db->escape($time) . ',' .
+                $this->db->escape($room_id) . ',' .
                 $this->db->escape($problem_id) .
                 ")";
             //var_dump($sql);
@@ -29,7 +29,7 @@ class Moa_dutyout_model extends CI_Model
 
         } else {
             //echo json_encode(array("status" => false));
-            return;
+            return false;
         }
     }
 
@@ -47,7 +47,7 @@ class Moa_dutyout_model extends CI_Model
 
     /**
      * 插入一条problem
-     * @param founder_wid, found_time, roomid, description
+     * @param founder_wid , found_time, roomid, description
      * @author 高少彬
      * @return 插入的id
      */

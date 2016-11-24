@@ -31,11 +31,11 @@ $.ajax({
     url: "DutyOut/getInformation",
     success: function (msg) {
         //console.log(msg);
-        ret = JSON.parse(msg);
+        var ret = JSON.parse(msg);
         if (ret['status'] === false) {
             alert(ret['msg']);
         } else {
-            data = ret.data;
+            var data = ret.data;
             room_list = data.room_list;
             roomid_list = data.roomid_list;
             name_list = data.name_list;
@@ -82,19 +82,72 @@ function not_null(para) {
     return true;
 }
 
+
+function updateProblem(pid) {
+    var time = $('#start_dtp').val();
+    var date = new Date(time.substr(0, 10) + "T" + time.substr(11, 8));
+    var solved_time = getFormatDate(date);
+    var wid = $('#select_name').val();
+    var solution = $('#ccomment').val();
+    $.ajax({
+        type: "POST",
+        url: "DutyOut/updateProblem",
+        data: {
+            "solve_wid": wid,
+            "solved_time": solved_time,
+            "solution": solution,
+            "pid" : pid
+        },
+        success: function(msg) {
+            ret = JSON.parse(msg);
+            if (ret['status'] === false) {
+                alert(ret['msg']);
+            }
+        },
+        error: function(){
+            alert(arguments[1]);
+        }
+    });
+}
+
+function insert_dutyout_alone(dutyout_wid, dutyid, pid) {
+    var ret = "";
+    $.ajax({
+        'type': 'POST',
+        'url': 'DutyOut/add',
+        'async': false,
+        'data': {
+            'wid': dutyout_wid,
+            'dutyid': dutyid,
+            'problemid': pid
+        },
+        success: function (msg) {
+            //console.log(msg);
+            ret = JSON.parse(msg);
+        },
+        error: function (msg) {
+            //console.log(msg);
+            ret = JSON.parse(msg);
+        }
+    });
+    //console.log("dutyout inserted");
+    return ret;
+}
+
 function insert_dutyout() {
     var dutyout_wid = $('#select_dutyout_name').val();
-    var pid = "";
     var dutyid = $('#select_period').val();
     var found_name = $('#select_found_name').val();
-    //下一句在 Safari 中会产生错误
-    var date = new Date($('#start_dtp').val());
+    //下一句在 Safari 中会产生错误//已解决
+    var time = $('#start_dtp').val();
+    var date = new Date(time.substr(0, 10) + "T" + time.substr(11, 8));
     var found_time = getFormatDate(date);
     var roomid = $('#select_classroom').val();
     var description = $('#ccomment').val();
     var flag = true;//记录插入状态
-    console.log(dutyout_wid, dutyid, found_name, found_time, description);
-    //alert("ffff");
+    var pid = 0;
+    //console.log(dutyout_wid, dutyid, found_name, found_time, description);
+    alert("ffff");
     if (!(not_null(dutyout_wid) && not_null(dutyid) && not_null(found_name) && not_null(found_time) &&
         not_null(description))) {
         alert("请正确填写信息！");
@@ -103,6 +156,7 @@ function insert_dutyout() {
         $.ajax({
             type: "POST",
             url: "DutyOut/insertProblem",
+            async: false,
             data: {
                 "founder_wid": found_name,
                 "found_time": found_time,
@@ -110,13 +164,14 @@ function insert_dutyout() {
                 "description": description
             },
             success: function (msg) {
-                console.log(msg);
+                //console.log("problem msg", msg);
                 var ret = JSON.parse(msg);
                 if (ret['status'] === false) {
                     alert(ret['msg']);
                     flag = false;
                 } else {
                     pid = ret['insert_id'];
+                    //console.log("pid", pid);
                 }
             },
             error: function () {
@@ -125,29 +180,15 @@ function insert_dutyout() {
             }
         });
         //再插入新的dutyout
-        console.log(flag);
+        //console.log(flag, pid);
         if (flag == true) {
-            $.ajax({
-                'type': 'POST',
-                'url': 'DutyOut/add',
-                'data': {
-                    'wid': dutyout_wid,
-                    'dutyid': dutyid,
-                    'problemid': pid
-                },
-                success: function (msg) {
-                    console.log(msg);
-                    var ret = JSON.parse(msg);
-                    alert(ret['msg']);
-                },
-                error: function (msg) {
-                    var ret = JSON.parse(msg);
-                    alert(ret['msg']);
-                }
-            });
+            var ret = insert_dutyout_alone(dutyout_wid, dutyid, pid);
+            alert(ret['msg']);
+        } else {
+            alert("插入失败！");
         }
     }
-    //alert("bbbb");
+    alert("bbbb");
 }
 
 function new_record() {

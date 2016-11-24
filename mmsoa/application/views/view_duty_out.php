@@ -73,7 +73,8 @@
                         </div>
                         <div class="ibox-content">
 
-                            <table class="table table-striped table-bordered table-hover users-dataTable">
+                            <table id="dutyout_table"
+                                   class="table table-striped table-bordered table-hover users-dataTable">
                                 <thead>
                                 <tr>
                                     <th>序号</th>
@@ -214,7 +215,9 @@
 <script>
     $(document).ready(function () {
 
-        $('.users-dataTable').dataTable();
+        $('.users-dataTable').dataTable({
+            "aaSorting": [[6, "asc"]]
+        });
 
         /* Calendar */
         $('#calendar_date .input-group.date').datepicker({
@@ -222,8 +225,9 @@
             keyboardNavigation: false,
             forceParse: false,
             calendarWeeks: true,
-            autoclose: true
+            autoclose: true,
         });
+
 
     });
 
