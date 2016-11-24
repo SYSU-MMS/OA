@@ -10,7 +10,6 @@ header("Content-type: text/html; charset=utf-8");
 require_once('PublicMethod.php');
 
 
-
 class DutyOut extends CI_Controller
 {
 
@@ -99,7 +98,7 @@ class DutyOut extends CI_Controller
             } else {
                 //$data['problem_list'] = $obj->description;
                 //$data['problemid_list'] = $obj->pid;
-                for ($i=0;$i<count($obj);$i++){
+                for ($i = 0; $i < count($obj); $i++) {
                     $data['problem_list'][$i] = $obj[$i]->description;
                     $data['problemid_list'][$i] = $obj[$i]->pid;
                 }
@@ -190,10 +189,10 @@ class DutyOut extends CI_Controller
         if (isset($_SESSION['user_id']) && isset($_POST['wid'])) {
             $wid = $_POST['wid'];
             $dutyid = $_POST['dutyid'];
-            $outtimestamp = $_POST['outtimestamp'];
-            $roomid = $_POST['roomid'];
+            //$outtimestamp = $_POST['outtimestamp'];
+            //$roomid = $_POST['roomid'];
             $pid = $_POST['problemid'];
-            $result = $this->Moa_dutyout_model->add($wid, $roomid, $pid, $dutyid, $outtimestamp);
+            $result = $this->Moa_dutyout_model->add($wid, $pid, $dutyid);
             if ($result > 0) {
                 echo json_encode(array("status" => true, "msg" => "添加成功！", "doid" => $result));
             } else {
@@ -277,11 +276,22 @@ class DutyOut extends CI_Controller
             $data['problem_list'] = array();
             $data['problemid_list'] = array();
         } else {
-            for ($i=0;$i<count($obj);$i++){
+            for ($i = 0; $i < count($obj); $i++) {
                 $data['problem_list'][$i] = $obj[$i]->description;
                 $data['problemid_list'][$i] = $obj[$i]->pid;
             }
         }
+
+        //获取所有值班时段信息
+        $duty = $this->Moa_duty_model->get_all();
+        for ($i = 0; $i < count($duty); $i++) {
+            $dutyid_list[$i] = $duty[$i]->dutyid;
+            $weekday_list[$i] = PublicMethod::translate_weekday($duty[$i]->weekday);
+            $period_list[$i] = PublicMethod::get_duty_duration($duty[$i]->period);
+        }
+        $data['dutyid_list'] = $dutyid_list;
+        $data['weekday_list'] = $weekday_list;
+        $data['period_list'] = $period_list;
 
         echo json_encode(array("status" => TRUE, "msg" => "获取课室等信息成功", "data" => $data));
         return;
