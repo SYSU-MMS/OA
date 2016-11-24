@@ -103,7 +103,7 @@
                                             if ($d_solvetime[$i] != false) {
                                                 echo $d_solvetime[$i];
                                             } else {
-                                                echo "&nbsp;";
+                                                echo "<span style=\"color:red;\">待解决</span>";
                                             }
                                             ?>
                                         </td>
@@ -130,7 +130,7 @@
                                             if ($d_solvetime[$i] == false) {
                                                 echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
                                                 echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" .
-                                                    $d_doid[$i] . "' onclick='solve_by_pid(" . $d_doid[$i] . ")'" .
+                                                    $d_doid[$i] . "' onclick='solve_by_pid(" . $d_problemid[$i] . ")'" .
                                                     " data-toggle='modal' data-target='#myModal'>解决</button>";
                                                 if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
                                                     echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
@@ -216,7 +216,7 @@
     $(document).ready(function () {
 
         $('.users-dataTable').dataTable({
-            "aaSorting": [[6, "asc"]]
+            "aaSorting": [[6, "desc"]]
         });
 
         /* Calendar */
