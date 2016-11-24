@@ -10,7 +10,6 @@ header("Content-type: text/html; charset=utf-8");
 require_once('PublicMethod.php');
 
 
-
 class DutyOut extends CI_Controller
 {
 
@@ -99,7 +98,7 @@ class DutyOut extends CI_Controller
             } else {
                 //$data['problem_list'] = $obj->description;
                 //$data['problemid_list'] = $obj->pid;
-                for ($i=0;$i<count($obj);$i++){
+                for ($i = 0; $i < count($obj); $i++) {
                     $data['problem_list'][$i] = $obj[$i]->description;
                     $data['problemid_list'][$i] = $obj[$i]->pid;
                 }
@@ -190,10 +189,9 @@ class DutyOut extends CI_Controller
         if (isset($_SESSION['user_id']) && isset($_POST['wid'])) {
             $wid = $_POST['wid'];
             $dutyid = $_POST['dutyid'];
-            $outtimestamp = $_POST['outtimestamp'];
-            $roomid = $_POST['roomid'];
             $pid = $_POST['problemid'];
-            $result = $this->Moa_dutyout_model->add($wid, $roomid, $pid, $dutyid, $outtimestamp);
+            $result = $this->Moa_dutyout_model->add($wid, $pid, $dutyid);
+            //echo "<script>console.log($result);alert();</script>";
             if ($result > 0) {
                 echo json_encode(array("status" => true, "msg" => "添加成功！", "doid" => $result));
             } else {
@@ -277,16 +275,52 @@ class DutyOut extends CI_Controller
             $data['problem_list'] = array();
             $data['problemid_list'] = array();
         } else {
-            for ($i=0;$i<count($obj);$i++){
+            for ($i = 0; $i < count($obj); $i++) {
                 $data['problem_list'][$i] = $obj[$i]->description;
                 $data['problemid_list'][$i] = $obj[$i]->pid;
             }
         }
 
+        //获取所有值班时段信息
+        $duty = $this->Moa_duty_model->get_all();
+        for ($i = 0; $i < count($duty); $i++) {
+            $dutyid_list[$i] = $duty[$i]->dutyid;
+            $weekday_list[$i] = PublicMethod::translate_weekday($duty[$i]->weekday);
+            $period_list[$i] = PublicMethod::get_duty_duration($duty[$i]->period);
+        }
+        $data['dutyid_list'] = $dutyid_list;
+        $data['weekday_list'] = $weekday_list;
+        $data['period_list'] = $period_list;
+
         echo json_encode(array("status" => TRUE, "msg" => "获取课室等信息成功", "data" => $data));
         return;
     }
 
+    //插入新problem
+    public function insertProblem()
+    {
+        if (isset($_SESSION['user_id'])) {
+            date_default_timezone_set('PRC');
+
+            $founder_wid = date($_POST['founder_wid']);
+            $found_time = $_POST['found_time'];
+            $roomid = $_POST['roomid'];
+            $description = $_POST['description'];
+
+            $insert_id = $this->Moa_dutyout_model->insert($founder_wid, $found_time, $roomid, $description);
+            if ($insert_id > 0)
+                echo json_encode(array("status" => TRUE, "msg" => "新建故障信息成功", "insert_id" => $insert_id));
+            else
+                echo json_encode(array("status" => FALSE, "msg" => "新建故障信息失败"));
+
+        } else {
+            // 未登录的用户请先登录
+            echo json_encode(array("status" => FALSE, "msg" => "未登陆"));
+        }
+
+    }
+
+    //更新Problem状态
     public function updateProblem()
     {
         if (isset($_SESSION['user_id'])) {
