@@ -21,9 +21,11 @@ class Moa_dutyout_model extends CI_Model
                 $this->db->escape($room_id).
                 $this->db->escape($problem_id).
                 ")";
+            //var_dump($sql);
             $query = $this->db->query($sql);
 
             return $this->db->insert_id();
+            //return $sql;
 
         } else {
             //echo json_encode(array("status" => false));
@@ -34,7 +36,6 @@ class Moa_dutyout_model extends CI_Model
     public function add($wid, $pid, $duty)
     {
         if (isset($_SESSION['user_id'])) {
-            //$wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
             $weekcount = PublicMethod::cal_week();
             $problem = $this->Moa_problem_model->get($pid);
             $room_id = $problem->roomid;

@@ -77,9 +77,9 @@ function insert_dutyout() {
         alert("请正确填写信息！");
     } else {
         $.ajax({
-            type: 'post',
-            url: 'DutyOut/add',
-            data: {
+            'type': 'post',
+            'url': 'DutyOut/add',
+            'data': {
                 'wid': wid,
                 'dutyid': dutyid,
                 'problemid': pid
@@ -87,6 +87,9 @@ function insert_dutyout() {
             success: function (msg) {
                 var ret = JSON.parse(msg);
                 alert(ret['msg']);
+            },
+            error: function (msg) {
+                alert("error!");
             }
         });
     }

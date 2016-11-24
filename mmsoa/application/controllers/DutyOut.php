@@ -189,10 +189,9 @@ class DutyOut extends CI_Controller
         if (isset($_SESSION['user_id']) && isset($_POST['wid'])) {
             $wid = $_POST['wid'];
             $dutyid = $_POST['dutyid'];
-            //$outtimestamp = $_POST['outtimestamp'];
-            //$roomid = $_POST['roomid'];
             $pid = $_POST['problemid'];
             $result = $this->Moa_dutyout_model->add($wid, $pid, $dutyid);
+            //echo "<script>console.log($result);alert();</script>";
             if ($result > 0) {
                 echo json_encode(array("status" => true, "msg" => "添加成功！", "doid" => $result));
             } else {
