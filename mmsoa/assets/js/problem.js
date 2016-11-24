@@ -44,7 +44,8 @@ $.ajax({
 
 function insertProblem() {
 	// 增加秒
-	var found_time = getFormatDate(new Date($('#start_dtp').val()));
+  var time = $('#start_dtp').val();
+	var found_time = getFormatDate(new Date(time.substr(0,10)+"T"+time.substr(11,8)));
 	var wid = $('#select_name').val();
   var roomid = $('#select_classroom').val();
   var description = $('#ccomment').val();
