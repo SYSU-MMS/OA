@@ -74,8 +74,8 @@
                                                 <th>发生时间</th>
                                                 <th>发现人</th>
                                                 <th>解决时间</th>
-                                                <th>解决方法</th>
                                                 <th>解决人</th>
+                                                <th>解决方法</th>
                                                 <th></th>
                                             </tr>
                                         </thead>

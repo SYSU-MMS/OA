@@ -64,10 +64,17 @@
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>查看和登记出勤</h5>
+                            <div class="btn_group"
+                                 style="margin-right:15px;margin-left:auto;width:50px;text-align: right;">
+                                <button class="btn btn-primary btn-xs" id="new_record_btn" onclick="new_record()"
+                                        data-toggle="modal" data-target="#myModal">新增记录
+                                </button>
+                            </div>
                         </div>
                         <div class="ibox-content">
 
-                            <table class="table table-striped table-bordered table-hover users-dataTable">
+                            <table id="dutyout_table"
+                                   class="table table-striped table-bordered table-hover users-dataTable">
                                 <thead>
                                 <tr>
                                     <th>序号</th>
@@ -75,7 +82,7 @@
                                     <th>问题</th>
                                     <th>值班时段</th>
                                     <th>登记时间</th>
-                                    <th>登记人</th>
+                                    <th>出勤人</th>
                                     <th>解决时间</th>
                                     <th>解决人</th>
                                     <th>解决方法</th>
@@ -84,7 +91,7 @@
                                 </thead>
                                 <tbody>
                                 <?php for ($i = 0; $i < count($d_doid); $i++) { ?>
-                                    <tr class="duty_content" id="duty_content_<?php echo $d_doid[$i];?>">
+                                    <tr class="duty_content" id="duty_content_<?php echo $d_doid[$i]; ?>">
                                         <td><?php echo $d_doid[$i]; ?></td>
                                         <td><?php echo $d_room[$i]; ?></td>
                                         <td><?php echo $d_description[$i]; ?></td>
@@ -96,7 +103,7 @@
                                             if ($d_solvetime[$i] != false) {
                                                 echo $d_solvetime[$i];
                                             } else {
-                                                echo "&nbsp;";
+                                                echo "<span style=\"color:red;\">待解决</span>";
                                             }
                                             ?>
                                         </td>
@@ -122,13 +129,22 @@
                                             <?php
                                             if ($d_solvetime[$i] == false) {
                                                 echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
-                                                echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" . $d_doid[$i] . "'>解决</button>";
-                                                echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
+                                                echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" .
+                                                    $d_doid[$i] . "' onclick='solve_by_pid(" . $d_problemid[$i] . ")'" .
+                                                    " data-toggle='modal' data-target='#myModal'>解决</button>";
+                                                if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
+                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
+                                                    //echo var_dump($_SESSION['user_id'], $d_uid[$i]);
+                                                }
                                                 echo "</div>";
                                             } else {
                                                 echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
                                                 //echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_".$d_doid[$i]."'>解决</button>";
-                                                echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "'>删除</button>";
+                                                if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
+                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
+                                                } else {
+                                                    echo "<p>已解决</p>";
+                                                }
                                                 echo "</div>";
                                             }
                                             ?>
@@ -145,6 +161,10 @@
         <?php $this->load->view('view_footer'); ?>
     </div>
 </div>
+
+<script>
+    var wid_current = <?php echo $_SESSION['worker_id'];?>;
+</script>
 
 <!-- Mainly scripts -->
 <script src="<?= base_url() . 'assets/js/jquery-2.1.1.min.js' ?>"></script>
@@ -188,6 +208,10 @@
 <!-- Date picker -->
 <script src="<?= base_url() . 'assets/js/plugins/datepicker/bootstrap-datepicker.js' ?>"></script>
 
+<!-- Date time picker -->
+<script src="<?= base_url() . 'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.js' ?>"></script>
+<script src="<?= base_url() . 'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js' ?>"></script>
+
 <!-- Data Tables -->
 <script src="<?= base_url() . 'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
 <script src="<?= base_url() . 'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
@@ -195,7 +219,9 @@
 <script>
     $(document).ready(function () {
 
-        $('.users-dataTable').dataTable();
+        $('.users-dataTable').dataTable({
+            "aaSorting": [[6, "desc"]]
+        });
 
         /* Calendar */
         $('#calendar_date .input-group.date').datepicker({
@@ -203,8 +229,9 @@
             keyboardNavigation: false,
             forceParse: false,
             calendarWeeks: true,
-            autoclose: true
+            autoclose: true,
         });
+
 
     });
 
@@ -229,6 +256,19 @@
     }
 
 </script>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="z-index: 10;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 90px;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabelTitle"></h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 

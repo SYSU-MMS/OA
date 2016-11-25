@@ -16,4 +16,17 @@ mmsoa/upload/avatar/*
 
 .project
 
+.idea/copyright/profiles_settings.xml
+
+.idea/workspace.xml
+
+mmsoa/application/config/config.php
+
+mmsoa/application/config/database.php
+<<<<<<< HEAD
+
 mmsoa/assets/excel
+
+mmsoa/.idea/
+=======
+>>>>>>> SYSU-MMS/master
