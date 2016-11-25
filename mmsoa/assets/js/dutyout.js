@@ -89,7 +89,7 @@ function updateProblem(pid) {
     var solved_time = getFormatDate(date);
     var wid = $('#select_name').val();
     var solution = $('#ccomment').val();
-    console.log(wid,pid,solved_time,solution);
+    console.log(wid, pid, solved_time, solution);
     $.ajax({
         type: "post",
         url: "Problem/updateProblem",
@@ -97,16 +97,16 @@ function updateProblem(pid) {
             "solve_wid": wid,
             "solved_time": solved_time,
             "solution": solution,
-            "pid" : pid
+            "pid": pid
         },
-        async:false,
-        success: function(msg) {
+        async: false,
+        success: function (msg) {
             var ret = JSON.parse(msg);
             if (ret['status'] === false) {
                 alert(ret['msg']);
             }
         },
-        error: function(){
+        error: function () {
             alert(arguments[1]);
         }
     });
@@ -313,6 +313,10 @@ function new_record() {
     for (var selector_room in config_room) {
         $(selector_room).chosen(config_room[selector_room]);
     }
+    //console.log(wid_current);
+    $('#select_found_name').val(wid_current);
+    $('#select_found_name').prop("disabled", true);
+    $('#select_found_name').trigger("chosen:updated");
 }
 
 function solve_by_pid(pid) {

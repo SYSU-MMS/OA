@@ -162,6 +162,10 @@
     </div>
 </div>
 
+<script>
+    var wid_current = <?php echo $_SESSION['worker_id'];?>;
+</script>
+
 <!-- Mainly scripts -->
 <script src="<?= base_url() . 'assets/js/jquery-2.1.1.min.js' ?>"></script>
 <script src="<?= base_url() . 'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
