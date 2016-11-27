@@ -59,7 +59,18 @@ Class Sampling extends CI_Controller
                     $week = PublicMethod::get_week($term[0]->termbeginstamp, $today);
                     $week -= 1;
                 } else {
+                    $term = $this->Moa_school_term_model->get_term($today);
+                    if(count($term) == 0) {
+                        echo json_encode(array("status" => FALSE, "msg" => "没有本学期时间信息，请联系管理员"));
+                        return;
+                    }
+                    $this_week = PublicMethod::get_week($term[0]->termbeginstamp, $today);
                     $week = $_POST['week'];
+
+                    if($this_week < $week) {
+                        echo json_encode(array("status" => FALSE, "msg" => "不要新建未来的抽查表"));
+                        return;
+                    }
                 }
             } else {
                 $term = $this->Moa_school_term_model->get_term($today);
@@ -336,6 +347,18 @@ Class Sampling extends CI_Controller
                 return;
             }
 
+            $old_record = $this->Moa_sampling_model->get($_POST['sid']);
+            if(count($old_record) == 0) {
+                echo json_encode(array("status" => false, "msg" => "更新失败，没找到记录"));
+                return;
+            }
+
+            $target_user = $this->Moa_user_model->get($old_record[0]->target_uid);
+            if(!isset($target_user)) {
+                echo json_encode(array("status" => false, "msg" => "更新失败，没找到用户"));
+                return;
+            }
+
             $record = array();
             if($_POST['target_time_point'] != 'NULL')
                 $record['target_time_point'] = $_POST['target_time_point'];
@@ -343,8 +366,16 @@ Class Sampling extends CI_Controller
             if($_POST['target_room'] != 'NULL')
                 $record['target_room'] = $_POST['target_room'];
 
-            if($_POST['state'] != 0)
+            if($_POST['state'] != 0) {
                 $record['state'] = $_POST['state'];
+                if($_POST['state'] != 4 && $old_record[0]->state == 4) {
+                    //todo 讓該月優秀助理次數 -1
+                } else if($_POST['state'] == 4 && $old_record[0]->state != 4) {
+                    //todo 讓該月優秀助理次數 +1
+                }
+            } else if ($_POST['state'] == 0 && $old_record[0]->state == 4) {
+                //todo 讓該月優秀助理次數 -1
+            }
 
             $record['problem'] = $_POST['problem'];
             $record['operator_uid'] = $_SESSION['user_id'];
