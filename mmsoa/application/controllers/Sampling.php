@@ -322,6 +322,10 @@ Class Sampling extends CI_Controller
                 for($i = 0; i < $len; ++$i) {
                     //由於無法考證是否已經月結，統一在worker表扣除
                     $wid = $this->Moa_worker_model->get_wid_by_uid($old_table[$i]->target_uid);
+                    if($wid == NULL)  {
+                        echo json_encode(array("status" => false, "msg" => "删除抽查表单失败，没找到部分助理信息，或者部分助理已经离岗"));
+                        return;
+                    }
                     if($old_table[$i]->state == 4) {
                         $this->Moa_worker_model->update_check($wid, -1);
                         $this->Moa_worker_model->update_perfect($wid, -1);
@@ -375,6 +379,10 @@ Class Sampling extends CI_Controller
             $record = array();
 
             $wid = $this->Moa_worker_model->get_wid_by_uid($old_record[0]->target_uid);
+            if($wid == NULL)  {
+                echo json_encode(array("status" => false, "msg" => "更新失败，没找到部分助理信息，或者部分助理已经离岗"));
+                return;
+            }
 
             if($_POST['target_time_point'] != 'NULL')
                 $record['target_time_point'] = $_POST['target_time_point'];
