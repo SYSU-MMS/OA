@@ -317,6 +317,19 @@ Class Sampling extends CI_Controller
                 echo json_encode(array("status" => false, "msg" => "删除抽查表单失败，没有时间标签"));
                 return;
             } else {
+                $old_table = $this->Moa_sampling_model->get_table($_POST['timestamp']);
+                $len = count($old_table);
+                for($i = 0; i < $len; ++$i) {
+                    //由於無法考證是否已經月結，統一在worker表扣除
+                    $wid = $this->Moa_worker_model->get_wid_by_uid($old_table[$i]->target_uid);
+                    if($old_table[$i]->state == 4) {
+                        $this->Moa_worker_model->update_check($wid, -1);
+                        $this->Moa_worker_model->update_perfect($wid, -1);
+                    } else {
+                        $this->Moa_worker_model->update_check($wid, -1);
+                    }
+                }
+
                 $ret = $this->Moa_sampling_model->delete_table($_POST['timestamp']);
                 if ($ret != false) {
                     echo json_encode(array("status" => TRUE, "msg" => "删除抽查表单成功"));
@@ -360,21 +373,29 @@ Class Sampling extends CI_Controller
             }
 
             $record = array();
+
+            $wid = $this->Moa_worker_model->get_wid_by_uid($old_record[0]->target_uid);
+
             if($_POST['target_time_point'] != 'NULL')
                 $record['target_time_point'] = $_POST['target_time_point'];
 
             if($_POST['target_room'] != 'NULL')
                 $record['target_room'] = $_POST['target_room'];
 
+            //由於無法考證是否已經月結，統一在worker表操作
             if($_POST['state'] != 0) {
                 $record['state'] = $_POST['state'];
                 if($_POST['state'] != 4 && $old_record[0]->state == 4) {
-                    //todo 讓該月優秀助理次數 -1
+                    $this->Moa_worker_model->update_perfect($wid, -1);
                 } else if($_POST['state'] == 4 && $old_record[0]->state != 4) {
-                    //todo 讓該月優秀助理次數 +1
+                    $this->Moa_worker_model->update_perfect($wid, 1);
                 }
             } else if ($_POST['state'] == 0 && $old_record[0]->state == 4) {
-                //todo 讓該月優秀助理次數 -1
+                $this->Moa_worker_model->update_perfect($wid, -1);
+            }
+
+            if($old_record[0]->operator_uid == NULL) {
+                $this->Moa_worker_model->update_check($wid, 1);
             }
 
             $record['problem'] = $_POST['problem'];
