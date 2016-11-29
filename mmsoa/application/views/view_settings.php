@@ -50,7 +50,31 @@
                             <h5>学期设置</h5>
                         </div>
                         <div class="ibox-content" style="padding-bottom: 20px;">
-                            <? //todo table變成 Collapse?>
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label class="form-normal">学年</label>
+                                    <select class="form-control" id="year_a">
+                                    </select>
+                                    <span class="input-group-addon dtp-addon">-</span>
+                                    <select class="form-control" id="year_b">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-normal">学期</label>
+                                    <select class="form-control" id="term">
+                                        <option value="春季学期">春季学期</option>
+                                        <option value="秋季学期">春季学期</option>
+                                    </select>
+                                </div>
+                                <div class="input-daterange input-group" id="dtp">
+                                    <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间">
+                                    <span class="input-group-addon dtp-addon">到</span>
+                                    <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间">
+                                </div>
+                                <button type="submit" class="btn btn-primary" onclick="new_term();">新建学期</button>
+                            </form>
+                            <button data-toggle="collapse" data-target="#term_table">查看学期列表</button>
+                            <div class="collapse" id="term_table">
                             <table class="table table-striped table-bordered table-hover users-dataTable">
                                 <thead>
                                 <tr>
@@ -62,9 +86,10 @@
                                     <th>操作</th>
                                 </tr>
                                 </thead>
-                                <tbody id="sample-list">
+                                <tbody id="term-list">
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,7 +104,6 @@
 <script src="<?= base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-<script src="<?= base_url().'assets/js/sample_list.js' ?>"></script>
 
 <!-- nav item active -->
 <script>
@@ -102,6 +126,11 @@
 <script src="<?= base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
 
+<!-- Datetimepicker -->
+<script src="<?= base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js' ?>"></script>
+
+<script src="<?= base_url().'assets/js/settings.js' ?>"></script>
+
 
 <script>
     $(document).ready(function () {
@@ -112,6 +141,28 @@
             forceParse: false,
             calendarWeeks: true,
             autoclose: true
+        });
+        $('#start_dtp').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 0,
+            forceParse: 1
+        });
+        $('#end_dtp').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 0,
+            forceParse: 1
         });
 
     });

@@ -43,7 +43,22 @@ Class Settings extends CI_Controller
                 return;
             }
 
-            //todo
+            $objects = $this->Moa_school_term_model->get_term();
+
+            $len = count($objects);
+
+            $ret = array();
+
+            for($i = 0; $i < $len; ++$i) {
+                $ret[$i]= array();
+                $ret[$i]['termid'] = $objects[$i]->termid;
+                $ret[$i]['schoolyear'] = $objects[$i]->schoolyear;
+                $ret[$i]['schoolterm'] = $objects[$i]->schoolterm;
+                $ret[$i]['termbeginstamp'] = $objects[$i]->termbeginstamp;
+                $ret[$i]['termendstamp'] = $objects[$i]->termendstamp;
+            }
+
+            echo json_encode(array('state'=> true, 'term_list' => $ret));
 
         } else {
             // 未登录的用户请先登录
@@ -59,8 +74,23 @@ Class Settings extends CI_Controller
                 return;
             }
 
-            //todo
+            $schoolyear = $_POST['schoolyear'];
+            $schoolterm = $_POST['schoolterm'];
+            $termbeginstamp = $_POST['termbeginstamp'];
+            $termendstamp = $_POST['termendstamp'];
+            $this->Moa_school_term_model->new_term(array(
+                'schoolyear' => $schoolyear,
+                'schoolterm' => $schoolterm,
+                'termbeginstamp' => $termbeginstamp,
+                'termendstamp' => $termendstamp
+            ));
 
+            $ret = $this->db->insert_id();
+            if($ret != NULL) {
+                echo json_encode(array('state'=> true, 'msg' => '新建学期成功'));
+            } else {
+                echo json_encode(array('state'=> false, 'msg' => '新建学期失败'));
+            }
 
         } else {
             // 未登录的用户请先登录
@@ -76,7 +106,13 @@ Class Settings extends CI_Controller
                 return;
             }
 
-            //todo
+            $ret = $this->Moa_school_term_model->delete_term($_POST['termid']);
+
+            if($ret !=  NULL) {
+                echo json_encode(array('state'=> true, 'msg' => '删除成功'));
+            } else {
+                echo json_encode(array('state'=> false, 'msg' => '删除失败，没有该学期信息'));
+            }
 
 
         } else {
