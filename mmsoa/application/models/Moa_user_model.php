@@ -438,9 +438,3 @@ class Moa_user_model extends CI_Model {
 			return false;
 		}
 	}
-
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> 7668ac48d6340530de7f3b00efe58f3d5706a3d4
