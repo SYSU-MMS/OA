@@ -20,6 +20,7 @@
 
 <!-- Data Tables -->
 <link href="<?=base_url().'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
+<link href="<?=base_url().'assets/css/plugins/datapicker/datapicker3.css' ?>" rel="stylesheet">
 
 <style>
     #term_form {
