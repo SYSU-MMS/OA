@@ -50,7 +50,7 @@
                             <h5>学期设置</h5>
                         </div>
                         <div class="ibox-content" style="padding-bottom: 20px;">
-                            <form class="form-inline">
+                            <form class="form-inline row">
                                 <div class="form-group col-lg-3">
                                     <label class="form-normal">学年</label>
                                     <div class="input-daterange input-group" id="dtp">
@@ -77,24 +77,28 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <button type="submit" class="btn btn-primary btn-longer" onclick="new_term();">新建学期</button>
-                                    <button class=" btn btn-primary" data-toggle="collapse" data-target="#term_table">查看学期列表</button>
                                 </div>
                             </form>
-                            <div class="collapse" id="term_table">
-                                <table class="table table-striped table-bordered table-hover users-dataTable">
-                                    <thead>
-                                    <tr>
-                                        <th>序号</th>
-                                        <th>学年</th>
-                                        <th>学期</th>
-                                        <th>开始日期</th>
-                                        <th>结束日期</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="term-list">
-                                    </tbody>
-                                </table>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button class=" btn btn-primary" data-toggle="collapse" data-target="#term_table">查看学期列表</button>
+                                    <div class="collapse" id="term_table">
+                                        <table class="table table-striped table-bordered table-hover users-dataTable">
+                                            <thead>
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>学年</th>
+                                                <th>学期</th>
+                                                <th>开始日期</th>
+                                                <th>结束日期</th>
+                                                <th>操作</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="term-list">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

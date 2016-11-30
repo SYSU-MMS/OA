@@ -2,7 +2,10 @@
  * Created by alcanderian on 27/11/2016.
  */
 
-
+var init = function () {
+    put_year();
+    get_term_list();
+};
 
 var put_year = function () {
     var year = (new Date).getFullYear();
@@ -75,8 +78,6 @@ var get_term_list = function () {
                         "</tr>"
                 }
                 $("#term-list").html(list_temp);
-            } else {
-                alert(ret['msg']);
             }
             $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]]});
         },
