@@ -82,4 +82,13 @@ class Moa_duty_model extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function get_by_day_and_period($day, $period)
+    {
+        $sql = "select * from `moa_duty` where `weekday`=" . $this->db->escape($day) .
+            "and `period`=" . $this->db->escape($period);
+        $query = $this->db->query($sql);
+        $ret = $query->result();
+        return $ret[0];
+    }
+
 }
