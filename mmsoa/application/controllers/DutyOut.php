@@ -257,9 +257,7 @@ class DutyOut extends CI_Controller
         $data['roomid_list'] = $roomid_list;
         $data['room_list'] = $room_list;
 
-        // 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
-        $level = 0;
-        $common_worker = $this->Moa_user_model->get_by_level($level);
+        $common_worker = $this->Moa_user_model->get(0);
 
         for ($i = 0; $i < count($common_worker); $i++) {
             $uid_list[$i] = $common_worker[$i]->uid;
@@ -340,6 +338,18 @@ class DutyOut extends CI_Controller
             echo json_encode(array("status" => FALSE, "msg" => "未登陆"));
         }
 
+    }
+
+    public function getDutyIdByPeriod()
+    {
+        if (isset($_SESSION['user_id'])) {
+            $weekday = $_POST['weekday'];
+            $period = $_POST['period'];
+            $result = $this->Moa_duty_model->get_by_day_and_period($weekday, $period);
+            echo json_encode(array('status' => true, 'dutyid' => $result->dutyid));
+        } else {
+            echo json_encode(array('status' => false));
+        }
     }
 
 }

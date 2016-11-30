@@ -24,8 +24,8 @@ class Moa_user_model extends CI_Model {
 	 * @param id - 用户id
 	 */
 	public function get($id) {
-	    if ($id<=0) return false;
-		if (isset($id)) {
+	    //if ($id<=0) return false;
+		if (isset($id) && $id > 0) {
 			$this->db->where(array('uid'=>$id));
 			$res = $this->db->get('MOA_User')->result();
 			return $res[0];
@@ -86,7 +86,7 @@ class Moa_user_model extends CI_Model {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 取某状态所有用户
 	 * @param mystate - 状态
@@ -100,7 +100,7 @@ class Moa_user_model extends CI_Model {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 取某级别某状态所有用户
 	 * @param mylevel - 级别
@@ -115,7 +115,7 @@ class Moa_user_model extends CI_Model {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 取多个级别某状态所有用户
 	 * @param level_arr - 级别
@@ -158,7 +158,7 @@ class Moa_user_model extends CI_Model {
 	}
 
 	/**
-	 * 返回某用户的level 
+	 * 返回某用户的level
 	 * @param uid - 用户id
 	 * @return 用户level值
 	 */
@@ -172,7 +172,7 @@ class Moa_user_model extends CI_Model {
 	}
 
 	/**
-	 * 给指定用户修改总工时 
+	 * 给指定用户修改总工时
 	 * @param uid - 用户id
 	 * @param contrib - 修改量
 	 * @return 该用户最新的总工时
@@ -189,7 +189,7 @@ class Moa_user_model extends CI_Model {
 	}
 
 	/**
-	 * 给指定用户修改总优异助理次数 
+	 * 给指定用户修改总优异助理次数
 	 * @param uid - 用户id
 	 * @param contrib - 修改量
 	 * @return 该用户最新的总优异次数
@@ -206,7 +206,7 @@ class Moa_user_model extends CI_Model {
 	}
 
 	/**
-	 * 给指定用户修改异常助理次数 
+	 * 给指定用户修改异常助理次数
 	 * @param uid - 用户id
 	 * @param contrib - 修改量
 	 * @return 该用户最新的总异常次数
@@ -239,7 +239,7 @@ class Moa_user_model extends CI_Model {
     }
 
 	/**
-	 * 给指定用户修改抽查优秀次数 
+	 * 给指定用户修改抽查优秀次数
 	 * @param uid - 用户id
 	 * @param contrib - 修改量
 	 * @return 该用户最新的总抽查优秀次数
@@ -256,7 +256,7 @@ class Moa_user_model extends CI_Model {
 	}
 
 	/**
-	 * 给指定用户修改总旷工次数 
+	 * 给指定用户修改总旷工次数
 	 * @param uid - 用户id
 	 * @param contrib - 修改量
 	 * @return 该用户最新的总旷工次数
@@ -273,7 +273,7 @@ class Moa_user_model extends CI_Model {
 	}
 
 	/**
-	 * 给指定用户修改总请假次数 
+	 * 给指定用户修改总请假次数
 	 * @param uid - 用户id
 	 * @param contrib - 修改量
 	 * @return 该用户最新的总请假次数
@@ -290,7 +290,7 @@ class Moa_user_model extends CI_Model {
 	}
 
     /**
-	 * 给指定用户修改总被抽查次数 
+	 * 给指定用户修改总被抽查次数
 	 * @param uid - 用户id
 	 * @param contrib - 修改量
 	 * @return 该用户最新的总被抽查次数
@@ -305,8 +305,8 @@ class Moa_user_model extends CI_Model {
 			return false;
 		}
 	}
-	
-	
+
+
 	/**
 	 * 登录验证
 	 * @param username - 用户名
@@ -326,7 +326,7 @@ class Moa_user_model extends CI_Model {
 			}
 		}
 	}
-	
+
 	/**
 	 * 获取用户id
 	 * @param username - 用户名
@@ -354,7 +354,7 @@ class Moa_user_model extends CI_Model {
 		$sqlquery = $this->db->query($sb);
 		return $sqlquery->result();
 	}
-    
+
     /**
 	 * 获取名人堂中指定wid的记录
      * @param wid - 工号id
@@ -371,7 +371,7 @@ class Moa_user_model extends CI_Model {
 		}
 		return FALSE;
 	}
-    
+
     /**
 	 * 获取名人堂中一条记录
 	 * @param id - 名人id
@@ -384,7 +384,7 @@ class Moa_user_model extends CI_Model {
 		}
 		return FALSE;
 	}
-    
+
  	/**
 	 * 加入一个名人
 	 * @param paras - 参数列表
@@ -399,7 +399,7 @@ class Moa_user_model extends CI_Model {
 			return FALSE;
 		}
 	}
-    
+
     /**
 	 * 删除一个名人
 	 * @param id - 名人starid
@@ -430,5 +430,5 @@ class Moa_user_model extends CI_Model {
 			return false;
 		}
 	}
-    
+
 }
