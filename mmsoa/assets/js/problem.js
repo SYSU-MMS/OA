@@ -73,7 +73,9 @@ function insertProblem() {
 
 
 function updateProblem(pid) {
-	var solved_time = getFormatDate(new Date($('#start_dtp').val()));
+    var time = $('#start_dtp').val();
+    var date = new Date(time.substr(0, 10) + "T" + time.substr(11, 8));
+    var solved_time = getFormatDate(date);
 	var wid = $('#select_name').val();
   var solution = $('#ccomment').val();
 	$.ajax({

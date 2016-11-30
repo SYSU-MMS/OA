@@ -13,31 +13,53 @@ class Moa_dutyout_model extends CI_Model
     {
         if (isset($_SESSION['user_id']) && isset($wid)) {
 
-            $insert_data = array();
-            $insert_data['dutyid'] = $duty;
-            $insert_data['wid'] = $wid;
-            $insert_data['weekcount'] = $weekcount;
-            $insert_data['outtimestamp'] = strtotime($time);
-            $insert_data['roomid'] = $room_id;
-            $insert_data['problemid'] = $problem_id;
-            $this->db->insert('moa_dutyout', $insert_data);
+            $sql = "insert into moa_dutyout (dutyid, wid, weekcount, outtimestamp, roomid, problemid) values(" .
+                $this->db->escape($duty) . ',' .
+                $this->db->escape($wid) . ',' .
+                $this->db->escape($weekcount) . ',' .
+                $this->db->escape($time) . ',' .
+                $this->db->escape($room_id) . ',' .
+                $this->db->escape($problem_id) .
+                ")";
+            //var_dump($sql);
+            $query = $this->db->query($sql);
 
             return $this->db->insert_id();
+            //return $sql;
 
         } else {
             //echo json_encode(array("status" => false));
-            return;
+            return false;
         }
     }
 
-    public function add($wid, $room_id, $pid, $duty, $time)
+    public function add($wid, $pid, $duty)
     {
         if (isset($_SESSION['user_id'])) {
-            //$wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
             $weekcount = PublicMethod::cal_week();
+            $problem = $this->Moa_problem_model->get($pid);
+            $room_id = $problem->roomid;
+            $time = date("Y-m-d H:i:s");
             $do_id = $this->add_dutyout($wid, $room_id, $pid, $duty, $time, $weekcount);
             return $do_id;
         }
+    }
+
+    /**
+     * 插入一条problem
+     * @param founder_wid , found_time, roomid, description
+     * @author 高少彬
+     * @return 插入的id
+     */
+    public function insert($founder_wid, $found_time, $roomid, $description)
+    {
+
+        $sql = 'insert into moa_problem ' .
+            '	(founder_wid, found_time, roomid, description) ' .
+            'value (' . $founder_wid . ', \'' . $found_time . '\', ' . $roomid . ', \'' . $description . '\');';
+        $result = $this->db->query($sql);
+        return $this->db->insert_id();
+
     }
 
     public function get($offset = 0, $limit = 20)
@@ -100,7 +122,7 @@ class Moa_dutyout_model extends CI_Model
                 return $query;
             }
         }
-        return false;
+        //return false;
     }
 
 

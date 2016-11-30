@@ -47,8 +47,6 @@ var show_list = function () {
                         "</tr>"
                 }
                 $("#sample-list").html(table_temp);
-            } else {
-                alert(ret['msg']);
             }
             $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]]});
         },

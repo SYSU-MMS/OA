@@ -24,8 +24,8 @@ class Moa_user_model extends CI_Model {
 	 * @param id - 用户id
 	 */
 	public function get($id) {
-	    if ($id<=0) return false;
-		if (isset($id)) {
+	    //if ($id<=0) return false;
+		if (isset($id) && $id > 0) {
 			$this->db->where(array('uid'=>$id));
 			$res = $this->db->get('MOA_User')->result();
 			return $res[0];
@@ -439,4 +439,8 @@ class Moa_user_model extends CI_Model {
 		}
 	}
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 7668ac48d6340530de7f3b00efe58f3d5706a3d4
