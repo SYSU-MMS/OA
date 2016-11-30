@@ -162,6 +162,7 @@ var post_table = function (num) {
     var search = $.trim($("#DataTables_Table_0_filter label input").val());
     if(search != "") {
         alert("请先清空查找条件");
+        return;
     }
     if(num < table_len) {
         var sid = parseInt($("#sid_" + num).html());
