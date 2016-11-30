@@ -319,7 +319,7 @@ Class Sampling extends CI_Controller
             } else {
                 $old_table = $this->Moa_sampling_model->get_table($_POST['timestamp']);
                 $len = count($old_table);
-                for($i = 0; i < $len; ++$i) {
+                for($i = 0; $i < $len; ++$i) {
                     //由於無法考證是否已經月結，統一在worker表扣除
                     $wid = $this->Moa_worker_model->get_wid_by_uid($old_table[$i]->target_uid);
                     if($wid == NULL)  {
