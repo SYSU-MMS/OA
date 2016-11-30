@@ -28,10 +28,9 @@
         -moz-border-right-colors: none;
         -moz-border-top-colors: none;
         background-color: #ffffff;
-        border-color: #e7eaec;
-        border-image: none;
-        border-style: solid solid none;
-        border-width: 4px 0px 0;
+        border-bottom-color: #e7eaec;
+        border-bottom-style: solid;
+        border-bottom-width: 4px;
         color: inherit;
         margin-bottom: 0;
         padding: 14px 15px 7px;
@@ -153,8 +152,9 @@
 <script src="<?= base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
 
-<!-- Datetimepicker -->
-<script src="<?= base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js' ?>"></script>
+<!-- Date time picker -->
+<script src="<?=base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.js' ?>"></script>
+<script src="<?=base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js' ?>"></script>
 
 <script src="<?= base_url().'assets/js/settings.js' ?>"></script>
 

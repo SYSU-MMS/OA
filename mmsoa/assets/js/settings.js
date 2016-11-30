@@ -79,7 +79,7 @@ var get_term_list = function () {
                 }
                 $("#term-list").html(list_temp);
             }
-            $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]]});
+            $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]], "paging": false});
         },
         error: function() {
             alert("获取历史学期失败，无法连接服务器")
