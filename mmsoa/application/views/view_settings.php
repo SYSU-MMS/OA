@@ -69,7 +69,7 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>学期设置</h5>
+                            <h5 id="now-term"></h5>
                         </div>
                         <div class="ibox-content" style="padding-bottom: 20px;">
                             <form class="form-inline row" id="term_form">

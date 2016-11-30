@@ -64,8 +64,8 @@ Class PublicMethod extends CI_Controller
 
     /**
      *  计算当前周数
-     * @param timestamp_from 開始時間
-     * @param $timestamp_to 結束時間
+     * @param timestamp_from 開始時間 'YYYY-MM-DD HH:II:SS'
+     * @param $timestamp_to 結束時間 'YYYY-MM-DD HH:II:SS'
      */
     public static function get_week($timestamp_from, $timestamp_to)
     {
