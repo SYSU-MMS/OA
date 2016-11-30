@@ -183,7 +183,7 @@
 		                '<ul class="nav nav-second-level">' .
 		                    '<li id="active-syslog"><a href="'. site_url('MoaSystemLog/Review') . '">系统日志</a>' .
 		                    '</li>' .
-		                    '<li id="active-sysreset"><a href="#">重置系统</a>' .
+		                    '<li id="active-sysreset"><a href="' . site_url('Settings') . '">重置系统</a>' .
 		                    '</li>' .
 		                '</ul>' .
 		            '</li>';
