@@ -329,7 +329,7 @@ Class Sampling extends CI_Controller
                     if($old_table[$i]->state == 1) {
                         $this->Moa_worker_model->update_check($wid, -1);
                         $this->Moa_worker_model->update_perfect($wid, -1);
-                    } else {
+                    } else if($old_table[$i]->operator_uid != NULL){
                         $this->Moa_worker_model->update_check($wid, -1);
                     }
                 }
