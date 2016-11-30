@@ -108,4 +108,4 @@ var delete_term = function (tid) {
     });
 };
 
-$(document).ready(put_year());
+$(document).ready(init());
