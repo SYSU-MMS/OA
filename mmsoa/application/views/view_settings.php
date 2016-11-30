@@ -140,7 +140,7 @@
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        $("#mini").attr("href", "Sampling#");
+        $("#mini").attr("href", "Settings#");
     });
 </script>
 

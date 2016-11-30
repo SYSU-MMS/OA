@@ -101,6 +101,14 @@ class Moa_user_model extends CI_Model {
 		}
 	}
 
+    /**
+     * 所有用户
+     * @param mystate - 状态
+     */
+    public function get_all() {
+        $sql = 'select * from moa_user where state != 2;';
+        return $this->db->query($sql)->result();
+    }
 	/**
 	 * 取某级别某状态所有用户
 	 * @param mylevel - 级别
@@ -430,5 +438,4 @@ class Moa_user_model extends CI_Model {
 			return false;
 		}
 	}
-
 }
