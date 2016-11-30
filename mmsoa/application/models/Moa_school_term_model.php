@@ -33,7 +33,7 @@ class Moa_school_term_model extends CI_Model{
 
     public function delete_term($termid) {
         if(isset($termid)) {
-            $this->db->where(array('termid >' => $termid));
+            $this->db->where(array('termid' => $termid));
             $this->db->delete('MOA_Schoolterm');
             $ret = $this->db->affected_rows();
             return $ret;

@@ -88,6 +88,7 @@ var get_term_list = function () {
 };
 
 var delete_term = function (tid) {
+    console.log(tid);
     if(tid == undefined) {
         alert("删除学期失败");
         return;
