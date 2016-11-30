@@ -65,7 +65,7 @@
                                     <label class="form-normal">学期</label>
                                     <select class="form-control" id="term">
                                         <option value="春季学期">春季学期</option>
-                                        <option value="秋季学期">春季学期</option>
+                                        <option value="秋季学期">秋季学期</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-lg-4" id="dtp_group">
@@ -77,9 +77,9 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <button type="submit" class="btn btn-primary btn-longer" onclick="new_term();">新建学期</button>
+                                    <button class=" btn btn-primary" data-toggle="collapse" data-target="#term_table">查看学期列表</button>
                                 </div>
                             </form>
-                            <button class=" btn btn-primary" data-toggle="collapse" data-target="#term_table">查看学期列表</button>
                             <div class="collapse" id="term_table">
                                 <table class="table table-striped table-bordered table-hover users-dataTable">
                                     <thead>
