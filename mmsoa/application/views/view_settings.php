@@ -51,7 +51,7 @@
                         </div>
                         <div class="ibox-content" style="padding-bottom: 20px;">
                             <form class="form-inline">
-                                <div class="form-group ">
+                                <div class="form-group col-lg-4">
                                     <label class="form-normal">学年</label>
                                     <div class="input-daterange input-group" id="dtp">
                                         <select class="input-sm form-control dtp-input-div" id="year_a">
@@ -61,24 +61,26 @@
                                     </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-lg-2">
                                     <label class="form-normal">学期</label>
                                     <select class="form-control" id="term">
                                         <option value="春季学期">春季学期</option>
                                         <option value="秋季学期">春季学期</option>
                                     </select>
                                 </div>
-                                <div class="form-group" id="dtp_group">
+                                <div class="form-group col-lg-4" id="dtp_group">
                                     <div class="input-daterange input-group" id="dtp">
                                         <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php echo date('Y-m-d', time()); ?>" />
                                         <span class="input-group-addon dtp-addon">到</span>
                                         <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date('Y-m-d',strtotime("+180 day")); ?>" />
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary" onclick="new_term();">新建学期</button>
-                                <button data-toggle="collapse" data-target="#term_table">查看学期列表</button>
+                                <div class="col-lg-2">
+                                    <button type="submit" class="btn btn-primary btn-longer" onclick="new_term();">新建学期</button>
+                                </div>
                             </form>
-                            <div class="collapse btn btn-primary" id="term_table">
+                            <button data-toggle="collapse  btn btn-primary" data-target="#term_table">查看学期列表</button>
+                            <div class="collapse" id="term_table">
                                 <table class="table table-striped table-bordered table-hover users-dataTable">
                                     <thead>
                                     <tr>
