@@ -70,29 +70,29 @@
                                 </div>
                                 <div class="form-group" id="dtp_group">
                                     <div class="input-daterange input-group" id="dtp">
-                                        <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php echo date('Y-m-d', strtotime("-7 day")); ?>" />
+                                        <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php echo date('Y-m-d', time()); ?>" />
                                         <span class="input-group-addon dtp-addon">到</span>
-                                        <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date('Y-m-d',time()); ?>" />
+                                        <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date('Y-m-d',strtotime("+180 day")); ?>" />
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary" onclick="new_term();">新建学期</button>
+                                <button data-toggle="collapse" data-target="#term_table">查看学期列表</button>
                             </form>
-                            <button data-toggle="collapse" data-target="#term_table">查看学期列表</button>
-                            <div class="collapse" id="term_table">
-                            <table class="table table-striped table-bordered table-hover users-dataTable">
-                                <thead>
-                                <tr>
-                                    <th>序号</th>
-                                    <th>学年</th>
-                                    <th>学期</th>
-                                    <th>开始日期</th>
-                                    <th>结束日期</th>
-                                    <th>操作</th>
-                                </tr>
-                                </thead>
-                                <tbody id="term-list">
-                                </tbody>
-                            </table>
+                            <div class="collapse btn btn-primary" id="term_table">
+                                <table class="table table-striped table-bordered table-hover users-dataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>学年</th>
+                                        <th>学期</th>
+                                        <th>开始日期</th>
+                                        <th>结束日期</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="term-list">
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
