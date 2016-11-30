@@ -7,8 +7,8 @@
  */
 
 class Moa_school_term_model extends CI_Model{
-    public function get_term($date) {
-        if(isset($date)) {
+    public function get_term($date = NULL) {
+        if($date != NULL) {
             $this->db->where(array('termendstamp >' => $date, 'termbeginstamp <' => $date));
             $this->db->limit(1, 0);
             $term = $this->db->get('MOA_Schoolterm')->result();

@@ -21,6 +21,23 @@
 <!-- Data Tables -->
 <link href="<?=base_url().'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
 
+<style>
+    #term_form {
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        background-color: #ffffff;
+        border-color: #e7eaec;
+        border-image: none;
+        border-style: solid solid none;
+        border-width: 4px 0px 0;
+        color: inherit;
+        margin-bottom: 0;
+        padding: 14px 15px 7px;
+        min-height: 48px;
+    }
+</style>
 </head>
 
 <body onload="startTime()">
@@ -50,7 +67,7 @@
                             <h5>学期设置</h5>
                         </div>
                         <div class="ibox-content" style="padding-bottom: 20px;">
-                            <form class="form-inline row">
+                            <form class="form-inline row" id="term_form">
                                 <div class="form-group col-lg-3">
                                     <label class="form-normal">学年</label>
                                     <div class="input-daterange input-group" id="dtp">
