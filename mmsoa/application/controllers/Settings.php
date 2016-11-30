@@ -58,7 +58,13 @@ Class Settings extends CI_Controller
                 $ret[$i]['termendstamp'] = $objects[$i]->termendstamp;
             }
 
-            echo json_encode(array('state'=> true, 'term_list' => $ret));
+            $today = date("Y-m-d H:i:s");
+            $now_term_object =  $this->Moa_school_term_model->get_term($today);
+            $now_term = array();
+            $now_term['schoolyear'] = $now_term_object->schoolyear;
+            $now_term['schoolterm'] = $now_term_object->schoolterm;
+
+            echo json_encode(array('state'=> true, 'term_list' => $ret, 'now_term' => $now_term));
             return;
 
         } else {
