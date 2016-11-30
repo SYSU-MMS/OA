@@ -51,13 +51,15 @@
                         </div>
                         <div class="ibox-content" style="padding-bottom: 20px;">
                             <form class="form-inline">
-                                <div class="form-group">
+                                <div class="form-group ">
                                     <label class="form-normal">学年</label>
-                                    <select class="form-control" id="year_a">
+                                    <div class="input-daterange input-group" id="dtp">
+                                        <select class="input-sm form-control dtp-input-div" id="year_a">
+                                        </select>
+                                        <span class="input-group-addon dtp-addon">-</span>
+                                        <select class="input-sm form-control dtp-input-div" id="year_b">
                                     </select>
-                                    <span class="input-group-addon dtp-addon">-</span>
-                                    <select class="form-control" id="year_b">
-                                    </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-normal">学期</label>
@@ -66,10 +68,12 @@
                                         <option value="秋季学期">春季学期</option>
                                     </select>
                                 </div>
-                                <div class="input-daterange input-group" id="dtp">
-                                    <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间">
-                                    <span class="input-group-addon dtp-addon">到</span>
-                                    <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间">
+                                <div class="form-group" id="dtp_group">
+                                    <div class="input-daterange input-group" id="dtp">
+                                        <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php echo date('Y-m-d', strtotime("-7 day")); ?>" />
+                                        <span class="input-group-addon dtp-addon">到</span>
+                                        <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date('Y-m-d',time()); ?>" />
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary" onclick="new_term();">新建学期</button>
                             </form>
@@ -142,6 +146,7 @@
             calendarWeeks: true,
             autoclose: true
         });
+
         $('#start_dtp').datetimepicker({
             format: 'yyyy-mm-dd',
             language: 'zh-CN',
