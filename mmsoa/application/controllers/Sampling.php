@@ -326,7 +326,7 @@ Class Sampling extends CI_Controller
                         echo json_encode(array("status" => false, "msg" => "删除抽查表单失败，没找到部分助理信息，或者部分助理已经离岗"));
                         return;
                     }
-                    if($old_table[$i]->state == 4) {
+                    if($old_table[$i]->state == 1) {
                         $this->Moa_worker_model->update_check($wid, -1);
                         $this->Moa_worker_model->update_perfect($wid, -1);
                     } else {
@@ -393,12 +393,12 @@ Class Sampling extends CI_Controller
             //由於無法考證是否已經月結，統一在worker表操作
             if($_POST['state'] != 0) {
                 $record['state'] = $_POST['state'];
-                if($_POST['state'] != 4 && $old_record[0]->state == 4) {
+                if($_POST['state'] != 1 && $old_record[0]->state == 1) {
                     $this->Moa_worker_model->update_perfect($wid, -1);
-                } else if($_POST['state'] == 4 && $old_record[0]->state != 4) {
+                } else if($_POST['state'] == 1 && $old_record[0]->state != 1) {
                     $this->Moa_worker_model->update_perfect($wid, 1);
                 }
-            } else if ($_POST['state'] == 0 && $old_record[0]->state == 4) {
+            } else if ($_POST['state'] == 0 && $old_record[0]->state == 1) {
                 $this->Moa_worker_model->update_perfect($wid, -1);
             }
 
