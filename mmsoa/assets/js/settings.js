@@ -78,7 +78,13 @@ var get_term_list = function () {
                         "</tr>"
                 }
                 $("#term-list").html(list_tmp);
+
+                var now_term = "学期设置 - 当前学期：" + ret['now_term']['schoolyear'] + 学年度 + ret['now_term']['schoolterm'];
+                $("#now-term").html("now_term");
+            } else {
+                $("#now-term").html("学期设置");
             }
+
             $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]], "paging": false});
         },
         error: function() {
