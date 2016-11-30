@@ -166,7 +166,7 @@ Class Sampling extends CI_Controller
                     "sample_list" => $ret_list));
                 return;
             } else {
-                echo json_encode(array("status" => false, "msg" => "获取抽查表单列表失败"));
+                echo json_encode(array("status" => false, "msg" => "获取抽查表单列表失败 或 暂无抽查表单"));
                 return;
             }
 
