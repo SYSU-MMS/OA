@@ -17,14 +17,14 @@ var put_year = function () {
 
 var new_term = function () {
     var year_a = $("#year_a option:selected").attr("value");
-    var year_b = $("#year_a option:selected").attr("value");
+    var year_b = $("#year_b option:selected").attr("value");
 
     var year = year_a + "-" + year_b;
 
     var term = $("#term option:selected").attr("value");
 
-    var start = $("#start_dtp").attr("value") + " 00:00:00";
-    var end = $("#end_dtp").attr("value") + " 23:59:59";
+    var start = $("#start_dtp").val() + " 00:00:00";
+    var end = $("#end_dtp").val() + " 23:59:59";
 
     $.ajax({
         type: 'post',
@@ -102,6 +102,9 @@ var delete_term = function (tid) {
         success: function (msg) {
             ret = JSON.parse(msg);
             alert(ret['msg']);
+            if (ret['state'] === true) {
+                location.reload();
+            }
         },
         error: function() {
             alert("删除学期失败，无法连接服务器")
