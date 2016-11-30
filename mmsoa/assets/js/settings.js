@@ -51,7 +51,7 @@ var get_term_list = function () {
         url: 'Settings/getTermList',
         success: function (msg) {
             ret = JSON.parse(msg);
-            if (ret['status'] === true) {
+            if (ret['state'] === true) {
                 var list_tmp = "";
                 for (var i = 0; i < ret['term_list'].length; i++) {
                     list_tmp +=

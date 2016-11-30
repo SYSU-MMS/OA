@@ -32,9 +32,13 @@
         border-bottom-style: solid;
         border-bottom-width: 4px;
         color: inherit;
-        margin-bottom: 0;
+        margin-bottom: 15px;
         padding: 14px 15px 7px;
         min-height: 48px;
+    }
+
+    #DataTables_Table_0_filter {
+        display: none;
     }
 </style>
 </head>
