@@ -26,6 +26,75 @@ function getFormatDate(date_in) {
         + hour + ':' + minute + ':' + second;
 }
 
+function getNowDutyId() {
+    /*
+     值班时间段
+     1 - 07:30~10:30
+     2 - 10:30~12:30
+     3 - 12:30~14:00
+     4 - 14:00~16:00
+     5 - 16:00~18:00
+     6 - 18:00~22:00
+     7 - 07:30~12:30(周末)
+     8 - 12:30~18:00(周末)
+     9 - 18:00~22:00(周末)
+     */
+
+    var h11 = 7, h12 = 10, h21 = 10, h22 = 12, h31 = 12, h32 = 14, h41 = 14, h42 = 16, h51 = 16,
+        h52 = 18, h61 = 18, h62 = 22, h71 = 7, h72 = 12, h81 = 12, h82 = 18, h91 = 18, h92 = 22;
+    var m11 = 30, m12 = 30, m21 = 30, m22 = 30, m31 = 30, m32 = 0, m41 = 0, m42 = 0, m51 = 0,
+        m52 = 0, m61 = 0, m62 = 0, m71 = 30, m72 = 30, m81 = 30, m82 = 0, m91 = 0, m92 = 0;
+
+    function isBigger(h1, m1, h2, m2) {
+        if (h1 > h2) return true;
+        if (h1 < h2) return false;
+        if (m1 >= m2) return true;
+        return false;
+    }
+
+    var date = new Date();
+    var day = date.getDay();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+    var dutyid = -1;
+    var period = -1;
+
+    if (day > 0 && day < 6) {
+        if (isBigger(hour, minute, h11, m11) && isBigger(h12, m12, hour, minute)) period = 1;
+        if (isBigger(hour, minute, h21, m21) && isBigger(h22, m22, hour, minute)) period = 2;
+        if (isBigger(hour, minute, h31, m31) && isBigger(h32, m32, hour, minute)) period = 3;
+        if (isBigger(hour, minute, h41, m41) && isBigger(h42, m42, hour, minute)) period = 4;
+        if (isBigger(hour, minute, h51, m51) && isBigger(h52, m52, hour, minute)) period = 5;
+        if (isBigger(hour, minute, h61, m61) && isBigger(h62, m62, hour, minute)) period = 6;
+    } else {
+        if (isBigger(hour, minute, h71, m71) && isBigger(h72, m72, hour, minute)) period = 7;
+        if (isBigger(hour, minute, h81, m81) && isBigger(h82, m82, hour, minute)) period = 8;
+        if (isBigger(hour, minute, h91, m91) && isBigger(h92, m92, hour, minute)) period = 9;
+    }
+    if (day == 0) day = 7;
+
+    if (period == -1) {
+        return -1;
+    } else {
+        $.ajax({
+            'type': 'post',
+            'url': 'DutyOut/getDutyIdByPeriod',
+            'async': false,
+            'data': {
+                'weekday': day,
+                'period': period
+            },
+            success: function (msg) {
+                var ret = JSON.parse(msg);
+                if (ret['status'] == true) {
+                    dutyid = ret['dutyid'];
+                }
+            }
+        });
+    }
+    return dutyid;
+}
+
 $.ajax({
     type: "GET",
     url: "DutyOut/getInformation",
@@ -207,6 +276,7 @@ function new_record() {
     dutyid_list.forEach(function (item, index) {
         duty_options = duty_options + "<option value='" + dutyid_list[index] + "'>星期" + weekday_list[index] + " " + period_list[index] + "</option>";
     });
+    var now_duty_id = getNowDutyId();
 
     $("#myModalLabelTitle").text("新建记录");
     $("#modalBody").html(
@@ -315,8 +385,10 @@ function new_record() {
     }
     //console.log(wid_current);
     $('#select_found_name').val(wid_current);
-    $('#select_found_name').prop("disabled", true);
+    $('#select_found_name').prop("disabled", false);
     $('#select_found_name').trigger("chosen:updated");
+    if (now_duty_id > -1) $('#select_period').val(now_duty_id);
+    $('#select_period').trigger("chosen:updated");
 }
 
 function solve_by_pid(pid) {
