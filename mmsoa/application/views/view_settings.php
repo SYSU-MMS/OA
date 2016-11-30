@@ -165,15 +165,6 @@
 
 <script>
     $(document).ready(function () {
-        /* Calendar */
-        $('#calendar_date .input-group.date').datepicker({
-            todayBtn: "linked",
-            keyboardNavigation: false,
-            forceParse: false,
-            calendarWeeks: true,
-            autoclose: true
-        });
-
         $('#start_dtp').datetimepicker({
             format: 'yyyy-mm-dd',
             language: 'zh-CN',

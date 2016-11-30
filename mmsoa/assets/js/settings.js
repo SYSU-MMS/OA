@@ -77,7 +77,7 @@ var get_term_list = function () {
                             "</td>" +
                         "</tr>"
                 }
-                $("#term-list").html(list_temp);
+                $("#term-list").html(list_tmp);
             }
             $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]], "paging": false});
         },
