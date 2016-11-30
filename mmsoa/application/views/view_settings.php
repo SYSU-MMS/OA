@@ -157,34 +157,28 @@
 <script src="<?= base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
 
 <!-- Date time picker -->
-<script src="<?=base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.js' ?>"></script>
-<script src="<?=base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js' ?>"></script>
+<script src="<?=base_url().'assets/js/plugins/datepicker/bootstrap-datepicker.js' ?>"></script>
+<script src="<?=base_url().'assets/js/plugins/datepicker/bootstrap-datepicker.zh-CN.min.js' ?>"></script>
 
 <script src="<?= base_url().'assets/js/settings.js' ?>"></script>
 
 
 <script>
     $(document).ready(function () {
-        $('#start_dtp').datetimepicker({
+        $('#start_dtp').datepicker({
             format: 'yyyy-mm-dd',
             language: 'zh-CN',
-            weekStart: 1,
             todayBtn:  1,
             autoclose: 1,
             todayHighlight: 1,
-            startView: 2,
-            minView: 0,
             forceParse: 1
         });
-        $('#end_dtp').datetimepicker({
+        $('#end_dtp').datepicker({
             format: 'yyyy-mm-dd',
             language: 'zh-CN',
-            weekStart: 1,
             todayBtn:  1,
             autoclose: 1,
             todayHighlight: 1,
-            startView: 2,
-            minView: 0,
             forceParse: 1
         });
 
