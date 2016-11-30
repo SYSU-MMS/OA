@@ -59,6 +59,7 @@ Class Settings extends CI_Controller
             }
 
             echo json_encode(array('state'=> true, 'term_list' => $ret));
+            return;
 
         } else {
             // 未登录的用户请先登录
@@ -78,6 +79,19 @@ Class Settings extends CI_Controller
             $schoolterm = $_POST['schoolterm'];
             $termbeginstamp = $_POST['termbeginstamp'];
             $termendstamp = $_POST['termendstamp'];
+
+            $old_term = $this->Moa_school_term_model->get_term($termbeginstamp);
+            if(count($old_term) != 0) {
+                echo json_encode(array('state'=> false, 'msg' => '新建学期失败，日期不能有重叠'));
+                return;
+            }
+
+            $old_term = $this->Moa_school_term_model->get_term($termendstamp);
+            if(count($old_term) != 0) {
+                echo json_encode(array('state'=> false, 'msg' => '新建学期失败，日期不能有重叠'));
+                return;
+            }
+
             $this->Moa_school_term_model->new_term(array(
                 'schoolyear' => $schoolyear,
                 'schoolterm' => $schoolterm,
@@ -88,8 +102,10 @@ Class Settings extends CI_Controller
             $ret = $this->db->insert_id();
             if($ret != NULL) {
                 echo json_encode(array('state'=> true, 'msg' => '新建学期成功'));
+                return;
             } else {
                 echo json_encode(array('state'=> false, 'msg' => '新建学期失败'));
+                return;
             }
 
         } else {
@@ -110,8 +126,10 @@ Class Settings extends CI_Controller
 
             if($ret !=  NULL) {
                 echo json_encode(array('state'=> true, 'msg' => '删除成功'));
+                return;
             } else {
                 echo json_encode(array('state'=> false, 'msg' => '删除失败，没有该学期信息'));
+                return;
             }
 
 
