@@ -80,6 +80,11 @@ Class Settings extends CI_Controller
             $termbeginstamp = $_POST['termbeginstamp'];
             $termendstamp = $_POST['termendstamp'];
 
+            if($termbeginstamp >= $termendstamp) {
+                echo json_encode(array('state'=> false, 'msg' => '新建学期失败，学期长度必须为正数'));
+                return;
+            }
+
             $old_term = $this->Moa_school_term_model->get_term($termbeginstamp);
             if(count($old_term) != 0) {
                 echo json_encode(array('state'=> false, 'msg' => '新建学期失败，日期不能有重叠'));
