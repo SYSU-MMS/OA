@@ -88,7 +88,8 @@ var get_term_list = function () {
             $(".users-dataTable").dataTable({"aaSorting": [[ 0, "desc" ]], "paging": false});
         },
         error: function() {
-            alert("获取历史学期失败，无法连接服务器")
+            alert("获取历史学期失败，无法连接服务器");
+            $("#now-term").html("学期设置");
         }
     });
 };
