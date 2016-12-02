@@ -1,6 +1,6 @@
 <?php
 /**
- * 抽查 Alcanderian
+ * 抽查 Alcanderian、Rinkako
  */
 class Moa_sampling_model extends CI_Model{
     /*
@@ -94,6 +94,24 @@ class Moa_sampling_model extends CI_Model{
         else {
             return false;
         }
+    }
+    
+    /**
+     * 以月份为单位获取抽查优秀排行
+     * @author Rinkako
+     */
+    public function get_rank_month() {
+        $qStr = 'SELECT wid, uid, checks, perfect FROM moa_worker ORDER BY perfect DESC';
+        return $this->db->query($qStr)->result();
+    }
+    
+    /**
+     * 获取历史累计抽查优秀排行
+     * @author Rinkako
+     */
+    public function get_rank_all() {
+        $qStr = 'SELECT uid, username, totalCheck, totalPerfect FROM moa_user ORDER BY totalPerfect DESC';
+        return $this->db->query($qStr)->result();
     }
 }
 

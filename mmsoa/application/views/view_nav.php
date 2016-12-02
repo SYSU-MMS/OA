@@ -110,6 +110,10 @@
 					'<ul class="nav nav-second-level">' .
 						'<li id="active-getTableList"><a href="'. site_url('Sampling') . '">管理</a>' .
 						'</li>' .
+                        '<li id="active-getMonthRank"><a href="'. site_url('Sampling/monthSamplingRank') . '">月排行榜</a>' .
+						'</li>' .
+                        '<li id="active-getAllRank"><a href="'. site_url('Sampling/allSamplingRank') . '">总排行榜</a>' .
+						'</li>' .
 					'</ul>' .
 				'</li>';
 			} else {	echo
@@ -117,6 +121,10 @@
 					'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 抽查日志</span> <span class="fa arrow"></span></a>' .
 					'<ul class="nav nav-second-level">' .
 						'<li id="active-getTableList"><a href="'. site_url('Sampling') . '">查看</a>' .
+						'</li>' .
+                        '<li id="active-getMonthRank"><a href="'. site_url('Sampling/monthSamplingRank') . '">月排行榜</a>' .
+						'</li>' .
+                        '<li id="active-getAllRank"><a href="'. site_url('Sampling/allSamplingRank') . '">总排行榜</a>' .
 						'</li>' .
 					'</ul>' .
 				'</li>';
