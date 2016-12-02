@@ -140,6 +140,8 @@
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
+        $("#active-systemConfig").addClass("active");
+        $("#active-active-sysreset").addClass("active");
         $("#mini").attr("href", "Settings#");
     });
 </script>
