@@ -453,6 +453,7 @@ Class Sampling extends CI_Controller
             $viewparas['namelist'] = $nameList;
             $viewparas['perlist'] = $perList;
             $viewparas['title'] = '月排行榜';
+            $viewparas['isMonth'] = 'YES';
             $this->load->view('view_sampling_statistics', $viewparas);
         } else {
             // 未登录的用户请先登录
@@ -488,6 +489,7 @@ Class Sampling extends CI_Controller
             $viewparas['namelist'] = $nameList;
             $viewparas['perlist'] = $perList;
             $viewparas['title'] = '累计排行榜';
+            $viewparas['isMonth'] = 'NO';
             $this->load->view('view_sampling_statistics', $viewparas);
         } else {
             // 未登录的用户请先登录
