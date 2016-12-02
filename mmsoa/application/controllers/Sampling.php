@@ -26,7 +26,7 @@ Class Sampling extends CI_Controller
     public function index()
     {
         if (isset($_SESSION['user_id'])) {
-            if ($_SESSION['level'] < 1) {
+            if (!isset($_SESSION['level'])) {
                 // 提示权限不够
                 PublicMethod::permissionDenied();
                 return;
@@ -52,13 +52,32 @@ Class Sampling extends CI_Controller
             if (isset($_POST['week'])) {
                 if($_POST['week'] == -1) {
                     $term = $this->Moa_school_term_model->get_term($today);
+                    if(count($term) == 0) {
+                        echo json_encode(array("status" => FALSE, "msg" => "没有本学期时间信息，请联系管理员"));
+                        return;
+                    }
                     $week = PublicMethod::get_week($term[0]->termbeginstamp, $today);
                     $week -= 1;
                 } else {
+                    $term = $this->Moa_school_term_model->get_term($today);
+                    if(count($term) == 0) {
+                        echo json_encode(array("status" => FALSE, "msg" => "没有本学期时间信息，请联系管理员"));
+                        return;
+                    }
+                    $this_week = PublicMethod::get_week($term[0]->termbeginstamp, $today);
                     $week = $_POST['week'];
+
+                    if($this_week < $week) {
+                        echo json_encode(array("status" => FALSE, "msg" => "不要新建未来的抽查表"));
+                        return;
+                    }
                 }
             } else {
                 $term = $this->Moa_school_term_model->get_term($today);
+                if(count($term) == 0) {
+                    echo json_encode(array("status" => FALSE, "msg" => "没有本学期时间信息，请联系管理员"));
+                    return;
+                }
                 $week = PublicMethod::get_week($term[0]->termbeginstamp, $today);
             }
 
@@ -79,7 +98,7 @@ Class Sampling extends CI_Controller
                 for ($j = 0; $j < $len_b; $j++) {
                     $table_list[$j + $len_a] = array(
                         "state" => 0, "timestamp" => $today,
-                        "target_uid" => $group_b[$j + $len_a]->uid,
+                        "target_uid" => $group_b[$j]->uid,
                         "on_use" => 1, "week" => $week);
                 }
 
@@ -112,7 +131,7 @@ Class Sampling extends CI_Controller
     {
         if (isset($_SESSION['user_id'])) {
             // 检查权限
-            if ($_SESSION['level'] != 1 && $_SESSION['level'] != 6) {
+            if (!isset($_SESSION['level'])) {
                 // 提示权限不够
                 PublicMethod::permissionDenied();
                 return;
@@ -126,7 +145,7 @@ Class Sampling extends CI_Controller
 
             do {
                 $tmp_stamp = $this->Moa_sampling_model->get_by_date($today, 1, 1, 0);
-                if ($tmp_stamp != false) {
+                if ($tmp_stamp != false || count($tmp_stamp) != 0) {
                     $ret_list[$index]["timestamp"] = $tmp_stamp[0]->timestamp;
                     $term = $this->Moa_school_term_model->get_term($tmp_stamp[0]->timestamp);
 
@@ -147,7 +166,7 @@ Class Sampling extends CI_Controller
                     "sample_list" => $ret_list));
                 return;
             } else {
-                echo json_encode(array("status" => false, "msg" => "获取抽查表单列表失败"));
+                echo json_encode(array("status" => false, "msg" => "获取抽查表单列表失败 或 暂无抽查表单"));
                 return;
             }
 
@@ -166,7 +185,7 @@ Class Sampling extends CI_Controller
     {
         if (isset($_SESSION['user_id'])) {
             // 检查权限
-            if ($_SESSION['level'] != 1 && $_SESSION['level'] != 6) {
+            if (!isset($_SESSION['level'])) {
                 // 提示权限不够
                 PublicMethod::permissionDenied();
                 return;
@@ -248,7 +267,7 @@ Class Sampling extends CI_Controller
     public function showTable($timestring) {
         if (isset($_SESSION['user_id'])) {
             // 检查权限
-            if ($_SESSION['level'] != 1 && $_SESSION['level'] != 6) {
+            if (!isset($_SESSION['level'])) {
                 // 提示权限不够
                 PublicMethod::permissionDenied();
                 return;
@@ -258,6 +277,10 @@ Class Sampling extends CI_Controller
                 ":".substr($timestring, 10, 2).":".substr($timestring, 12, 2);
 
             $term = $this->Moa_school_term_model->get_term($date);
+            if(count($term) == 0) {
+                echo json_encode(array("status" => FALSE, "msg" => "没有本学期时间信息，请联系管理员"));
+                return;
+            }
 
             $week = PublicMethod::get_week($term[0]->termbeginstamp, $date);
 
@@ -294,6 +317,23 @@ Class Sampling extends CI_Controller
                 echo json_encode(array("status" => false, "msg" => "删除抽查表单失败，没有时间标签"));
                 return;
             } else {
+                $old_table = $this->Moa_sampling_model->get_table($_POST['timestamp']);
+                $len = count($old_table);
+                for($i = 0; $i < $len; ++$i) {
+                    //由於無法考證是否已經月結，統一在worker表扣除
+                    $wid = $this->Moa_worker_model->get_wid_by_uid($old_table[$i]->target_uid);
+                    if($wid == NULL)  {
+                        echo json_encode(array("status" => false, "msg" => "删除抽查表单失败，没找到部分助理信息，或者部分助理已经离岗"));
+                        return;
+                    }
+                    if($old_table[$i]->state == 1) {
+                        $this->Moa_worker_model->update_check($wid, -1);
+                        $this->Moa_worker_model->update_perfect($wid, -1);
+                    } else if($old_table[$i]->operator_uid != NULL){
+                        $this->Moa_worker_model->update_check($wid, -1);
+                    }
+                }
+
                 $ret = $this->Moa_sampling_model->delete_table($_POST['timestamp']);
                 if ($ret != false) {
                     echo json_encode(array("status" => TRUE, "msg" => "删除抽查表单成功"));
@@ -324,15 +364,47 @@ Class Sampling extends CI_Controller
                 return;
             }
 
+            $old_record = $this->Moa_sampling_model->get($_POST['sid']);
+            if(count($old_record) == 0) {
+                echo json_encode(array("status" => false, "msg" => "更新失败，没找到记录"));
+                return;
+            }
+
+            $target_user = $this->Moa_user_model->get($old_record[0]->target_uid);
+            if(!isset($target_user)) {
+                echo json_encode(array("status" => false, "msg" => "更新失败，没找到用户"));
+                return;
+            }
+
             $record = array();
+
+            $wid = $this->Moa_worker_model->get_wid_by_uid($old_record[0]->target_uid);
+            if($wid == NULL)  {
+                echo json_encode(array("status" => false, "msg" => "更新失败，没找到部分助理信息，或者部分助理已经离岗"));
+                return;
+            }
+
             if($_POST['target_time_point'] != 'NULL')
                 $record['target_time_point'] = $_POST['target_time_point'];
 
             if($_POST['target_room'] != 'NULL')
                 $record['target_room'] = $_POST['target_room'];
 
-            if($_POST['state'] != 0)
+            //由於無法考證是否已經月結，統一在worker表操作
+            if($_POST['state'] != 0) {
                 $record['state'] = $_POST['state'];
+                if($_POST['state'] != 1 && $old_record[0]->state == 1) {
+                    $this->Moa_worker_model->update_perfect($wid, -1);
+                } else if($_POST['state'] == 1 && $old_record[0]->state != 1) {
+                    $this->Moa_worker_model->update_perfect($wid, 1);
+                }
+            } else if ($_POST['state'] == 0 && $old_record[0]->state == 1) {
+                $this->Moa_worker_model->update_perfect($wid, -1);
+            }
+
+            if($old_record[0]->operator_uid == NULL) {
+                $this->Moa_worker_model->update_check($wid, 1);
+            }
 
             $record['problem'] = $_POST['problem'];
             $record['operator_uid'] = $_SESSION['user_id'];

@@ -25,7 +25,7 @@ class chat extends CI_Controller {
      * map to /index.php/welcome/<method_name>
      * @see https://codeigniter.com/user_guide/general/urls.html
      */
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -44,7 +44,7 @@ class chat extends CI_Controller {
         if (isset($_SESSION['user_id'])) {
             $uid = $_SESSION['user_id'];
             //0代表正常
-            $userlist = $this->Moa_user_model->get_by_state(0);
+            $userlist = $this->Moa_user_model->get_all();
             $user = $this->Moa_user_model->get($uid);
             if(count($userlist) != 0) {
                 echo json_encode(array("status" => TRUE, "msg" => "获取所有用户列表成功", "data" => $userlist, "user" => $user, "uid" => $uid));

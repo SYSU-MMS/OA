@@ -39,6 +39,15 @@ class Moa_sampling_model extends CI_Model{
         }
     }
 
+    public function get($sid) {
+        if(isset($sid)) {
+            $this->db->where(array('sid' => $sid));
+            return $this->db->get('MOA_Sampling')->result();
+        } else {
+            return $this->db->get('MOA_Sampling')->result();
+        }
+    }
+
     public function get_table($timestamp) {
         if (isset($timestamp)) {
             $this->db->where(array('on_use' => 1, 'timestamp =' => $timestamp));

@@ -9,34 +9,23 @@
  */
 class Moa_dutyout_model extends CI_Model
 {
-    public function add_dutyout($room_id, $problem_id, $duty, $time)
+    public function add_dutyout($wid, $room_id, $problem_id, $duty, $time, $weekcount)
     {
-        if (isset($_SESSION['user_id'])) {
-            $wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
-            //$time = date("Y-m-d H:i:s");
-            $weekday = date("w") == 0 ? 7 : date("w");
-            $shorttime = date("H:i:s");
-            //$duty = PublicMethod::get_duty_periods($weekday, $shorttime, $shorttime);
-            $weekcount = PublicMethod::cal_week();
-            /*$isSuccess = $this->db->query("insert into `moa_dutyout` (`dutyid`,`wid`,`weekcount`,`outtimestamp`," .
-                "`roomid`,`problemid`) values(" .
-                $this->db->escape($duty) .
-                $this->db->escape($wid) .
-                $this->db->escape($weekcount) .
-                $this->db->escape($time) .
-                $this->db->escape($room_id) .
+        if (isset($_SESSION['user_id']) && isset($wid)) {
+
+            $sql = "insert into moa_dutyout (dutyid, wid, weekcount, outtimestamp, roomid, problemid) values(" .
+                $this->db->escape($duty) . ',' .
+                $this->db->escape($wid) . ',' .
+                $this->db->escape($weekcount) . ',' .
+                $this->db->escape($time) . ',' .
+                $this->db->escape($room_id) . ',' .
                 $this->db->escape($problem_id) .
-                ")");*/
-            $insert_data = array();
-            $insert_data['dutyid'] = $duty;
-            $insert_data['wid'] = $wid;
-            $insert_data['weekcount'] = $weekcount;
-            $insert_data['outtimestamp'] = strtotime($time);
-            $insert_data['roomid'] = $room_id;
-            $insert_data['problemid'] = $problem_id;
-            $this->db->insert('moa_dutyout', $insert_data);
+                ")";
+            //var_dump($sql);
+            $query = $this->db->query($sql);
 
             return $this->db->insert_id();
+            //return $sql;
 
         } else {
             //echo json_encode(array("status" => false));
@@ -44,18 +33,33 @@ class Moa_dutyout_model extends CI_Model
         }
     }
 
-    public function add($room_id, $description, $duty, $time)
+    public function add($wid, $pid, $duty)
     {
         if (isset($_SESSION['user_id'])) {
-            $wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
-            $insert_data = array();
-            $insert_data['founder_wid'] = $wid;
-            $insert_data['roomid'] = $room_id;
-            $insert_data['description'] = $description;
-            $problem_id = $this->Moa_problem_model->add($insert_data);
-            $do_id = $this->add_dutyout($room_id, $problem_id, $duty, $time);
+            $weekcount = PublicMethod::cal_week();
+            $problem = $this->Moa_problem_model->get($pid);
+            $room_id = $problem->roomid;
+            $time = date("Y-m-d H:i:s");
+            $do_id = $this->add_dutyout($wid, $room_id, $pid, $duty, $time, $weekcount);
             return $do_id;
         }
+    }
+
+    /**
+     * 插入一条problem
+     * @param founder_wid , found_time, roomid, description
+     * @author 高少彬
+     * @return 插入的id
+     */
+    public function insert($founder_wid, $found_time, $roomid, $description)
+    {
+
+        $sql = 'insert into moa_problem ' .
+            '	(founder_wid, found_time, roomid, description) ' .
+            'value (' . $founder_wid . ', \'' . $found_time . '\', ' . $roomid . ', \'' . $description . '\');';
+        $result = $this->db->query($sql);
+        return $this->db->insert_id();
+
     }
 
     public function get($offset = 0, $limit = 20)
@@ -63,16 +67,18 @@ class Moa_dutyout_model extends CI_Model
 
     }
 
-    public function get_all()
+    public function get_all($para = 0)
     {
         if (isset($_SESSION['user_id'])) {
-            $query = $this->db->query("select * from moa_dutyout order by `doid` DESC");
-            //$this->db->order_by('doid','DESC');
-            //$this->db->select();
-            //var_dump($query);
-            $result = $query->result();
-            //echo json_encode(array("status" => true, "data" => $result));
-            return $result;
+            if ($para == 0) {
+                $query = $this->db->query("select * from moa_dutyout order by `doid` DESC");
+                $result = $query->result();
+                return $result;
+            } else {
+                $query = $this->db->query("select * from moa_dutyout where state = 0 order by `doid` DESC");
+                $result = $query->result();
+                return $result;
+            }
         } else {
             //PublicMethod::requireLogin();
         }
@@ -88,7 +94,7 @@ class Moa_dutyout_model extends CI_Model
         }
     }
 
-    public function update_by_id($doid, $wid, $time)
+    /*public function update_by_id($doid, $wid, $time)
     {
         if (isset($_SESSION['user_id'])) {
             //$time = date("Y-m-d H:i:s");
@@ -105,15 +111,18 @@ class Moa_dutyout_model extends CI_Model
         } else {
             return false;
         }
-    }
+    }*/
 
     public function delete_by_doid($doid)
     {
         if (isset($_SESSION['user_id'])) {
-            $sql = "update moa_dutyout set state = 1 where doid = " . $this->db->escape($doid);
-            $query = $this->db->query($sql);
-            return $query;
+            if ($_SESSION['level'] >= 2) {
+                $sql = "update moa_dutyout set state = 1 where doid = " . $this->db->escape($doid);
+                $query = $this->db->query($sql);
+                return $query;
+            }
         }
+        //return false;
     }
 
 

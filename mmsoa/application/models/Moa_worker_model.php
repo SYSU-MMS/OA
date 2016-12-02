@@ -350,13 +350,13 @@ class Moa_worker_model extends CI_Model {
 
 	/**
 	 * 给指定助理修改本月被抽查次数 
-	 * @param uid - 用户id
+	 * @param wid - 助理id
 	 * @param contrib - 修改量
 	 * @return 该助理最新的本月被抽查次数
 	 */
-	public function update_check($uid, $contrib = 1) {
-		if (isset($uid) and isset($contrib)) {
-			$sb = 'UPDATE MOA_User SET checks = checks + ' . $contrib . ' WHERE wid = ' . $wid;
+	public function update_check($wid, $contrib = 1) {
+		if (isset($wid) and isset($contrib)) {
+			$sb = 'UPDATE MOA_Worker SET checks = checks + ' . $contrib . ' WHERE wid = ' . $wid;
 			$affected_lines = $this->db->query($sb);
 			return $affected_lines;
 		}
@@ -367,7 +367,7 @@ class Moa_worker_model extends CI_Model {
 
 	/**
 	 * 给指定助理修改本月被扣除工时
-	 * @param uid - 用户id
+	 * @param wid - 助理id
 	 * @param contrib - 修改量
 	 * @return 该助理最新的本月被扣除工时
 	 */

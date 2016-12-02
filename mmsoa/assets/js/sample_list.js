@@ -39,7 +39,7 @@ var show_list = function () {
                         "</td>" +
                         "<td>" +
                         "<a href='" + detailherf + link_time_stamp(ret['sample_list'][i]['timestamp']) + "'>" +
-                        "<b>查看/修改</b>" +
+                        "<b class='manager'>查看/修改</b>" + "<b class='viewer'>查看</b>" + 
                         "</a>" +
                         "<button id='delete_" + link_time_stamp(ret['sample_list'][i]['timestamp']) +"' type='button' class='btn btn-xs btn-outline btn-danger manager' value='"+ret['sample_list'][i]['timestamp']+"' onclick='delete_table(this.value)' style='margin-left: 10px;'>" +
                         "<i class='fa fa-close'></i><span> 移除</span></button>" +
@@ -71,11 +71,11 @@ var delete_table = function (time) {
                     alert(ret['msg']);
                     $(".users-dataTable").DataTable().row($("#delete_" + link_time_stamp(time)).parents('tr')).remove().draw();
                 } else {
-                    alert(arguments[1]);
+                    alert(ret['msg']);
                 }
             },
             error: function () {
-                alert(arguments[1]);
+                alert("删除失败");
             }
 
         });
