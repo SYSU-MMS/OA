@@ -445,7 +445,7 @@ Class Sampling extends CI_Controller
                     $perList[$i] = '0.00%';
                 }
                 else {
-                    $perList[$i] = sprintf('%.2f', ($rankList[$i]->perfect / $rankList[$i]->checks)).'%';
+                    $perList[$i] = sprintf('%.2f', ($rankList[$i]->perfect / $rankList[$i]->checks * 100.0)).'%';
                 }
             }
             $viewparas['perfectlist'] = $perfectList;
@@ -481,7 +481,7 @@ Class Sampling extends CI_Controller
                     $perList[$i] = '0.00%';
                 }
                 else {
-                    $perList[$i] = sprintf('%.2f', ($rankList[$i]->totalPerfect / $rankList[$i]->totalCheck)).'%';
+                    $perList[$i] = sprintf('%.2f', ($rankList[$i]->totalPerfect / $rankList[$i]->totalCheck * 100.0)).'%';
                 }
             }
             $viewparas['perfectlist'] = $perfectList;
