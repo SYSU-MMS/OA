@@ -1,6 +1,6 @@
 <?php
 /**
- * User: alcanderian
+ * Author: alcanderian、Rinkako
  */
 header("Content-type: text/html; charset=utf-8");
 
@@ -425,4 +425,75 @@ Class Sampling extends CI_Controller
             return;
         }
     }
+    
+    /**
+     * 查看本月抽查统计
+     */
+    public function monthSamplingRank() {
+        if (isset($_SESSION['user_id'])) {
+            $rankList = $this->Moa_sampling_model->get_rank_month();
+            $nameList = array();
+            $perList = array();
+            $perfectList = array();
+            $checkList = array();
+            for ($i = 0; $i < count($rankList); $i++) {
+                $userObj = $this->Moa_user_model->get($rankList[$i]->uid);
+                $nameList[$i] = $userObj->name;
+                $perfectList[$i] = $rankList[$i]->perfect;
+                $checkList[$i] = $rankList[$i]->checks;
+                if ($rankList[$i]->checks == 0) {
+                    $perList[$i] = '0.00%';
+                }
+                else {
+                    $perList[$i] = sprintf('%.2f', ($rankList[$i]->perfect / $rankList[$i]->checks)).'%';
+                }
+            }
+            $viewparas['perfectlist'] = $perfectList;
+            $viewparas['checklist'] = $checkList;
+            $viewparas['namelist'] = $nameList;
+            $viewparas['perlist'] = $perList;
+            $viewparas['title'] = '月排行榜';
+            $this->load->view('view_sampling_statistics', $viewparas);
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+            return;
+        }
+    }
+    
+    /**
+     * 查看累计抽查统计
+     */
+    public function allSamplingRank() {
+        if (isset($_SESSION['user_id'])) {
+            $rankList = $this->Moa_sampling_model->get_rank_all();
+            $nameList = array();
+            $perList = array();
+            $perfectList = array();
+            $checkList = array();
+            for ($i = 0; $i < count($rankList); $i++) {
+                $userObj = $this->Moa_user_model->get($rankList[$i]->uid);
+                $nameList[$i] = $userObj->name;
+                $perfectList[$i] = $rankList[$i]->totalPerfect;
+                $checkList[$i] = $rankList[$i]->totalCheck;
+                if ($rankList[$i]->totalCheck == 0) {
+                    $perList[$i] = '0.00%';
+                }
+                else {
+                    $perList[$i] = sprintf('%.2f', ($rankList[$i]->totalPerfect / $rankList[$i]->totalCheck)).'%';
+                }
+            }
+            $viewparas['perfectlist'] = $perfectList;
+            $viewparas['checklist'] = $checkList;
+            $viewparas['namelist'] = $nameList;
+            $viewparas['perlist'] = $perList;
+            $viewparas['title'] = '累计排行榜';
+            $this->load->view('view_sampling_statistics', $viewparas);
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+            return;
+        }
+    }
+    
 }
