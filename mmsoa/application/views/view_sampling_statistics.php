@@ -107,9 +107,16 @@
     <!-- nav item active -->
 	<script>
 		$(document).ready(function () {
-			$("#active-sampling").addClass("active");
-			$("#active-getMonthRank").addClass("active");
-			$("#mini").attr("href", "Sampling#");
+            var monthStr = "<?php echo $isMonth?>";
+            if (monthStr == "YES") {
+                $("#active-sampling").addClass("active");
+                $("#active-getMonthRank").addClass("active");
+            }
+            else {
+                $("#active-sampling").addClass("active");
+                $("#active-getAllRank").addClass("active");
+            }
+            $("#mini").attr("href", "Sampling#");
 		});
 	</script>
 
