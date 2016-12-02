@@ -146,7 +146,10 @@
     <script>
         $(document).ready(function () {
            
-        	$('.users-dataTable').dataTable();
+            // dataTable
+            $('.users-dataTable').dataTable({
+                "iDisplayLength": 50
+            });
 
             /* Calendar */
             $('#calendar_date .input-group.date').datepicker({
