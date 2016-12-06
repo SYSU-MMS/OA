@@ -104,6 +104,8 @@
     $(document).ready(function () {
         var mini = "<?php echo $data?>";
         $("#mini").attr("href", mini + "#");
+        $("#active-sampling").addClass("active");
+        $("#active-getTableList").addClass("active");
     });
 </script>
 
@@ -126,6 +128,7 @@
 
 <script>
     $(document).ready(function () {
+
         /* Calendar */
         $('#calendar_date .input-group.date').datepicker({
             todayBtn: "linked",

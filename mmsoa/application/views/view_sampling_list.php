@@ -122,6 +122,8 @@
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
+        $("#active-sampling").addClass("active");
+        $("#active-getTableList").addClass("active");
         $("#mini").attr("href", "Sampling#");
     });
 </script>
