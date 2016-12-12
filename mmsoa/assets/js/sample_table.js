@@ -173,9 +173,14 @@ var post_table = function (num) {
         }
         var st = $("#state_" + num + " option:selected").attr("value");
         var text = $.trim($("#problem_edit_" + num).val());
-        if((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']) && (tr == "NULL" || tr == table_tmp[num]['classroom']) && st == table_tmp[num]['state'] && (text == table_tmp[num]['problem'])) {
+
+        if((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']) &&
+            (tr == "NULL" || tr == table_tmp[num]['classroom']) &&
+            st == table_tmp[num]['state'] &&
+            (text == table_tmp[num]['problem'])) {
             post_table(num + 1);
         } else {
+            console.log("post " + num);
             $.ajax({
                 url: $("#baseurl").html() + "index.php/Sampling/upDateRecord",
                 type: 'post',
