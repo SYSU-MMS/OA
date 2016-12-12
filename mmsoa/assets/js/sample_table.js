@@ -176,12 +176,12 @@ var post_table = function (num) {
 
         console.log(num);
         console.log((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']));
-        console.log((tr == "NULL" || tr == table_tmp[num]['classroom']));
+        console.log((tr == "NULL" || tr == table_tmp[num]['target_room']));
         console.log(st == table_tmp[num]['state']);
         console.log((text == table_tmp[num]['problem']));
 
         if((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']) &&
-            (tr == "NULL" || tr == table_tmp[num]['classroom']) &&
+            (tr == "NULL" || tr == table_tmp[num]['target_room']) &&
             st == table_tmp[num]['state'] &&
             (text == table_tmp[num]['problem'])) {
             post_table(num + 1);
