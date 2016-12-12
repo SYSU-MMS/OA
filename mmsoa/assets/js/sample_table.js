@@ -88,7 +88,7 @@ var show_table = function () {
                         "<option value='NULL'>未选择</option>";
                     for(var j = 0; j < ret['sample_table'][i]['classroom'].length; ++j) {
                         table_temp +=
-                            "<option value='" + j +"' ";
+                            "<option value='" + ret['sample_table'][i]['classroom'][j] +"' ";
                         if(ret['sample_table'][i]['classroom'][j] == ret['sample_table'][i]['target_room']) {
                             table_temp += "selected='selected'";
                         }
@@ -167,7 +167,7 @@ var post_table = function (num) {
     if(num < table_len) {
         var sid = parseInt($("#sid_" + num).html());
         var ttp = $("#time_point_" + num + " option:selected").attr("value");
-        var tr = $("#classroom_" + num + " option:selected").html();
+        var tr = $("#classroom_" + num + " option:selected").attr("value");
         if($("#classroom_" + num + " option:selected").attr("value") == "NULL") {
             tr = "NULL";
         }
