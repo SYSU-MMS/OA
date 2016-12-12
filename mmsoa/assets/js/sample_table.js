@@ -174,11 +174,13 @@ var post_table = function (num) {
         var st = $("#state_" + num + " option:selected").attr("value");
         var text = $.trim($("#problem_edit_" + num).val());
 
+        /*
         console.log(num);
         console.log((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']));
         console.log((tr == "NULL" || tr == table_tmp[num]['target_room']));
         console.log(st == table_tmp[num]['state']);
         console.log((text == table_tmp[num]['problem']));
+        */
 
         if((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']) &&
             (tr == "NULL" || tr == table_tmp[num]['target_room']) &&
