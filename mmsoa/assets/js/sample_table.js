@@ -88,7 +88,7 @@ var show_table = function () {
                         "<option value='NULL'>未选择</option>";
                     for(var j = 0; j < ret['sample_table'][i]['classroom'].length; ++j) {
                         table_temp +=
-                            "<option value='" + j +"' ";
+                            "<option value='" + ret['sample_table'][i]['classroom'][j] +"' ";
                         if(ret['sample_table'][i]['classroom'][j] == ret['sample_table'][i]['target_room']) {
                             table_temp += "selected='selected'";
                         }
@@ -167,15 +167,28 @@ var post_table = function (num) {
     if(num < table_len) {
         var sid = parseInt($("#sid_" + num).html());
         var ttp = $("#time_point_" + num + " option:selected").attr("value");
-        var tr = $("#classroom_" + num + " option:selected").html();
+        var tr = $("#classroom_" + num + " option:selected").attr("value");
         if($("#classroom_" + num + " option:selected").attr("value") == "NULL") {
             tr = "NULL";
         }
         var st = $("#state_" + num + " option:selected").attr("value");
         var text = $.trim($("#problem_edit_" + num).val());
-        if((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']) && (tr == "NULL" || tr == table_tmp[num]['classroom']) && st == table_tmp[num]['state'] && (text == table_tmp[num]['problem'])) {
+
+        /*
+        console.log(num);
+        console.log((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']));
+        console.log((tr == "NULL" || tr == table_tmp[num]['target_room']));
+        console.log(st == table_tmp[num]['state']);
+        console.log((text == table_tmp[num]['problem']));
+        */
+
+        if((ttp == "NULL" || ttp == table_tmp[num]['target_time_point']) &&
+            (tr == "NULL" || tr == table_tmp[num]['target_room']) &&
+            st == table_tmp[num]['state'] &&
+            (text == table_tmp[num]['problem'])) {
             post_table(num + 1);
         } else {
+            console.log("post " + num);
             $.ajax({
                 url: $("#baseurl").html() + "index.php/Sampling/upDateRecord",
                 type: 'post',
