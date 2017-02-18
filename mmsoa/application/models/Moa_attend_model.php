@@ -1,5 +1,56 @@
 <?php
 class Moa_attend_model extends CI_Model {
+
+	/**
+	 * 取出所有代班记录
+	 * @return 返回所有记录
+	 */
+	public function get_by_isSubstitute() {
+		$sql =  ''.
+						'SELECT '.
+						'  attend_id , wid , timestamp, type, substituteFor, applyid '.
+						'FROM '.
+						'  MOA_Attendence '.
+						'WHERE '.
+						'  isSubstitute = 1; ';
+		return $this->db->query($sql)->result();
+	}
+
+	/**
+	 * 根据代班人，时间段取出所有代班记录
+	 * @return 返回所有记录
+	 */
+	public function get_by_time_and_wid($startTime, $endTime, $actual_wid) {
+		if($actual_wid == NULL) {
+			$sql =  ''.
+							'SELECT '.
+							'  attend_id , wid , timestamp, type, substituteFor, applyid '.
+							'FROM '.
+							'  MOA_Attendence '.
+							'WHERE '.
+							'  isSubstitute = 1 '.
+							'AND timestamp <= \''.$endTime.'\' '.
+							'AND timestamp >= \''.$startTime.'\' ;';
+		}
+
+
+		else {
+			$sql =  ''.
+							'SELECT '.
+							'  attend_id , wid , timestamp, type, substituteFor, applyid '.
+							'FROM '.
+							'  MOA_Attendence '.
+							'WHERE '.
+							'  isSubstitute = 1 '.
+							'AND wid = '.$actual_wid.' '.
+							// 'AND (wid = '.$actual_wid.' OR substituteFor = '.$actual_wid.' )'.
+							'AND timestamp <= \''.$endTime.'\' '.
+							'AND timestamp >= \''.$startTime.'\' ;';
+		}
+
+		return $this->db->query($sql)->result();
+	}
+
 	/**
 	 * 添加值班考勤记录
 	 * @param paras - 参数列表
@@ -14,7 +65,7 @@ class Moa_attend_model extends CI_Model {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 取指定周次、星期、类型的考勤记录
 	 * @param weekcount - 周次
@@ -37,5 +88,5 @@ class Moa_attend_model extends CI_Model {
 			return false;
 		}
 	}
-	
+
 }
