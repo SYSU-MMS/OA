@@ -57,6 +57,8 @@
 		                    '</li>' .
                             '<li id="active-dutyout"><a href="'. site_url('DutyOut') . '">出勤</a>'.
                             '</li>' .
+                            '<li id="active-filming"><a href="'. site_url('Filming') . '">拍摄</a>'.
+                            '</li>' .
 		                '</ul>' .
 		            '</li>';
 		        }
