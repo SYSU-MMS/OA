@@ -103,7 +103,6 @@ class Moa_user_model extends CI_Model {
 
     /**
      * 所有用户
-     * @param mystate - 状态
      */
     public function get_all() {
         $sql = 'select * from moa_user where state != 2;';
