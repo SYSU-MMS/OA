@@ -28,7 +28,14 @@ Class Filming extends CI_Controller {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
-			
+
+			$data = array();
+			$data['f_fid'] = array();
+			$data['f_wid'] = array();
+			$data['f_fmname'] = array();
+			$data['f_aename'] = array();
+			$data['f_date'] = array();
+
 			$this->load->view('view_filming');
 		} else {
 			// 未登录的用户请先登录

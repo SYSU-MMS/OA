@@ -55,57 +55,6 @@
 
                 </div>
             </div>
-            <!--div class="wrapper wrapper-content animated fadeInRight">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>拍摄登记</h5>
-                            	<div class="ibox-content">
-                                	<div class="panel blank-panel">
-
-	                                    <div class="panel-heading">
-	                                        <div class="panel-options">
-	                                            <ul class="nav nav-tabs">
-	                                                <li class="active"><a data-toggle="tab" href="tabs_panels.html#base">拍摄</a>
-	                                                </li>
-	                                            </ul>
-	                                        </div>
-	                                    </div>
-	
-	                                    <div class="panel-body my-panel-body">
-	                                        <div class="tab-content">
-	                                            <div id="base" class="tab-pane active">
-	                                            	<div style="height:50px;">
-	                                            		<h5>签到：
-	                                            			<span><input type="checkbox" name="signin_filming" id="filming" class="js-switch" /></span>
-	                                            		</h5>
-	                                            	</div>
-						                            <h5>拍摄时间：&nbsp;<small>请拖动绿条选择时间段</small></h5>
-						                            <div class="ibox-content" style="margin-bottom: 0px; padding-bottom: 0px;">
-						                                <div class="form-horizontal" id="filming_form">
-						                                    <div class="form-group"  style="height: 70px;">
-						                                		<div id="range_slider"></div>
-						                                	</div>
-						                                    <div class="hr-line-dashed"></div>
-						                                    <div class="form-group">
-						                                        <div class="col-sm-4 col-sm-offset-5">
-						                                            <button id="submit_filming" class="btn btn-primary" disabled="" type="submit" 
-						                                            data-toggle="modal" data-target="#myModal">提交</button>
-						                                        </div>
-						                                    </div>
-						                                </div>
-						                            </div>
-	                                            </div>
-	                                        </div>
-	                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div-->
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">
