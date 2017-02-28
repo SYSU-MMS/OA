@@ -135,7 +135,7 @@
     </div>
 </div>
 
-<?php $this->load->view('view_modal'); ?>
+<?php //$this->load->view('view_modal'); ?>
 
 <!-- Mainly scripts -->
 <script src="<?= base_url() . 'assets/js/jquery-2.1.1.min.js' ?>"></script>
@@ -254,7 +254,22 @@
         $(selector).chosen(config[selector]);
     }
 
+    $("label").attr("float","right");
+
 </script>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="z-index: 10;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 90px;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabelTitle"></h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 
