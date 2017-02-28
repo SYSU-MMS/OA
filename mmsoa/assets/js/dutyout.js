@@ -1,5 +1,5 @@
 /**
- * Created by Jerry on 2016/11/20.
+ * Created by 钟凌山 on 2016/11/20.
  */
 var room_list = [];
 var roomid_list = [];
