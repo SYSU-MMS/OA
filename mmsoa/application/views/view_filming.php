@@ -55,7 +55,7 @@
 
                 </div>
             </div>
-            <div class="wrapper wrapper-content animated fadeInRight">
+            <!--div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox float-e-margins">
@@ -101,6 +101,103 @@
 	                                    </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div-->
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>查看和登记拍摄</h5>
+                                <div class="btn_group"
+                                     style="margin-right:15px;margin-left:auto;width:50px;text-align: right;">
+                                    <button class="btn btn-primary btn-xs" id="new_record_btn" onclick="new_record()"
+                                            data-toggle="modal" data-target="#myModal">新增记录
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ibox-content">
+
+                                <table id="dutyout_table"
+                                       class="table table-striped table-bordered table-hover users-dataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>日期</th>
+                                        <th>姓名</th>
+                                        <th>拍摄名称</th>
+                                        <th>后期名称</th>
+                                        <th>工时</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php /*for ($i = 0; $i < count($d_doid); $i++) { ?>
+                                        <tr class="duty_content" id="duty_content_<?php echo $d_doid[$i]; ?>">
+                                            <td><?php echo $d_doid[$i]; ?></td>
+                                            <td><?php echo $d_room[$i]; ?></td>
+                                            <td><?php echo $d_description[$i]; ?></td>
+                                            <td><?php echo "星期" . $d_weekdaytranslate[$i] . "&nbsp;" . $d_periodtime[$i]; ?></td>
+                                            <td><?php echo $d_outtime[$i]; ?></td>
+                                            <td><?php echo $d_name[$i]; ?></td>
+                                            <td>
+                                                <?php
+                                                if ($d_solvetime[$i] != false) {
+                                                    echo $d_solvetime[$i];
+                                                } else {
+                                                    echo "<span style=\"color:red;\">待解决</span>";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($d_solvename[$i] != false) {
+                                                    echo $d_solvename[$i];
+                                                } else {
+                                                    echo "&nbsp;";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($d_solution[$i] != false) {
+                                                    echo $d_solution[$i];
+                                                } else {
+                                                    echo "&nbsp;";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($d_solvetime[$i] == false) {
+                                                    echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
+                                                    echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" .
+                                                        $d_doid[$i] . "' onclick='solve_by_pid(" . $d_problemid[$i] . ")'" .
+                                                        " data-toggle='modal' data-target='#myModal'>解决</button>";
+                                                    if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
+                                                        echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
+                                                        //echo var_dump($_SESSION['user_id'], $d_uid[$i]);
+                                                    }
+                                                    echo "</div>";
+                                                } else {
+                                                    echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
+                                                    //echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_".$d_doid[$i]."'>解决</button>";
+                                                    if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
+                                                        echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
+                                                    } else {
+                                                        echo "<p>已解决</p>";
+                                                    }
+                                                    echo "</div>";
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                    <?php } */?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
