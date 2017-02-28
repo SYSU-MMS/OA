@@ -231,6 +231,7 @@
             autoclose: true,
         });
 
+        $("label").attr("float","right");
 
     });
 
@@ -254,7 +255,6 @@
         $(selector).chosen(config[selector]);
     }
 
-    $("label").attr("float","right");
 
 </script>
 
