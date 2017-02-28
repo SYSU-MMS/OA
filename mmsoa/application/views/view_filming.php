@@ -231,7 +231,7 @@
             autoclose: true,
         });
 
-        $("label").attr("float","right");
+        $("label").css("float", "right");
 
     });
 
