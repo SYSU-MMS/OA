@@ -225,29 +225,40 @@
 		});
 	</script>
 
-    <!-- Custom and plugin javascript -->
-    <script src="<?=base_url().'assets/js/hplus.js?v=2.2.0' ?>"></script>
-    <script src="<?=base_url().'assets/js/plugins/pace/pace.min.js' ?>"></script>
-    
-    <!-- Dynamic date -->
-    <script src="<?=base_url().'assets/js/dynamicDate.js' ?>"></script>
-    
-    <!-- Moment -->
-    <script src="<?=base_url().'assets/js/plugins/moment/moment-with-locales.min.js' ?>"></script>
-    
-    <!-- IonRangeSlider -->
-    <script src="<?=base_url().'assets/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' ?>"></script>
-    
-    <!-- layer javascript -->
-    <script src="<?=base_url().'assets/js/plugins/layer/layer.js' ?>"></script>
-    <script>
-        layer.use('extend/layer.ext.js'); //载入layer拓展模块
-    </script>
 
-    <script src="<?=base_url().'assets/js/demo/layer-demo.js' ?>"></script>
-    
-    <!-- Switchery -->
-    <script src="<?=base_url().'assets/js/plugins/switchery/switchery.js' ?>"></script>
+    <!-- Custom and plugin javascript -->
+    <script src="<?= base_url() . 'assets/js/hplus.js?v=2.2.0' ?>"></script>
+    <script src="<?= base_url() . 'assets/js/plugins/pace/pace.min.js' ?>"></script>
+
+    <!-- Dynamic date -->
+    <script src="<?= base_url() . 'assets/js/dynamicDate.js' ?>"></script>
+
+    <!-- Jquery Validate -->
+    <script type="text/javascript" src="<?= base_url() . 'assets/js/plugins/validate/jquery.validate.min.js' ?>"></script>
+    <script type="text/javascript" src="<?= base_url() . 'assets/js/plugins/validate/messages_zh.min.js' ?>"></script>
+
+    <!-- iCheck -->
+    <script src="<?= base_url() . 'assets/js/plugins/iCheck/icheck.min.js' ?>"></script>
+
+    <!-- Chosen -->
+    <script src="<?= base_url() . 'assets/js/plugins/chosen/chosen.jquery.js' ?>"></script>
+
+    <!-- JSKnob -->
+    <script src="<?= base_url() . 'assets/js/plugins/jsKnob/jquery.knob.js' ?>"></script>
+
+    <!-- Input Mask-->
+    <script src="<?= base_url() . 'assets/js/plugins/jasny/jasny-bootstrap.min.js' ?>"></script>
+
+    <!-- Date picker -->
+    <script src="<?= base_url() . 'assets/js/plugins/datepicker/bootstrap-datepicker.js' ?>"></script>
+
+    <!-- Date time picker -->
+    <script src="<?= base_url() . 'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.js' ?>"></script>
+    <script src="<?= base_url() . 'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js' ?>"></script>
+
+    <!-- Data Tables -->
+    <script src="<?= base_url() . 'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
+    <script src="<?= base_url() . 'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
     
 	<script> 
 		$(document).ready(function () {
