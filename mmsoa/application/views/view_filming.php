@@ -231,8 +231,6 @@
             autoclose: true,
         });
 
-        $("label").css("float", "right");
-
     });
 
     /* Chosen */
