@@ -71,7 +71,7 @@
                         </div>
                         <div class="ibox-content">
 
-                            <table id="dutyout_table"
+                            <table id="filming_table"
                                    class="table table-striped table-bordered table-hover users-dataTable">
                                 <thead>
                                 <tr>
