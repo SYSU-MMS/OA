@@ -143,3 +143,25 @@ function new_record() {
     console.log("new record");
 
 }
+
+function delete_by_fid(fid) {
+    var notice = "确认要删除序号为 " + fid + " 的记录吗？";
+    if (confirm(notice)) {
+        $.ajax({
+            'type': 'post',
+            'url': 'Filming/delete',
+            'data': {
+                'fid': fid
+            },
+            success: function (msg) {
+                var ret = JSON.parse(msg);
+                if (ret['status'] == true) {
+                    alert(ret['msg']);
+                    $("#filming_content_" + fid).remove();
+                } else {
+                    alert(ret['msg']);
+                }
+            }
+        });
+    }
+}

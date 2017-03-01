@@ -57,11 +57,11 @@ class Moa_filming_model extends CI_Model
     public function delete_by_fid($fid)
     {
         if (isset($_SESSION['user_id'])) {
-            if ($_SESSION['level'] >= 2) {
-                $sql = "update moa_dutyout set state = 1 where fid = " . $this->db->escape($fid);
-                $query = $this->db->query($sql);
-                return $query;
-            }
+            //if ($_SESSION['level'] >= 2) {
+            $sql = "update moa_filming set state = 1 where fid = " . $this->db->escape($fid);
+            $query = $this->db->query($sql);
+            return $query;
+            //}
         }
         //return false;
     }
