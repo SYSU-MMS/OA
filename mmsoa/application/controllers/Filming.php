@@ -90,6 +90,7 @@ Class Filming extends CI_Controller
         }
     }
 
+    //获取当前用户信息
     public function getInformation()
     {
         if (isset($_SESSION['user_id'])) {
@@ -107,6 +108,7 @@ Class Filming extends CI_Controller
         }
     }
 
+    //新建拍摄记录
     public function insertFilmingRecord()
     {
         if (isset($_SESSION['user_id']) && isset($_POST['date']) && isset($_POST['worktime']) && $_POST['worktime'] >= 0) {
@@ -116,6 +118,7 @@ Class Filming extends CI_Controller
             $fmname = $_POST['fmname'];
             $aename = $_POST['aename'];
             $worktime = $_POST['worktime'];
+            //依次添加记录和修改当月工时
             $fid = $this->Moa_filming_model->add($wid, $date, $fmname, $aename, $worktime);
             $this->Moa_worker_model->update_worktime($wid, $worktime);
             if ($fid != false) {
@@ -128,12 +131,29 @@ Class Filming extends CI_Controller
         }
     }
 
+    //根据fid获取信息
     public function get()
     {
-        if (isset($_POST['fid'])) {
+        if (isset($_SESSION['user_id']) && isset($_POST['fid'])) {
             $data = $this->Moa_filming_model->get_by_fid($_POST['fid']);
             echo json_encode(array("status" => TRUE, "msg" => "获取成功", "data" => $data));
         }
+    }
+
+    public function delete()
+    {
+        if (isset($_SESSION['user_id']) && isset($_POST['fid'])) {
+            $data = $this->Moa_filming_model->get_by_fid($_POST['fid']);
+            $worktime = $data->worktime;
+            $uid = $this->Moa_worker_model->get_uid_by_wid($data->wid);
+            if ($_SESSION['level'] >= 2 || $_SESSION['user_id'] == $uid) {
+                $fid = $this->Moa_filming_model->delete_by_fid($_POST['fid']);
+                $this->Moa_worker_model->update_worktime($data->wid, -$worktime);
+                echo json_encode(array("status" => TRUE, "msg" => "删除成功"));
+                return;
+            }
+        }
+        echo json_encode(array("status" => FALSE, "msg" => "删除失败"));
     }
 
 }

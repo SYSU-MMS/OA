@@ -102,9 +102,7 @@
                                             <?php
                                             if ($_SESSION['level'] >= 2 || $_SESSION['user_id'] == $d_uid[$i]) {
                                                 echo "<div class='btn-group' id='filming_btn_group_" . $d_fid[$i] . "'>";
-                                                echo "<button class='btn btn-danger btn-xs' id='filming_btn_delete_" .
-                                                    $d_fid[$i] . "' onclick='delete_by_fid(" . $d_fid[$i] . ")'" .
-                                                    " data-toggle='modal' data-target='#myModal'>删除</button>";
+                                                echo "<button class='btn btn-danger btn-xs' id='filming_btn_delete_" . $d_fid[$i] . "' onclick='delete_by_fid(" . $d_fid[$i] . ")'>删除</button>";
                                             }
                                             ?>
                                         </td>
