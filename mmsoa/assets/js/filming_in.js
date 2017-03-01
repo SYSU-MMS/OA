@@ -86,7 +86,7 @@ function new_record() {
         '          <div class="form-group"> ' +
         '              <label class="col-sm-3 control-label">摄制人：</label> ' +
         '              <div class="col-sm-8"> ' +
-        '                   <span>' + name + '</span>' +
+        '                   <input type="text" id="w_name" class="input-sm form-control dtp-input-div" name="w_name" value="' + name + '" disabled="true"></input>' +
         '              </div> ' +
         '          </div> ' +
         '          <div class="form-group"> ' +
