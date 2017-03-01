@@ -19,7 +19,7 @@ function getFormatDate(date_in) {
 }
 
 function insert_filming() {
-    
+
 }
 
 function new_record() {
@@ -52,6 +52,12 @@ function new_record() {
         '              </div> ' +
         '          </div> ' +
         '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">工时：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <textarea id="worktime" name="worktime" class="form-control" required="" aria-required="true"></textarea> ' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
         '              <div class="col-sm-4 col-sm-offset-3"> ' +
         '                  <button onclick="insert_filming()" class="btn btn-primary" type="submit">提交</button> ' +
         '              </div> ' +
@@ -67,7 +73,7 @@ function new_record() {
         autoclose: 1,
         todayHighlight: 1,
         startView: 2,
-        minView: 0,
+        minView: 2,
         forceParse: 1
     });
 
