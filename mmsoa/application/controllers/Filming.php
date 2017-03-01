@@ -6,6 +6,7 @@ require_once('PublicMethod.php');
 /**
  * 拍摄登记控制类
  * @author 伟
+ * updated by 钟凌山
  */
 Class Filming extends CI_Controller
 {
@@ -88,5 +89,49 @@ Class Filming extends CI_Controller
         }
     }
 
+    public function getInformation()
+    {
+        if (isset($_SESSION['user_id'])) {
+            $data = array();
+            $uid = $_SESSION['user_id'];
+            $wid = $this->Moa_worker_model->get_wid_by_uid($uid);
+            $data['wid'] = $wid;
+            $user_obj = $this->Moa_user_model->get($uid);
+            $name = $user_obj->name;
+            $data['name'] = $name;
+
+            echo json_encode(array("status" => TRUE, "msg" => "获取信息成功", "data" => $data));
+        } else {
+            echo json_encode(array("status" => FALSE, "msg" => "获取信息失败"));
+        }
+    }
+
+    public function insertFilmingRecord()
+    {
+        if (isset($_SESSION['user_id'])) {
+            date_default_timezone_set('PRC');
+            $wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
+            $date = $_POST['date'];
+            $fmname = $_POST['fmname'];
+            $aename = $_POST['aename'];
+            $worktime = $_POST['worktime'];
+            $fid = $this->Moa_filming_model->add($wid, $date, $fmname, $aename, $worktime);
+            if ($fid != false) {
+                echo json_encode(array("status" => TRUE, "msg" => "添加成功", "insert_id" => $fid));
+            } else {
+                echo json_encode(array("status" => FALSE, "msg" => "添加失败"));
+            }
+        } else {
+            echo json_encode(array("status" => FALSE, "msg" => "添加失败"));
+        }
+    }
+
+    public function get()
+    {
+        if (isset($_POST['fid'])) {
+            $data = $this->Moa_filming_model->get_by_fid($_POST['fid']);
+            echo json_encode(array("status" => TRUE, "msg" => "获取成功", "data" => $data));
+        }
+    }
 
 }

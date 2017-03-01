@@ -27,7 +27,8 @@
     <link href="<?= base_url() . 'assets/css/plugins/ionRangeSlider/ion.rangeSlider.skinHTML5.css' ?>" rel="stylesheet">
 
     <link href="<?= base_url() . 'assets/css/plugins/datepicker/datepicker3.css' ?>" rel="stylesheet">
-    <link href="<?= base_url() . 'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css' ?>" rel="stylesheet">
+    <link href="<?= base_url() . 'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css' ?>"
+          rel="stylesheet">
 
     <link href="<?= base_url() . 'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?= base_url() . 'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
@@ -98,25 +99,6 @@
                                         <td><?php echo $d_worktime[$i]; ?></td>
                                         <td>
                                             <?php
-                                            /*if ($d_solvetime[$i] == false) {
-                                                echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
-                                                echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" .
-                                                    $d_doid[$i] . "' onclick='solve_by_pid(" . $d_problemid[$i] . ")'" .
-                                                    " data-toggle='modal' data-target='#myModal'>解决</button>";
-                                                if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
-                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
-                                                }
-                                                echo "</div>";
-                                            } else {
-                                                echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
-                                                //echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_".$d_doid[$i]."'>解决</button>";
-                                                if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
-                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
-                                                } else {
-                                                    echo "<p>已解决</p>";
-                                                }
-                                                echo "</div>";
-                                            }*/
                                             if ($_SESSION['level'] >= 2 || $_SESSION['user_id'] == $d_uid[$i]) {
                                                 echo "<div class='btn-group' id='filming_btn_group_" . $d_fid[$i] . "'>";
                                                 echo "<button class='btn btn-danger btn-xs' id='filming_btn_delete_" .
