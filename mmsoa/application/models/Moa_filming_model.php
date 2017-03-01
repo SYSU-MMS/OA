@@ -21,7 +21,6 @@ class Moa_filming_model extends CI_Model
                 $this->db->escape($worktime) .
                 ")";
             $this->db->query($sql);
-            $sql = "update `moa_worker` set `worktime` = `worktime` +" . $this->db->escape($worktime) . "where `wid =`" . $this->db->escape($wid);
             return $this->db->insert_id();
         } else {
             return false;
