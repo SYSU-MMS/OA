@@ -26,6 +26,9 @@
     <link href="<?= base_url() . 'assets/css/plugins/ionRangeSlider/ion.rangeSlider.css' ?>" rel="stylesheet">
     <link href="<?= base_url() . 'assets/css/plugins/ionRangeSlider/ion.rangeSlider.skinHTML5.css' ?>" rel="stylesheet">
 
+    <link href="<?= base_url() . 'assets/css/plugins/datepicker/datepicker3.css' ?>" rel="stylesheet">
+    <link href="<?= base_url() . 'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css' ?>" rel="stylesheet">
+
     <link href="<?= base_url() . 'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?= base_url() . 'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
 
