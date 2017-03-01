@@ -7,6 +7,25 @@ var wid;
 var uid;
 var fid;
 
+//获取当前用户信息
+$.ajax({
+    type: "GET",
+    url: "Filming/getInformation",
+    success: function (msg) {
+        var ret = JSON.parse(msg);
+        if (ret['status'] === false) {
+            alert(ret['msg']);
+        } else {
+            var data = ret.data;
+            name = data.name;
+            wid = data.wid;
+        }
+    },
+    error: function () {
+        alert(arguments[1]);
+    }
+});
+
 /*
  * 获得标准格式的当前时间
  * yyyy-mm-dd
@@ -18,19 +37,56 @@ function getFormatDate(date_in) {
     return year + '-' + month + '-' + day;
 }
 
-function insert_filming() {
+function isNumber(obj) {
+    return obj === +obj;
+}
 
+function insert_filming() {
+    var date = $("#start_dtp").val();
+    var fmname = $("#fmname").val();
+    var aename = $("#aename").val();
+    var worktime = $("#worktime").val();
+    var flag;
+    if (not_null(wid) && not_null(date) && (not_null(fmname) || not_null(aename)) && not_null(worktime) && isNumber(worktime) && worktime >= 0) {
+        $.ajax({
+            type: "POST",
+            url: "Filming/insertFilmingRecord",
+            async: false,
+            data: {
+                "date": date,
+                "fmname": fmname,
+                "aename": aename,
+                "worktime": worktime
+            },
+            success: function (msg) {
+                var ret = JSON.parse(msg);
+                if (ret['status'] === false) {
+                    alert(ret['msg']);
+                    flag = false;
+                } else {
+                    fid = ret['insert_id'];
+                }
+            },
+            error: function () {
+                alert(arguments[1]);
+                flag = false
+            }
+        });
+    } else {
+        alert("请正确填写信息！")
+    }
 }
 
 function new_record() {
     var initTime = getFormatDate(new Date());
 
-    $("#myModalLabelTitle").text("新建记录");
+    $("#myModalLabelTitle").text("新增记录");
     $("#modalBody").html(
         '      <form class="form-horizontal m-t" id="commentForm"> ' +
         '          <div class="form-group"> ' +
         '              <label class="col-sm-3 control-label">摄制人：</label> ' +
         '              <div class="col-sm-8"> ' +
+        '                   <span>' + name + '</span>' +
         '              </div> ' +
         '          </div> ' +
         '          <div class="form-group"> ' +
@@ -54,7 +110,7 @@ function new_record() {
         '          <div class="form-group"> ' +
         '              <label class="col-sm-3 control-label">工时：</label> ' +
         '              <div class="col-sm-8"> ' +
-        '                  <textarea id="worktime" name="worktime" class="form-control" required="" aria-required="true"></textarea> ' +
+        '                  <input type="text" id="worktime" name="worktime" class="form-control" required="" aria-required="true"/>' +
         '              </div> ' +
         '          </div> ' +
         '          <div class="form-group"> ' +

@@ -278,7 +278,7 @@ function new_record() {
     });
     var now_duty_id = getNowDutyId();
 
-    $("#myModalLabelTitle").text("新建记录");
+    $("#myModalLabelTitle").text("新增记录");
     $("#modalBody").html(
         '      <form class="form-horizontal m-t" id="commentForm"> ' +
         '          <div class="form-group"> ' +
