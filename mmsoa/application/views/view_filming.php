@@ -30,7 +30,6 @@
     <link href="<?= base_url() . 'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css' ?>"
           rel="stylesheet">
     <link href="<?= base_url() . 'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
-    <link href="<?= base_url() . 'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
 
     <link href="<?= base_url() . 'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?= base_url() . 'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
@@ -155,9 +154,6 @@
 <!-- iCheck -->
 <script src="<?= base_url() . 'assets/js/plugins/iCheck/icheck.min.js' ?>"></script>
 
-<!-- Chosen -->
-<script src="<?= base_url() . 'assets/js/plugins/chosen/chosen.jquery.js' ?>"></script>
-
 <!-- JSKnob -->
 <script src="<?= base_url() . 'assets/js/plugins/jsKnob/jquery.knob.js' ?>"></script>
 
@@ -219,28 +215,6 @@
         });
 
     });
-
-    /* Chosen */
-    var config = {
-        '.chosen-select': {},
-        '.chosen-select-deselect': {
-            allow_single_deselect: true
-        },
-        '.chosen-select-no-single': {
-            disable_search_threshold: 10
-        },
-        '.chosen-select-no-results': {
-            no_results_text: 'Oops, nothing found!'
-        },
-        '.chosen-select-width': {
-            width: "95%"
-        }
-    }
-    for (var selector in config) {
-        $(selector).chosen(config[selector]);
-    }
-
-
 </script>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"

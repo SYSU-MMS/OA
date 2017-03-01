@@ -26,6 +26,13 @@ $.ajax({
     }
 });
 
+function not_null(para) {
+    if (para == "" || para == null || para == undefined) {
+        return false;
+    }
+    return true;
+}
+
 /*
  * 获得标准格式的当前时间
  * yyyy-mm-dd
@@ -47,7 +54,7 @@ function insert_filming() {
     var aename = $("#aename").val();
     var worktime = $("#worktime").val();
     var flag;
-    if (not_null(wid) && not_null(date) && (not_null(fmname) || not_null(aename)) && not_null(worktime) && isNumber(worktime) && worktime >= 0) {
+    if (not_null(wid) && not_null(date) && (not_null(fmname) || not_null(aename)) && not_null(worktime) && (worktime >= 0)) {
         $.ajax({
             type: "POST",
             url: "Filming/insertFilmingRecord",
@@ -132,5 +139,7 @@ function new_record() {
         minView: 2,
         forceParse: 1
     });
+
+    console.log("new record");
 
 }

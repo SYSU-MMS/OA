@@ -65,7 +65,8 @@ Class Filming extends CI_Controller
                 $d_aename[$i] = $filming_list[$i]->aename;
                 $d_worktime[$i] = $filming_list[$i]->worktime;
                 $d_date[$i] = $filming_list[$i]->date;
-                $d_weekday_translate[$i] = $weekdays_in_cn[date("w", $d_date[$i])];
+                date_default_timezone_set("PRC");
+                $d_weekday_translate[$i] = $weekdays_in_cn[date("w", strtotime($d_date[$i]))];
 
                 $d_uid[$i] = $this->Moa_worker_model->get_uid_by_wid($d_wid[$i]);
                 $worker = $this->Moa_user_model->get($d_uid[$i]);
@@ -108,7 +109,7 @@ Class Filming extends CI_Controller
 
     public function insertFilmingRecord()
     {
-        if (isset($_SESSION['user_id'])) {
+        if (isset($_SESSION['user_id']) && isset($_POST['date']) && isset($_POST['worktime']) && $_POST['worktime'] >= 0) {
             date_default_timezone_set('PRC');
             $wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
             $date = $_POST['date'];
@@ -116,6 +117,7 @@ Class Filming extends CI_Controller
             $aename = $_POST['aename'];
             $worktime = $_POST['worktime'];
             $fid = $this->Moa_filming_model->add($wid, $date, $fmname, $aename, $worktime);
+            $this->Moa_worker_model->update_worktime($wid, $worktime);
             if ($fid != false) {
                 echo json_encode(array("status" => TRUE, "msg" => "添加成功", "insert_id" => $fid));
             } else {
