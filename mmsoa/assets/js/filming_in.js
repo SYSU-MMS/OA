@@ -6,6 +6,9 @@ var name;
 var wid;
 var uid;
 var fid;
+var name_list = [];
+var wid_list = [];
+var user_level;
 
 //获取当前用户信息
 $.ajax({
@@ -19,6 +22,9 @@ $.ajax({
             var data = ret.data;
             name = data.name;
             wid = data.wid;
+            name_list = data.name_list;
+            wid_list = data.wid_list;
+            user_level = data.user_level;
         }
     },
     error: function () {
@@ -60,6 +66,7 @@ function insert_filming() {
             url: "Filming/insertFilmingRecord",
             async: false,
             data: {
+                "wid": wid,
                 "date": date,
                 "fmname": fmname,
                 "aename": aename,
@@ -87,13 +94,20 @@ function insert_filming() {
 function new_record() {
     var initTime = getFormatDate(new Date());
 
+    var worker_options = "";
+    name_list.forEach(function (item, index) {
+        worker_options = worker_options + "<option value='" + wid_list[index] + "'>" + name_list[index] + "</option>"
+    });
+
     $("#myModalLabelTitle").text("新增记录");
     $("#modalBody").html(
         '      <form class="form-horizontal m-t" id="commentForm"> ' +
         '          <div class="form-group"> ' +
         '              <label class="col-sm-3 control-label">摄制人：</label> ' +
-        '              <div class="col-sm-8"> ' +
-        '                   <input type="text" id="w_name" class="input-sm form-control dtp-input-div" name="w_name" value="' + name + '" disabled="true"></input>' +
+        '              <div class="col-sm-8" id="total-chosen-select_name"> ' +
+        '                  <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4"> ' +
+        '                    <option value="">选择助理</option> ' + worker_options +
+        '                  </select> ' +
         '              </div> ' +
         '          </div> ' +
         '          <div class="form-group"> ' +
@@ -105,13 +119,13 @@ function new_record() {
         '          <div class="form-group"> ' +
         '              <label class="col-sm-3 control-label">拍摄名称：</label> ' +
         '              <div class="col-sm-8"> ' +
-        '                  <textarea id="fmname" name="fmname" class="form-control" required="" aria-required="true"></textarea> ' +
+        '                  <textarea id="fmname" name="fmname" class="form-control"></textarea> ' +
         '              </div> ' +
         '          </div> ' +
         '          <div class="form-group"> ' +
         '              <label class="col-sm-3 control-label">后期名称：</label> ' +
         '              <div class="col-sm-8"> ' +
-        '                  <textarea id="aename" name="aename" class="form-control" required="" aria-required="true"></textarea> ' +
+        '                  <textarea id="aename" name="aename" class="form-control"></textarea> ' +
         '              </div> ' +
         '          </div> ' +
         '          <div class="form-group"> ' +
@@ -140,8 +154,24 @@ function new_record() {
         forceParse: 1
     });
 
-    console.log("new record");
+    /* Chosen name */
+    var config = {
+        '#select_name': {
+            // 实现中间字符的模糊查询
+            search_contains: true,
+            no_results_text: "没有找到",
+            disable_search_threshold: 10,
+            width: "200px"
+        }
+    };
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
 
+    $('#select_name').val(wid);
+    if (user_level >= 2) $('#select_name').prop("disabled", false);
+    else $('#select_name').prop("disabled", true);
+    $('#select_name').trigger("chosen:updated");
 }
 
 function delete_by_fid(fid) {
