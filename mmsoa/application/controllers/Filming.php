@@ -95,12 +95,24 @@ Class Filming extends CI_Controller
     {
         if (isset($_SESSION['user_id'])) {
             $data = array();
+            $data['name_list'] = array();
+            $data['wid_list'] = array();
             $uid = $_SESSION['user_id'];
             $wid = $this->Moa_worker_model->get_wid_by_uid($uid);
             $data['wid'] = $wid;
             $user_obj = $this->Moa_user_model->get($uid);
             $name = $user_obj->name;
             $data['name'] = $name;
+
+            $common_worker = $this->Moa_user_model->get(0);
+            for ($i = 0; $i < count($common_worker); $i++) {
+                $uid_list[$i] = $common_worker[$i]->uid;
+                $name_list[$i] = $common_worker[$i]->name;
+                $wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
+            }
+            $data['name_list'] = $name_list;
+            $data['wid_list'] = $wid_list;
+            $data['user_level'] = $_SESSION['level'];
 
             echo json_encode(array("status" => TRUE, "msg" => "获取信息成功", "data" => $data));
         } else {
@@ -113,16 +125,21 @@ Class Filming extends CI_Controller
     {
         if (isset($_SESSION['user_id']) && isset($_POST['date']) && isset($_POST['worktime']) && $_POST['worktime'] >= 0) {
             date_default_timezone_set('PRC');
-            $wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
+            $c_wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
+            $wid = $_POST['wid'];
             $date = $_POST['date'];
             $fmname = $_POST['fmname'];
             $aename = $_POST['aename'];
             $worktime = $_POST['worktime'];
             //依次添加记录和修改当月工时
-            $fid = $this->Moa_filming_model->add($wid, $date, $fmname, $aename, $worktime);
-            $this->Moa_worker_model->update_worktime($wid, $worktime);
-            if ($fid != false) {
-                echo json_encode(array("status" => TRUE, "msg" => "添加成功", "insert_id" => $fid));
+            if ($_SESSION['level'] >= 2 || $wid == $c_wid) {
+                $fid = $this->Moa_filming_model->add($wid, $date, $fmname, $aename, $worktime);
+                $this->Moa_worker_model->update_worktime($wid, $worktime);
+                if ($fid != false) {
+                    echo json_encode(array("status" => TRUE, "msg" => "添加成功", "insert_id" => $fid));
+                } else {
+                    echo json_encode(array("status" => FALSE, "msg" => "添加失败"));
+                }
             } else {
                 echo json_encode(array("status" => FALSE, "msg" => "添加失败"));
             }
