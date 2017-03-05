@@ -204,7 +204,16 @@
     $(document).ready(function () {
 
         $('.users-dataTable').dataTable({
-            "aaSorting": [[0, "desc"]]
+            "aaSorting": [[0, "desc"]],
+            "columns": [
+                null,
+                null,
+                null,
+                {"width": "20%"},
+                {"width": "20%"},
+                null,
+                null
+            ]
         });
 
         /* Calendar */
