@@ -59,7 +59,7 @@ function insert_filming() {
     var fmname = $("#fmname").val();
     var aename = $("#aename").val();
     var worktime = $("#worktime").val();
-    var flag;
+    var flag = true;
     if (not_null(wid) && not_null(date) && (not_null(fmname) || not_null(aename)) && not_null(worktime) && (worktime >= 0)) {
         $.ajax({
             type: "POST",
@@ -88,6 +88,9 @@ function insert_filming() {
         });
     } else {
         alert("请正确填写信息！")
+    }
+    if (flag === true) {
+        $('#myModal').modal('hide');
     }
 }
 
@@ -136,7 +139,7 @@ function new_record() {
         '          </div> ' +
         '          <div class="form-group"> ' +
         '              <div class="col-sm-4 col-sm-offset-3"> ' +
-        '                  <button onclick="insert_filming()" class="btn btn-primary" type="submit">提交</button> ' +
+        '                  <button onclick="insert_filming()" class="btn btn-primary">提交</button> ' +
         '              </div> ' +
         '          </div> ' +
         '      </form> '
