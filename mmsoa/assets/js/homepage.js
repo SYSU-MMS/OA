@@ -25,6 +25,31 @@ $(function () {
 //记录每一个post已经显示的评论数量
 var comment_count = new Array();
 
+//替换 HTML 特殊字符
+function htmlspecialchars(str) {
+    var s = "";
+    if (str.length == 0) return "";
+    for   (var i=0; i<str.length; i++)
+    {
+        switch (str.substr(i,1))
+        {
+            case "<": s += "&lt;"; break;
+            case ">": s += "&gt;"; break;
+            case "&": s += "&amp;"; break;
+            case " ":
+                if(str.substr(i + 1, 1) == " "){
+                    s += " &nbsp;";
+                    i++;
+                } else s += " ";
+                break;
+            case "\"": s += "&quot;"; break;
+            case "\n": s += "<br>"; break;
+            default: s += str.substr(i,1); break;
+        }
+    }
+    return s;
+}
+
 /**
  * 删除回复
  * @param mbcid
@@ -90,17 +115,17 @@ $("#post-btn").click(function () {
     $("#input-post").hide();
     $("#submit_result").show();
 
-    var post_content = $("#new-post").val();
+    var post_content = htmlspecialchars($("#new-post").val());
     if ($.trim(post_content) === "") {
         alert("内容不能为空");
         return;
     }
 
     // 在文本首末分别添加字符串“<p>”和“</p>”,并将回车替换为“</p><p>”
-    post_content = post_content.replace(/\n/g, "</p><p>");
-    post_content = post_content.replace(/ /g, "&nbsp;");
-    post_content = "<p>" + post_content;
-    post_content += "</p>";
+    //post_content = post_content.replace(/\n/g, "</p><p>");
+    //post_content = post_content.replace(/ /g, "&nbsp;");
+    //post_content = "<p>" + post_content;
+    //post_content += "</p>";
 
     $.ajax({
         type: 'post',
@@ -185,7 +210,7 @@ function replyTo(uid, post_id, mbcid) {
     mbcid |= 0;
     //console.log("nothing",uid);
     var comment_textarea_selector = "#reply_to_textarea_" + mbcid;
-    var comment_content = $(comment_textarea_selector).val();
+    var comment_content = htmlspecialchars($(comment_textarea_selector).val());
     if ($.trim(comment_content) === "") {
         alert("内容不能为空");
         return;
@@ -256,7 +281,7 @@ function replyTo(uid, post_id, mbcid) {
 $("body").on("click", ".comment-btn", function () {
     var btn_id = $(this)[0].id.split("_");
     var post_id = btn_id[btn_id.length - 1];
-    var comment_content = $(this).parent().siblings("textarea").val();
+    var comment_content = htmlspecialchars($(this).parent().siblings("textarea").val());
     if ($.trim(comment_content) === "") {
         alert("内容不能为空");
         return;
