@@ -51,7 +51,7 @@ Class Homepage extends CI_Controller
                 $board_paras['uid'] = $uid;
                 $timestamp = date('Y-m-d H:i:s');
                 $board_paras['bptimestamp'] = $timestamp;
-                $board_paras['body'] = $_POST['post_content'];
+                $board_paras['body'] = htmlspecialchars($_POST['post_content']);
                 $bpid = $this->Moa_mmsboard_model->add($board_paras);
                 if ($bpid == FALSE) {
                     echo json_encode(array("status" => FALSE, "msg" => "留言失败"));
@@ -91,7 +91,7 @@ Class Homepage extends CI_Controller
                 $comment_paras['bpid'] = $_POST['post_id'];
                 $timestamp = date('Y-m-d H:i:s');
                 $comment_paras['mbctimestamp'] = $timestamp;
-                $comment_paras['body'] = $_POST['comment_content'];
+                $comment_paras['body'] = htmlspecialchars($_POST['comment_content']);
                 $comment_paras['ruid'] = $ruid;
                 if ($ruid > 0) {
                     $tmp_comment_user_rpl = $this->Moa_user_model->get($ruid);
@@ -152,7 +152,7 @@ Class Homepage extends CI_Controller
                     $tmp_post_user_obj = $this->Moa_user_model->get($tmp_post_uid);
                     $tmp_post_name = $tmp_post_user_obj->name;
                     $tmp_post_avatar = $tmp_post_user_obj->avatar;
-                    $tmp_post_deletable = $tmp_post_uid == $current_user->uid || $current_user->level>=2;
+                    $tmp_post_deletable = $tmp_post_uid == $current_user->uid || $current_user->level >= 2;
 
                     // 前端渲染所用数据
                     $post_list[$i]['myid'] = $tmp_post_uid;
@@ -182,7 +182,7 @@ Class Homepage extends CI_Controller
                             $tmp_comment_mbcid = $comment_obj_list[$j]->mbcid;
                             $tmp_comment_ruid = $comment_obj_list[$j]->ruid;
                             $tmp_comment_ruser = "";
-                            $tmp_comment_deletable = $tmp_comment_user_obj->uid == $current_user->uid || $current_user->level>=2;
+                            $tmp_comment_deletable = $tmp_comment_user_obj->uid == $current_user->uid || $current_user->level >= 2;
 
                             if ($tmp_comment_ruid > 0) {
                                 $tmp_comment_user_rpl = $this->Moa_user_model->get($tmp_comment_ruid);
@@ -242,7 +242,7 @@ Class Homepage extends CI_Controller
                 $tmp_post_user_obj = $this->Moa_user_model->get($tmp_post_uid);
                 $tmp_post_name = $tmp_post_user_obj->name;
                 $tmp_post_avatar = $tmp_post_user_obj->avatar;
-                $tmp_post_deletable = $tmp_post_uid == $current_user->uid || $current_user->level>=2;
+                $tmp_post_deletable = $tmp_post_uid == $current_user->uid || $current_user->level >= 2;
 
                 // 前端渲染所用数据
                 $post_list[$i]['myid'] = $tmp_post_uid;
@@ -273,7 +273,7 @@ Class Homepage extends CI_Controller
                         $tmp_comment_mbcid = $comment_obj_list[$j]->mbcid;
                         $tmp_comment_ruid = $comment_obj_list[$j]->ruid;
                         $tmp_comment_ruser = "";
-                        $tmp_comment_deletable = $tmp_comment_uid == $current_user->uid || $current_user->level>=2;
+                        $tmp_comment_deletable = $tmp_comment_uid == $current_user->uid || $current_user->level >= 2;
 
                         if ($tmp_comment_ruid > 0) {
                             $tmp_comment_user_rpl = $this->Moa_user_model->get($tmp_comment_ruid);
@@ -333,7 +333,7 @@ Class Homepage extends CI_Controller
                 $tmp_post_user_obj = $this->Moa_user_model->get($tmp_post_uid);
                 $tmp_post_name = $tmp_post_user_obj->name;
                 $tmp_post_avatar = $tmp_post_user_obj->avatar;
-                $tmp_post_deletable = $tmp_post_uid == $current_user->uid || $current_user->level>=2;
+                $tmp_post_deletable = $tmp_post_uid == $current_user->uid || $current_user->level >= 2;
 
                 // 前端渲染所用数据
                 $post_list[$i]['myid'] = $tmp_post_uid;
@@ -364,7 +364,7 @@ Class Homepage extends CI_Controller
                         $tmp_comment_mbcid = $comment_obj_list[$j]->mbcid;
                         $tmp_comment_ruid = $comment_obj_list[$j]->ruid;
                         $tmp_comment_ruser = "";
-                        $tmp_comment_deletable = $tmp_comment_uid == $current_user->uid || $current_user->level>=2;
+                        $tmp_comment_deletable = $tmp_comment_uid == $current_user->uid || $current_user->level >= 2;
 
                         if ($tmp_comment_ruid > 0) {
                             $tmp_comment_user_rpl = $this->Moa_user_model->get($tmp_comment_ruid);
@@ -430,14 +430,15 @@ Class Homepage extends CI_Controller
     /**删除留言
      * @param $bpid
      */
-    public function deletePost($bpid){
+    public function deletePost($bpid)
+    {
         $deletingPost = $this->Moa_mmsboard_model->get($bpid);
         $current_uid = $_SESSION['user_id'];
         $current_level = $this->Moa_user_model->get($current_uid)->level;
-        if ($deletingPost->uid == $current_uid || $current_level >=2){
+        if ($deletingPost->uid == $current_uid || $current_level >= 2) {
             $this->Moa_mmsboard_model->delete($bpid);
             echo json_encode(array("status" => TRUE, "msg" => "删除成功"));
-        }else{
+        } else {
             echo json_encode(array("status" => FALSE, "msg" => "删除失败"));
         }
     }
@@ -445,14 +446,15 @@ Class Homepage extends CI_Controller
     /**删除评论
      * @param $mbcid
      */
-    public function deleteComment($mbcid){
+    public function deleteComment($mbcid)
+    {
         $deletingComment = $this->Moa_mbcomment_model->get($mbcid);
         $current_uid = $_SESSION['user_id'];
         $current_level = $this->Moa_user_model->get($current_uid)->level;
-        if ($deletingComment->uid == $current_uid || $current_level >= 2){
+        if ($deletingComment->uid == $current_uid || $current_level >= 2) {
             $this->Moa_mbcomment_model->delete($mbcid);
             echo json_encode(array("status" => TRUE, "msg" => "删除成功"));
-        }else{
+        } else {
             json_encode(array("status" => FALSE, "msg" => "删除失败"));
         }
     }
