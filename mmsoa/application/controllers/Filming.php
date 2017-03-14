@@ -126,11 +126,11 @@ Class Filming extends CI_Controller
         if (isset($_SESSION['user_id']) && isset($_POST['date']) && isset($_POST['worktime']) && $_POST['worktime'] >= 0) {
             date_default_timezone_set('PRC');
             $c_wid = $this->Moa_worker_model->get_wid_by_uid($_SESSION['user_id']);
-            $wid = $_POST['wid'];
-            $date = $_POST['date'];
-            $fmname = $_POST['fmname'];
-            $aename = $_POST['aename'];
-            $worktime = $_POST['worktime'];
+            $wid = htmlspecialchars($_POST['wid']);
+            $date = htmlspecialchars($_POST['date']);
+            $fmname = htmlspecialchars($_POST['fmname']);
+            $aename = htmlspecialchars($_POST['aename']);
+            $worktime = htmlspecialchars($_POST['worktime']);
             //依次添加记录和修改当月工时
             if ($_SESSION['level'] >= 2 || $wid == $c_wid) {
                 $fid = $this->Moa_filming_model->add($wid, $date, $fmname, $aename, $worktime);
