@@ -8,19 +8,19 @@
 
     <title>MOA-值班报名</title>
     <?php $this->load->view('view_keyword'); ?>
-    
+
     <link href="<?=base_url().'assets/images/moa.ico' ?>" rel="shortcut icon">
-    
+
     <link href="<?=base_url().'assets/css/bootstrap.min.css?v=3.4.0' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/font-awesome/css/font-awesome.min.css' ?>" rel="stylesheet">
-    
+
     <link href="<?=base_url().'assets/css/plugins/jasny/jasny-bootstrap.min.css' ?>" rel="stylesheet">
-    
+
     <link href="<?=base_url().'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
-    
+
     <!-- Data Tables -->
     <link href="<?=base_url().'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
-        
+
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
 
@@ -44,19 +44,83 @@
                         </li>
                         <li>
                             <strong>排班</strong>
-                        </li>	
+                        </li>
                     </ol>
                 </div>
                 <div class="col-lg-2">
 
                 </div>
             </div>
+
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>添加考试周／假期时间表报名</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <form role="form" id="form" class="form-horizontal m-t">
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 col-sm-offset-1 control-label">值班表名称</label>
+                                        <div class="col-sm-4">
+                                            <input id="name" name="name" class="form-control" type="text"
+                                            placeholder="请输入值班表名称">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group"  id="calendar_date">
+	                                    <label class="col-sm-3 col-sm-offset-1 control-label">起始日期</label>
+	                                    <div class="col-sm-4">
+		                                    <div class="input-group date col-sm-12"
+		                                    style="border-left: 1px solid #E5E6E7; border-right: 1px solid #E5E6E7;">
+		                                        <input type="text" id="dateFrom" name="dateFrom" class="form-control input-group-addon"
+		                                        placeholder="请选择起始日期">
+		                                    </div>
+	                                    </div>
+	                                </div>
+
+                                    <div class="form-group"  id="calendar_date">
+                                        <label class="col-sm-3 col-sm-offset-1 control-label">结束日期</label>
+                                        <div class="col-sm-4">
+                                            <div class="input-group date col-sm-12"
+                                            style="border-left: 1px solid #E5E6E7; border-right: 1px solid #E5E6E7;">
+                                                <input type="text" id="dateTo" name="dateTo" class="form-control input-group-addon"
+                                                placeholder="请选择结束日期">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 col-sm-offset-1 control-label">值班表说明</label>
+                                        <div class="col-sm-4">
+                                            <textarea id="comment" name="comment" class="form-control" required="" aria-required="true"></textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="hr-line-dashed"></div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-5">
+                                            <div class="btn btn-primary" id="submit_add_schedule">值班表发布</div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="wrapper wrapper-content animated fadeInRight" style="position: relative; z-index: 9;">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>排班</h5>
+                                <h5>添加日常排班</h5>
                             </div>
                             <div class="ibox-content" style="padding: 30px 65px;">
 								<div class="form-group">
@@ -355,7 +419,7 @@
 						            <div class="row">
 	                                    <div class="form-group">
 	                                        <div class="col-sm-4 col-sm-offset-5">
-	                                            <button id="submit_duty" class="btn btn-primary" type="submit" 
+	                                            <button id="submit_duty" class="btn btn-primary" type="submit"
 	                                             data-toggle="modal" data-target="#myModal">发布</button>
 	                                        </div>
 	                                    </div>
@@ -365,10 +429,13 @@
 	                </div>
 	            </div>
             </div>
+
+
             <?php $this->load->view('view_footer'); ?>
 	    </div>
+
 	</div>
-	
+
 	<?php $this->load->view('view_modal'); ?>
 
     <!-- Mainly scripts -->
@@ -376,8 +443,8 @@
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-    <script src="<?=base_url().'assets/js/duty-arrange.js' ?>"></script>
-    
+    <script src="<?=base_url().'assets/js/dutyArrange.js' ?>"></script>
+
     <!-- nav item active -->
 	<script>
 		$(document).ready(function () {
@@ -390,25 +457,40 @@
     <!-- Custom and plugin javascript -->
     <script src="<?=base_url().'assets/js/hplus.js?v=2.2.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/pace/pace.min.js' ?>"></script>
-    
+
     <!-- Dynamic date -->
     <script src="<?=base_url().'assets/js/dynamicDate.js' ?>"></script>
-    
+
     <!-- Jquery Validate -->
     <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/jquery.validate.min.js' ?>"></script>
     <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/messages_zh.min.js' ?>"></script>
-    
+
     <!-- Chosen -->
     <script src="<?=base_url().'assets/js/plugins/chosen/chosen.jquery.js' ?>"></script>
 
     <!-- Input Mask-->
     <script src="<?=base_url().'assets/js/plugins/jasny/jasny-bootstrap.min.js' ?>"></script>
-    
+
     <!-- Data Tables -->
     <script src="<?=base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
-    
+    <!-- Date picker -->
+    <script src="<?=base_url().'assets/js/plugins/datepicker/bootstrap-datepicker.js' ?>"></script>
     <script>
+
+    $(document).ready(function () {
+
+        /* Calendar */
+        $('#calendar_date .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true
+        });
+
+    });
+
     /* Chosen */
     var config = {
             '.chosen-select': {
@@ -433,7 +515,7 @@
 	    for (var selector in config) {
 	        $(selector).chosen(config[selector]);
 	    }
-        
+
     </script>
 
 </body>

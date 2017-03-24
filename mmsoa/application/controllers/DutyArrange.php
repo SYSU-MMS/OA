@@ -14,15 +14,16 @@ Class DutyArrange extends CI_Controller {
 		$this->load->model('Moa_worker_model');
 		$this->load->model('Moa_nschedule_model');
 		$this->load->model('Moa_duty_model');
+		$this->load->model('Moa_holidayschedule_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
 	}
-	
+
 	public function index() {
-		
+
 	}
-	
+
 	/**
 	 * 排班页面加载
 	 */
@@ -33,7 +34,7 @@ Class DutyArrange extends CI_Controller {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
-			
+
 			// 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
 			$level = 0;
 			$common_worker = $this->Moa_user_model->get_by_level($level);
@@ -44,7 +45,7 @@ Class DutyArrange extends CI_Controller {
 			}
 			$data['name_list'] = $name_list;
 			$data['wid_list'] = $wid_list;
-			
+
 			// 存放值班表助理名单的二维数组
 			$schedule = array();
 			$schedule[1][1] = '';
@@ -83,7 +84,7 @@ Class DutyArrange extends CI_Controller {
 			$schedule[7][7] = '';
 			$schedule[7][8] = '';
 			$schedule[7][9] = '';
-				
+
 			// 取原有值班表记录
 			$duty_obj_list = $this->Moa_duty_model->get_all();
 			if (!empty($duty_obj_list)) {
@@ -95,547 +96,75 @@ Class DutyArrange extends CI_Controller {
 				}
 			}
 			$data['schedule'] = $schedule;
-			
+
 			$this->load->view('view_duty_arrange', $data);
 		} else {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
 		}
 	}
-	
+
 	/*
 	 * 排班录入
+	 * 修改：by 少彬
 	 */
 	public function dutyArrangeIn() {
 		if (isset($_SESSION['user_id'])) {
 			// 每次存入新的排班表前清空旧排班表
 			$this->Moa_duty_model->clear();
 			// 每个时段存入一条记录，共有36条记录
-			
-			// MON1
-			if (isset($_POST['MON1_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['MON1_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['MON1_list']);
-				}
-				$duty_paras['weekday'] = 1;
-				$duty_paras['period'] = 1;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// MON2
-			if (isset($_POST['MON2_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['MON2_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['MON2_list']);
-				}
-				$duty_paras['weekday'] = 1;
-				$duty_paras['period'] = 2;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// MON3
-			if (isset($_POST['MON3_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['MON3_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['MON3_list']);
-				}
-				$duty_paras['weekday'] = 1;
-				$duty_paras['period'] = 3;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// MON4
-			if (isset($_POST['MON4_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['MON4_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['MON4_list']);
-				}
-				$duty_paras['weekday'] = 1;
-				$duty_paras['period'] = 4;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// MON5
-			if (isset($_POST['MON5_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['MON5_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['MON5_list']);
-				}
-				$duty_paras['weekday'] = 1;
-				$duty_paras['period'] = 5;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// MON6
-			if (isset($_POST['MON6_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['MON6_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['MON6_list']);
-				}
-				$duty_paras['weekday'] = 1;
-				$duty_paras['period'] = 6;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			
-			// TUE1
-			if (isset($_POST['TUE1_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['TUE1_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['TUE1_list']);
-				}
-				$duty_paras['weekday'] = 2;
-				$duty_paras['period'] = 1;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// TUE2
-			if (isset($_POST['TUE2_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['TUE2_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['TUE2_list']);
-				}
-				$duty_paras['weekday'] = 2;
-				$duty_paras['period'] = 2;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// TUE3
-			if (isset($_POST['TUE3_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['TUE3_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['TUE3_list']);
-				}
-				$duty_paras['weekday'] = 2;
-				$duty_paras['period'] = 3;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// TUE4
-			if (isset($_POST['TUE4_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['TUE4_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['TUE4_list']);
-				}
-				$duty_paras['weekday'] = 2;
-				$duty_paras['period'] = 4;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// TUE5
-			if (isset($_POST['TUE5_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['TUE5_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['TUE5_list']);
-				}
-				$duty_paras['weekday'] = 2;
-				$duty_paras['period'] = 5;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// TUE6
-			if (isset($_POST['TUE6_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['TUE6_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['TUE6_list']);
-				}
-				$duty_paras['weekday'] = 2;
-				$duty_paras['period'] = 6;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			
-			// WED1
-			if (isset($_POST['WED1_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['WED1_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['WED1_list']);
-				}
-				$duty_paras['weekday'] = 3;
-				$duty_paras['period'] = 1;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// WED2
-			if (isset($_POST['WED2_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['WED2_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['WED2_list']);
-				}
-				$duty_paras['weekday'] = 3;
-				$duty_paras['period'] = 2;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// WED3
-			if (isset($_POST['WED3_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['WED3_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['WED3_list']);
-				}
-				$duty_paras['weekday'] = 3;
-				$duty_paras['period'] = 3;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// WED4
-			if (isset($_POST['WED4_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['WED4_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['WED4_list']);
-				}
-				$duty_paras['weekday'] = 3;
-				$duty_paras['period'] = 4;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// WED5
-			if (isset($_POST['WED5_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['WED5_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['WED5_list']);
-				}
-				$duty_paras['weekday'] = 3;
-				$duty_paras['period'] = 5;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// WED6
-			if (isset($_POST['WED6_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['WED6_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['WED6_list']);
-				}
-				$duty_paras['weekday'] = 3;
-				$duty_paras['period'] = 6;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			
-			// THU1
-			if (isset($_POST['THU1_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['THU1_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['THU1_list']);
-				}
-				$duty_paras['weekday'] = 4;
-				$duty_paras['period'] = 1;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// THU2
-			if (isset($_POST['THU2_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['THU2_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['THU2_list']);
-				}
-				$duty_paras['weekday'] = 4;
-				$duty_paras['period'] = 2;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// THU3
-			if (isset($_POST['THU3_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['THU3_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['THU3_list']);
-				}
-				$duty_paras['weekday'] = 4;
-				$duty_paras['period'] = 3;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// THU4
-			if (isset($_POST['THU4_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['THU4_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['THU4_list']);
-				}
-				$duty_paras['weekday'] = 4;
-				$duty_paras['period'] = 4;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// THU5
-			if (isset($_POST['THU5_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['THU5_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['THU5_list']);
-				}
-				$duty_paras['weekday'] = 4;
-				$duty_paras['period'] = 5;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// THU6
-			if (isset($_POST['THU6_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['THU6_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['THU6_list']);
-				}
-				$duty_paras['weekday'] = 4;
-				$duty_paras['period'] = 6;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			
-			// FRI1
-			if (isset($_POST['FRI1_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['FRI1_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['FRI1_list']);
-				}
-				$duty_paras['weekday'] = 5;
-				$duty_paras['period'] = 1;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// FRI2
-			if (isset($_POST['FRI2_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['FRI2_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['FRI2_list']);
-				}
-				$duty_paras['weekday'] = 5;
-				$duty_paras['period'] = 2;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// FRI3
-			if (isset($_POST['FRI3_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['FRI3_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['FRI3_list']);
-				}
-				$duty_paras['weekday'] = 5;
-				$duty_paras['period'] = 3;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// FRI4
-			if (isset($_POST['FRI4_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['FRI4_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['FRI4_list']);
-				}
-				$duty_paras['weekday'] = 5;
-				$duty_paras['period'] = 4;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// FRI5
-			if (isset($_POST['FRI5_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['FRI5_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['FRI5_list']);
-				}
-				$duty_paras['weekday'] = 5;
-				$duty_paras['period'] = 5;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// FRI6
-			if (isset($_POST['FRI6_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['FRI6_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['FRI6_list']);
-				}
-				$duty_paras['weekday'] = 5;
-				$duty_paras['period'] = 6;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			
-			// SAT1
-			if (isset($_POST['SAT1_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['SAT1_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['SAT1_list']);
-				}
-				$duty_paras['weekday'] = 6;
-				$duty_paras['period'] = 7;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// SAT2
-			if (isset($_POST['SAT2_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['SAT2_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['SAT2_list']);
-				}
-				$duty_paras['weekday'] = 6;
-				$duty_paras['period'] = 8;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// SAT3
-			if (isset($_POST['SAT3_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['SAT3_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['SAT3_list']);
-				}
-				$duty_paras['weekday'] = 6;
-				$duty_paras['period'] = 9;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			
-			// SUN1
-			if (isset($_POST['SUN1_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['SUN1_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['SUN1_list']);
-				}
-				$duty_paras['weekday'] = 7;
-				$duty_paras['period'] = 7;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// SUN2
-			if (isset($_POST['SUN2_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['SUN2_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['SUN2_list']);
-				}
-				$duty_paras['weekday'] = 7;
-				$duty_paras['period'] = 8;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			// SUN3
-			if (isset($_POST['SUN3_list'])) {
-				$duty_paras['wids'] = '';
-				if (!empty($_POST['SUN3_list'])) {
-					$duty_paras['wids'] = implode(',', $_POST['SUN3_list']);
-				}
-				$duty_paras['weekday'] = 7;
-				$duty_paras['period'] = 9;
-				$dutyid = $this->Moa_duty_model->add($duty_paras);
-				if ($dutyid == FALSE) {
-					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
-					return;
-				}
-			}
-			
-			echo json_encode(array("status" => TRUE, "msg" => "发布成功"));
-			return;
+			// 周一至周五有6个时段，周六周日，每天三个时段，从第7个开始计数
+
+			$week = array(
+						// 星期几，划分的时段，每天开始的第一个时段
+						array('MON', 6, 1),
+						array('TUE', 6, 1),
+						array('WED', 6, 1),
+						array('THU', 6, 1),
+						array('FRI', 6, 1),
+						array('SAT', 3, 7),
+						array('SUN', 3, 7)
+					);
+
+		    for($i = 0; $i < count($week); $i++) {
+		        $day = $week[$i];
+		        // 记录当前星期几
+		        $which_day = $day[0];
+		        // 今天有多少个时段
+		        $period_limit = $day[1];
+		        // 开始的时段
+		        $period_start = $day[2];
+		        $period_now = $period_start;
+
+		        for($period = $period_start; $period < $period_limit + $period_start; $period++) {
+					// such as 'MON1_list'
+					$period_wid_list = $which_day.$period_now.'_list';
+					if (isset($_POST[$period_wid_list])) {
+						$duty_paras['wids'] = '';
+						if (!empty($_POST[$period_wid_list])) {
+							$duty_paras['wids'] = implode(',', $_POST[$period_wid_list]);
+						}
+						$duty_paras['weekday'] = $i + 1;
+						$duty_paras['period'] = $period;
+						$dutyid = $this->Moa_duty_model->add($duty_paras);
+						if ($dutyid == FALSE) {
+							echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
+							return;
+						}
+					}
+		        }
+		    }
 		}
 	}
-	
+
 	/**
 	 * 查看值班表（排班结果）
 	 */
 	public function dutySchedule() {
 		if (isset($_SESSION['user_id'])) {
-			
+
 			$uid = $_SESSION['user_id'];
-			
+
 			// 存放值班表助理名单的二维数组
 			$schedule = array();
 			$schedule[1][1] = '';
@@ -674,10 +203,10 @@ Class DutyArrange extends CI_Controller {
 			$schedule[7][7] = '';
 			$schedule[7][8] = '';
 			$schedule[7][9] = '';
-			
+
 			// 取所有值班表记录
 			$duty_obj_list = $this->Moa_duty_model->get_all();
-					
+
 			if (!empty($duty_obj_list)) {
 				// 提取每个时段的值班助理名单wid-uid-name
 				for ($i = 0; $i < count($duty_obj_list); $i++) {
@@ -705,9 +234,9 @@ Class DutyArrange extends CI_Controller {
 			}
 
 			$data['schedule'] = $schedule;
-			
+
 			$this->load->view('view_duty_schedule', $data);
-			
+
 		} else {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
@@ -719,9 +248,9 @@ Class DutyArrange extends CI_Controller {
 	 */
 	public function freeTable() {
 		if (isset($_SESSION['user_id'])) {
-			
+
 			$uid = $_SESSION['user_id'];
-			
+
 			// 存放值班表助理名单的二维数组
 			$schedule = array();
 			$schedule[1][1] = '';
@@ -760,10 +289,10 @@ Class DutyArrange extends CI_Controller {
 			$schedule[7][7] = '';
 			$schedule[7][8] = '';
 			$schedule[7][9] = '';
-			
+
 			// 取所有值班报名记录
 			$duty_obj_list = $this->Moa_nschedule_model->get_all();
-					
+
 			if (!empty($duty_obj_list)) {
 				// 提取每个时段的值班助理名单wid-uid-name
 				for ($i = 0; $i < count($duty_obj_list); $i++) {
@@ -895,13 +424,42 @@ Class DutyArrange extends CI_Controller {
 			}
 
 			$data['schedule'] = $schedule;
-			
+
 			$this->load->view('view_duty_free', $data);
-			
+
 		} else {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
 		}
 	}
-	
+
+	public function holidaySchedule() {
+		if (isset($_SESSION['user_id'])) {
+
+			// 普通助理没有权限
+			if ($_SESSION['level'] == 0) {
+				PublicMethod::permissionDenied();
+			}
+
+			$name 		 = $_POST['name'];
+			$from 		 = $_POST['from'];
+			$to 		 = $_POST['to'];
+			$description = $_POST['description'];
+
+			$res = $this->Moa_holidayschedule_model->add($name, $from, $to, $description);
+
+			if(!$res) {
+				echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
+				return;
+			}
+
+			echo json_encode(array("status" => TRUE, "msg" => "发布成功"));
+
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+
+	}
+
 }
