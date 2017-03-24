@@ -140,27 +140,27 @@ $("#post-btn").click(function () {
                 var deletePostHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_area_"+ret['bpid']+"'><a class='delete-post' onclick='deletePost("+ret['bpid']+")'>删除</a></small></div>";
                 $("#post-circle").prepend(
                     "<div class='social-feed-separated' id='separated_" + ret['bpid'] + "'>" +
-                    "<div class='social-avatar'><a href=''><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'></a></div>" +
-                    "<div class='social-feed-box'>" +
-                    "<div class='social-avatar'>" +
-                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" +
-                    "</div>" +
-                    "<div class='social-body'>" +
-                    post_content +
-                    "<small class='text-muted'> " + ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
-                    ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] + " </small>" + deletePostHTML +
-                    "</div>" +
-                    "<div class='social-footer'>" +
-                    "<div class='social-comment' id='write_comment_" + ret['bpid'] + "'>" +
-                    "<div class='media-body'>" +
-                    "<textarea id='comment_textarea_" + ret['bpid'] + "' class='form-control' placeholder='填写评论...'></textarea>" +
-                    "<div class='btn-group' style='margin-top: 4px; text-align:right;'>" +
-                    "<button id='comment_on_" + ret['bpid'] + "' class='comment-btn btn btn-primary btn-xs'><i class='fa fa-send-o'></i> 发送</button>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
+                    "  <div class='social-avatar'>" +
+                    "    <a href=''><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'></a>" +
+                    "  </div>" +
+                    "  <div class='social-feed-box'>" +
+                    "    <div class='social-avatar'>" +
+                    "      <a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" +
+                    "    </div>" +
+                    "    <div class='social-body'>" + post_content +
+                    "      <small class='text-muted'> " + ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " + ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] + " </small>" + deletePostHTML +
+                    "    </div>" +
+                    "    <div class='social-footer'>" +
+                    "      <div class='social-comment' id='write_comment_" + ret['bpid'] + "'>" +
+                    "        <div class='media-body'>" +
+                    "          <textarea id='comment_textarea_" + ret['bpid'] + "' class='form-control' placeholder='填写评论...'></textarea>" +
+                    "          <div class='btn-group' style='margin-top: 4px; text-align:right;'>" +
+                    "            <button id='comment_on_" + ret['bpid'] + "' class='comment-btn btn btn-primary btn-xs'><i class='fa fa-send-o'></i> 发送</button>" +
+                    "          </div>" +
+                    "        </div>" +
+                    "      </div>" +
+                    "    </div>" +
+                    "  </div>" +
                     "</div>"
                 );
                 $("#new-post").val("");
@@ -282,6 +282,7 @@ $("body").on("click", ".comment-btn", function () {
     var btn_id = $(this)[0].id.split("_");
     var post_id = btn_id[btn_id.length - 1];
     var comment_content = htmlspecialchars($(this).parent().siblings("textarea").val());
+    console.log(comment_content);
     if ($.trim(comment_content) === "") {
         alert("内容不能为空");
         return;
