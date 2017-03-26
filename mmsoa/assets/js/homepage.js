@@ -29,8 +29,6 @@ var comment_count = new Array();
 function htmlspecialchars(str) {
     var s = "";
     if (str.length == 0) return "";
-    return str;
-    // disabled
     for   (var i=0; i<str.length; i++)
     {
         switch (str.substr(i,1))
@@ -117,7 +115,7 @@ $("#post-btn").click(function () {
     $("#input-post").hide();
     $("#submit_result").show();
 
-    var post_content = htmlspecialchars($("#new-post").val());
+    var post_content = $("#new-post").val();
     if ($.trim(post_content) === "") {
         alert("内容不能为空");
         return;
@@ -149,7 +147,7 @@ $("#post-btn").click(function () {
                     "    <div class='social-avatar'>" +
                     "      <a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" +
                     "    </div>" +
-                    "    <div class='social-body'>" + post_content +
+                    "    <div class='social-body'>" + htmlspecialchars(post_content) +
                     "      <small class='text-muted'> " + ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " + ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] + " </small>" + deletePostHTML +
                     "    </div>" +
                     "    <div class='social-footer'>" +
@@ -212,7 +210,7 @@ function replyTo(uid, post_id, mbcid) {
     mbcid |= 0;
     //console.log("nothing",uid);
     var comment_textarea_selector = "#reply_to_textarea_" + mbcid;
-    var comment_content = htmlspecialchars($(comment_textarea_selector).val());
+    var comment_content = $(comment_textarea_selector).val();
     if ($.trim(comment_content) === "") {
         alert("内容不能为空");
         return;
@@ -244,7 +242,7 @@ function replyTo(uid, post_id, mbcid) {
                     "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
                     "</a>" +
                     "<div class='media-body reply-msg-area'>" +
-                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + comment_content + "<br/>" +
+                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + htmlspecialchars(comment_content) + "<br/>" +
                     "<small class='text-muted' id='text_muted_" + ret['mbcid'] + "'> " +
                     ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
                     ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] +
@@ -283,8 +281,8 @@ function replyTo(uid, post_id, mbcid) {
 $("body").on("click", ".comment-btn", function () {
     var btn_id = $(this)[0].id.split("_");
     var post_id = btn_id[btn_id.length - 1];
-    var comment_content = htmlspecialchars($(this).parent().siblings("textarea").val());
-    console.log(comment_content);
+    var comment_content = $(this).parent().siblings("textarea").val();
+    //console.log(comment_content);
     if ($.trim(comment_content) === "") {
         alert("内容不能为空");
         return;
@@ -319,7 +317,7 @@ $("body").on("click", ".comment-btn", function () {
                     "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
                     "</a>" +
                     "<div class='media-body reply-msg-area'>" +
-                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + comment_content + "<br/>" +
+                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + htmlspecialchars(comment_content) + "<br/>" +
                     "<small class='text-muted' id='text_muted_" + ret['mbcid'] + "'> " +
                     ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
                     ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] +
