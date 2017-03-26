@@ -13,11 +13,13 @@ Class DutySignUp extends CI_Controller {
 		$this->load->model('Moa_user_model');
 		$this->load->model('Moa_worker_model');
 		$this->load->model('Moa_nschedule_model');
+		$this->load->model('Moa_scheduleduty_model');
+		$this->load->model('Moa_holidayschedule_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
 	}
-	
+
 	/**
 	 * 进入值班报名页面
 	 */
@@ -28,14 +30,14 @@ Class DutySignUp extends CI_Controller {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
-				
+
 			$this->load->view('view_duty_signup');
 		} else {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
 		}
 	}
-	
+
 	/*
 	 * 值班报名
 	 */
@@ -43,15 +45,15 @@ Class DutySignUp extends CI_Controller {
 		if (isset($_SESSION['user_id'])) {
 			$uid = $_SESSION['user_id'];
 			$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
-			
+
 			$groupid = '';
 			if (isset($_POST['groupid'])) {
 				$groupid = $_POST['groupid'];
 			}
-			
+
 			// 值班时间段，以“,”分隔
 			$periods = '';
-				
+
 			for($i = 1; $i <= 6; $i++) {
 				if(isset($_POST['MON'.$i])) {
 					if($periods != '') {
@@ -112,7 +114,7 @@ Class DutySignUp extends CI_Controller {
 			$ns_paras['wid'] = $wid;
 			$ns_paras['groupid'] = $groupid;
 			$ns_paras['period'] = $periods;
-			
+
 			// 写入数据库
 			if ($periods != '') {
 				$schedule_obj_list = $this->Moa_nschedule_model->get($wid);
@@ -138,7 +140,7 @@ Class DutySignUp extends CI_Controller {
 			}
 		}
 	}
-	
+
 	/**
 	 * 值班报名成功页面
 	 */
@@ -146,7 +148,7 @@ Class DutySignUp extends CI_Controller {
 		$data['status'] = TRUE;
 		$this->load->view('view_signup_result', $data);
 	}
-	
+
 	/**
 	 * 值班报名失败页面
 	 */
@@ -154,7 +156,7 @@ Class DutySignUp extends CI_Controller {
 		$data['status'] = FALSE;
 		$this->load->view('view_signup_result', $data);
 	}
-	
+
 	/**
 	 * 值班报名结果
 	 */
@@ -164,7 +166,7 @@ Class DutySignUp extends CI_Controller {
 		$this -> load -> library('PHPExcel/IOFactory');
 		$objPHPExcel = new PHPExcel();
 		$objPHPExcel -> getProperties() -> setTitle("export") -> setDescription("none");
-		
+
 		$objPHPExcel -> setActiveSheetIndex(0);
 		// Field names in the first row
 		$fields = array('姓名', '组别', '值班时间段');
@@ -199,7 +201,7 @@ Class DutySignUp extends CI_Controller {
 		header('Cache-Control: max-age=0');
 		$objWriter -> save('php://output');
 	}
-	
+
 	/**
 	 * 清空报名记录
 	 */
@@ -209,12 +211,12 @@ Class DutySignUp extends CI_Controller {
 			// 提示权限不够
 			PublicMethod::permissionDenied();
 		}
-		
+
 		$this->Moa_nschedule_model->clean();
 		echo json_encode(array("status" => TRUE, "msg" => "报名记录已清空"));
 		return;
 	}
-	
+
 	/**
 	 * 导出报名记录到txt文件
 	 */
@@ -224,7 +226,7 @@ Class DutySignUp extends CI_Controller {
 			// 提示权限不够
 			PublicMethod::permissionDenied();
 		}
-		
+
 		header('Content-type: application/octet-stream');
 		header('Accept-Ranges: bytes');
 		header('Content-Disposition: attachment; filename="signup.txt"');
@@ -232,7 +234,7 @@ Class DutySignUp extends CI_Controller {
 		header('Content-Transfer-Encoding: utf-8');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
-		
+
 		// 从数据库获取所有报名记录（空余时间记录）
 		$nschedule_obj_list = $this->Moa_nschedule_model->getAll();
 		for ($i = 0; $i < count($nschedule_obj_list); $i++) {
@@ -249,7 +251,7 @@ Class DutySignUp extends CI_Controller {
 		}
 		return;
 	}
-	
+
 	/**
 	 * 将报名时间段字符串转换为01表示的字符串
 	 * @param $period_str 报名时间段字符串
@@ -316,5 +318,58 @@ Class DutySignUp extends CI_Controller {
 		$res_str = implode(",", $res_arr);
 		return $res_str;
 	}
-	
+
+	/**
+	 * 将假期／考试周的空闲时间，写入数据库
+	 */
+	public function writeHolidaySchedule() {
+		if (isset($_SESSION['user_id'])) {
+			$uid = $_SESSION['user_id'];
+			$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
+
+			$dateList 	= $_POST['date'];
+			$hsid 		= $_POST['hsid'];
+			$res = $this->Moa_scheduleduty_model-> addDateList($wid, $hsid, $dateList);
+
+			if(!$res) {
+				echo json_encode(array("status" => FALSE, "msg" => "更新信息失败"));
+				return;
+			}
+
+			echo json_encode(array("status" => TRUE, "msg" => "更新信息成功"));
+
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
+
+	/**
+	 * 获取用户的假期/考试周空闲时间，写入数据库
+	 */
+
+	public function userSchedule() {
+		if (isset($_SESSION['user_id'])) {
+			$uid = $_SESSION['user_id'];
+			$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
+
+			$holidaySchedule = $this->Moa_holidayschedule_model->latest();
+			$holidaySchedule = $holidaySchedule[0];
+			$hsid 		 	 = $holidaySchedule->hsid;
+
+			$res = $this->Moa_scheduleduty_model->get_by_wid_and_hsid($wid, $hsid);
+
+			if(!$res) {
+				echo json_encode(array("status" => FALSE, "msg" => "获取信息失败"));
+				return;
+			}
+
+			echo json_encode(array("status" => TRUE, "data" => $res, "msg" => "获取信息成功"));
+
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
+
 }
