@@ -138,7 +138,7 @@ $("#post-btn").click(function () {
             if (ret['status'] === true) {
                 //console.log(ret['bpid']);
                 var deletePostHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_area_"+ret['bpid']+"'><a class='delete-post' onclick='deletePost("+ret['bpid']+")'>删除</a></small></div>";
-                $("#post-circle").prepend(
+                $("#post-circle").append(
                     "<div class='social-feed-separated' id='separated_" + ret['bpid'] + "'>" +
                     "  <div class='social-avatar'>" +
                     "    <a href=''><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'></a>" +
@@ -463,9 +463,9 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
                         "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['post_list'][i]['myid'] + "'>" + ret['post_list'][i]['name'] +
                         "</a>" +
                         "</div>" +
-                        "<div class='social-body'>" +
+                        "<div class='social-body'><p>" +
                         ret['post_list'][i]['body'] +
-                        "<small class='text-muted'> " + ret['post_list'][i]['splited_date']['month'] + "月" + ret['post_list'][i]['splited_date']['day'] + "日 " +
+                        "</p><small class='text-muted'> " + ret['post_list'][i]['splited_date']['month'] + "月" + ret['post_list'][i]['splited_date']['day'] + "日 " +
                         ret['post_list'][i]['splited_date']['hour'] + ":" + ret['post_list'][i]['splited_date']['minute'] + " </small>" + deletePostHTML +
                         "</div>" +
                         "<div class='social-footer'>" +
