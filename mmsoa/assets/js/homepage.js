@@ -569,7 +569,7 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
                 if (!no_more) {
                     $("#more-btn").before("<div class='social-feed-separated'>" +
                         "<div class='social-feed-box text-center'>" +
-                        "<div class='social-body'><p>暫无更多</p>" +
+                        "<div class='social-body'><p>暂无更多</p>" +
                         "</div></div></div>");
                     $("#more-btn").css({"display": "none"});
                     no_more = true;
@@ -637,7 +637,7 @@ $("#more_notices").bind("getNotice", function (event, base_date) {
                     $("#more-notices-btn").before(
                         "<div class='feed-element' id='element_30'>" +
                         "<div class='media-body text-center'>" +
-                        "<p>暫无更多</p>" +
+                        "<p>暂无更多</p>" +
                         "</div>" +
                         "</div>"
                     );
