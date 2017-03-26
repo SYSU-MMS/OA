@@ -29,6 +29,8 @@ var comment_count = new Array();
 function htmlspecialchars(str) {
     var s = "";
     if (str.length == 0) return "";
+    return str;
+    // disabled
     for   (var i=0; i<str.length; i++)
     {
         switch (str.substr(i,1))
