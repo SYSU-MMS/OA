@@ -147,7 +147,7 @@ $("#post-btn").click(function () {
                     "    <div class='social-avatar'>" +
                     "      <a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" +
                     "    </div>" +
-                    "    <div class='social-body'>" + htmlspecialchars(post_content) +
+                    "    <div class='social-body'><p>" + htmlspecialchars(post_content) + "</p>" +
                     "      <small class='text-muted'> " + ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " + ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] + " </small>" + deletePostHTML +
                     "    </div>" +
                     "    <div class='social-footer'>" +
@@ -168,7 +168,7 @@ $("#post-btn").click(function () {
                 $("#submit_result").html(ret["msg"]);
                 scrollToTop();
                 //暂时以刷新页面来回避不能显示新留言的评论的bug
-                location.reload();
+                //location.reload();
             } else {
                 $("#submit_result").attr("style", "color:#ED5565; text-align:center; margin-top: 14px;");
                 $("#submit_result").html(ret["msg"]);
