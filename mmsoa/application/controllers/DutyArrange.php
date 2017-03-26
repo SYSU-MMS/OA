@@ -15,6 +15,7 @@ Class DutyArrange extends CI_Controller {
 		$this->load->model('Moa_nschedule_model');
 		$this->load->model('Moa_duty_model');
 		$this->load->model('Moa_holidayschedule_model');
+		$this->load->model('Moa_scheduleduty_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -43,59 +44,16 @@ Class DutyArrange extends CI_Controller {
 				$name_list[$i] = $common_worker[$i]->name;
 				$wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
 			}
-			$data['name_list'] = $name_list;
-			$data['wid_list'] = $wid_list;
 
-			// 存放值班表助理名单的二维数组
-			$schedule = array();
-			$schedule[1][1] = '';
-			$schedule[1][2] = '';
-			$schedule[1][3] = '';
-			$schedule[1][4] = '';
-			$schedule[1][5] = '';
-			$schedule[1][6] = '';
-			$schedule[2][1] = '';
-			$schedule[2][2] = '';
-			$schedule[2][3] = '';
-			$schedule[2][4] = '';
-			$schedule[2][5] = '';
-			$schedule[2][6] = '';
-			$schedule[3][1] = '';
-			$schedule[3][2] = '';
-			$schedule[3][3] = '';
-			$schedule[3][4] = '';
-			$schedule[3][5] = '';
-			$schedule[3][6] = '';
-			$schedule[4][1] = '';
-			$schedule[4][2] = '';
-			$schedule[4][3] = '';
-			$schedule[4][4] = '';
-			$schedule[4][5] = '';
-			$schedule[4][6] = '';
-			$schedule[5][1] = '';
-			$schedule[5][2] = '';
-			$schedule[5][3] = '';
-			$schedule[5][4] = '';
-			$schedule[5][5] = '';
-			$schedule[5][6] = '';
-			$schedule[6][7] = '';
-			$schedule[6][8] = '';
-			$schedule[6][9] = '';
-			$schedule[7][7] = '';
-			$schedule[7][8] = '';
-			$schedule[7][9] = '';
+			$data['name_list'] 	= $name_list;
+			$data['wid_list'] 	= $wid_list;
 
-			// 取原有值班表记录
-			$duty_obj_list = $this->Moa_duty_model->get_all();
-			if (!empty($duty_obj_list)) {
-				// 提取每个时段的值班助理wid
-				for ($i = 0; $i < count($duty_obj_list); $i++) {
-					$tmp_weekday = $duty_obj_list[$i]->weekday;
-					$tmp_period = $duty_obj_list[$i]->period;
-					$schedule[$tmp_weekday][$tmp_period] = explode(',', $duty_obj_list[$i]->wids);
-				}
-			}
+			$schedule = $this->getSchedule();
 			$data['schedule'] = $schedule;
+
+			$hsdata = $this->getHolidaySchedule();
+			$data['workerTimeSchedule'] = $hsdata['workerTimeSchedule'];
+			$data['timeSchedule']		= $hsdata['timeSchedule'];
 
 			$this->load->view('view_duty_arrange', $data);
 		} else {
@@ -104,9 +62,102 @@ Class DutyArrange extends CI_Controller {
 		}
 	}
 
+	function getHolidaySchedule() {
+		// 获取假期考试周空闲时间表
+
+		date_default_timezone_set("PRC");
+		$holidaySchedule = $this->Moa_holidayschedule_model->latest();
+		$holidaySchedule = $holidaySchedule[0];
+
+		$hsid 		 = $holidaySchedule->hsid;
+		$name 		 = $holidaySchedule->name;
+		$description = $holidaySchedule->description;
+		$startDate 	 = date_format(date_create($holidaySchedule->dayfrom), "Y-m-d");
+		$endDate 	 = date_format(date_create($holidaySchedule->dayto), "Y-m-d");
+
+		$workerSchedule = $this->Moa_scheduleduty_model->get_by_hsid($hsid);
+		$workerTimeSchedule = array();
+		$timeSchedule = array();
+		for($i = $startDate; $i <= $endDate; $i = PublicMethod::addOneDay($i)) {
+			array_push($timeSchedule, $i);
+		}
+
+		for($i = 0; $i < count($timeSchedule); $i++) {
+			$workerTimeSchedule[$i] = array("wid" => array(), "timestamp" => $timeSchedule[$i], "name" => array(), "isPermitted" => array());
+		}
+
+		for($i = 0; $i < count($workerSchedule); $i++) {
+
+			$timestamp 	= date_format(date_create($workerSchedule[$i]->timestamp), "Y-m-d");
+			// 从$startDate起，是数组下标为0的元素，计算时间间隔来得到偏移量
+			$index = PublicMethod::getTimeInterval($timestamp, $startDate);
+			$wid 		 = $workerSchedule[$i]->wid;
+			$name 		 = $this->Moa_worker_model->get_name_by_wid($wid);
+			$isPermitted = $workerSchedule[$i]->isPermitted;
+			array_push($workerTimeSchedule[$index]['wid'], $wid);
+			array_push($workerTimeSchedule[$index]['name'], $name[0]->name);
+			array_push($workerTimeSchedule[$index]['isPermitted'], $isPermitted);
+		}
+
+		return array("workerTimeSchedule" => $workerTimeSchedule, "timeSchedule" =>  $timeSchedule);
+	}
+
+	function getSchedule() {
+		// 存放值班表助理名单的二维数组
+		$schedule = array();
+		$schedule[1][1] = '';
+		$schedule[1][2] = '';
+		$schedule[1][3] = '';
+		$schedule[1][4] = '';
+		$schedule[1][5] = '';
+		$schedule[1][6] = '';
+		$schedule[2][1] = '';
+		$schedule[2][2] = '';
+		$schedule[2][3] = '';
+		$schedule[2][4] = '';
+		$schedule[2][5] = '';
+		$schedule[2][6] = '';
+		$schedule[3][1] = '';
+		$schedule[3][2] = '';
+		$schedule[3][3] = '';
+		$schedule[3][4] = '';
+		$schedule[3][5] = '';
+		$schedule[3][6] = '';
+		$schedule[4][1] = '';
+		$schedule[4][2] = '';
+		$schedule[4][3] = '';
+		$schedule[4][4] = '';
+		$schedule[4][5] = '';
+		$schedule[4][6] = '';
+		$schedule[5][1] = '';
+		$schedule[5][2] = '';
+		$schedule[5][3] = '';
+		$schedule[5][4] = '';
+		$schedule[5][5] = '';
+		$schedule[5][6] = '';
+		$schedule[6][7] = '';
+		$schedule[6][8] = '';
+		$schedule[6][9] = '';
+		$schedule[7][7] = '';
+		$schedule[7][8] = '';
+		$schedule[7][9] = '';
+
+		// 取原有值班表记录
+		$duty_obj_list = $this->Moa_duty_model->get_all();
+		if (!empty($duty_obj_list)) {
+			// 提取每个时段的值班助理wid
+			for ($i = 0; $i < count($duty_obj_list); $i++) {
+				$tmp_weekday = $duty_obj_list[$i]->weekday;
+				$tmp_period = $duty_obj_list[$i]->period;
+				$schedule[$tmp_weekday][$tmp_period] = explode(',', $duty_obj_list[$i]->wids);
+			}
+		}
+		return $schedule;
+	}
+
 	/*
 	 * 排班录入
-	 * 修改：by 少彬
+	 * 修改by： 少彬
 	 */
 	public function dutyArrangeIn() {
 		if (isset($_SESSION['user_id'])) {
@@ -233,6 +284,11 @@ Class DutyArrange extends CI_Controller {
 				}
 			}
 
+			$hsdata = $this->getHolidaySchedule();
+			$data['workerTimeSchedule'] = $hsdata['workerTimeSchedule'];
+			$data['timeSchedule']		= $hsdata['timeSchedule'];
+
+
 			$data['schedule'] = $schedule;
 
 			$this->load->view('view_duty_schedule', $data);
@@ -302,8 +358,10 @@ Class DutyArrange extends CI_Controller {
                         $tmp_groupid = $lineitem->groupid;
                         $tmp_periodList = explode(',', $lineitem->period);
                         $tmp_worker_obj = $this->Moa_worker_model->get($tmp_wid);
+
 						$tmp_uid = $tmp_worker_obj->uid;
                         $tmp_groupname = PublicMethod::translate_group($tmp_worker_obj->group);
+
 						$tmp_user_obj = $this->Moa_user_model->get($tmp_uid);
 						$tmp_name = $tmp_user_obj->name;
                         // 将其加入到对应空余时间槽里
@@ -423,6 +481,7 @@ Class DutyArrange extends CI_Controller {
 				}
 			}
 
+
 			$data['schedule'] = $schedule;
 
 			$this->load->view('view_duty_free', $data);
@@ -459,7 +518,52 @@ Class DutyArrange extends CI_Controller {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
 		}
+	}
 
+	public function publishHolidaySchedule() {
+		if (isset($_SESSION['user_id'])) {
+
+			// 普通助理没有权限
+			if ($_SESSION['level'] == 0) {
+				PublicMethod::permissionDenied();
+			}
+			$holidaySchedule = $this->Moa_holidayschedule_model->latest();
+			$holidaySchedule = $holidaySchedule[0];
+
+			$hsid 		 	 = $holidaySchedule->hsid;
+			$dataList 		 = $_POST['list'];
+
+			$res = $this->Moa_scheduleduty_model->updatePermitted($dataList, $hsid);
+
+			if(!$res) {
+				echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
+				return;
+			}
+
+			echo json_encode(array("status" => TRUE, "msg" => "发布成功"));
+
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
+	}
+
+	public function latestHolidaySchedule() {
+		if (isset($_SESSION['user_id'])) {
+
+			$res = $this->Moa_holidayschedule_model->latest();
+
+			if(!$res) {
+				echo json_encode(array("status" => FALSE, "msg" => "获取失败"));
+				return;
+			}
+
+			echo json_encode(array("status" => TRUE, "data" => $res, "msg" => "获取成功"));
+
+		} else {
+			// 未登录的用户请先登录
+			PublicMethod::requireLogin();
+		}
 	}
 
 }

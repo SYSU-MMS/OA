@@ -430,6 +430,73 @@
 	            </div>
             </div>
 
+            <div class="wrapper wrapper-content animated fadeInRight" style="position: relative; z-index: 9;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>假期考试周空闲时间表</h5>
+                            </div>
+                            <div class="ibox-content" style="padding: 30px 65px;">
+								<div class="form-group">
+									<div class="row" style="margin-bottom: -15px;">
+										<div class="col-sm-12">
+					                        <table class="table table-bordered">
+					                            <thead>
+					                                <tr>
+					                                    <th scope="col" abbr="per">日期</th>
+					                                    <th scope="col" abbr="mon">报名人员</th>
+					                                </tr>
+					                            </thead>
+					                            <tbody>
+                                                    <?php
+                                                        for($i = 0; $i < count($timeSchedule); $i++) {
+                                                            $date = $timeSchedule[$i];
+                                                            $options = '';
+                                                            for($j = 0; $j < count($wid_list); $j++) {
+                                                                if (in_array($wid_list[$j], $workerTimeSchedule[$i]['wid']) !== FALSE)
+                                                                    $selected = 'selected';
+                                                                else
+                                                                    $selected = '';
+
+                                                                $singleOption =  ''.
+                                                                            '<option value="'.$wid_list[$j].'" hassubinfo="true" '.$selected.'>'.
+                                                                            $name_list[$j].'</option>';
+                                                                $options = $options.$singleOption;
+                                                            }
+
+                                                            $dom =  ''.
+                                                                    '    <tr> '.
+                                                                    '        <th scope="row">'.$date.'</th>'.
+                                                                    '        <td>'.
+                                                                    '           <select id="'.$date.'" data-placeholder="选择助理" class="holiday_schdule chosen-select" multiple tabindex="4">'.
+                                                                                $options.
+                                                                    '           </select>'.
+                                                                    '        </td>'.
+                                                                    '    </tr>';
+                                                            echo $dom;
+                                                        }
+                                                    ?>
+
+						                        </tbody>
+						                        </table>
+									        </div>
+								        </div>
+								    </div>
+						            <div class="hr-line-dashed"></div>
+						            <div class="row">
+	                                    <div class="form-group">
+	                                        <div class="col-sm-4 col-sm-offset-5">
+	                                            <button id="submit_holiday_scheduel_duty" type="submit" class="btn btn-primary">发布</button>
+	                                        </div>
+	                                    </div>
+                                    </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+            </div>
+
 
             <?php $this->load->view('view_footer'); ?>
 	    </div>
