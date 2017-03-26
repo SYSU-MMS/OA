@@ -25,6 +25,31 @@ $(function () {
 //记录每一个post已经显示的评论数量
 var comment_count = new Array();
 
+//替换 HTML 特殊字符
+function htmlspecialchars(str) {
+    var s = "";
+    if (str.length == 0) return "";
+    for   (var i=0; i<str.length; i++)
+    {
+        switch (str.substr(i,1))
+        {
+            case "<": s += "&lt;"; break;
+            case ">": s += "&gt;"; break;
+            case "&": s += "&amp;"; break;
+            case " ":
+                if(str.substr(i + 1, 1) == " "){
+                    s += " &nbsp;";
+                    i++;
+                } else s += " ";
+                break;
+            case "\"": s += "&quot;"; break;
+            case "\n": s += "<br>"; break;
+            default: s += str.substr(i,1); break;
+        }
+    }
+    return s;
+}
+
 /**
  * 删除回复
  * @param mbcid
@@ -97,10 +122,10 @@ $("#post-btn").click(function () {
     }
 
     // 在文本首末分别添加字符串“<p>”和“</p>”,并将回车替换为“</p><p>”
-    post_content = post_content.replace(/\n/g, "</p><p>");
-    post_content = post_content.replace(/ /g, "&nbsp;");
-    post_content = "<p>" + post_content;
-    post_content += "</p>";
+    //post_content = post_content.replace(/\n/g, "</p><p>");
+    //post_content = post_content.replace(/ /g, "&nbsp;");
+    //post_content = "<p>" + post_content;
+    //post_content += "</p>";
 
     $.ajax({
         type: 'post',
@@ -113,29 +138,29 @@ $("#post-btn").click(function () {
             if (ret['status'] === true) {
                 //console.log(ret['bpid']);
                 var deletePostHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_area_"+ret['bpid']+"'><a class='delete-post' onclick='deletePost("+ret['bpid']+")'>删除</a></small></div>";
-                $("#post-circle").prepend(
+                $("#post-circle").append(
                     "<div class='social-feed-separated' id='separated_" + ret['bpid'] + "'>" +
-                    "<div class='social-avatar'><a href=''><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'></a></div>" +
-                    "<div class='social-feed-box'>" +
-                    "<div class='social-avatar'>" +
-                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" +
-                    "</div>" +
-                    "<div class='social-body'>" +
-                    post_content +
-                    "<small class='text-muted'> " + ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
-                    ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] + " </small>" + deletePostHTML +
-                    "</div>" +
-                    "<div class='social-footer'>" +
-                    "<div class='social-comment' id='write_comment_" + ret['bpid'] + "'>" +
-                    "<div class='media-body'>" +
-                    "<textarea id='comment_textarea_" + ret['bpid'] + "' class='form-control' placeholder='填写评论...'></textarea>" +
-                    "<div class='btn-group' style='margin-top: 4px; text-align:right;'>" +
-                    "<button id='comment_on_" + ret['bpid'] + "' class='comment-btn btn btn-primary btn-xs'><i class='fa fa-send-o'></i> 发送</button>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
+                    "  <div class='social-avatar'>" +
+                    "    <a href=''><img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'></a>" +
+                    "  </div>" +
+                    "  <div class='social-feed-box'>" +
+                    "    <div class='social-avatar'>" +
+                    "      <a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" +
+                    "    </div>" +
+                    "    <div class='social-body'><p>" + htmlspecialchars(post_content) + "</p>" +
+                    "      <small class='text-muted'> " + ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " + ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] + " </small>" + deletePostHTML +
+                    "    </div>" +
+                    "    <div class='social-footer'>" +
+                    "      <div class='social-comment' id='write_comment_" + ret['bpid'] + "'>" +
+                    "        <div class='media-body'>" +
+                    "          <textarea id='comment_textarea_" + ret['bpid'] + "' class='form-control' placeholder='填写评论...'></textarea>" +
+                    "          <div class='btn-group' style='margin-top: 4px; text-align:right;'>" +
+                    "            <button id='comment_on_" + ret['bpid'] + "' class='comment-btn btn btn-primary btn-xs'><i class='fa fa-send-o'></i> 发送</button>" +
+                    "          </div>" +
+                    "        </div>" +
+                    "      </div>" +
+                    "    </div>" +
+                    "  </div>" +
                     "</div>"
                 );
                 $("#new-post").val("");
@@ -143,7 +168,7 @@ $("#post-btn").click(function () {
                 $("#submit_result").html(ret["msg"]);
                 scrollToTop();
                 //暂时以刷新页面来回避不能显示新留言的评论的bug
-                location.reload();
+                //location.reload();
             } else {
                 $("#submit_result").attr("style", "color:#ED5565; text-align:center; margin-top: 14px;");
                 $("#submit_result").html(ret["msg"]);
@@ -217,7 +242,7 @@ function replyTo(uid, post_id, mbcid) {
                     "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
                     "</a>" +
                     "<div class='media-body reply-msg-area'>" +
-                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + comment_content + "<br/>" +
+                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + htmlspecialchars(comment_content) + "<br/>" +
                     "<small class='text-muted' id='text_muted_" + ret['mbcid'] + "'> " +
                     ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
                     ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] +
@@ -257,6 +282,7 @@ $("body").on("click", ".comment-btn", function () {
     var btn_id = $(this)[0].id.split("_");
     var post_id = btn_id[btn_id.length - 1];
     var comment_content = $(this).parent().siblings("textarea").val();
+    //console.log(comment_content);
     if ($.trim(comment_content) === "") {
         alert("内容不能为空");
         return;
@@ -291,7 +317,7 @@ $("body").on("click", ".comment-btn", function () {
                     "<img alt='image' src='" + ret['base_url'] + "upload/avatar/sm_" + ret['avatar'] + "'>" +
                     "</a>" +
                     "<div class='media-body reply-msg-area'>" +
-                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + comment_content + "<br/>" +
+                    "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['myid'] + "'>" + ret['name'] + "</a>" + replyTo + "： " + htmlspecialchars(comment_content) + "<br/>" +
                     "<small class='text-muted' id='text_muted_" + ret['mbcid'] + "'> " +
                     ret['splited_date']['month'] + "月" + ret['splited_date']['day'] + "日 " +
                     ret['splited_date']['hour'] + ":" + ret['splited_date']['minute'] +
@@ -424,10 +450,10 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
                 for (var i = 0; i < ret['post_list'].length; i++) {
                     //var onClick="onclick=\"showMoreComment("+ret['post_list'][i]['bpid']+","+comment_count[ret['post_list'][i]['bpid']]+")\"";
                     var deletePostHTML="";
-                    console.log(ret['post_list'][i]['deletable']);
+                    //console.log(ret['post_list'][i]['deletable']);
                     if (ret['post_list'][i]['deletable']===true){
                         deletePostHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_area_"+ret['post_list'][i]['bpid']+"'><a class='delete-post' onclick='deletePost("+ret['post_list'][i]['bpid']+")'>删除</a></small></div>";
-                        console.log(deletePostHTML);
+                        //console.log(deletePostHTML);
                     }
                     $("#more-btn").before(
                         "<div class='social-feed-separated' id='separated_" + ret['post_list'][i]['bpid'] + "'>" +
@@ -437,9 +463,9 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
                         "<a href='" + ret['site_url'] + "/PersonalData/showOthersPersonalData/" + ret['post_list'][i]['myid'] + "'>" + ret['post_list'][i]['name'] +
                         "</a>" +
                         "</div>" +
-                        "<div class='social-body'>" +
+                        "<div class='social-body'><p>" +
                         ret['post_list'][i]['body'] +
-                        "<small class='text-muted'> " + ret['post_list'][i]['splited_date']['month'] + "月" + ret['post_list'][i]['splited_date']['day'] + "日 " +
+                        "</p><small class='text-muted'> " + ret['post_list'][i]['splited_date']['month'] + "月" + ret['post_list'][i]['splited_date']['day'] + "日 " +
                         ret['post_list'][i]['splited_date']['hour'] + ":" + ret['post_list'][i]['splited_date']['minute'] + " </small>" + deletePostHTML +
                         "</div>" +
                         "<div class='social-footer'>" +
@@ -543,7 +569,7 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
                 if (!no_more) {
                     $("#more-btn").before("<div class='social-feed-separated'>" +
                         "<div class='social-feed-box text-center'>" +
-                        "<div class='social-body'><p>暫无更多</p>" +
+                        "<div class='social-body'><p>暂无更多</p>" +
                         "</div></div></div>");
                     $("#more-btn").css({"display": "none"});
                     no_more = true;
@@ -611,7 +637,7 @@ $("#more_notices").bind("getNotice", function (event, base_date) {
                     $("#more-notices-btn").before(
                         "<div class='feed-element' id='element_30'>" +
                         "<div class='media-body text-center'>" +
-                        "<p>暫无更多</p>" +
+                        "<p>暂无更多</p>" +
                         "</div>" +
                         "</div>"
                     );

@@ -39,9 +39,9 @@ $("#submit_duty").click(function() {
 	var SUN1 = $("#select_SUN1").val();
 	var SUN2 = $("#select_SUN2").val();
 	var SUN3 = $("#select_SUN3").val();
-	
+
 	$.ajax({
-		type: "POST", 
+		type: "POST",
 		url: "dutyArrangeIn",
 		data: {
 			"MON1_list": MON1,
@@ -79,7 +79,7 @@ $("#submit_duty").click(function() {
 			"SAT3_list": SAT3,
 			"SUN1_list": SUN1,
 			"SUN2_list": SUN2,
-			"SUN3_list": SUN3,
+			"SUN3_list": SUN3
 		},
 		success: function(msg) {
 			ret = JSON.parse(msg);
@@ -92,6 +92,98 @@ $("#submit_duty").click(function() {
 				// 锁定所有按钮和输入框
 				$('.chosen-select').prop('disabled', true).trigger("chosen:updated");
 				$("#submit_duty").attr("disabled", true);
+			}
+		},
+		error: function(){
+		    alert(arguments[1]);
+		}
+	});
+});
+
+
+$('#submit_add_schedule').click(function () {
+	var name = $('#name').val(),
+		from = $('#dateFrom').val(),
+		to = $('#dateTo').val(),
+		description = $('#comment').val();
+
+
+	$.ajax({
+		type: "POST",
+		url: "holidaySchedule",
+		data: {
+			"name": name,
+			"from": from,
+			"to": to,
+			"description": description
+		},
+		success: function(msg) {
+			ret = JSON.parse(msg);
+			if (ret["status"] === false) {
+				alert('发布失败');
+			} else {
+				alert('发布成功');
+			}
+		},
+		error: function(){
+			alert(arguments[1]);
+		}
+	});
+
+});
+
+$.ajax({
+    type: "GET",
+    url: "latestHolidaySchedule",
+    success: function(msg) {
+        ret = JSON.parse(msg);
+        if (ret["status"] === false) {
+            alter('获取失败');
+        } else {
+            console.log(ret.data);
+        }
+    },
+    error: function(){
+        alert(arguments[1]);
+    }
+});
+
+$("#submit_holiday_scheduel_duty").click(function() {
+
+	var dataList = [];
+	var holiday_selects = $('.holiday_schdule');
+	for(var i = 0; i < holiday_selects.length; i++) {
+		var id 		= holiday_selects[i].id,
+			value 	= $(('#'+id)).val(); // 从holiday_selects直接取value会有bug
+
+		if(value) {
+			var time = id,
+			 	wids = [];
+
+			for(var wid = 0; wid < value.length; wid++)
+				wids.push(parseInt(value[wid]));
+
+			dataList.push({
+				"timestamp" : time,
+				"wids": wids
+			});
+		}
+	}
+
+	console.log(dataList);
+
+	$.ajax({
+		type: "POST",
+		url: "publishHolidaySchedule",
+		data: {
+			"list": dataList
+		},
+		success: function(msg) {
+			ret = JSON.parse(msg);
+			if (ret["status"] === false) {
+				alert("error");
+			} else {
+				alert('发布成功')
 			}
 		},
 		error: function(){

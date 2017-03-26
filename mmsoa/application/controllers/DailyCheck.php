@@ -100,7 +100,7 @@ Class DailyCheck extends CI_Controller {
 						// 添加问题（故障）记录
 						$prob_paras['founder_wid'] = $wid;
 						$prob_paras['roomid'] = $roomid;
-						$prob_paras['description'] = $prob_description;
+						$prob_paras['description'] = htmlspecialchars($prob_description);
 						$prob_paras['found_time'] = $time;
 						$prob_paras['solved_time'] = $time;
 						$problemid = $this->Moa_check_model->add_problem($prob_paras);
@@ -213,7 +213,7 @@ Class DailyCheck extends CI_Controller {
 						// 添加问题（故障）记录
 						$prob_paras['founder_wid'] = $wid;
 						$prob_paras['roomid'] = $roomid;
-						$prob_paras['description'] = $prob_description;
+						$prob_paras['description'] = htmlspecialchars($prob_description);
 						$prob_paras['found_time'] = $time;
 						$prob_paras['solved_time'] = $time;
 						$problemid = $this->Moa_check_model->add_problem($prob_paras);
@@ -326,7 +326,7 @@ Class DailyCheck extends CI_Controller {
 						// 添加问题（故障）记录
 						$prob_paras['founder_wid'] = $wid;
 						$prob_paras['roomid'] = $roomid;
-						$prob_paras['description'] = $prob_description;
+						$prob_paras['description'] = htmlspecialchars($prob_description);
 						$prob_paras['found_time'] = $time;
 						$prob_paras['solved_time'] = $time;
 						$problemid = $this->Moa_check_model->add_problem($prob_paras);
