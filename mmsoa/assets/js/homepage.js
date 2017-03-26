@@ -450,10 +450,10 @@ $("#more_posts").bind("getPostComment", function (event, base_date, offset) {
                 for (var i = 0; i < ret['post_list'].length; i++) {
                     //var onClick="onclick=\"showMoreComment("+ret['post_list'][i]['bpid']+","+comment_count[ret['post_list'][i]['bpid']]+")\"";
                     var deletePostHTML="";
-                    console.log(ret['post_list'][i]['deletable']);
+                    //console.log(ret['post_list'][i]['deletable']);
                     if (ret['post_list'][i]['deletable']===true){
                         deletePostHTML = "<div class='delete-area'><small class='delete-area text-muted' id='delete_area_"+ret['post_list'][i]['bpid']+"'><a class='delete-post' onclick='deletePost("+ret['post_list'][i]['bpid']+")'>删除</a></small></div>";
-                        console.log(deletePostHTML);
+                        //console.log(deletePostHTML);
                     }
                     $("#more-btn").before(
                         "<div class='social-feed-separated' id='separated_" + ret['post_list'][i]['bpid'] + "'>" +
