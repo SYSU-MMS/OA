@@ -138,7 +138,7 @@ $.ajax({
     success: function(msg) {
         ret = JSON.parse(msg);
         if (ret["status"] === false) {
-            alter('获取失败');
+            alert('获取失败');
         } else {
             console.log(ret.data);
         }

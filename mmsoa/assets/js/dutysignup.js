@@ -81,7 +81,7 @@ function loadHolidaySchedule(data) {
 			success: function(msg) {
 				ret = JSON.parse(msg);
 				if (ret["status"] === false) {
-					alter('获取用户时间表失败');
+					alert('获取用户时间表失败');
 				} else {
 					if(isvalid) {
 						addDayChose(from, to);
@@ -216,7 +216,7 @@ function getHolidaySchedule() {
 		success: function(msg) {
 			ret = JSON.parse(msg);
 			if (ret["status"] === false) {
-				alter('获取失败');
+				alert('获取失败');
 			} else {
 				var arr = ret.data;
 				if(arr.length != 0)
