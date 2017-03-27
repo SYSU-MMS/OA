@@ -69,27 +69,22 @@ function loadHolidaySchedule(data) {
 		hsid 		= data.hsid,
 		isvalid 	= data.isvalid,
 		name 		= data.name;
-
-	loadUserScheduleChoose();
+	if(isvalid) {
+		addDayChose(from, to);
+		loadUserScheduleChoose();
+		addSchduleBtnClick();
+	} else {
+		deleteHolidaySchedule();
+	}
 
 	function loadUserScheduleChoose() {
-		console.log('helo');
-
 		$.ajax({
 			type: 'GET',
 			url: 'DutySignUp/userSchedule',
 			success: function(msg) {
 				ret = JSON.parse(msg);
-				if (ret["status"] === false) {
-					alert('获取用户时间表失败');
-				} else {
-					if(isvalid) {
-						addDayChose(from, to);
-						addUserChose(ret['data']);
-						addSchduleBtnClick();
-					} else {
-						deleteHolidaySchedule();
-					}
+				if ((ret["status"] === true) && isvalid) {
+					addUserChose(ret['data']);
 				}
 			},
 			error: function() {
