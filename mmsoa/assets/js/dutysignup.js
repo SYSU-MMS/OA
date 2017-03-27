@@ -191,18 +191,17 @@ function getDaysBewteen(from, to) {
 /* 工具函数：转成 YYYY-MM-DD 的时间格式 */
 function getDateString(time) {
 
-	function pad(number) {
-	  if (number < 10) {
-	    return '0' + number;
-	  }
-	  return number;
-	}
+	var mm = time.getMonth() + 1; // getMonth() is zero-based
+    var dd = time.getDate();
 
-	return time.getUTCFullYear() +
-	'-' + pad(time.getUTCMonth() + 1) +
-	'-' + pad(time.getUTCDate() );
+    return [time.getFullYear(),
+            (mm > 9 ? '' : '0') + mm,
+            (dd > 9 ? '' : '0') + dd
+		].join('-');
 }
 
+
+var date = new Date();
 /* 入口函数：获取空闲时间表 */
 function getHolidaySchedule() {
 	$.ajax({
