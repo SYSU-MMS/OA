@@ -488,5 +488,4 @@ Class DailyCheck extends CI_Controller
             }
         }
     }
-
 }

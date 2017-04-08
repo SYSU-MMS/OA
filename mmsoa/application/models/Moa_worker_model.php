@@ -53,7 +53,7 @@ class Moa_worker_model extends CI_Model {
      * @return 某个状态的所有用户
      */
     public function get_by_state($state) {
-        $sql = 'SELECT * '. 
+        $sql = 'SELECT * '.
         'FROM '.
         '    MOA_User natural join MOA_Worker '.
         'WHERE '.
@@ -157,7 +157,7 @@ class Moa_worker_model extends CI_Model {
             return false;
         }
     }
-    
+
     /**
 	 * 取指定wid的用户组别
 	 * @param wid - 助理wid
@@ -176,7 +176,7 @@ class Moa_worker_model extends CI_Model {
 			return false;
 		}
 	}
-    
+
     /**
 	 * 取指定uid对应的wid
 	 * @param uid - 用户id
@@ -195,7 +195,7 @@ class Moa_worker_model extends CI_Model {
 			return false;
 		}
 	}
-    
+
     /**
 	 * 取指定wid对应的uid
 	 * @param wid - 工号wid
@@ -332,7 +332,7 @@ class Moa_worker_model extends CI_Model {
 	}
 
 	/**
-	 * 给指定助理修改本月请假次数 
+	 * 给指定助理修改本月请假次数
 	 * @param wid - 助理id
 	 * @param contrib - 修改量
 	 * @return 该助理最新的本月请假次数
@@ -349,7 +349,7 @@ class Moa_worker_model extends CI_Model {
 	}
 
 	/**
-	 * 给指定助理修改本月被抽查次数 
+	 * 给指定助理修改本月被抽查次数
 	 * @param wid - 助理id
 	 * @param contrib - 修改量
 	 * @return 该助理最新的本月被抽查次数
@@ -381,4 +381,17 @@ class Moa_worker_model extends CI_Model {
 			return false;
 		}
 	}
+
+    public function get_name_by_wid($wid) {
+        $sql =  ''.
+                'SELECT name '.
+                'FROM moa_user '.
+                'WHERE uid = ('.
+                '    SELECT uid '.
+                '    FROM moa_worker '.
+                '    WHERE wid = '.$wid.
+                ');';
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
 }

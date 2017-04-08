@@ -8,19 +8,19 @@
 
     <title>MOA-值班报名</title>
     <?php $this->load->view('view_keyword'); ?>
-    
+
     <link href="<?=base_url().'assets/images/moa.ico' ?>" rel="shortcut icon">
-    
+
     <link href="<?=base_url().'assets/css/bootstrap.min.css?v=3.4.0' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/font-awesome/css/font-awesome.min.css' ?>" rel="stylesheet">
-        
+
     <link href="<?=base_url().'assets/css/plugins/iCheck/custom.css' ?>" rel="stylesheet">
-    
+
     <link href="<?=base_url().'assets/css/plugins/jasny/jasny-bootstrap.min.css' ?>" rel="stylesheet">
-    
+
     <!-- Data Tables -->
     <link href="<?=base_url().'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
-        
+
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
 
@@ -44,7 +44,7 @@
                         </li>
                         <li>
                             <strong>报名</strong>
-                        </li>	
+                        </li>
                     </ol>
                 </div>
                 <div class="col-lg-2">
@@ -57,10 +57,10 @@
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>值班报名</h5>
-                                <?php 
+                                <?php
                                 	// 助理负责人，超级管理员才可以导出报名情况
-						        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) { 
-						        		echo '<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger exportSignupBtn"><i class="fa fa-trash-o"></i><span> 清空报名记录</span></button>' . 
+						        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) {
+						        		echo '<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger exportSignupBtn"><i class="fa fa-trash-o"></i><span> 清空报名记录</span></button>' .
 								        		'<a id="export_signup" class="btn btn-primary exportSignupBtn" href="' . site_url('DutySignUp/exportToTxt') . '"><i class="fa fa-download"></i><span> 导出报名记录</span></a>';								        		;
 						        	}
 						        ?>
@@ -162,22 +162,65 @@
 						            <div class="row">
 	                                    <div class="form-group">
 	                                        <div class="col-sm-4 col-sm-offset-5">
-	                                            <input id="submit_signup" class="btn btn-primary" type="submit" 
+	                                            <input id="submit_signup" class="btn btn-primary" type="submit"
 	                                             value="报名"></input>
 	                                        </div>
 	                                    </div>
                                     </div>
 						        </form>
-                            	
+
 	                        </div>
 	                    </div>
 	                </div>
 	            </div>
             </div>
+
+            <div id="wrapper_holiday_schedule" class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>值班报名</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <!-- 待修改 -->
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <div class="row" style="margin-bottom: -15px;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <table class="table table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" abbr="per">时段</th>
+                                                            <th scope="col" abbr="mon">选择空闲日期</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="holiday-schedule-table">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-sm-4 col-sm-offset-5">
+                                                <div id="submit_holiday_schedule" class="btn btn-primary">报名</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <?php $this->load->view('view_footer'); ?>
 	    </div>
 	</div>
-	
+
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 10;">
 	    <div class="modal-dialog">
 	        <div class="modal-content">
@@ -207,7 +250,7 @@
     <script src="<?=base_url().'assets/js/dutysignup.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-    
+
     <!-- nav item active -->
 	<script>
 		$(document).ready(function () {
@@ -220,24 +263,24 @@
     <!-- Custom and plugin javascript -->
     <script src="<?=base_url().'assets/js/hplus.js?v=2.2.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/pace/pace.min.js' ?>"></script>
-    
+
     <!-- Dynamic date -->
     <script src="<?=base_url().'assets/js/dynamicDate.js' ?>"></script>
-    
+
     <!-- Jquery Validate -->
     <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/jquery.validate.min.js' ?>"></script>
     <script type="text/javascript" src="<?=base_url().'assets/js/plugins/validate/messages_zh.min.js' ?>"></script>
-    
+
     <!-- iCheck -->
     <script src="<?=base_url().'assets/js/plugins/iCheck/icheck.min.js' ?>"></script>
 
     <!-- Input Mask-->
     <script src="<?=base_url().'assets/js/plugins/jasny/jasny-bootstrap.min.js' ?>"></script>
-    
+
     <!-- Data Tables -->
     <script src="<?=base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
-    
+
     <script>
         $(document).ready(function () {
         	 /* Radio */
@@ -245,7 +288,7 @@
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
             });
-             
+
             $('#group_A').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
@@ -265,9 +308,9 @@
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
             });
-            
+
         });
-        
+
     </script>
 
 </body>

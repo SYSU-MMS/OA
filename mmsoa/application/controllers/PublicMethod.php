@@ -570,4 +570,37 @@ Class PublicMethod extends CI_Controller
             'E402,E502', 'E503,E504,E505');
         return $weekly_classrooms;
     }
+
+    /**
+     * 工具函数，使得日期加1
+     * @param $dateString
+     */
+    public static function addOneDay($dateString) {
+
+        date_default_timezone_set("PRC");
+
+        $date =  date_create($dateString);
+
+        date_add($date, date_interval_create_from_date_string("1 days"));
+
+        return date_format($date,"Y-m-d");
+    }
+
+    /**
+     * 工具函数，计算两个标准数据库时间差之间的日期
+     * 时间格式： YYYY-MM-DD
+     * @param $date1(新日期)， $date2（旧日期）
+     */
+    public static function getTimeInterval($date1,$date2){
+
+        $Date_List_a1   = explode("-",$date1);
+        $Date_List_a2   = explode("-",$date2);
+
+        $d1     = mktime(0, 0, 0, $Date_List_a1[1], $Date_List_a1[2], $Date_List_a1[0]);
+        $d2     = mktime(0, 0, 0, $Date_List_a2[1], $Date_List_a2[2], $Date_List_a2[0]);
+        $Days   = round(($d1 - $d2) / 3600 / 24);
+
+        return $Days;
+    }
+
 }
