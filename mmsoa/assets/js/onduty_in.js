@@ -8,15 +8,15 @@
 $("#onduty").change(function() {
 	var is_signin = document.getElementById("onduty");
 	if (is_signin.checked) {
-		$("#replaced_yes").iCheck('enable');
-		$("#replaced_no").iCheck('enable');
-		$('.chosen-select').prop('disabled', false).trigger("chosen:updated");
-		$("#range_slider").attr("disabled", false);
-		$("#submit_onduty").attr("disabled", false);
-	} else {
-		$("#replaced_yes").iCheck('disable');
-		$("#replaced_no").iCheck('disable');
-		$('.chosen-select').prop('disabled', true).trigger("chosen:updated");
+        $("#replaced_yes").iCheck('enable');
+        $("#replaced_no").iCheck('enable');
+        $('.chosen-select').prop('disabled', false).trigger("chosen:updated");
+        $("#range_slider").attr("disabled", false);
+        $("#submit_onduty").attr("disabled", false);
+    } else {
+        $("#replaced_yes").iCheck('enable');
+        $("#replaced_no").iCheck('enable');
+        $('.chosen-select').prop('disabled', true).trigger("chosen:updated");
 		$("#range_slider").attr("disabled", true);
 		$("#submit_onduty").attr("disabled", true);
 	}
@@ -26,9 +26,7 @@ $("#onduty").change(function() {
  * 若为代班，显示原值班助理选择框
  */	
 $("#replaced_yes").on('ifClicked', function(){
-	$("#chosen_replaced").show(200);
-	$("#chosen_replaced").addClass("animated");
-	$("#chosen_replaced").addClass("fadeInLeft");
+	$("#chosen_replaced").show(200).addClass("animated").addClass("fadeInLeft");
 });
 
 $("#replaced_no").on('ifClicked', function(){
@@ -67,11 +65,9 @@ $("#submit_onduty").click(function() {
 		success: function(msg) {
 			ret = JSON.parse(msg);
 			if (ret["status"] === false) {
-				$("#submit_result").attr("style", "color:#ED5565;text-align:center;");
-				$("#submit_result").html(ret["msg"]);
+				$("#submit_result").attr("style", "color:#ED5565;text-align:center;").html(ret["msg"]);
 			} else {
-				$("#submit_result").attr("style", "color:#1AB394;text-align:center;");
-				$("#submit_result").html(ret["msg"]);
+				$("#submit_result").attr("style", "color:#1AB394;text-align:center;").html(ret["msg"]);
 				// 锁定所有按钮和输入框
 				$("#replaced_yes").iCheck('disable');
 				$("#replaced_no").iCheck('disable');
