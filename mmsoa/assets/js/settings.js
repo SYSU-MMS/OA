@@ -39,6 +39,7 @@ var get_settings = function () {
 var put_duty_array_by_id = function (id, arr) {
     var obj = $("#" + id);
     $("." + id + "_block").remove();
+    warn[id] = 0;
     for (var i = 0; i < arr.length; ++i) {
         var arg = '\'' + id + '\', ' + id + ", ";
         obj.append('<div class="' + id + '_block">' +
@@ -54,6 +55,7 @@ var put_duty_array_by_id = function (id, arr) {
                         '</div>' +
                     '</div>');
         $("#" + id + "_" + i).timepicker({"timeFormat": "H:i"}).val(arr[i]);
+        test_time($("#" + id + "_" + i).val(), id, i);
     }
 };
 
@@ -148,6 +150,7 @@ var add_tp = function (id, arr) {
     }
     arr.splice(arr.length, 0, "");
     put_duty_array_by_id(id, arr);
+
 };
 
 var put_year = function () {
