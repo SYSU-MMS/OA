@@ -202,7 +202,7 @@
                                     </div>
                                     <div class="form-group col-lg-12">
                                         <button data-toggle="modal" class="form-control btn btn-primary col-lg-6"
-                                                style="margin-bottom: 0" onclick="add_tp('timepoint_weekday', timepoint_weekday);">
+                                                style="margin-bottom: 0" onclick="add_tp('timepoint_weekend', timepoint_weekend);">
                                             添加换班点（包括上下班点）
                                         </button>
                                         <button data-toggle="modal" class="form-control btn btn-primary col-lg-3"
