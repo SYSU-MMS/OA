@@ -15,6 +15,10 @@
     <link href="<?=base_url().'assets/font-awesome/css/font-awesome.min.css' ?>" rel="stylesheet">
     
     <link href="<?=base_url().'assets/js/plugins/layer/skin/layer.css' ?>" rel="stylesheet">
+
+	<link href="<?=base_url().'assets/css/plugins/iCheck/custom.css' ?>" rel="stylesheet">
+
+	<link href="<?=base_url().'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
     
     <link href="<?=base_url().'assets/css/plugins/switchery/switchery.css' ?>" rel="stylesheet">
     
@@ -78,18 +82,45 @@
 	                                            			<span><input type="checkbox" name="signin_morning" id="morning" class="js-switch" /></span>
 	                                            		</h5>
 	                                            	</div>
-						                            <h5>早检情况：&nbsp;<small>无故障的课室无需填写</small></h5>
+
+													<div style="height: 30px;">
+														<h5>是否代班：
+															<span>
+	                                            				<label class="radio-inline" style="font-size: 14px;">
+														        	<input type="radio" checked="" disabled="" value="0" id="replaced_no_morning" class="my_radio" name="group_radio_morning"> 否 </label>
+														    	<label class="radio-inline" style="font-size: 14px;">
+														        	<input type="radio" disabled="" value="1" id="replaced_yes_morning" class="my_radio" name="group_radio_morning"> 是 </label>
+	                                            			</span>
+														</h5>
+													</div>
+
+													<div id="chosen_replaced_morning" style="height: 30px; position: relative; z-index: 999999;">
+														<h5 class="row">原早检助理：
+															<span>
+					                                        	<select id="select_replaced_morning" name="replaced_colleague" data-placeholder="请选择原值班助理" class="chosen-select chosen-morning col-sm-12" tabindex="4">
+					                                        		<option value="0">请选择原早检助理</option>
+																	<?php
+																	for ($i = 0; $i < count($name_list); $i++) {
+																		// 排除自己
+																		if ($wid_list[$i] != $wid) {
+																			?>
+																			<option value="<?php echo $wid_list[$i]; ?>"><?php echo $name_list[$i]; ?></option>
+																			<?php
+																		}
+																	}
+																	?>
+					                                        	</select>
+				                                        	</span>
+														</h5>
+													</div>
+
+
 						                            <div class="ibox-content" style="margin-bottom: 0px; padding-bottom: 0px;">
 						                                <div class="form-horizontal">
-						                                	<?php for ($i = 0; $i < count($classroom_list); $i++) { ?>
-							                                	<div class="form-group">
-							                                        <label class="col-sm-2 control-label"><?php echo $classroom_list[$i]; ?></label>
-							                                        <div class="col-sm-8">
-							                                            <input type="text" name="<?php echo 'cond_morning_' . $i; ?>" placeholder="正常" disabled="" 
-							                                            id="<?php echo 'morning_' . $i; ?>" class="form-control">
-							                                        </div>
-							                                    </div>
-							                                <?php } ?>
+															<div class="form-group">
+																<h5>早检情况：&nbsp;<small>无故障的课室无需填写</small></h5>
+															</div>
+															<div id="rooms_morning"></div>
 						                                    <div class="hr-line-dashed"></div>
 						                                    <div class="form-group">
 						                                        <div class="col-sm-4 col-sm-offset-5">
@@ -100,24 +131,52 @@
 						                                </div>
 						                            </div>
 	                                            </div>
+
+
 	                                            <div id="integrated" class="tab-pane">
 	                                            	<div style="height:50px;">
 	                                            		<h5>签到：
-	                                            			<span style="margin-left: 41px;"><input type="checkbox" name="signin_noon" id="noon" class="js-switch_2" /></span>
+	                                            			<span"><input type="checkbox" name="signin_noon" id="noon" class="js-switch_2" /></span>
 	                                            		</h5>
 						                            </div>
-						                            <h5>午检情况：&nbsp;<small>无故障的课室无需填写</small></h5>
+
+													<div style="height: 30px;">
+														<h5>是否代班：
+															<span>
+	                                            				<label class="radio-inline" style="font-size: 14px;">
+														        	<input type="radio" checked="" disabled="" value="0" id="replaced_no_noon" class="my_radio" name="group_radio_noon"> 否 </label>
+														    	<label class="radio-inline" style="font-size: 14px;">
+														        	<input type="radio" disabled="" value="1" id="replaced_yes_noon" class="my_radio" name="group_radio_noon"> 是 </label>
+	                                            			</span>
+														</h5>
+													</div>
+
+													<div id="chosen_replaced_noon" style="height: 30px; position: relative; z-index: 999998;">
+														<h5 class="row">原午检助理：
+															<span>
+					                                        	<select id="select_replaced_noon" name="replaced_colleague" data-placeholder="请选择原值班助理" class="chosen-select chosen-noon col-sm-12" tabindex="5">
+					                                        		<option value="0">请选择原午检助理</option>
+																	<?php
+																	for ($i = 0; $i < count($name_list); $i++) {
+																		// 排除自己
+																		if ($wid_list[$i] != $wid) {
+																			?>
+																			<option value="<?php echo $wid_list[$i]; ?>"><?php echo $name_list[$i]; ?></option>
+																			<?php
+																		}
+																	}
+																	?>
+					                                        	</select>
+				                                        	</span>
+														</h5>
+													</div>
+
 						                            <div class="ibox-content">
 						                                <form method="post" class="form-horizontal">
-							                                <?php for ($i = 0; $i < count($classroom_list); $i++) { ?>
-							                                	<div class="form-group">
-							                                        <label class="col-sm-2 control-label"><?php echo $classroom_list[$i]; ?></label>
-							                                        <div class="col-sm-8">
-							                                            <input type="text" name="<?php echo 'cond_noon_' . $i; ?>" placeholder="正常" disabled="" 
-							                                            id="<?php echo 'noon_' . $i; ?>" class="form-control">
-							                                        </div>
-							                                    </div>
-							                                <?php } ?>
+															<div class="form-group">
+																<h5>午检情况：&nbsp;<small>无故障的课室无需填写</small></h5>
+															</div>
+															<div id="rooms_noon"></div>
 						                                    <div class="hr-line-dashed"></div>
 						                                    <div class="form-group">
 						                                        <div class="col-sm-4 col-sm-offset-5">
@@ -132,21 +191,47 @@
 	                                            <div id="expand" class="tab-pane">
 	                                            	<div style="height:50px;">
 	                                            		<h5>签到：
-	                                            			<span  style="margin-left: 116px;"><input type="checkbox" name="signin_evening" id="evening" class="js-switch_3" /></span>
+	                                            			<span><input type="checkbox" name="signin_evening" id="evening" class="js-switch_3" /></span>
 	                                            		</h5>
 						                            </div>
-						                            <h5>晚检情况：&nbsp;<small>无故障的课室无需填写</small></h5>
+
+													<div style="height: 30px;">
+														<h5>是否代班：
+															<span>
+	                                            				<label class="radio-inline" style="font-size: 14px;">
+														        	<input type="radio" checked="" disabled="" value="0" id="replaced_no_evening" class="my_radio" name="group_radio_evening"> 否 </label>
+														    	<label class="radio-inline" style="font-size: 14px;">
+														        	<input type="radio" disabled="" value="1" id="replaced_yes_evening" class="my_radio" name="group_radio_evening"> 是 </label>
+	                                            			</span>
+														</h5>
+													</div>
+
+													<div id="chosen_replaced_evening" style="height: 30px; position: relative; z-index: 999997;">
+														<h5 class="row">原晚检助理：
+															<span>
+					                                        	<select id="select_replaced_evening" name="replaced_colleague" data-placeholder="请选择原值班助理" class="chosen-select chosen-evening col-sm-12" tabindex="6">
+					                                        		<option value="0">请选择原晚检助理</option>
+																	<?php
+																	for ($i = 0; $i < count($name_list); $i++) {
+																		// 排除自己
+																		if ($wid_list[$i] != $wid) {
+																			?>
+																			<option value="<?php echo $wid_list[$i]; ?>"><?php echo $name_list[$i]; ?></option>
+																			<?php
+																		}
+																	}
+																	?>
+					                                        	</select>
+				                                        	</span>
+														</h5>
+													</div>
+
 						                            <div class="ibox-content">
 						                                <form method="post" class="form-horizontal">
-							                                <?php for ($i = 0; $i < count($classroom_list); $i++) { ?>
-							                                	<div class="form-group">
-							                                        <label class="col-sm-2 control-label"><?php echo $classroom_list[$i]; ?></label>
-							                                        <div class="col-sm-8">
-							                                            <input type="text" name="<?php echo 'cond_evening_' . $i; ?>" placeholder="正常" disabled="" 
-							                                            id="<?php echo 'evening_' . $i; ?>" class="form-control">
-							                                        </div>
-							                                    </div>
-							                                <?php } ?>
+															<div class="form-group">
+																<h5>晚检情况：&nbsp;<small>无故障的课室无需填写</small></h5>
+															</div>
+															<div id="rooms_evening"></div>
 						                                    <div class="hr-line-dashed"></div>
 						                                    <div class="form-group">
 						                                        <div class="col-sm-4 col-sm-offset-5">
@@ -193,12 +278,24 @@
 		});
 	</script>
 
+	<!-- classroom info  -->
+	<script>
+		var classroom = JSON.parse(<?php echo '\''.$classroom_json.'\''  ?>);
+		var wid = <?php echo $wid ?>;
+	</script>
+
     <!-- Custom and plugin javascript -->
     <script src="<?=base_url().'assets/js/hplus.js?v=2.2.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/pace/pace.min.js' ?>"></script>
     
     <!-- Dynamic date -->
     <script src="<?=base_url().'assets/js/dynamicDate.js' ?>"></script>
+
+	<!-- iCheck -->
+	<script src="<?=base_url().'assets/js/plugins/iCheck/icheck.min.js' ?>"></script>
+
+	<!-- Chosen -->
+	<script src="<?=base_url().'assets/js/plugins/chosen/chosen.jquery.js' ?>"></script>
     
     <!-- layer javascript -->
     <script src="<?=base_url().'assets/js/plugins/layer/layer.js' ?>"></script>
@@ -244,8 +341,73 @@
             var switchery_3 = new Switchery(elem_3, {
                 color: '#1AB394'
             });
-            
+
+			/* Radio */
+			$('#replaced_yes_morning').iCheck({
+				checkboxClass: 'icheckbox_square-green',
+				radioClass: 'iradio_square-green',
+			});
+
+			$('#replaced_no_morning').iCheck({
+				checkboxClass: 'icheckbox_square-green',
+				radioClass: 'iradio_square-green',
+			});
+
+			$('#replaced_yes_noon').iCheck({
+				checkboxClass: 'icheckbox_square-green',
+				radioClass: 'iradio_square-green',
+			});
+
+			$('#replaced_no_noon').iCheck({
+				checkboxClass: 'icheckbox_square-green',
+				radioClass: 'iradio_square-green',
+			});
+
+			$('#replaced_yes_evening').iCheck({
+				checkboxClass: 'icheckbox_square-green',
+				radioClass: 'iradio_square-green',
+			});
+
+			$('#replaced_no_evening').iCheck({
+				checkboxClass: 'icheckbox_square-green',
+				radioClass: 'iradio_square-green',
+			});
+
+			// 默认隐藏原值班助理选择框
+			$("#chosen_replaced_morning").hide();
+			$("#chosen_replaced_noon").hide();
+			$("#chosen_replaced_evening").hide();
+
         });
+
+
+		/* Chosen */
+		var config = {
+			'.chosen-select': {
+				// 实现中间字符的模糊查询
+				search_contains: true,
+				no_results_text: "没有找到",
+				disable_search_threshold: 10,
+				width: "220px"
+			},
+			'.chosen-select-deselect': {
+				allow_single_deselect: true
+			},
+			'.chosen-select-no-single': {
+				disable_search_threshold: 10
+			},
+			'.chosen-select-no-results': {
+				no_results_text: 'Oops, nothing found!'
+			},
+			'.chosen-select-width': {
+				width: "95%"
+			}
+		};
+
+		for (var selector in config) {
+			$(selector).chosen(config[selector]);
+		}
+
     </script>
 
 </body>

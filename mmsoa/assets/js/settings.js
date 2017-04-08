@@ -2,9 +2,96 @@
  * Created by alcanderian on 27/11/2016.
  */
 
+var settings;
+
+var timepoint_weekday = [], timepoint_weekend = [];
+
 var init = function () {
     put_year();
     get_term_list();
+    get_settings();
+
+};
+
+var get_settings = function () {
+    $.ajax({
+        type: 'post',
+        url: 'Settings/getAllConfig',
+        data: {},
+        success: function (msg) {
+            ret = JSON.parse(msg);
+            if (ret['state'] === true) {
+                settings = ret['msg'];
+                $("#salary_setting").val(settings['salary_per_hour']);
+                timepoint_weekday = settings['weekday_breakpoint'].split(",");
+                timepoint_weekend = settings['weekend_breakpoint'].split(",");
+                put_duty_array_by_id("timepoint_weekday", timepoint_weekday);
+                put_duty_array_by_id("timepoint_weekend", timepoint_weekend);
+            }
+        },
+        error: function () {
+            alert("提取配置失败，无法连接服务器");
+        }
+    });
+};
+
+var put_duty_array_by_id = function (id, arr) {
+    var obj = $("#" + id);
+    $("." + id + "_block").remove();
+    for (var i = 0; i < arr.length; ++i) {
+        var arg = '\'' + id + '\', ' + id + ", ";
+        obj.append('<div class="' + id + '_block">' +
+                        '<input id="' + id + '_' + i + '" type="text" ' +
+                                'style="margin-bottom: 3px" class="time from-control col-lg-6">' +
+                        '<button id="del_' + id + i + '" data-toggle="modal" ' +
+                                'class="form-control btn btn-danger col-lg-6" ' +
+                                'style="margin-bottom: 3px" onclick="arr_del(' + arg + i + ');">删除</button>' +
+                    '</div>');
+        $("#" + id + "_" + i).timepicker({"timeFormat": "H:i"}).val(arr[i]);
+    }
+};
+
+var arr_del = function (id, arr, index) {
+    arr.splice(index, 1);
+    put_duty_array_by_id(id, arr);
+};
+
+var submit_tp = function (id, arr) {
+    sort_tp(id, arr);
+    var tmp = [];
+    tmp['timepoint_weekday'] = 'weekday_breakpoint';
+    tmp['timepoint_weekend'] = 'weekend_breakpoint';
+    $.ajax({
+        type: 'post',
+        url: 'Settings/setConfig',
+        data: {
+            name: tmp[id],
+            value: arr.join(",")
+        },
+        success: function (msg) {
+            ret = JSON.parse(msg);
+            alert(ret['msg']);
+        },
+        error: function() {
+            alert("无法连接服务器");
+        }
+    });
+};
+
+var sort_tp = function (id, arr) {
+    for (var i = 0; i < arr.length; ++i) {
+        arr[i] = $("#" + id + "_" + i).val();
+    }
+    arr.sort();
+    put_duty_array_by_id(id, arr);
+};
+
+var add_tp = function (id, arr) {
+    for (var i = 0; i < arr.length; ++i) {
+        arr[i] = $("#" + id + "_" + i).val();
+    }
+    arr.splice(arr.length, 0, "");
+    put_duty_array_by_id(id, arr);
 };
 
 var put_year = function () {
@@ -117,6 +204,33 @@ var delete_term = function (tid) {
             alert("删除学期失败，无法连接服务器")
         }
     });
+};
+
+
+
+var salary_submit = function () {
+    now_salary = parseFloat($("#salary_setting").val());
+    console.log(now_salary);
+    if(!isNaN(now_salary) && now_salary > 0) {
+        $("#salary_warning").hide();
+        $.ajax({
+            type: 'post',
+            url: 'Settings/setConfig',
+            data: {
+                name: 'salary_per_hour',
+                value: now_salary
+            },
+            success: function (msg) {
+                ret = JSON.parse(msg);
+                alert(ret['msg']);
+            },
+            error: function() {
+                alert("无法连接服务器");
+            }
+        });
+    } else {
+        $("#salary_warning").show();
+    }
 };
 
 $(document).ready(init());
