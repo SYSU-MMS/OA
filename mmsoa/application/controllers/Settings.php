@@ -17,6 +17,8 @@ Class Settings extends CI_Controller
         parent::__construct();
         $this->load->model('Moa_school_term_model');
         $this->load->model('Moa_config_model');
+        $this->load->model('Moa_nschedule_model');
+        $this->load->model('Moa_duty_model');
         $this->load->helper(array('form', 'url'));
         $this->load->library('session');
         $this->load->helper('cookie');
@@ -231,6 +233,27 @@ Class Settings extends CI_Controller
                 return;
             }
 
+
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+        }
+    }
+
+    public function clearDutyAndNschedule()
+    {
+        if (isset($_SESSION['user_id'])) {
+            if ($_SESSION['level'] < 4) {
+                // 提示权限不够
+                PublicMethod::permissionDenied();
+                return;
+            }
+
+            $res = $this->Moa_duty_model->clear();
+            $res += $this->Moa_nschedule_model->clean();
+
+            echo json_encode(array('state'=> true, 'msg' => $res));
+            return;
 
         } else {
             // 未登录的用户请先登录

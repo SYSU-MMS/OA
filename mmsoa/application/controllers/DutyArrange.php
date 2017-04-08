@@ -300,7 +300,10 @@ Class DutyArrange extends CI_Controller {
                         for ($t = 0; $t < count($tmp_periodList); $t++) {
                             $indexa = $day_name[substr($tmp_periodList[$t], 0, 3)];
                             $indexb = intval(substr($tmp_periodList[$t], 3, 1));
-                            $schedule[$indexa][$indexb] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                            //if(isset($schedule[$indexa][$indexb])) {
+                                $schedule[$indexa][$indexb] .= $tmp_name . ' (' . $tmp_groupname . ') <br />';
+                            //}
+
                         }
 					}
 				}

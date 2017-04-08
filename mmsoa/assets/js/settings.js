@@ -2,7 +2,7 @@
  * Created by alcanderian on 27/11/2016.
  */
 
-var settings;
+var settings, ori_len_weekday, ori_len_weekend;
 
 var timepoint_weekday = [], timepoint_weekend = [];
 
@@ -10,7 +10,6 @@ var init = function () {
     put_year();
     get_term_list();
     get_settings();
-
 };
 
 var get_settings = function () {
@@ -27,6 +26,8 @@ var get_settings = function () {
                 timepoint_weekend = settings['weekend_breakpoint'].split(",");
                 put_duty_array_by_id("timepoint_weekday", timepoint_weekday);
                 put_duty_array_by_id("timepoint_weekend", timepoint_weekend);
+                ori_len_weekday = timepoint_weekday.length;
+                ori_len_weekend = timepoint_weekend.length;
             }
         },
         error: function () {
@@ -89,6 +90,31 @@ var test_time = function (time, id, i) {
 var submit_tp = function (id, arr) {
     sort_tp(id, arr);
     var tmp = [];
+    console.log(ori_len_weekday, timepoint_weekday.length, ori_len_weekend, timepoint_weekend.length);
+    if(ori_len_weekday !== timepoint_weekday.length ||　ori_len_weekend !== timepoint_weekend.length) {
+        if(confirm("值班时间表的换班点数改变了，这会清空空余时间总表和现有值班表，确定要提交吗? 1/3")) {
+            if(confirm("值班时间表的换班点数改变了，这会清空空余时间总表和现有值班表，确定要提交吗? 2/3")) {
+                if(confirm("值班时间表的换班点数改变了，这会清空空余时间总表和现有值班表，确定要提交吗? 3/3")) {
+                    $.ajax({
+                        type: 'post',
+                        url: 'Settings/clearDutyAndNschedule',
+                        success: function (msg) {
+                            alert("总共删除了" + JSON.parse(msg)['msg'] + "条记录");
+                        },
+                        error: function () {
+                            alert("删除失败，无法连接服务器");
+                        }
+                    });
+                } else {
+                    return;
+                }
+            } else {
+                return;
+            }
+        } else {
+            return;
+        }
+    }
     tmp['timepoint_weekday'] = 'weekday_breakpoint';
     tmp['timepoint_weekend'] = 'weekend_breakpoint';
     $.ajax({
