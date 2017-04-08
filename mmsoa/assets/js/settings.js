@@ -41,11 +41,16 @@ var put_duty_array_by_id = function (id, arr) {
     for (var i = 0; i < arr.length; ++i) {
         var arg = '\'' + id + '\', ' + id + ", ";
         obj.append('<div class="' + id + '_block">' +
-                        '<input id="' + id + '_' + i + '" type="text" ' +
+                        '<input id="' + id + '_' + i + '" type="text" onchange="test_time(this.value, \'' +id + '\', ' + i + ');" ' +
                                 'style="margin-bottom: 3px" class="time from-control col-lg-6">' +
                         '<button id="del_' + id + i + '" data-toggle="modal" ' +
-                                'class="form-control btn btn-danger col-lg-6" ' +
+                                'class="form-control btn btn-danger col-lg-3" ' +
                                 'style="margin-bottom: 3px" onclick="arr_del(' + arg + i + ');">删除</button>' +
+                        '<div class="alert alert-danger col-lg-3"' +
+                            ' id="warn_' + id + '_' + i + '"' +
+                            ' style="margin-bottom: 3px;margin-left: 5px;padding: 6px 12px;display: none">' +
+                            '时间格式不正确' +
+                        '</div>' +
                     '</div>');
         $("#" + id + "_" + i).timepicker({"timeFormat": "H:i"}).val(arr[i]);
     }
@@ -54,6 +59,31 @@ var put_duty_array_by_id = function (id, arr) {
 var arr_del = function (id, arr, index) {
     arr.splice(index, 1);
     put_duty_array_by_id(id, arr);
+};
+
+var warn = {};
+warn['timepoint_weekday'] = 0;
+warn['timepoint_weekend'] = 0;
+
+var test_time = function (time, id, i) {
+    var reg = /^(\d{2}):(\d{2})$/;
+    var obj = $("#warn_" + id + "_" + i);
+    if(reg.test(time)){
+        if(!obj.is(':hidden')) {
+            warn[id]--;
+        }
+        obj.hide();
+    } else {
+        if(obj.is(':hidden')) {
+            warn[id]++;
+        }
+        obj.show();
+    }
+    if(warn[id]) {
+        $("#submit_" + id).attr("disabled", true);
+    } else {
+        $("#submit_" + id).attr("disabled", false);
+    }
 };
 
 var submit_tp = function (id, arr) {

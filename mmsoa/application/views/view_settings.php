@@ -188,7 +188,7 @@
                                                 style="margin-bottom: 0" onclick="sort_tp('timepoint_weekday', timepoint_weekday);">
                                             排序
                                         </button>
-                                        <button data-toggle="modal" class="btn btn-primary"
+                                        <button data-toggle="modal" class="btn btn-primary" id="submit_timepoint_weekday"
                                                 style="margin-bottom: 0" onclick="submit_tp('timepoint_weekday', timepoint_weekday)">
                                             提交
                                         </button>
@@ -209,7 +209,7 @@
                                                 style="margin-bottom: 0" onclick="sort_tp('timepoint_weekend', timepoint_weekend);">
                                             排序
                                         </button>
-                                        <button data-toggle="modal" class="btn btn-primary"
+                                        <button data-toggle="modal" class="btn btn-primary" id="submit_timepoint_weekend"
                                                 style="margin-bottom: 0" onclick="submit_tp('timepoint_weekend', timepoint_weekend)">
                                             提交
                                         </button>

@@ -49,6 +49,11 @@ Class PublicMethod extends CI_Controller
         return $splited_date;
     }
 
+    public static function day_name()
+    {
+        return array('MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN');
+    }
+
     /**
      *  计算当前周数
      */
