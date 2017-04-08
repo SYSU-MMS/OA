@@ -26,6 +26,12 @@
 
 </head>
 
+<script>
+    var schedule = JSON.parse('<?php echo $schedule ?>');
+    var weekday_breakpoint = JSON.parse('<?php echo $weekday_breakpoint ?>');
+    var weekend_breakpoint = JSON.parse('<?php echo $weekend_breakpoint ?>');
+</script>
+
 <body onload="startTime()">
     <div id="wrapper">
         <?php $this->load->view('view_nav'); ?>
@@ -61,7 +67,7 @@
                             <div class="ibox-content" style="padding: 30px 65px;">
 								<div class="form-group">
 									<div class="row" style="margin-bottom: -15px;">
-										<div class="col-sm-12">
+										<div class="col-sm-8">
 					                        <table class="table table-bordered">
 					                            <thead>
 					                                <tr>
@@ -71,68 +77,25 @@
 					                                    <th scope="col" abbr="wed">周三</th>
 					                                    <th scope="col" abbr="thu">周四</th>
 					                                    <th scope="col" abbr="fri">周五</th>
-					                                    <th scope="col" abbr="sat">周六</th>
-					                                    <th scope="col" abbr="sun">周日</th>
 					                                </tr>
 					                            </thead>
-					                            <tbody>
-					                                <tr>
-					                                    <th scope="row">07:30-10:30</th>
-					                                    <td><?php echo $schedule[1][1]; ?></td>
-					                                    <td><?php echo $schedule[2][1]; ?></td>
-					                                    <td><?php echo $schedule[3][1]; ?></td>
-					                                    <td><?php echo $schedule[4][1]; ?></td>
-					                                    <td><?php echo $schedule[5][1]; ?></td>
-					                                    <td rowspan="2"><?php echo $schedule[6][7]; ?></td>
-					                                    <td rowspan="2"><?php echo $schedule[7][7]; ?></td>
-					                                </tr>
-					                                <tr>
-					                                    <th scope="row">10:30-12:30</th>
-					                                    <td><?php echo $schedule[1][2]; ?></td>
-					                                    <td><?php echo $schedule[2][2]; ?></td>
-					                                    <td><?php echo $schedule[3][2]; ?></td>
-					                                    <td><?php echo $schedule[4][2]; ?></td>
-					                                    <td><?php echo $schedule[5][2]; ?></td>
-					                                </tr>
-					                                <tr>
-					                                    <th scope="row">12:30-14:00</th>
-					                                    <td><?php echo $schedule[1][3]; ?></td>
-					                                    <td><?php echo $schedule[2][3]; ?></td>
-					                                    <td><?php echo $schedule[3][3]; ?></td>
-					                                    <td><?php echo $schedule[4][3]; ?></td>
-					                                    <td><?php echo $schedule[5][3]; ?></td>
-					                                    <td rowspan="3"><?php echo $schedule[6][8]; ?></td>
-					                                    <td rowspan="3"><?php echo $schedule[7][8]; ?></td>
-					                                </tr>
-					                                <tr>
-					                                    <th scope="row">14:00-16:00</th>
-					                                    <td><?php echo $schedule[1][4]; ?></td>
-					                                    <td><?php echo $schedule[2][4]; ?></td>
-					                                    <td><?php echo $schedule[3][4]; ?></td>
-					                                    <td><?php echo $schedule[4][4]; ?></td>
-					                                    <td><?php echo $schedule[5][4]; ?></td>
-					                                </tr>
-					                                <tr>
-					                                    <th scope="row">16:00-18:00</th>
-					                                    <td><?php echo $schedule[1][5]; ?></td>
-					                                    <td><?php echo $schedule[2][5]; ?></td>
-					                                    <td><?php echo $schedule[3][5]; ?></td>
-					                                    <td><?php echo $schedule[4][5]; ?></td>
-					                                    <td><?php echo $schedule[5][5]; ?></td>
-					                                </tr>
-					                                <tr>
-					                                    <th scope="row">18:00-22:00</th>
-					                                    <td><?php echo $schedule[1][6]; ?></td>
-					                                    <td><?php echo $schedule[2][6]; ?></td>
-					                                    <td><?php echo $schedule[3][6]; ?></td>
-					                                    <td><?php echo $schedule[4][6]; ?></td>
-					                                    <td><?php echo $schedule[5][6]; ?></td>
-					                                    <td><?php echo $schedule[6][9]; ?></td>
-					                                    <td><?php echo $schedule[7][9]; ?></td>
-					                                </tr>
+					                            <tbody id="duty_free_weekday_tbody">
 					                            </tbody>
 					                        </table>
 								        </div>
+                                        <div class="col-sm-4">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col" abbr="per">时段</th>
+                                                    <th scope="col" abbr="sat">周六</th>
+                                                    <th scope="col" abbr="sun">周日</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="duty_free_weekend_tbody">
+                                                </tbody>
+                                            </table>
+                                        </div>
 							        </div>
 							    </div>
 	                        </div>
@@ -150,7 +113,7 @@
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-    <script src="<?=base_url().'assets/js/duty-arrange.js' ?>"></script>
+    <script src="<?=base_url().'assets/js/dutyfree.js' ?>"></script>
 
     <!-- nav item active -->
 	<script>
