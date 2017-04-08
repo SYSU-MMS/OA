@@ -122,7 +122,7 @@ function loadHolidaySchedule(data) {
 
 	// 添加用户已经选择的按钮
 	function addUserChose(data) {
-		for(var i of data) {
+		for(var i in data) {
 			var timestamp = i.timestamp;
 			$(('#'+timestamp)).iCheck('check');
 		}
