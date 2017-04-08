@@ -38,7 +38,7 @@ Class DutyArrange extends CI_Controller {
 
 			// 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
 			$level = 0;
-			$common_worker = $this->Moa_user_model->get_by_level($level);
+			$common_worker = $this->Moa_user_model->get_all($level);
 			for ($i = 0; $i < count($common_worker); $i++) {
 				$uid_list[$i] = $common_worker[$i]->uid;
 				$name_list[$i] = $common_worker[$i]->name;

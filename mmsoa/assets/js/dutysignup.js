@@ -69,27 +69,22 @@ function loadHolidaySchedule(data) {
 		hsid 		= data.hsid,
 		isvalid 	= data.isvalid,
 		name 		= data.name;
-
-	loadUserScheduleChoose();
+	if(isvalid) {
+		addDayChose(from, to);
+		loadUserScheduleChoose();
+		addSchduleBtnClick();
+	} else {
+		deleteHolidaySchedule();
+	}
 
 	function loadUserScheduleChoose() {
-		console.log('helo');
-
 		$.ajax({
 			type: 'GET',
 			url: 'DutySignUp/userSchedule',
 			success: function(msg) {
 				ret = JSON.parse(msg);
-				if (ret["status"] === false) {
-					alter('获取用户时间表失败');
-				} else {
-					if(isvalid) {
-						addDayChose(from, to);
-						addUserChose(ret['data']);
-						addSchduleBtnClick();
-					} else {
-						deleteHolidaySchedule();
-					}
+				if ((ret["status"] === true) && isvalid) {
+					addUserChose(ret['data']);
 				}
 			},
 			error: function() {
@@ -196,18 +191,17 @@ function getDaysBewteen(from, to) {
 /* 工具函数：转成 YYYY-MM-DD 的时间格式 */
 function getDateString(time) {
 
-	function pad(number) {
-	  if (number < 10) {
-	    return '0' + number;
-	  }
-	  return number;
-	}
+	var mm = time.getMonth() + 1; // getMonth() is zero-based
+    var dd = time.getDate();
 
-	return time.getUTCFullYear() +
-	'-' + pad(time.getUTCMonth() + 1) +
-	'-' + pad(time.getUTCDate() );
+    return [time.getFullYear(),
+            (mm > 9 ? '' : '0') + mm,
+            (dd > 9 ? '' : '0') + dd
+		].join('-');
 }
 
+
+var date = new Date();
 /* 入口函数：获取空闲时间表 */
 function getHolidaySchedule() {
 	$.ajax({
@@ -216,7 +210,7 @@ function getHolidaySchedule() {
 		success: function(msg) {
 			ret = JSON.parse(msg);
 			if (ret["status"] === false) {
-				alter('获取失败');
+				alert('获取失败');
 			} else {
 				var arr = ret.data;
 				if(arr.length != 0)
