@@ -12,6 +12,7 @@ Class DutySignUp extends CI_Controller {
 		parent::__construct();
 		$this->load->model('Moa_user_model');
 		$this->load->model('Moa_worker_model');
+        $this->load->model('Moa_config_model');
 		$this->load->model('Moa_nschedule_model');
 		$this->load->model('Moa_scheduleduty_model');
 		$this->load->model('Moa_holidayschedule_model');
@@ -31,7 +32,13 @@ Class DutySignUp extends CI_Controller {
 				PublicMethod::permissionDenied();
 			}
 
-			$this->load->view('view_duty_signup');
+            $weekday_breakpoint = explode(',', $this->Moa_config_model->get_by_name('weekday_breakpoint'));
+            $weekend_breakpoint = explode(',', $this->Moa_config_model->get_by_name('weekend_breakpoint'));
+            $data['weekday_breakpoint'] = $weekday_breakpoint;
+            $data['weekend_breakpoint'] = $weekend_breakpoint;
+            $data['day_name'] = PublicMethod::day_name();
+
+			$this->load->view('view_duty_signup', $data);
 		} else {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
@@ -54,62 +61,30 @@ Class DutySignUp extends CI_Controller {
 			// 值班时间段，以“,”分隔
 			$periods = '';
 
-			for($i = 1; $i <= 6; $i++) {
-				if(isset($_POST['MON'.$i])) {
-					if($periods != '') {
-						$periods = $periods . ',';
-					}
-					$periods = $periods . 'MON' . $i;
-				}
-			}
-			for($i = 1; $i <= 6; $i++) {
-				if(isset($_POST['TUE'.$i])) {
-					if($periods != '') {
-						$periods = $periods . ',';
-					}
-					$periods = $periods . 'TUE' . $i;
-				}
-			}
-			for($i = 1; $i <= 6; $i++) {
-				if(isset($_POST['WED'.$i])) {
-					if($periods != '') {
-						$periods = $periods . ',';
-					}
-					$periods = $periods . 'WED' . $i;
-				}
-			}
-			for($i = 1; $i <= 6; $i++) {
-				if(isset($_POST['THU'.$i])) {
-					if($periods != '') {
-						$periods = $periods . ',';
-					}
-					$periods = $periods . 'THU' . $i;
-				}
-			}
-			for($i = 1; $i <= 6; $i++) {
-				if(isset($_POST['FRI'.$i])) {
-					if($periods != '') {
-						$periods = $periods . ',';
-					}
-					$periods = $periods . 'FRI' . $i;
-				}
-			}
-			for($i = 1; $i <= 3; $i++) {
-				if(isset($_POST['SAT'.$i])) {
-					if($periods != '') {
-						$periods = $periods . ',';
-					}
-					$periods = $periods . 'SAT' . $i;
-				}
-			}
-			for($i = 1; $i <= 3; $i++) {
-				if(isset($_POST['SUN'.$i])) {
-					if($periods != '') {
-						$periods = $periods . ',';
-					}
-					$periods = $periods . 'SUN' . $i;
-				}
-			}
+			$day_name = PublicMethod::day_name();
+            $weekday_len = count(explode(',', $this->Moa_config_model->get_by_name('weekday_breakpoint')));
+            $weekend_len = count(explode(',', $this->Moa_config_model->get_by_name('weekend_breakpoint')));
+
+			for($j = 0; $j < 5; ++$j) {
+                for ($i = 1; $i <= $weekday_len - 1; $i++) {
+                    if (isset($_POST[$day_name[$j] . $i])) {
+                        if ($periods != '') {
+                            $periods = $periods . ',';
+                        }
+                        $periods = $periods . $day_name[$j] . $i;
+                    }
+                }
+            }
+            for($j = 5; $j < 7; ++$j) {
+                for ($i = 1; $i <= $weekend_len - 1; $i++) {
+                    if (isset($_POST[$day_name[$j] . $i])) {
+                        if ($periods != '') {
+                            $periods = $periods . ',';
+                        }
+                        $periods = $periods . $day_name[$j] . $i;
+                    }
+                }
+            }
 
 			$ns_paras['wid'] = $wid;
 			$ns_paras['groupid'] = $groupid;
@@ -257,64 +232,29 @@ Class DutySignUp extends CI_Controller {
 	 * @param $period_str 报名时间段字符串
 	 */
 	private function periodConvertTo01($period_str) {
+        $day_name = PublicMethod::day_name();
+        $weekday_len = count(explode(',', $this->Moa_config_model->get_by_name('weekday_breakpoint')));
+        $weekend_len = count(explode(',', $this->Moa_config_model->get_by_name('weekend_breakpoint')));
 		$res_arr = array();
 		$period_arr = explode(",", $period_str);
-		// MON1~MON6
-		for ($i = 1; $i <= 6; $i++) {
-			if (in_array("MON".$i, $period_arr)) {
-				$res_arr[] = "1";
-			} else {
-				$res_arr[] = "0";
-			}
-		}
-		// TUE1~TUE6
-		for ($i = 1; $i <= 6; $i++) {
-			if (in_array("TUE".$i, $period_arr)) {
-				$res_arr[] = "1";
-			} else {
-				$res_arr[] = "0";
-			}
-		}
-		// WED1~WED6
-		for ($i = 1; $i <= 6; $i++) {
-			if (in_array("WED".$i, $period_arr)) {
-				$res_arr[] = "1";
-			} else {
-				$res_arr[] = "0";
-			}
-		}
-		// THU1~THU6
-		for ($i = 1; $i <= 6; $i++) {
-			if (in_array("THU".$i, $period_arr)) {
-				$res_arr[] = "1";
-			} else {
-				$res_arr[] = "0";
-			}
-		}
-		// FRI1~FRI6
-		for ($i = 1; $i <= 6; $i++) {
-			if (in_array("FRI".$i, $period_arr)) {
-				$res_arr[] = "1";
-			} else {
-				$res_arr[] = "0";
-			}
-		}
-		// SAT1~SAT3
-		for ($i = 1; $i <= 3; $i++) {
-			if (in_array("SAT".$i, $period_arr)) {
-				$res_arr[] = "1";
-			} else {
-				$res_arr[] = "0";
-			}
-		}
-		// SUN1~SUN3
-		for ($i = 1; $i <= 3; $i++) {
-			if (in_array("SUN".$i, $period_arr)) {
-				$res_arr[] = "1";
-			} else {
-				$res_arr[] = "0";
-			}
-		}
+        for($j = 0; $j < 5; ++$j) {
+            for ($i = 1; $i <= $weekday_len - 1; $i++) {
+                if (in_array($day_name[$j] . $i, $period_arr)) {
+                    $res_arr[] = "1";
+                } else {
+                    $res_arr[] = "0";
+                }
+            }
+        }
+        for($j = 5; $j < 7; ++$j) {
+            for ($i = 1; $i <= $weekend_len - 1; $i++) {
+                if (in_array($day_name[$j] . $i, $period_arr)) {
+                    $res_arr[] = "1";
+                } else {
+                    $res_arr[] = "0";
+                }
+            }
+        }
 		$res_str = implode(",", $res_arr);
 		return $res_str;
 	}
