@@ -12,10 +12,10 @@ mmsoa/assets/js/homepage_0928.js
 
 mmsoa/upload/avatar/*
 
-/.idea/*
-
 .project
 
 mmsoa/assets/excel
 
 mmsoa/.idea/
+
+.idea/

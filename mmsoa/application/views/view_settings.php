@@ -23,6 +23,8 @@
 <!-- Date Picker -->
 <link href="<?=base_url().'assets/css/plugins/datepicker/datepicker3.css' ?>" rel="stylesheet">
 
+<link href="<?=base_url().'assets/css/plugins/timepicker/jquery.timepicker.css' ?>" rel="stylesheet">
+
 <style>
     #term_form {
         -moz-border-bottom-colors: none;
@@ -41,6 +43,11 @@
 
     #DataTables_Table_0_filter {
         display: none;
+    }
+
+    .time {
+        padding: 6px 12px;
+        margin-right: 20px;
     }
 </style>
 </head>
@@ -127,6 +134,95 @@
                 </div>
             </div>
         </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>工薪设置</h5>
+                        </div>
+                        <div class="ibox-content" style="padding-bottom: 20px;">
+                            <form class="form-inline row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-normal">工薪(RMB/工时)：</label>
+                                        <input type="text" id="salary_setting" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" data-toggle="modal"
+                                                style="margin-bottom: 0" onclick="salary_submit();">提交</button>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="alert alert-danger"
+                                             id="salary_warning"
+                                             style="margin-bottom: 0;padding: 6px 12px;display: none">
+                                            请输入数字(>0)
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>值班时间表设置</h5>
+                        </div>
+                        <div class="ibox-content" style="padding-bottom: 20px;">
+                            <form class="form-inline row">
+                                <div class="col-lg-6">
+                                    <div class="form-group ibox-title col-lg-12" style="border-width: 0 0 0">
+                                        <h5>周一至周五值班时段设置</h5>
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <button data-toggle="modal" class="form-control btn btn-primary col-lg-6"
+                                                style="margin-bottom: 0" onclick="add_tp('timepoint_weekday', timepoint_weekday);">
+                                            添加换班点（包括上下班点）
+                                        </button>
+                                        <button data-toggle="modal" class="form-control btn btn-primary col-lg-3"
+                                                style="margin-bottom: 0" onclick="sort_tp('timepoint_weekday', timepoint_weekday);">
+                                            排序
+                                        </button>
+                                        <button data-toggle="modal" class="btn btn-primary" id="submit_timepoint_weekday"
+                                                style="margin-bottom: 0" onclick="submit_tp('timepoint_weekday', timepoint_weekday)">
+                                            提交
+                                        </button>
+                                    </div>
+                                    <div id="timepoint_weekday" class="form-group ibox-content col-lg-12"
+                                         style="margin-top: 10px"></div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ibox-title col-lg-12" style="border-width: 0 0 0">
+                                        <h5>周末值班时段设置</h5>
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <button data-toggle="modal" class="form-control btn btn-primary col-lg-6"
+                                                style="margin-bottom: 0" onclick="add_tp('timepoint_weekend', timepoint_weekend);">
+                                            添加换班点（包括上下班点）
+                                        </button>
+                                        <button data-toggle="modal" class="form-control btn btn-primary col-lg-3"
+                                                style="margin-bottom: 0" onclick="sort_tp('timepoint_weekend', timepoint_weekend);">
+                                            排序
+                                        </button>
+                                        <button data-toggle="modal" class="btn btn-primary" id="submit_timepoint_weekend"
+                                                style="margin-bottom: 0" onclick="submit_tp('timepoint_weekend', timepoint_weekend)">
+                                            提交
+                                        </button>
+                                    </div>
+                                    <div id="timepoint_weekend" class="form-group ibox-content col-lg-12"
+                                         style="margin-top: 10px"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php $this->load->view('view_footer'); ?>
     </div>
 </div>
@@ -136,6 +232,7 @@
 <script src="<?= base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
+<script src="<?= base_url().'assets/js/plugins/timepicker/jquery.timepicker.min.js' ?>"></script>
 
 <!-- nav item active -->
 <script>

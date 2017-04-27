@@ -16,6 +16,9 @@ Class Settings extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Moa_school_term_model');
+        $this->load->model('Moa_config_model');
+        $this->load->model('Moa_nschedule_model');
+        $this->load->model('Moa_duty_model');
         $this->load->helper(array('form', 'url'));
         $this->load->library('session');
         $this->load->helper('cookie');
@@ -143,6 +146,114 @@ Class Settings extends CI_Controller
                 return;
             }
 
+
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+        }
+    }
+
+    public function setConfig() {
+        if (isset($_SESSION['user_id'])) {
+            if ($_SESSION['level'] < 4) {
+                // 提示权限不够
+                PublicMethod::permissionDenied();
+                return;
+            }
+
+            $ret = $this->Moa_config_model->get_by_name($_POST['name']);
+            if($ret == $_POST['value']) {
+                echo json_encode(array('state'=> false, 'msg' => '该设置没有改变，无需修改'));
+                return;
+            }
+
+            $ret = $this->Moa_config_model->update($_POST['name'], $_POST['value']);
+
+            if($ret !=  NULL) {
+                echo json_encode(array('state'=> true, 'msg' => '修改成功'));
+                return;
+            } else {
+                echo json_encode(array('state'=> false, 'msg' => '修改失败'));
+                return;
+            }
+
+
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+        }
+    }
+
+    public function getConfigByName() {
+        if (isset($_SESSION['user_id'])) {
+            if ($_SESSION['level'] < 4) {
+                // 提示权限不够
+                PublicMethod::permissionDenied();
+                return;
+            }
+
+            $ret = $this->Moa_config_model->get_by_name($_POST['name']);
+
+            if($ret !=  NULL) {
+                echo json_encode(array('state'=> true, 'msg' => $ret));
+                return;
+            } else {
+                echo json_encode(array('state'=> false, 'msg' => '提取配置失败'));
+                return;
+            }
+
+
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+        }
+    }
+
+    public function getAllConfig() {
+        if (isset($_SESSION['user_id'])) {
+            if ($_SESSION['level'] < 4) {
+                // 提示权限不够
+                PublicMethod::permissionDenied();
+                return;
+            }
+
+            $res = $this->Moa_config_model->get_all();
+
+            if($res !=  NULL) {
+                $len = count($res);
+                $ret = array();
+                for($i = 0; $i < $len; ++$i) {
+                    $ret[$res[$i]->variable] = $res[$i]->value;
+                }
+
+                echo json_encode(array('state'=> true, 'msg' => $ret));
+                return;
+            } else {
+                echo json_encode(array('state'=> false, 'msg' => '提取配置失败'));
+                return;
+            }
+
+
+        } else {
+            // 未登录的用户请先登录
+            PublicMethod::requireLogin();
+        }
+    }
+
+    public function clearDutyAndNschedule()
+    {
+        if (isset($_SESSION['user_id'])) {
+            if ($_SESSION['level'] < 4) {
+                // 提示权限不够
+                PublicMethod::permissionDenied();
+                return;
+            }
+
+            $res = $this->Moa_duty_model->clear();
+            $res += $this->Moa_nschedule_model->clean();
+
+            echo json_encode(array('state'=> true, 'msg' => $res));
+            return;
 
         } else {
             // 未登录的用户请先登录

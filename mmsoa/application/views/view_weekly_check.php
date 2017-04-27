@@ -17,6 +17,10 @@
     <link href="<?=base_url().'assets/js/plugins/layer/skin/layer.css' ?>" rel="stylesheet">
     
     <link href="<?=base_url().'assets/css/plugins/switchery/switchery.css' ?>" rel="stylesheet">
+
+    <link href="<?=base_url().'assets/css/plugins/iCheck/custom.css' ?>" rel="stylesheet">
+
+    <link href="<?=base_url().'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
     
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
@@ -74,29 +78,50 @@
 	                                            			<span><input type="checkbox" name="signin_week" id="week" class="js-switch" /></span>
 	                                            		</h5>
 	                                            	</div>
-						                            <h5>周检情况：&nbsp;<small>请在有问题的课室后面填写好记录，无问题的课室无需填写</small></h5>
+
+                                                    <div style="height: 30px;">
+                                                        <h5>是否代班：
+                                                            <span>
+	                                            				<label class="radio-inline" style="font-size: 14px;">
+														        	<input type="radio" checked="" disabled="" value="0" id="replaced_no" class="my_radio" name="group_radio"> 否 </label>
+														    	<label class="radio-inline" style="font-size: 14px;">
+														        	<input type="radio" disabled="" value="1" id="replaced_yes" class="my_radio" name="group_radio"> 是 </label>
+	                                            			</span>
+                                                        </h5>
+                                                    </div>
+
+                                                    <div  id="chosen_replaced" style="height: 30px; position: relative; z-index: 999999;">
+                                                        <h5>原周检助理：
+                                                            <span>
+					                                        	<select id="select_replaced" name="replaced_colleague" data-placeholder="请选择原值班助理" class="chosen-select col-sm-12" tabindex="4">
+					                                        		<option value="">请选择原周检助理</option>
+                                                                    <?php
+                                                                    for ($i = 0; $i < count($name_list); $i++) {
+                                                                        // 排除自己
+                                                                        if ($wid_list[$i] != $wid) {
+                                                                            ?>
+                                                                            <option value="<?php echo $wid_list[$i]; ?>"><?php echo $name_list[$i]; ?></option>
+                                                                            <?php
+                                                                        }
+                                                                    }
+                                                                    ?>
+					                                        	</select>
+				                                        	</span>
+                                                        </h5>
+                                                    </div>
+
+
+
 						                            <div class="ibox-content" style="margin-bottom: 0px; padding-bottom: 0px;">
 						                                <form role="form" class="form-horizontal" id="week_form">
-						                                	<?php for ($i = 0; $i < count($classroom_list); $i++) { ?>
-							                                	<div class="form-group">
-							                                        <label class="col-sm-2 control-label"><?php echo $classroom_list[$i]; ?></label>
-							                                        <div class="col-sm-8">
-							                                            <input type="text" name="<?php echo 'cond_week_' . $i; ?>" placeholder="正常" disabled="" 
-							                                            id="<?php echo 'week_' . $i; ?>" class="form-control">
-							                                        </div>
-							                                    </div>
-							                                    <div class="form-group">
-							                                        <div class="col-sm-2 col-sm-offset-2" style="width:150px;">
-							                                            <input type="number" name="<?php echo 'cond_lamp_' . $i; ?>" placeholder="投影仪灯时" disabled="" 
-							                                            id="<?php echo 'lamp_' . $i; ?>" class="form-control">
-							                                        </div>
-							                                        <h3><small>小时</small></h3>
-							                                    </div>
-							                                <?php } ?>
+                                                            <div class="form-group">
+                                                                <h5>周检情况：&nbsp;<small>请在有问题的课室后面填写好记录，无问题的课室无需填写</small></h5>
+                                                            </div>
+                                                            <div id="rooms"></div>
 						                                    <div class="hr-line-dashed"></div>
 						                                    <div class="form-group">
 						                                        <div class="col-sm-4 col-sm-offset-5">
-						                                            <button id="submit_week" class="btn btn-primary" disabled="" type="submit" 
+						                                            <button id="submit_week" class="btn btn-primary" disabled="" type="submit"
 						                                            data-toggle="modal" data-target="#myModal">提交</button>
 						                                        </div>
 						                                    </div>
@@ -118,6 +143,12 @@
     
     <?php $this->load->view('view_modal'); ?>
 
+    <!-- classroom info  -->
+    <script>
+        var classroom = JSON.parse(<?php echo '\''.$classroom_json.'\''  ?>);
+        var wid = <?php echo $wid ?>;
+    </script>
+
     <!-- Mainly scripts -->
     <script src="<?=base_url().'assets/js/jquery-2.1.1.min.js' ?>"></script>
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
@@ -126,7 +157,7 @@
     <script src="<?=base_url().'assets/js/weeklycheck_in.js' ?>"></script>
     
     <!-- nav item active -->
-	<script>
+    <script>
 		$(document).ready(function () {
 			$("#active-workrecord").addClass("active");
 			$("#active-weeklycheck").addClass("active");
@@ -140,6 +171,12 @@
     
     <!-- Dynamic date -->
     <script src="<?=base_url().'assets/js/dynamicDate.js' ?>"></script>
+
+    <!-- iCheck -->
+    <script src="<?=base_url().'assets/js/plugins/iCheck/icheck.min.js' ?>"></script>
+
+    <!-- Chosen -->
+    <script src="<?=base_url().'assets/js/plugins/chosen/chosen.jquery.js' ?>"></script>
     
     <!-- jQuery Validation plugin javascript-->
     <script src="<?=base_url().'assets/js/plugins/validate/jquery.validate.min.js' ?>"></script>
@@ -178,7 +215,7 @@
                     }
                 }
             });
-            
+
         });
     </script>
     
@@ -201,8 +238,46 @@
             var switchery = new Switchery(elem, {
                 color: '#1AB394'
             });
+
+            $("#chosen_replaced").hide();
+
+            /* Radio */
+            $('#replaced_yes').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+            $('#replaced_no').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
             
         });
+
+        /* Chosen */
+        var config = {
+            '.chosen-select': {
+                // 实现中间字符的模糊查询
+                search_contains: true,
+                no_results_text: "没有找到",
+                disable_search_threshold: 10
+            },
+            '.chosen-select-deselect': {
+                allow_single_deselect: true
+            },
+            '.chosen-select-no-single': {
+                disable_search_threshold: 10
+            },
+            '.chosen-select-no-results': {
+                no_results_text: 'Oops, nothing found!'
+            },
+            '.chosen-select-width': {
+                width: "95%"
+            }
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
     </script>
     
 </body>

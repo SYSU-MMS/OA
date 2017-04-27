@@ -14,6 +14,7 @@ Class WorkingTime extends CI_Controller
         parent::__construct();
         $this->load->model('Moa_user_model');
         $this->load->model('Moa_worker_model');
+        $this->load->model('Moa_config_model');
         $this->load->helper(array('form', 'url'));
         $this->load->library('session');
         $this->load->helper('cookie');
@@ -54,6 +55,7 @@ Class WorkingTime extends CI_Controller
             $w_month_penalty_list = array();
             $count = 0;
 
+            $salary_per_hour = $this->Moa_config_model->get_by_name("salary_per_hour");
             if ($u_obj_list != FALSE) {
                 for ($count = 0; $count < count($u_obj_list); $count++) {
                     $u_name_list[$count] = $u_obj_list[$count]->name;
@@ -65,7 +67,7 @@ Class WorkingTime extends CI_Controller
                     // 历史总实际工时 = 历史总工时 - 历史总扣除工时
                     $tmp_total_real_contri = $tmp_total_contri - $tmp_total_penalty;
                     $u_total_contri_list[$count] = $tmp_total_real_contri;
-                    $u_total_salary_list[$count] = PublicMethod::cal_salary($tmp_total_real_contri);
+                    $u_total_salary_list[$count] = $salary_per_hour * $tmp_total_real_contri;
                     // 从Worker表获取本月工时
                     $tmp_wid = $this->Moa_worker_model->get_wid_by_uid($tmp_uid);
                     $tmp_worker_obj = $this->Moa_worker_model->get($tmp_wid);
@@ -74,7 +76,7 @@ Class WorkingTime extends CI_Controller
                     // 本月实际工时 = 本月总工时 - 本月总扣除工时
                     $tmp_month_real_contri = $tmp_month_contri - $tmp_month_penalty;
                     $w_month_contri_list[$count] = $tmp_month_real_contri;
-                    $w_month_salary_list[$count] = PublicMethod::cal_salary($tmp_month_real_contri);
+                    $w_month_salary_list[$count] = $salary_per_hour * $tmp_month_real_contri;
                     $w_month_penalty_list[$count] = $tmp_month_penalty;
                     $w_wid_list[$count] = $tmp_wid;
                 }
@@ -133,6 +135,7 @@ Class WorkingTime extends CI_Controller
 
             $uid = $_SESSION['user_id'];
             $user_obj = $this->Moa_user_model->get($uid);
+            $salary_per_hour = $this->Moa_config_model->get_by_name("salary_per_hour");
 
             if ($user_obj != FALSE) {
                 $indate = $user_obj->indate;
@@ -142,14 +145,14 @@ Class WorkingTime extends CI_Controller
                 $tmp_total_contri = $user_obj->contribution;
                 $total_penalty = $user_obj->totalPenalty;
                 $total_contri = $tmp_total_contri - $total_penalty;
-                $total_salary = PublicMethod::cal_salary($total_contri);
+                $total_salary = $salary_per_hour * $total_contri;
                 // 本月
                 $wid = $this->Moa_worker_model->get_wid_by_uid($uid);
                 $worker_obj = $this->Moa_worker_model->get($wid);
                 $tmp_month_contri = $worker_obj->worktime;
                 $month_penalty = $worker_obj->penalty;
                 $month_contri = $tmp_month_contri - $month_penalty;
-                $month_salary = PublicMethod::cal_salary($month_contri);
+                $month_salary = $salary_per_hour * $month_contri;
             }
 
             $data['indate'] = substr($indate, 0, 10);
