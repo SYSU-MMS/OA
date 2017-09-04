@@ -13,6 +13,7 @@ Class Journal extends CI_Controller {
 		$this->load->model('Moa_user_model');
 		$this->load->model('Moa_worker_model');
 		$this->load->model('Moa_leaderreport_model');
+        $this->load->model('Moa_school_term_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->helper('cookie');
@@ -274,12 +275,18 @@ Class Journal extends CI_Controller {
 				}
 				
 				// 周一为一周的第一天
-				$journal_paras['weekcount'] = PublicMethod::cal_week();
+                $today = date("Y-m-d H:i:s");
+                $term = $this->Moa_school_term_model->get_term($today);
+                if(count($term) == 0) {
+                    echo json_encode(array("status" => FALSE, "msg" => "没有本学期时间信息，请联系管理员"));
+                    return;
+                }
+				$journal_paras['weekcount'] = PublicMethod::get_week($term[0]->termbeginstamp, $today);
 	
 				// 1-周一  2-周二  ... 6-周六  7-周日
 				$journal_paras['weekday'] = date("w") == 0 ? 7 : date("w");
 				
-				$journal_paras['timestamp'] = date('Y-m-d H:i:s');
+				$journal_paras['timestamp'] = $today;
 				
 				// 避免journal_body中含有指定分割字符串' ## '
 				foreach ($_POST['journal_body'] as &$part) {
