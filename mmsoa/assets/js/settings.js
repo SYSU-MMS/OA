@@ -156,7 +156,6 @@ var add_tp = function (id, arr) {
     }
     arr.splice(arr.length, 0, "");
     put_duty_array_by_id(id, arr);
-
 };
 
 var put_year = function () {
