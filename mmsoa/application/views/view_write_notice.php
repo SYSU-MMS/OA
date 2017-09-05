@@ -19,6 +19,8 @@
     <link href="<?=base_url().'assets/css/plugins/simditor/simditor.css' ?>" rel="stylesheet">
     
     <link href="<?=base_url().'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
+
+    <link href="<?=base_url().'assets/css/plugins/wangEditor/wangEditor.css' ?>" rel="stylesheet">
         
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/plugins/summernote/summernote.css' ?>" rel="stylesheet">
@@ -26,6 +28,13 @@
     <link href="<?=base_url().'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
 
 </head>
+
+
+<style>
+    .w-e-text-container {
+        height: 400px !important;
+    }
+</style>
 
 <body onload="startTime()">
     <div id="wrapper">
@@ -76,7 +85,7 @@
 	                                    	<label class="col-sm-12 control-label">正文</label>
                                     	</div>
 										<div class="col-sm-8">
-										    <textarea name="notice_content" id="text_content" class="form-control" placeholder="填写通知内容..." style="height: 400px;"></textarea>
+										    <div id="text_content"></div>
 										</div>
 									</div>
                                     
@@ -102,7 +111,9 @@
     <script src="<?=base_url().'assets/js/jquery-2.1.1.min.js' ?>"></script>
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
+    <script src="<?=base_url().'assets/js/plugins/wangEditor/wangEditor.js' ?>"></script>
     <script src="<?=base_url().'assets/js/notice_in.js' ?>"></script>
+
     
     <!-- nav item active -->
 	<script>

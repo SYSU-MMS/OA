@@ -19,11 +19,19 @@
     <link href="<?=base_url().'assets/css/plugins/simditor/simditor.css' ?>" rel="stylesheet">
     
     <link href="<?=base_url().'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
+
+    <link href="<?=base_url().'assets/css/plugins/wangEditor/wangEditor.css' ?>" rel="stylesheet">
         
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/plugins/summernote/summernote.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/plugins/summernote/summernote-bs3.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
+
+    <style>
+        .w-e-text-container {
+            height: 100px !important;
+        }
+    </style>
 
 </head>
 
@@ -81,7 +89,7 @@
 	                                    	<label class="col-sm-11 col-sm-offset-1 control-label other-lable">早检情况</label>
                                     	</div>
 										<div class="col-sm-7">
-										    <textarea name="journal_morning" id="text_morning" class="form-control other-height" placeholder="请输入早检情况"></textarea>
+										    <div id="text_morning"></div>
 										</div>
 									</div>
                                     <div class="hr-line-dashed"></div>
@@ -91,7 +99,7 @@
 	                                    	<label class="col-sm-11 col-sm-offset-1 control-label other-lable">午检情况</label>
                                     	</div>
 										<div class="col-sm-7">
-										    <textarea name="journal_noon" id="text_noon" class="form-control other-height" placeholder="请输入午检情况"></textarea>
+										    <div id="text_noon"></div>
 										</div>
 									</div>
                                     <div class="hr-line-dashed"></div>
@@ -101,7 +109,7 @@
 	                                    	<label class="col-sm-11 col-sm-offset-1 control-label other-lable">晚检情况</label>
                                     	</div>
 										<div class="col-sm-7">
-										    <textarea name="journal_evening" id="text_evening" class="form-control other-height" placeholder="请输入晚检情况"></textarea>
+										    <div id="text_evening"></div>
 										</div>
 									</div>
                                     <div class="hr-line-dashed"></div>
@@ -111,7 +119,7 @@
 	                                    	<label class="col-sm-11 col-sm-offset-1 control-label best-bad-lable">优秀助理</label>
                                     	</div>
 										<div class="col-sm-7">
-											<div class="input-group">
+											<div class="input-group" style="z-index: 20000">
 												<select id="select_best" data-placeholder="请选择优秀助理" class="chosen-select" multiple tabindex="4">
 													<?php for ($i = 0; $i < count($wid_list); $i++) { ?>
 														<option value="<?php echo $wid_list[$i]; ?>" hassubinfo="true"><?php echo $name_list[$i]; ?></option>
@@ -119,7 +127,7 @@
 	                                        	</select>
 											</div>
 											<div>
-											    <textarea name="journal_best" id="text_best" class="form-control other-height" placeholder="请输入优秀助理的表现"></textarea>
+											    <div id="text_best"></div>
 											</div>
                                     	</div>
 									</div>
@@ -130,7 +138,7 @@
 	                                    	<label class="col-sm-11 col-sm-offset-1 control-label best-bad-lable">异常助理</label>
                                     	</div>
 										<div class="col-sm-7">
-											<div class="input-group">
+											<div class="input-group" style="z-index: 15000">
 												<select id="select_bad" data-placeholder="请选择异常助理" class="chosen-select" multiple tabindex="4">
 		                                            <?php for ($i = 0; $i < count($wid_list); $i++) { ?>
 														<option value="<?php echo $wid_list[$i]; ?>" hassubinfo="true"><?php echo $name_list[$i]; ?></option>
@@ -138,7 +146,7 @@
 	                                        	</select>
 											</div>
 											<div>
-											    <textarea name="journal_bad" id="text_bad" class="form-control other-height" placeholder="请输入异常助理的表现"></textarea>
+											    <div id="text_bad"></div>
 											</div>
                                     	</div>
 									</div>
@@ -149,7 +157,7 @@
 	                                    	<label class="col-sm-11 col-sm-offset-1 control-label other-lable">总结</label>
                                     	</div>
 										<div class="col-sm-7">
-										    <textarea name="journal_summary" id="text_summary" class="form-control other-height" placeholder="请输入坐班总结"></textarea>
+										    <div id="text_summary"></div>
 										</div>
 									</div>
                                     <div class="hr-line-dashed"></div>
@@ -177,6 +185,7 @@
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
+    <script src="<?=base_url().'assets/js/plugins/wangEditor/wangEditor.js' ?>"></script>
     <script src="<?=base_url().'assets/js/journal_in.js' ?>"></script>
     
     <!-- nav item active -->
