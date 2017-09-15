@@ -51,8 +51,11 @@ Class Login extends CI_Controller {
 				$uid = $this->Moa_user_model->get_uid($username, $password);
 				$_SESSION['user_id'] = $uid;
 				$_SESSION['username'] = $username;
-				set_cookie('user_id', $uid, time() + (60 * 60 * 24 * 30));        // expires in 30 days
-				set_cookie('username', $username, time() + (60 * 60 * 24 * 30));  // expires in 30 days
+				$expire_time = time() + (60 * 60 * 24 * 30); // expires in 30 days
+                $expire_time = (int)$expire_time;
+                //var_dump($expire_time);
+				setcookie('user_id', $uid, $expire_time);
+				setcookie('username', $username, $expire_time);
 				$success = "登录成功";
 				
 				// 获取头像、姓名与用户级别，存入session会话

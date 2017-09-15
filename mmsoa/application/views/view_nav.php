@@ -59,10 +59,23 @@
                             '</li>' .
                             '<li id="active-filming"><a href="'. site_url('Filming') . '">拍摄</a>'.
                             '</li>' .
+                            //'<li id="active-lostandfound"><a href="'. site_url('LostAndFound') . '">失物招领</a>'.
+                            //'</li>' .
 		                '</ul>' .
 		            '</li>';
 		        }
 		    ?>
+            <?php
+                echo
+                '<li id="active-lostandfound">'.
+                '    <a href="Homepage#"><i class="fa fa-search"></i><span class="nav-label">失物招领</span><span class="fa fa-arrow"></span></a>'.
+                '    <ul class="nav nav-second-level">'.
+                '        <li id="active-found"><a href="'.site_url('Found').'">拾获登记</a>'.
+                '        </li>'.
+                '        <li id="active-lost"><a href="'.site_url('Lost').'">遗失登记</a>'.
+                '        </li>'.
+                '    </ul>'
+            ?>
 		    <?php
 		        if ($_SESSION['level'] >= 1) { echo
 		            '<li id="active-workReview">' .

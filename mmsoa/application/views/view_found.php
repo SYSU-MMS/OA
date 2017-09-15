@@ -1,3 +1,12 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: zhong
+ * Date: 2017/9/14
+ * Time: 2:00
+ */
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -7,31 +16,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title>MOA-查看和登记出勤</title>
+    <title>MOA-查看和登记失物</title>
     <?php $this->load->view('view_keyword'); ?>
 
-    <link href="<?= base_url() . 'assets/images/moa.ico' ?>" rel="shortcut icon">
+<link href="<?= base_url() . 'assets/images/moa.ico' ?>" rel="shortcut icon">
 
-    <link href="<?= base_url() . 'assets/css/bootstrap.min.css?v=3.4.0' ?>" rel="stylesheet">
-    <link href="<?= base_url() . 'assets/font-awesome/css/font-awesome.min.css' ?>" rel="stylesheet">
+<link href="<?= base_url() . 'assets/css/bootstrap.min.css?v=3.4.0' ?>" rel="stylesheet">
+<link href="<?= base_url() . 'assets/font-awesome/css/font-awesome.min.css' ?>" rel="stylesheet">
 
-    <link href="<?= base_url() . 'assets/css/plugins/iCheck/custom.css' ?>" rel="stylesheet">
+<link href="<?= base_url() . 'assets/css/plugins/iCheck/custom.css' ?>" rel="stylesheet">
 
-    <link href="<?= base_url() . 'assets/css/plugins/simditor/simditor.css' ?>" rel="stylesheet">
+<link href="<?= base_url() . 'assets/css/plugins/simditor/simditor.css' ?>" rel="stylesheet">
 
-    <link href="<?= base_url() . 'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
+<link href="<?= base_url() . 'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
 
-    <link href="<?= base_url() . 'assets/css/plugins/jasny/jasny-bootstrap.min.css' ?>" rel="stylesheet">
+<link href="<?= base_url() . 'assets/css/plugins/jasny/jasny-bootstrap.min.css' ?>" rel="stylesheet">
 
-    <link href="<?= base_url() . 'assets/css/plugins/datepicker/datepicker3.css' ?>" rel="stylesheet">
+<link href="<?= base_url() . 'assets/css/plugins/datepicker/datepicker3.css' ?>" rel="stylesheet">
 
-    <link href="<?= base_url() . 'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css' ?>" rel="stylesheet">
+<link href="<?= base_url() . 'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css' ?>" rel="stylesheet">
 
-    <!-- Data Tables -->
-    <link href="<?= base_url() . 'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
+<!-- Data Tables -->
+<link href="<?= base_url() . 'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
 
-    <link href="<?= base_url() . 'assets/css/animate.css' ?>" rel="stylesheet">
-    <link href="<?= base_url() . 'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
+<link href="<?= base_url() . 'assets/css/animate.css' ?>" rel="stylesheet">
+<link href="<?= base_url() . 'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
 
 </head>
 
@@ -49,10 +58,10 @@
                         MOA
                     </li>
                     <li>
-                        工作记录
+                        失物招领
                     </li>
                     <li>
-                        <strong>出勤记录</strong>
+                        <strong>拾获登记</strong>
                     </li>
                 </ol>
             </div>
@@ -178,9 +187,9 @@
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        $("#active-workrecord").addClass("active");
-        $("#active-dutyout").addClass("active");
-        $("#mini").attr("href", "dutyOut#");
+        $("#active-lostandfound").addClass("active");
+        $("#active-found").addClass("active");
+        $("#mini").attr("href", "Found#");
     });
 </script>
 
