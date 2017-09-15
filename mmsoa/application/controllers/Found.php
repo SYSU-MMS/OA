@@ -19,10 +19,10 @@ class Found extends CI_Controller
         parent::__construct();
         $this->load->model('Moa_user_model');
         $this->load->model('Moa_worker_model');
-        $this->load->model('Moa_problem_model');
-        $this->load->model('Moa_room_model');
-        $this->load->model('Moa_duty_model');
-        $this->load->model('Moa_dutyout_model');
+        //$this->load->model('Moa_problem_model');
+        //$this->load->model('Moa_room_model');
+        //$this->load->model('Moa_duty_model');
+        //$this->load->model('Moa_dutyout_model');
         $this->load->model('Moa_found_model');
         $this->load->helper(array('form', 'url'));
         $this->load->library('session');
@@ -32,16 +32,9 @@ class Found extends CI_Controller
     public function index()
     {
         if (isset($_SESSION['user_id'])) {
-            // 检查权限: 2-负责人助理 3-助理负责人 5-办公室负责人 6-超级管理员
-            //if ($_SESSION['level'] != 2 && $_SESSION['level'] != 3 && $_SESSION['level'] != 5 && $_SESSION['level'] != 6) {
-            // 提示权限不够
-            //    PublicMethod::permissionDenied();
-            //}
 
-            $dutyout_list = $this->Moa_dutyout_model->get_all(1);
+            //$dutyout_list = $this->Moa_dutyout_model->get_all(1);
 
-            //echo $dutyout_list;
-            //var_dump($dutyout_list);
 
             $data = array();
             $data['d_doid'] = array();

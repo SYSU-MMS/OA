@@ -189,7 +189,7 @@
 <script>
     $(document).ready(function () {
         $("#active-lostandfound").addClass("active");
-        $("#active-found").addClass("active");
+        $("#active-lost").addClass("active");
         $("#mini").attr("href", "Found#");
     });
 </script>

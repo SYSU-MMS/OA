@@ -74,11 +74,13 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>查看和登记出勤</h5>
-                            <div class="btn_group"
-                                 style="margin-right:15px;margin-left:auto;width:50px;text-align: right;">
+                            <h5>查看和登记拾获物品</h5>
+                            <div class="btn-group pull-right">
                                 <button class="btn btn-primary btn-xs" id="new_record_btn" onclick="new_record()"
                                         data-toggle="modal" data-target="#myModal">新增记录
+                                </button>
+                                <button class="btn btn-secondary btn-xs" id="toggle_more_btn" onclick="toggle_more()">
+                                    显示更多
                                 </button>
                             </div>
                         </div>
@@ -89,19 +91,21 @@
                                 <thead>
                                 <tr>
                                     <th>序号</th>
-                                    <th>课室</th>
-                                    <th>问题</th>
-                                    <th>值班时段</th>
+                                    <th>拾获时间</th>
+                                    <th>物品描述</th>
+                                    <th>地点</th>
                                     <th>登记时间</th>
-                                    <th>出勤人</th>
-                                    <th>解决时间</th>
-                                    <th>解决人</th>
-                                    <th>解决方法</th>
+                                    <th>拾获人</th>
+                                    <th>联系方式</th>
+                                    <th>领取人</th>
+                                    <th>领取时间</th>
+                                    <th>联系方式</th>
+                                    <th>证件号</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php for ($i = 0; $i < count($d_doid); $i++) { ?>
+                                <?php /*for ($i = 0; $i < count($d_doid); $i++) { ?>
                                     <tr class="duty_content" id="duty_content_<?php echo $d_doid[$i]; ?>">
                                         <td><?php echo $d_doid[$i]; ?></td>
                                         <td><?php echo $d_room[$i]; ?></td>
@@ -161,7 +165,7 @@
                                             ?>
                                         </td>
                                     </tr>
-                                <?php } ?>
+                                <?php }*/ ?>
                                 </tbody>
                             </table>
                         </div>

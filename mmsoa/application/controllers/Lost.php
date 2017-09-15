@@ -178,7 +178,7 @@ class Lost extends CI_Controller
 
             //echo "<script>console.log(" . json_encode($data) . ")</script>";
 
-            $this->load->view('view_found', $data);
+            $this->load->view('view_lost', $data);
 
         } else {
             // 未登录的用户请先登录
