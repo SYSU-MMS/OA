@@ -90,18 +90,20 @@
                                    class="table table-striped table-bordered table-hover users-dataTable">
                                 <thead>
                                 <tr>
-                                    <th>序号</th>
-                                    <th>拾获时间</th>
-                                    <th>物品描述</th>
-                                    <th>地点</th>
-                                    <th>登记时间</th>
-                                    <th>拾获人</th>
-                                    <th>联系方式</th>
-                                    <th>领取人</th>
-                                    <th>领取时间</th>
-                                    <th>联系方式</th>
-                                    <th>证件号</th>
-                                    <th>操作</th>
+                                    <th>序号</th>       <!--  1 -->
+                                    <th>登记助理</th>   <!--  2 -->
+                                    <th>拾获时间</th>   <!--  3 -->
+                                    <th>物品描述</th>   <!--  4 -->
+                                    <th>地点</th>       <!--  5 -->
+                                    <th>登记时间</th>   <!--  6 -->
+                                    <th>拾获人</th>     <!--  7 -->
+                                    <th>联系方式</th>   <!--  8 -->
+                                    <th>登记助理</th>   <!--  9 -->
+                                    <th>领取人</th>     <!-- 10 -->
+                                    <th>领取时间</th>   <!-- 11 -->
+                                    <th>联系方式</th>   <!-- 12 -->
+                                    <th>证件号</th>     <!-- 13 -->
+                                    <th>操作</th>       <!-- 14 -->
                                 </tr>
                                 </thead>
                                 <tbody>

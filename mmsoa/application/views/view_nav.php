@@ -68,7 +68,7 @@
             <?php
                 echo
                 '<li id="active-lostandfound">'.
-                '    <a href="Homepage#"><i class="fa fa-search"></i><span class="nav-label">失物招领</span><span class="fa fa-arrow"></span></a>'.
+                '    <a href="Homepage#"><i class="fa fa-search"></i><span class="nav-label"> 失物招领</span><span class="fa arrow"></span></a>'.
                 '    <ul class="nav nav-second-level">'.
                 '        <li id="active-found"><a href="'.site_url('Found').'">拾获登记</a>'.
                 '        </li>'.

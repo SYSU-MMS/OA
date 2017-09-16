@@ -19,10 +19,6 @@ class Found extends CI_Controller
         parent::__construct();
         $this->load->model('Moa_user_model');
         $this->load->model('Moa_worker_model');
-        //$this->load->model('Moa_problem_model');
-        //$this->load->model('Moa_room_model');
-        //$this->load->model('Moa_duty_model');
-        //$this->load->model('Moa_dutyout_model');
         $this->load->model('Moa_found_model');
         $this->load->helper(array('form', 'url'));
         $this->load->library('session');
@@ -33,46 +29,24 @@ class Found extends CI_Controller
     {
         if (isset($_SESSION['user_id'])) {
 
-            //$dutyout_list = $this->Moa_dutyout_model->get_all(1);
-
-
             $data = array();
-            $data['d_doid'] = array();
-            $data['d_dutyid'] = array();
-            $data['d_weekday'] = array();
-            $data['d_weekdaytranslate'] = array();
-            $data['d_periodtime'] = array();
-            $data['d_wid'] = array();
-            $data['d_uid'] = array();
-            //$data['d_level'] = array();
-            $data['d_week'] = array();
-            $data['d_outtime'] = array();
-            $data['d_roomid'] = array();
-            $data['d_room'] = array();
-            $data['d_problemid'] = array();
-            $data['d_solvewid'] = array();
-            $data['d_description'] = array();
-            $data['d_solution'] = array();
-            $data['d_name'] = array();
-            $data['d_solvename'] = array();
-            $data['d_solvetime'] = array();
+            $data['d_fid'] = array();
+            $data['d_state'] = array();
+            $data['d_fwid'] = array();
+            $data['d_signuptime'] = array();
+            $data['d_fdatetime'] = array();
+            $data['d_fdescription'] = array();
+            $data['d_fplace'] = array();
+            $data['d_finder'] = array();
+            $data['d_fcontact'] = array();
+            $data['d_owid'] = array();
+            $data['d_owner'] = array();
+            $data['d_odatetime'] = array();
+            $data['d_ocontact'] = array();
+            $data['d_onumber'] = array();
 
-            //取课室列表
-            $state = 0;
-            $room_obj_list = $this->Moa_room_model->get_by_state($state);
-
-            for ($i = 0; $i < count($room_obj_list); $i++) {
-
-                $roomid_list[$i] = $room_obj_list[$i]->roomid;
-                $room_list[$i] = $room_obj_list[$i]->room;
-            }
-
-            $data['roomid_list'] = $roomid_list;
-            $data['room_list'] = $room_list;
-
-            // 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
-            $level = 0;
-            $common_worker = $this->Moa_user_model->get_by_level($level);
+            // 取所有助理的wid与name
+            $common_worker = $this->Moa_user_model->get();
 
             for ($i = 0; $i < count($common_worker); $i++) {
                 $uid_list[$i] = $common_worker[$i]->uid;
@@ -83,22 +57,30 @@ class Found extends CI_Controller
             $data['name_list'] = $name_list;
             $data['wid_list'] = $wid_list;
 
-
-            //room | pid | founder_wid | founder_name | solve_wid | solve_name | roomid | description | solution| found_time| state | solved_time
-            $obj = $this->Moa_problem_model->get_unsolve(); /*获取所有未解决的problem的信息*/
-            if ($obj == FALSE) {
-                $data['problem_list'] = array();
-                $data['problemid_list'] = array();
-            } else {
-                //$data['problem_list'] = $obj->description;
-                //$data['problemid_list'] = $obj->pid;
-                for ($i = 0; $i < count($obj); $i++) {
-                    $data['problem_list'][$i] = $obj[$i]->description;
-                    $data['problemid_list'][$i] = $obj[$i]->pid;
+            // 获取所有拾获物品登记信息
+            $obj = $this->Moa_found_model->get_all();
+            if ($obj == false){
+                NULL;
+            }else{
+                for ($i = 0; $i < count($obj); $i++){
+                    $data['d_fid'][$i] = $obj[$i]->fid;
+                    $data['d_state'][$i] = $obj[$i]->state;
+                    $data['d_fwid'][$i] = $obj[$i]->fwid;
+                    $data['d_signuptime'][$i] = $obj[$i]->signuptime;
+                    $data['d_fdatetime'][$i] = $obj[$i]->fdatetime;
+                    $data['d_fdescription'][$i] = $obj[$i]->fdescription;
+                    $data['d_fplace'][$i] = $obj[$i]->fplace;
+                    $data['d_finder'][$i] = $obj[$i]->finder;
+                    $data['d_fcontact'][$i] = $obj[$i]->fcontact;
+                    $data['d_owid'][$i] = $obj[$i]->owid;
+                    $data['d_owner'][$i] = $obj[$i]->owner;
+                    $data['d_odatetime'][$i] = $obj[$i]->odatetime;
+                    $data['d_ocontact'][$i] = $obj[$i]->ocontact;
+                    $data['d_onumber'][$i] = $obj[$i]->onumber;
                 }
             }
 
-            for ($i = 0; $i < count($dutyout_list); $i++) {
+            /*for ($i = 0; $i < count($dutyout_list); $i++) {
                 //取出勤id
                 $d_doid = $dutyout_list[$i]->doid;
                 //值班时段id
@@ -166,9 +148,7 @@ class Found extends CI_Controller
                 $data['d_name'][$i] = $d_name;
                 $data['d_solvename'][$i] = $d_solvename;
                 $data['d_solvetime'][$i] = $d_solvetime;
-            }
-
-            //echo "<script>console.log(" . json_encode($data) . ")</script>";
+            }*/
 
             $this->load->view('view_found', $data);
 
