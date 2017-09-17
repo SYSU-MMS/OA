@@ -86,27 +86,65 @@
                         </div>
                         <div class="ibox-content">
 
-                            <table id="dutyout_table"
+                            <table id="found_table"
                                    class="table table-striped table-bordered table-hover users-dataTable">
                                 <thead>
                                 <tr>
-                                    <th>序号</th>       <!--  1 -->
-                                    <th>登记助理</th>   <!--  2 -->
-                                    <th>拾获时间</th>   <!--  3 -->
-                                    <th>物品描述</th>   <!--  4 -->
-                                    <th>地点</th>       <!--  5 -->
-                                    <th>登记时间</th>   <!--  6 -->
-                                    <th>拾获人</th>     <!--  7 -->
-                                    <th>联系方式</th>   <!--  8 -->
-                                    <th>登记助理</th>   <!--  9 -->
-                                    <th>领取人</th>     <!-- 10 -->
-                                    <th>领取时间</th>   <!-- 11 -->
-                                    <th>联系方式</th>   <!-- 12 -->
-                                    <th>证件号</th>     <!-- 13 -->
+                                    <th>序号</th>       <!--  1  $d_fid-->
+                                    <th>登记助理</th>   <!--  2  $d_fworkername-->
+                                    <th>拾获时间</th>   <!--  3  $d_found_{date, weekday_translate, time}-->
+                                    <th>物品描述</th>   <!--  4  $d_fdescription-->
+                                    <th>地点</th>       <!--  5  $d_fplace-->
+                                    <th>登记时间</th>   <!--  6  $d_signup_{...}-->
+                                    <th>拾获人</th>     <!--  7  $d_finder-->
+                                    <th>联系方式</th>   <!--  8  $d_fcontact-->
+                                    <th>登记助理</th>   <!--  9  $d_oworkername-->
+                                    <th>领取人</th>     <!-- 10  $d_owner-->
+                                    <th>领取时间</th>   <!-- 11  $d_owned_{...}-->
+                                    <th>联系方式</th>   <!-- 12  $d_ocontact-->
+                                    <th>证件号</th>     <!-- 13  $d_onumber-->
                                     <th>操作</th>       <!-- 14 -->
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <?php for ($i = 0; $i < count($d_fid); $i++){?>
+                                    <tr class="found_content" id="found_content_<?php echo $d_fid[$i];?>">
+                                        <td><?php echo $d_fid[$i];?></td>
+                                        <td><?php echo $d_fworkername[$i];?></td>
+                                        <td>
+                                            <?php echo $d_found_date[$i] . "&nbsp;";?>
+                                            <?php //echo "星期" . $d_found_weekday_translate[$i] . "&nbsp;";?>
+                                            <?php echo $d_found_time[$i];?>
+                                        </td>
+                                        <td><?php echo $d_fdescription[$i];?></td>
+                                        <td><?php echo $d_fplace[$i];?></td>
+                                        <td>
+                                            <?php echo $d_signup_date[$i] . "&nbsp;";?>
+                                            <?php //echo "星期" . $d_signup_weekday_translate[$i] . "&nbsp;";?>
+                                            <?php echo $d_signup_time[$i];?>
+                                        </td>
+                                        <td><?php echo $d_finder[$i];?></td>
+                                        <td><?php echo $d_fcontact[$i];?></td>
+                                        <td><?php echo $d_state[$i] > 0 ? $d_oworkername[$i] : "";?></td>
+                                        <td><?php echo $d_owner[$i];?></td>
+                                        <td>
+                                            <?php
+                                            if ($d_state[$i] > 0) {
+                                                echo $d_owned_date[$i] . "&nbsp;";
+                                                //echo "星期" . $d_owned_weekday_translate[$i] . "&nbsp;";
+                                                echo $d_owned_time[$i];
+                                            }else echo "<span style='color:red;'>未领取</span>";
+                                            ?>
+                                        </td>
+                                        <td><?php echo $d_ocontact[$i];?></td>
+                                        <td><?php echo $d_onumber[$i];?></td>
+                                        <td>
+                                            <div class="btn-group" id="found_btn_group_<?php echo $d_fid[$i];?>">
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php }?>
                                 <?php /*for ($i = 0; $i < count($d_doid); $i++) { ?>
                                     <tr class="duty_content" id="duty_content_<?php echo $d_doid[$i]; ?>">
                                         <td><?php echo $d_doid[$i]; ?></td>
@@ -237,7 +275,13 @@
     $(document).ready(function () {
 
         $('.users-dataTable').dataTable({
-            "aaSorting": [[6, "desc"]]
+            "aaSorting": [[10, "desc"]],
+            "columnDefs": [
+                {
+                    "targets":[1, 5, 7, 8, 11, 12],
+                    "visible":false
+                }
+            ]
         });
 
         /* Calendar */

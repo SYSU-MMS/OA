@@ -24,8 +24,8 @@ class Moa_worker_model extends CI_Model {
 	 * @param wid - 助理wid
 	 * @return wid对应worker的所有信息
 	 */
-	public function get($wid) {
-		if (isset($wid)) {
+	public function get($wid = 0) {
+		if (isset($wid) && $wid > 0) {
 			$this->db->where(array('wid'=>$wid));
 			$res = $this->db->get('MOA_Worker')->result();
 			return $res[0];

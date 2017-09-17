@@ -64,10 +64,10 @@ class Moa_found_model extends CI_Model{
 
             $sql = "update moa_found set (owid, owner, odatetime, ocontact, onumber, state) values(" .
                 $this->db->escape($owid) . "," .
-                $this->db->escape($owner) . "," .
+                $this->db->escape(htmlspecialchars($owner)) . "," .
                 $this->db->escape($odatetime) . "," .
-                $this->db->escape($ocontact) . "," .
-                $this->db->escape($onumber) . ", 1)" .
+                $this->db->escape(htmlspecialchars($ocontact)) . "," .
+                $this->db->escape(htmlspecialchars($onumber)) . ", 1)" .
                 "where fid = " . $this->db->escape($fid);
 
             $query = $this->db->query($sql);
@@ -84,10 +84,10 @@ class Moa_found_model extends CI_Model{
                 $this->db->escape($fwid) . "," .
                 $this->db->escape($signuptime) . "," .
                 $this->db->escape($fdatetime) . "," .
-                $this->db->escape($fdescription) . "," .
-                $this->db->escape($fplace) . "," .
-                $this->db->escape($finder) . "," .
-                $this->db->escape($fcontact) . ")";
+                $this->db->escape(htmlspecialchars($fdescription)) . "," .
+                $this->db->escape(htmlspecialchars($fplace)) . "," .
+                $this->db->escape(htmlspecialchars($finder)) . "," .
+                $this->db->escape(htmlspecialchars($fcontact)) . ")";
 
             $query = $this->db->query($sql);
             return $this->db->insert_id();

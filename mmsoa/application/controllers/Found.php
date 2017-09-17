@@ -28,6 +28,7 @@ class Found extends CI_Controller
     public function index()
     {
         if (isset($_SESSION['user_id'])) {
+
             // 原始数据
             $data = array();
             $data['d_fid'] = array();
@@ -45,6 +46,8 @@ class Found extends CI_Controller
             $data['d_ocontact'] = array();
             $data['d_onumber'] = array();
             // 处理后数据
+            $data['d_fworkername'] = array();
+            $data['d_oworkername'] = array();
             $data['d_signup_timestamp'] = array();
             $data['d_signup_date'] = array();
             $data['d_signup_time'] = array();
@@ -63,6 +66,9 @@ class Found extends CI_Controller
 
             // 取所有助理的wid与name
             $common_worker = $this->Moa_user_model->get();
+            $uid_list = array();
+            $wid_list = array();
+            $name_list = array();
 
             for ($i = 0; $i < count($common_worker); $i++) {
                 $uid_list[$i] = $common_worker[$i]->uid;
@@ -81,92 +87,40 @@ class Found extends CI_Controller
                 for ($i = 0; $i < count($obj); $i++){
                     $data['d_fid'][$i] = $obj[$i]->fid;
                     $data['d_state'][$i] = $obj[$i]->state;
-                    $data['d_fwid'][$i] = $obj[$i]->fwid;
+                    $data['d_fwid'][$i] = (int)$obj[$i]->fwid;
                     $data['d_signuptime'][$i] = $obj[$i]->signuptime;
                     $data['d_fdatetime'][$i] = $obj[$i]->fdatetime;
                     $data['d_fdescription'][$i] = $obj[$i]->fdescription;
                     $data['d_fplace'][$i] = $obj[$i]->fplace;
                     $data['d_finder'][$i] = $obj[$i]->finder;
                     $data['d_fcontact'][$i] = $obj[$i]->fcontact;
-                    $data['d_owid'][$i] = $obj[$i]->owid;
+                    $data['d_owid'][$i] = (int)$obj[$i]->owid;
                     $data['d_owner'][$i] = $obj[$i]->owner;
                     $data['d_odatetime'][$i] = $obj[$i]->odatetime;
                     $data['d_ocontact'][$i] = $obj[$i]->ocontact;
                     $data['d_onumber'][$i] = $obj[$i]->onumber;
 
-
+                    $data['d_fworkername'][$i] = $data['d_fwid'][$i] == 0 ? "" :
+                        $this->Moa_user_model->get($this->Moa_worker_model->get_uid_by_wid($data['d_fwid'][$i]))->name;
+                    $data['d_oworkername'][$i] = $data['d_owid'][$i] == 0 ? "" :
+                        $this->Moa_user_model->get($this->Moa_worker_model->get_uid_by_wid($data['d_owid'][$i]))->name;
+                    $data['d_signup_timestamp'][$i] = strtotime($data['d_signuptime'][$i]);
+                    $data['d_signup_date'][$i] = date("Y-m-d", $data['d_signup_timestamp'][$i]);
+                    $data['d_signup_time'][$i] = date("H:i", $data['d_signup_timestamp'][$i]);
+                    $data['d_signup_weekday'][$i] = date("N", $data['d_signup_timestamp'][$i]);
+                    $data['d_signup_weekday_translate'][$i] = PublicMethod::translate_weekday($data['d_signup_weekday'][$i]);
+                    $data['d_found_timestamp'][$i] = strtotime($data['d_fdatetime'][$i]);
+                    $data['d_found_date'][$i] = date("Y-m-d", $data['d_found_timestamp'][$i]);
+                    $data['d_found_time'][$i] = date("H:i", $data['d_found_timestamp'][$i]);
+                    $data['d_found_weekday'][$i] = date("N", $data['d_found_timestamp'][$i]);
+                    $data['d_found_weekday_translate'][$i] = PublicMethod::translate_weekday($data['d_found_weekday'][$i]);
+                    $data['d_owned_timestamp'][$i] = strtotime($data['d_odatetime'][$i]);
+                    $data['d_owned_date'][$i] = date("Y-m-d", $data['d_owned_timestamp'][$i]);
+                    $data['d_owned_time'][$i] = date("H:i", $data['d_owned_timestamp'][$i]);
+                    $data['d_owned_weekday'][$i] = date("N", $data['d_owned_timestamp'][$i]);
+                    $data['d_owned_weekday_translate'][$i] = PublicMethod::translate_weekday($data['d_owned_weekday'][$i]);
                 }
             }
-
-            /*for ($i = 0; $i < count($dutyout_list); $i++) {
-                //取出勤id
-                $d_doid = $dutyout_list[$i]->doid;
-                //值班时段id
-                $d_dutyid = $dutyout_list[$i]->dutyid;
-                $d_duty = $this->Moa_duty_model->get_by_id($d_dutyid);
-                //var_dump($d_duty);
-                //星期
-                $d_weekday = $d_duty->weekday;
-                $d_weekdaytranslate = PublicMethod::translate_weekday($d_weekday);
-                $d_period = $d_duty->period;
-                $d_periodtime = PublicMethod::get_duty_duration($d_period);
-
-                $d_wid = $dutyout_list[$i]->wid;
-                $d_week = $dutyout_list[$i]->weekcount;
-                $d_outtime = $dutyout_list[$i]->outtimestamp;
-
-                $d_roomid = $dutyout_list[$i]->roomid;
-                $d_room = $this->Moa_room_model->get($d_roomid)->room;
-
-                $d_problemid = $dutyout_list[$i]->problemid;
-                $d_problem = $this->Moa_problem_model->get($d_problemid);
-                $d_solvewid = $d_problem->solve_wid;
-                $d_description = $d_problem->description;
-                $d_solution = $d_problem->solution;
-                $d_solvetime = $d_problem->solved_time;
-
-                $d_uid = $this->Moa_worker_model->get_uid_by_wid($d_wid);
-                $d_user = $this->Moa_user_model->get($d_uid);
-                $d_name = $d_user->name;
-                //$d_level = $this->Moa_user_model->get($_SESSION['user_id'])->level;
-                $d_solvename = "";
-
-                if ($d_solvewid != null && $d_solvewid != false) {
-                    $d_solveuid = $this->Moa_worker_model->get_uid_by_wid($d_solvewid);
-                    $d_solveuser = $this->Moa_user_model->get($d_solveuid);
-                    $d_solvename = $d_solveuser->name;
-                    //var_dump($d_solveuid);
-                    //var_dump($d_solveuser);
-                } else {
-                    $d_solvewid = false;
-                    $d_solvename = false;
-                    $d_solvetime = false;
-                    //$d_description = false;
-                    $d_solution = false;
-                }
-
-
-                //$data = array();
-                $data['d_doid'][$i] = $d_doid;
-                $data['d_dutyid'][$i] = $d_dutyid;
-                $data['d_weekday'][$i] = $d_weekday;
-                $data['d_weekdaytranslate'][$i] = $d_weekdaytranslate;
-                $data['d_periodtime'][$i] = $d_periodtime;
-                $data['d_wid'][$i] = $d_wid;
-                $data['d_uid'][$i] = $d_uid;
-                //$data['d_level'][$i] = $d_level;
-                $data['d_week'][$i] = $d_week;
-                $data['d_outtime'][$i] = $d_outtime;
-                $data['d_roomid'][$i] = $d_roomid;
-                $data['d_room'][$i] = $d_room;
-                $data['d_problemid'][$i] = $d_problemid;
-                $data['d_solvewid'][$i] = $d_solvewid;
-                $data['d_description'][$i] = $d_description;
-                $data['d_solution'][$i] = $d_solution;
-                $data['d_name'][$i] = $d_name;
-                $data['d_solvename'][$i] = $d_solvename;
-                $data['d_solvetime'][$i] = $d_solvetime;
-            }*/
 
             $this->load->view('view_found', $data);
 
