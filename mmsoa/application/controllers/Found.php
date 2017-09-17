@@ -28,7 +28,7 @@ class Found extends CI_Controller
     public function index()
     {
         if (isset($_SESSION['user_id'])) {
-
+            // 原始数据
             $data = array();
             $data['d_fid'] = array();
             $data['d_state'] = array();
@@ -44,6 +44,22 @@ class Found extends CI_Controller
             $data['d_odatetime'] = array();
             $data['d_ocontact'] = array();
             $data['d_onumber'] = array();
+            // 处理后数据
+            $data['d_signup_timestamp'] = array();
+            $data['d_signup_date'] = array();
+            $data['d_signup_time'] = array();
+            $data['d_signup_weekday'] = array();
+            $data['d_signup_weekday_translate'] = array();
+            $data['d_found_timestamp'] = array();
+            $data['d_found_date'] = array();
+            $data['d_found_time'] = array();
+            $data['d_found_weekday'] = array();
+            $data['d_found_weekday_translate'] = array();
+            $data['d_owned_timestamp'] = array();
+            $data['d_owned_date'] = array();
+            $data['d_owned_time'] = array();
+            $data['d_owned_weekday'] = array();
+            $data['d_owned_weekday_translate'] = array();
 
             // 取所有助理的wid与name
             $common_worker = $this->Moa_user_model->get();
@@ -77,6 +93,8 @@ class Found extends CI_Controller
                     $data['d_odatetime'][$i] = $obj[$i]->odatetime;
                     $data['d_ocontact'][$i] = $obj[$i]->ocontact;
                     $data['d_onumber'][$i] = $obj[$i]->onumber;
+
+
                 }
             }
 

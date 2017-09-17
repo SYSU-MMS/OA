@@ -188,7 +188,7 @@
 <script src="<?= base_url() . 'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
 <script src="<?= base_url() . 'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
 <script src="<?= base_url() . 'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-<script src="<?= base_url() . 'assets/js/dutyout.js' ?>"></script>
+<script src="<?= base_url() . 'assets/js/found.js' ?>"></script>
 
 <!-- nav item active -->
 <script>
