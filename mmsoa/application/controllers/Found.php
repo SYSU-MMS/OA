@@ -130,16 +130,28 @@ class Found extends CI_Controller
         }
     }
 
-    public function add()
+    public function signUpItem()
     {
-        if (isset($_SESSION['user_id']) && isset($_POST['wid'])) {
-            $wid = $_POST['wid'];
-            $dutyid = $_POST['dutyid'];
-            $pid = $_POST['problemid'];
-            $result = $this->Moa_dutyout_model->add($wid, $pid, $dutyid);
-            //echo "<script>console.log($result);alert();</script>";
+        if (isset($_SESSION['user_id']) &&
+            //isset($_POST['fwid']) &&
+            isset($_POST['signuptime']) &&
+            isset($_POST['fdatetime']) &&
+            isset($_POST['fdescription']) &&
+            isset($_POST['fplace']) &&
+            isset($_POST['finder']) &&
+            isset($_POST['fcontact']))
+        {
+            $fwid = $_SESSION['worker_id'];
+            $signuptime = $_POST['signuptime'];
+            $fdatetime = $_POST['fdatetime'];
+            $fdescription = $_POST['fdescription'];
+            $fplace = $_POST['fplace'];
+            $finder = $_POST['finder'];
+            $fcontact = $_POST['fcontact'];
+            $result = $this->Moa_found_model->sign_up_item($fwid, $signuptime, $fdatetime, $fdescription,
+                $fplace, $finder, $fcontact);
             if ($result > 0) {
-                echo json_encode(array("status" => true, "msg" => "添加成功！", "doid" => $result));
+                echo json_encode(array("status" => true, "msg" => "添加成功！", "fid" => $result));
             } else {
                 echo json_encode(array("status" => false, "msg" => "添加失败！"));
             }
@@ -148,17 +160,25 @@ class Found extends CI_Controller
         }
     }
 
-    public function update()
+    public function updateByFid()
     {
-        if (isset($_SESSION['user_id']) && isset($_POST['doid']) && isset($_POST['wid']) && isset($_POST['solve_time'])) {
-            $doid = $_POST['doid'];
-            $pid = $this->Moa_dutyout_model->get_by_doid($doid)->pid;
-            $wid = $_POST['wid'];
-            $solve_time = $_POST['solve_time'];
-            $solution = htmlspecialchars($_POST['solution']);
-            $result = $this->Moa_problem_model->update($pid, $solve_time, $wid, $solution);
-            if (result > 0) {
-                echo json_encode(array("status" => true, "msg" => "已解决！"));
+        if (isset($_SESSION['user_id']) &&
+            //isset($_POST['owid']) &&
+            isset($_POST['fid']) &&
+            isset($_POST['owner']) &&
+            isset($_POST['odatetime']) &&
+            isset($_POST['ocontact']) &&
+            isset($_POST['onumber']))
+        {
+            $fid = $_POST['fid'];
+            $owid = $_SESSION['worker_id'];
+            $owner = $_POST['owner'];
+            $odatetime = $_POST['odatetime'];
+            $ocontact = $_POST['ocontact'];
+            $onumber = $_POST['onumber'];
+            $result = $this->Moa_found_model->update_by_fid($fid, $owid, $owner, $odatetime, $ocontact, $onumber);
+            if ($result > 0) {
+                echo json_encode(array("status" => true, "msg" => "已更新！"));
             } else {
                 echo json_encode(array("status" => true, "msg" => "更新失败！"));
             }
@@ -191,111 +211,10 @@ class Found extends CI_Controller
 
     public function getInformation()
     {
-        // 取所有课室的roomid与room（课室编号）
-        $state = 0;
-        $room_obj_list = $this->Moa_room_model->get_by_state($state);
-
-        for ($i = 0; $i < count($room_obj_list); $i++) {
-            $roomid_list[$i] = $room_obj_list[$i]->roomid;
-            $room_list[$i] = $room_obj_list[$i]->room;
-        }
-
-        $data['roomid_list'] = $roomid_list;
-        $data['room_list'] = $room_list;
-
-        $common_worker = $this->Moa_user_model->get(0);
-
-        for ($i = 0; $i < count($common_worker); $i++) {
-            $uid_list[$i] = $common_worker[$i]->uid;
-            $name_list[$i] = $common_worker[$i]->name;
-            $wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
-        }
-
-        $data['name_list'] = $name_list;
-        $data['wid_list'] = $wid_list;
-
-        $obj = $this->Moa_problem_model->get_unsolve(); /*获取所有未解决的problem的信息*/
-        if ($obj == FALSE) {
-            $data['problem_list'] = array();
-            $data['problemid_list'] = array();
-        } else {
-            for ($i = 0; $i < count($obj); $i++) {
-                $data['problem_list'][$i] = $obj[$i]->description;
-                $data['problemid_list'][$i] = $obj[$i]->pid;
-            }
-        }
-
-        //获取所有值班时段信息
-        $duty = $this->Moa_duty_model->get_all();
-        for ($i = 0; $i < count($duty); $i++) {
-            $dutyid_list[$i] = $duty[$i]->dutyid;
-            $weekday_list[$i] = PublicMethod::translate_weekday($duty[$i]->weekday);
-            $period_list[$i] = PublicMethod::get_duty_duration($duty[$i]->period);
-        }
-        $data['dutyid_list'] = $dutyid_list;
-        $data['weekday_list'] = $weekday_list;
-        $data['period_list'] = $period_list;
-
-        echo json_encode(array("status" => TRUE, "msg" => "获取课室等信息成功", "data" => $data));
-        return;
-    }
-
-    //插入新problem
-    public function insertProblem()
-    {
-        if (isset($_SESSION['user_id'])) {
-            date_default_timezone_set('PRC');
-
-            $founder_wid = date($_POST['founder_wid']);
-            $found_time = $_POST['found_time'];
-            $roomid = $_POST['roomid'];
-            $description = htmlspecialchars($_POST['description']);
-
-            $insert_id = $this->Moa_dutyout_model->insert($founder_wid, $found_time, $roomid, $description);
-            if ($insert_id > 0)
-                echo json_encode(array("status" => TRUE, "msg" => "新建故障信息成功", "insert_id" => $insert_id));
-            else
-                echo json_encode(array("status" => FALSE, "msg" => "新建故障信息失败"));
-
-        } else {
-            // 未登录的用户请先登录
-            echo json_encode(array("status" => FALSE, "msg" => "未登陆"));
-        }
 
     }
 
-    //更新Problem状态
-    public function updateProblem()
-    {
-        if (isset($_SESSION['user_id'])) {
 
-            $pid = $_POST['pid'];
-            $solved_time = $_POST['solved_time'];
-            $solve_wid = $_POST['solve_wid'];
-            $solution = htmlspecialchars($_POST['solution']);
 
-            $affected_rows = $this->Moa_problem_model->update($pid, $solved_time, $solve_wid, $solution);
-            if ($affected_rows > 0)
-                echo json_encode(array("status" => TRUE, "msg" => "更新成功"));
-            else
-                echo json_encode(array("status" => FALSE, "msg" => "更新失败"));
-        } else {
-            // 未登录的用户请先登录
-            echo json_encode(array("status" => FALSE, "msg" => "未登陆"));
-        }
-
-    }
-
-    public function getDutyIdByPeriod()
-    {
-        if (isset($_SESSION['user_id'])) {
-            $weekday = $_POST['weekday'];
-            $period = $_POST['period'];
-            $result = $this->Moa_duty_model->get_by_day_and_period($weekday, $period);
-            echo json_encode(array('status' => true, 'dutyid' => $result->dutyid));
-        } else {
-            echo json_encode(array('status' => false));
-        }
-    }
 
 }

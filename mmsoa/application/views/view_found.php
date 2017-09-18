@@ -140,7 +140,23 @@
                                         <td><?php echo $d_onumber[$i];?></td>
                                         <td>
                                             <div class="btn-group" id="found_btn_group_<?php echo $d_fid[$i];?>">
-
+                                                <?php
+                                                if ($d_state[$i] == 0)
+                                                    echo "<button class='btn btn-primary btn-xs' id='found_btn_'".
+                                                        $d_fid[$i]." onclick='found_by_fid(".$d_fid[$i].")' ".
+                                                        "data-toggle='modal' data-target='#myModal'".
+                                                        ">领取</button>";
+                                                if ($d_fwid[$i] == $_SESSION['worker_id'] ||
+                                                    $d_owid[$i] == $_SESSION['worker_id'] ||
+                                                    $_SESSION['level'] >= 2)
+                                                    echo "<button class='btn btn-warning btn-xs' id='found_btn_'".
+                                                        $d_fid[$i]." onclick='update_by_fid(".$d_fid[$i].")' ".
+                                                        "data-toggle='modal' data-target='#myModal'".
+                                                        ">更新</button>";
+                                                if ($d_fwid[$i] == $_SESSION['worker_id'] || $_SESSION['level'] >= 2)
+                                                    echo "<button class='btn btn-danger btn-xs' id='delete_btn_'".
+                                                        $d_fid[$i]." onclick='delete_by_fid(".$d_fid[$i].")'>删除</button>";
+                                                ?>
                                             </div>
                                         </td>
                                     </tr>

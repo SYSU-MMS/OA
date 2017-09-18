@@ -77,9 +77,9 @@ class Moa_found_model extends CI_Model{
     }
 
     // 登记拾获物品信息
-    public function sign_up_item($fwid, $signuptime, $fdatetime, $fdescription, $fplace, $finder, $fcontact){
+    public function sign_up_item($fwid, $signuptime, $fdatetime, $fdescription, $fplace, $finder, $fcontact, $state = 1){
         if (isset($_SESSION['user_id'])){
-            $sql = "insert into moa_found (fwid, signuptime, fdatetime, fdescription, fplace, finder, fcontact)" .
+            $sql = "insert into moa_found (fwid, signuptime, fdatetime, fdescription, fplace, finder, fcontact, state)" .
                 "values(" .
                 $this->db->escape($fwid) . "," .
                 $this->db->escape($signuptime) . "," .
@@ -87,7 +87,8 @@ class Moa_found_model extends CI_Model{
                 $this->db->escape(htmlspecialchars($fdescription)) . "," .
                 $this->db->escape(htmlspecialchars($fplace)) . "," .
                 $this->db->escape(htmlspecialchars($finder)) . "," .
-                $this->db->escape(htmlspecialchars($fcontact)) . ")";
+                $this->db->escape(htmlspecialchars($fcontact)) . "," .
+                $this->db->escape($state) . ")";
 
             $query = $this->db->query($sql);
             return $this->db->insert_id();

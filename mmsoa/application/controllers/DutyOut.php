@@ -192,7 +192,6 @@ class DutyOut extends CI_Controller
             $dutyid = $_POST['dutyid'];
             $pid = $_POST['problemid'];
             $result = $this->Moa_dutyout_model->add($wid, $pid, $dutyid);
-            //echo "<script>console.log($result);alert();</script>";
             if ($result > 0) {
                 echo json_encode(array("status" => true, "msg" => "添加成功！", "doid" => $result));
             } else {
@@ -212,7 +211,7 @@ class DutyOut extends CI_Controller
             $solve_time = $_POST['solve_time'];
             $solution = htmlspecialchars($_POST['solution']);
             $result = $this->Moa_problem_model->update($pid, $solve_time, $wid, $solution);
-            if (result > 0) {
+            if ($result > 0) {
                 echo json_encode(array("status" => true, "msg" => "已解决！"));
             } else {
                 echo json_encode(array("status" => true, "msg" => "更新失败！"));
