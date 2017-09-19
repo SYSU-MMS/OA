@@ -1,3 +1,13 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: zhong
+ * Date: 2017/9/15
+ * Time: 23:41
+ */
+
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -7,7 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title>MOA-查看和登记出勤</title>
+    <title>MOA-查看和登记失物</title>
     <?php $this->load->view('view_keyword'); ?>
 
     <link href="<?= base_url() . 'assets/images/moa.ico' ?>" rel="shortcut icon">
@@ -49,10 +59,10 @@
                         MOA
                     </li>
                     <li>
-                        工作记录
+                        失物招领
                     </li>
                     <li>
-                        <strong>出勤记录</strong>
+                        <strong>遗失登记</strong>
                     </li>
                 </ol>
             </div>
@@ -145,7 +155,7 @@
                                                 if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
                                                     echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
                                                 } else {
-                                                    echo "<span>已解决</span>";
+                                                    echo "<p>已解决</p>";
                                                 }
                                                 echo "</div>";
                                             }
@@ -178,9 +188,9 @@
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        $("#active-workrecord").addClass("active");
-        $("#active-dutyout").addClass("active");
-        $("#mini").attr("href", "dutyOut#");
+        $("#active-lostandfound").addClass("active");
+        $("#active-lost").addClass("active");
+        $("#mini").attr("href", "Found#");
     });
 </script>
 

@@ -466,3 +466,7 @@ function solve_by_pid(pid) {
         $(selector).chosen(config[selector]);
     }
 }
+
+function toggle_more(){
+
+}

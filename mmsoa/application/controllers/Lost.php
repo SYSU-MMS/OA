@@ -1,17 +1,17 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Jerry
- * Date: 2016/11/17
- * Time: 下午3:58
- * By 钟凌山
+ * User: zhong
+ * Date: 2017/9/15
+ * Time: 23:39
  */
+
 header("Content-type: text/html; charset=utf-8");
 
 require_once('PublicMethod.php');
 
 
-class DutyOut extends CI_Controller
+class Lost extends CI_Controller
 {
 
 
@@ -24,6 +24,7 @@ class DutyOut extends CI_Controller
         $this->load->model('Moa_room_model');
         $this->load->model('Moa_duty_model');
         $this->load->model('Moa_dutyout_model');
+        $this->load->model('Moa_lost_model');
         $this->load->helper(array('form', 'url'));
         $this->load->library('session');
         $this->load->helper('cookie');
@@ -177,7 +178,7 @@ class DutyOut extends CI_Controller
 
             //echo "<script>console.log(" . json_encode($data) . ")</script>";
 
-            $this->load->view('view_duty_out', $data);
+            $this->load->view('view_lost', $data);
 
         } else {
             // 未登录的用户请先登录
@@ -192,6 +193,7 @@ class DutyOut extends CI_Controller
             $dutyid = $_POST['dutyid'];
             $pid = $_POST['problemid'];
             $result = $this->Moa_dutyout_model->add($wid, $pid, $dutyid);
+            //echo "<script>console.log($result);alert();</script>";
             if ($result > 0) {
                 echo json_encode(array("status" => true, "msg" => "添加成功！", "doid" => $result));
             } else {
@@ -211,7 +213,7 @@ class DutyOut extends CI_Controller
             $solve_time = $_POST['solve_time'];
             $solution = htmlspecialchars($_POST['solution']);
             $result = $this->Moa_problem_model->update($pid, $solve_time, $wid, $solution);
-            if ($result > 0) {
+            if (result > 0) {
                 echo json_encode(array("status" => true, "msg" => "已解决！"));
             } else {
                 echo json_encode(array("status" => true, "msg" => "更新失败！"));
@@ -224,7 +226,7 @@ class DutyOut extends CI_Controller
 
     public function delete_dutyout()
     {
-        if (isset($_POST['doid']) && isset($_SESSION['user_id'])) {
+        if (isset($_POST['doid'])) {
             $doid = $_POST['doid'];
             $deleting_record = $this->Moa_dutyout_model->get_by_doid($doid);
             $deleting_record_uid = $this->Moa_worker_model->get_uid_by_wid($deleting_record->wid);
@@ -245,55 +247,53 @@ class DutyOut extends CI_Controller
 
     public function getInformation()
     {
-        if (isset($_SESSION['user_id'])) {
-            // 取所有课室的roomid与room（课室编号）
-            $state = 0;
-            $room_obj_list = $this->Moa_room_model->get_by_state($state);
+        // 取所有课室的roomid与room（课室编号）
+        $state = 0;
+        $room_obj_list = $this->Moa_room_model->get_by_state($state);
 
-            for ($i = 0; $i < count($room_obj_list); $i++) {
-                $roomid_list[$i] = $room_obj_list[$i]->roomid;
-                $room_list[$i] = $room_obj_list[$i]->room;
-            }
-
-            $data['roomid_list'] = $roomid_list;
-            $data['room_list'] = $room_list;
-
-            $common_worker = $this->Moa_user_model->get(0);
-
-            for ($i = 0; $i < count($common_worker); $i++) {
-                $uid_list[$i] = $common_worker[$i]->uid;
-                $name_list[$i] = $common_worker[$i]->name;
-                $wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
-            }
-
-            $data['name_list'] = $name_list;
-            $data['wid_list'] = $wid_list;
-
-            $obj = $this->Moa_problem_model->get_unsolve(); /*获取所有未解决的problem的信息*/
-            if ($obj == FALSE) {
-                $data['problem_list'] = array();
-                $data['problemid_list'] = array();
-            } else {
-                for ($i = 0; $i < count($obj); $i++) {
-                    $data['problem_list'][$i] = $obj[$i]->description;
-                    $data['problemid_list'][$i] = $obj[$i]->pid;
-                }
-            }
-
-            //获取所有值班时段信息
-            $duty = $this->Moa_duty_model->get_all();
-            for ($i = 0; $i < count($duty); $i++) {
-                $dutyid_list[$i] = $duty[$i]->dutyid;
-                $weekday_list[$i] = PublicMethod::translate_weekday($duty[$i]->weekday);
-                $period_list[$i] = PublicMethod::get_duty_duration($duty[$i]->period);
-            }
-            $data['dutyid_list'] = $dutyid_list;
-            $data['weekday_list'] = $weekday_list;
-            $data['period_list'] = $period_list;
-
-            echo json_encode(array("status" => TRUE, "msg" => "获取课室等信息成功", "data" => $data));
-            return;
+        for ($i = 0; $i < count($room_obj_list); $i++) {
+            $roomid_list[$i] = $room_obj_list[$i]->roomid;
+            $room_list[$i] = $room_obj_list[$i]->room;
         }
+
+        $data['roomid_list'] = $roomid_list;
+        $data['room_list'] = $room_list;
+
+        $common_worker = $this->Moa_user_model->get(0);
+
+        for ($i = 0; $i < count($common_worker); $i++) {
+            $uid_list[$i] = $common_worker[$i]->uid;
+            $name_list[$i] = $common_worker[$i]->name;
+            $wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
+        }
+
+        $data['name_list'] = $name_list;
+        $data['wid_list'] = $wid_list;
+
+        $obj = $this->Moa_problem_model->get_unsolve(); /*获取所有未解决的problem的信息*/
+        if ($obj == FALSE) {
+            $data['problem_list'] = array();
+            $data['problemid_list'] = array();
+        } else {
+            for ($i = 0; $i < count($obj); $i++) {
+                $data['problem_list'][$i] = $obj[$i]->description;
+                $data['problemid_list'][$i] = $obj[$i]->pid;
+            }
+        }
+
+        //获取所有值班时段信息
+        $duty = $this->Moa_duty_model->get_all();
+        for ($i = 0; $i < count($duty); $i++) {
+            $dutyid_list[$i] = $duty[$i]->dutyid;
+            $weekday_list[$i] = PublicMethod::translate_weekday($duty[$i]->weekday);
+            $period_list[$i] = PublicMethod::get_duty_duration($duty[$i]->period);
+        }
+        $data['dutyid_list'] = $dutyid_list;
+        $data['weekday_list'] = $weekday_list;
+        $data['period_list'] = $period_list;
+
+        echo json_encode(array("status" => TRUE, "msg" => "获取课室等信息成功", "data" => $data));
+        return;
     }
 
     //插入新problem
