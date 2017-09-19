@@ -142,20 +142,21 @@
                                             <div class="btn-group" id="found_btn_group_<?php echo $d_fid[$i];?>">
                                                 <?php
                                                 if ($d_state[$i] == 0)
-                                                    echo "<button class='btn btn-primary btn-xs' id='found_btn_'".
-                                                        $d_fid[$i]." onclick='found_by_fid(".$d_fid[$i].")' ".
+                                                    echo "<button class='btn btn-primary btn-xs' id='found_btn_".
+                                                        $d_fid[$i]."' onclick='found_by_fid(".$d_fid[$i].")' ".
                                                         "data-toggle='modal' data-target='#myModal'".
                                                         ">领取</button>";
-                                                if ($d_fwid[$i] == $_SESSION['worker_id'] ||
+                                                if (//$d_fwid[$i] == $_SESSION['worker_id'] ||
                                                     $d_owid[$i] == $_SESSION['worker_id'] ||
-                                                    $_SESSION['level'] >= 2)
-                                                    echo "<button class='btn btn-warning btn-xs' id='found_btn_'".
-                                                        $d_fid[$i]." onclick='update_by_fid(".$d_fid[$i].")' ".
+                                                    $_SESSION['level'] >= 2 &&
+                                                    $d_state[$i] == 1)
+                                                    echo "<button class='btn btn-warning btn-xs' id='found_btn_".
+                                                        $d_fid[$i]."' onclick='update_by_fid(".$d_fid[$i].")' ".
                                                         "data-toggle='modal' data-target='#myModal'".
                                                         ">更新</button>";
                                                 if ($d_fwid[$i] == $_SESSION['worker_id'] || $_SESSION['level'] >= 2)
-                                                    echo "<button class='btn btn-danger btn-xs' id='delete_btn_'".
-                                                        $d_fid[$i]." onclick='delete_by_fid(".$d_fid[$i].")'>删除</button>";
+                                                    echo "<button class='btn btn-danger btn-xs' id='delete_btn_".
+                                                        $d_fid[$i]."' onclick='delete_by_fid(".$d_fid[$i].")'>删除</button>";
                                                 ?>
                                             </div>
                                         </td>
@@ -242,7 +243,7 @@
 <script src="<?= base_url() . 'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
 <script src="<?= base_url() . 'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
 <script src="<?= base_url() . 'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-<script src="<?= base_url() . 'assets/js/found.js' ?>"></script>
+<script src="<?= base_url() . 'assets/js/found.js' . '?t=' . time() ?>"></script>
 
 <!-- nav item active -->
 <script>

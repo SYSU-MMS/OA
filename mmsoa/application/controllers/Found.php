@@ -132,6 +132,7 @@ class Found extends CI_Controller
 
     public function signUpItem()
     {
+        date_default_timezone_set('Asia/Shanghai');
         if (isset($_SESSION['user_id']) &&
             //isset($_POST['fwid']) &&
             //isset($_POST['signuptime']) &&
@@ -141,7 +142,7 @@ class Found extends CI_Controller
             isset($_POST['finder']) &&
             isset($_POST['fcontact']))
         {
-            $fwid = $_SESSION['worker_id'];
+            $fwid = $_SESSION['level'] >= 2 ? $_POST['fwid'] : $_SESSION['worker_id'];
             if (isset($_POST['signuptime'])) $signuptime = $_POST['signuptime'];
             else $signuptime = date("Y-m-d H:i:s");
             $fdatetime = $_POST['fdatetime'];
@@ -172,7 +173,7 @@ class Found extends CI_Controller
             isset($_POST['onumber']))
         {
             $fid = $_POST['fid'];
-            $owid = $_SESSION['worker_id'];
+            $owid = $_SESSION['level'] >= 2 ? $_POST['owid'] : $_SESSION['worker_id'];
             $owner = $_POST['owner'];
             $odatetime = $_POST['odatetime'];
             $ocontact = $_POST['ocontact'];
@@ -229,6 +230,14 @@ class Found extends CI_Controller
 
             echo json_encode(array("status" => TRUE, "msg" => "获取助理信息成功", "data" => $data));
             return;
+        }
+    }
+
+    public function getByFid()
+    {
+        if (isset($_SESSION['user_id']) && isset($_POST['fid'])){
+            $res = $this->Moa_found_model->get_by_fid($_POST['fid']);
+            echo json_encode(array("status" => true, "msg" => "Found got", "data" => (array)$res));
         }
     }
 

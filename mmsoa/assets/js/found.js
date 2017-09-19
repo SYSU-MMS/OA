@@ -29,6 +29,13 @@ function getFormatDate(date_in) {
         + hour + ':' + minute + ':' + second;
 }
 
+function not_null(para) {
+    if (para == "" || para == null || para == undefined) {
+        return false;
+    }
+    return true;
+}
+
 function new_record() {
     var initTime = getFormatDate(new Date());
     var worker_options = "";
@@ -123,13 +130,14 @@ function insert_found() {
     var fdescription = $("#fdescription").val();
     var fplace = $("#fplace").val();
     var finder = $("#finder").val();
-    var fcontact = $("#fcontact").val;
-    console.log(fwid, fdatetime, fdescription, fplace, finder, fcontact);
+    var fcontact = $("#fcontact").val();
+    //console.log(fwid, fdatetime, fdescription, fplace, finder, fcontact);
     if (!(not_null(fwid) && not_null(fdatetime) && not_null(fdescription) && not_null(fplace) &&
             not_null(finder) && not_null(fcontact))) {
         alert("请正确填写信息！");
     } else {
         //插入新拾获记录
+        //console.log("ajax");
         $.ajax({
             type: "POST",
             url: "Found/signUpItem",
@@ -153,9 +161,244 @@ function insert_found() {
             },
             error: function () {
                 alert(arguments[1]);
+                //console.log("ajax failed");
             }
         });
     }
+}
+
+function found_by_fid(fid){
+    var initTime = getFormatDate(new Date());
+    var worker_options = "";
+    name_list.forEach(function (item, index) {
+        worker_options = worker_options + "<option value='" + wid_list[index] + "'>" + name_list[index] + "</option>";
+    });
+    //console.log(fid);
+    $("#myModalLabelTitle").text("登记归还信息");
+    $("#modalBody").html(
+        '      <form class="form-horizontal m-t" id="commentForm"> ' +
+        '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">登记助理：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <select id="select_owned_name" name="select_owned_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4"> ' +
+        '                    <option value="">选择助理</option> ' + worker_options +
+        '                  </select> ' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">归还时间：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <input type="text" id="owned_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="拾获时间" value="' + initTime + '" />' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">领取人：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <input type="text" id="owner" name="owner" class="form-control" required="" aria-required="true"></input> ' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">联系方式：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <input type="text" id="ocontact" name="ocontact" class="form-control" required="" aria-required="true"></input> ' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">证件号码：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <input type="text" id="onumber" name="onumber" class="form-control" required="" aria-required="true"></input> ' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
+        '              <div class="col-sm-4 col-sm-offset-3"> ' +
+        '                  <button onclick="found_submit(' + fid + ')" class="btn btn-primary" type="submit">提交</button> ' +
+        '              </div> ' +
+        '          </div> ' +
+        '      </form> '
+    );
+
+    $('#owned_dtp').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 0,
+        forceParse: 1
+    });
+
+    /* Chosen name */
+    var config = {
+        '.chosen-select-name': {
+            // 实现中间字符的模糊查询
+            search_contains: true,
+            no_results_text: "没有找到",
+            disable_search_threshold: 10,
+            width: "200px"
+        }
+    };
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+
+    $('#select_owned_name').val(wid_current);
+    if (user_level >= 2) $('#select_owned_name').prop("disabled", false);
+    else $('#select_owned_name').prop("disabled", true);
+    $('#select_owned_name').trigger("chosen:updated");
+}
+
+function found_submit(fid){
+
+    var owid = parseInt($("#select_owned_name").val());
+    var odatetime = $("#owned_dtp").val();
+    var owner = $("#owner").val();
+    var ocontact = $("#ocontact").val();
+    var onumber = $("#onumber").val();
+    if (!(not_null(owid) && not_null(odatetime) && not_null(fid) &&
+            not_null(owner) && not_null(ocontact) && not_null(onumber))) {
+        alert("请正确填写信息！");
+    } else {
+        //插入新拾获记录
+        console.log("ajax", fid, owid, odatetime, owner, ocontact, onumber);
+        $.ajax({
+            type: "POST",
+            url: "Found/updateByFid",
+            async: false,
+            data: {
+                "fid": fid,
+                "owid": owid,
+                "odatetime": odatetime,
+                "owner": owner,
+                "ocontact": ocontact,
+                "onumber": onumber
+            },
+            success: function (msg) {
+                //console.log("problem msg", msg);
+                var ret = JSON.parse(msg);
+                if (ret['status'] === false) {
+                    alert(ret['msg']);
+                } else {
+                    //fid = ret['fid'];
+                }
+            },
+            error: //function (msg1, msg2, msg3) {
+                function(XMLHttpRequest, textStatus, errorThrown){
+                    alert(arguments[1]);
+                    //console.log(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+                }
+        });
+    }
+}
+
+function update_by_fid(fid){
+
+    var owid, odatetime, owner, ocontact, onumber;
+
+    $.ajax({
+        type: "POST",
+        url: "Found/getByFid",
+        async: false,
+        data: {
+            "fid": fid
+        },
+        success: function(msg){
+            var ret = JSON.parse(msg);
+            if (ret['status'] === false){
+                alert(ret['msg']);
+            }else{
+                owid = ret['data']['owid'];
+                odatetime = ret['data']['odatetime'];
+                owner = ret['data']['owner'];
+                ocontact = ret['data']['ocontact'];
+                onumber = ret['data']['onumber'];
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown){
+            alert(arguments[1]);
+            //console.log(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+        }
+    });
+
+    var worker_options = "";
+    name_list.forEach(function (item, index) {
+        worker_options = worker_options + "<option value='" + wid_list[index] + "'>" + name_list[index] + "</option>";
+    });
+    //console.log(fid);
+    $("#myModalLabelTitle").text("登记归还信息");
+    $("#modalBody").html(
+        '      <form class="form-horizontal m-t" id="commentForm"> ' +
+        '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">登记助理：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <select id="select_owned_name" name="select_owned_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4"> ' +
+        '                    <option value="'+owid+'">选择助理</option> ' + worker_options +
+        '                  </select> ' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">归还时间：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <input type="text" id="owned_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="拾获时间" value="' + odatetime + '" />' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">领取人：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <input type="text" id="owner" name="owner" class="form-control" required="" aria-required="true" value="'+owner+'"/>' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">联系方式：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <input type="text" id="ocontact" name="ocontact" class="form-control" required="" aria-required="true" value="'+ocontact+'">' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
+        '              <label class="col-sm-3 control-label">证件号码：</label> ' +
+        '              <div class="col-sm-8"> ' +
+        '                  <input type="text" id="onumber" name="onumber" class="form-control" required="" aria-required="true" value="'+onumber+'">' +
+        '              </div> ' +
+        '          </div> ' +
+        '          <div class="form-group"> ' +
+        '              <div class="col-sm-4 col-sm-offset-3"> ' +
+        '                  <button onclick="found_submit(' + fid + ')" class="btn btn-primary" type="submit">提交</button> ' +
+        '              </div> ' +
+        '          </div> ' +
+        '      </form> '
+    );
+
+    $('#owned_dtp').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 0,
+        forceParse: 1
+    });
+
+    /* Chosen name */
+    var config = {
+        '.chosen-select-name': {
+            // 实现中间字符的模糊查询
+            search_contains: true,
+            no_results_text: "没有找到",
+            disable_search_threshold: 10,
+            width: "200px"
+        }
+    };
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+
+    $('#select_owned_name').val(wid_current);
+    if (user_level >= 2) $('#select_owned_name').prop("disabled", false);
+    else $('#select_owned_name').prop("disabled", true);
+    $('#select_owned_name').trigger("chosen:updated");
 }
 
 // 获取助理信息
