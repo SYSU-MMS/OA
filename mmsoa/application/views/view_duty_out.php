@@ -145,7 +145,7 @@
                                                 if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
                                                     echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
                                                 } else {
-                                                    echo "<p>已解决</p>";
+                                                    echo "<span>已解决</span>";
                                                 }
                                                 echo "</div>";
                                             }

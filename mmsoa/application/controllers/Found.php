@@ -134,7 +134,7 @@ class Found extends CI_Controller
     {
         if (isset($_SESSION['user_id']) &&
             //isset($_POST['fwid']) &&
-            isset($_POST['signuptime']) &&
+            //isset($_POST['signuptime']) &&
             isset($_POST['fdatetime']) &&
             isset($_POST['fdescription']) &&
             isset($_POST['fplace']) &&
@@ -142,7 +142,8 @@ class Found extends CI_Controller
             isset($_POST['fcontact']))
         {
             $fwid = $_SESSION['worker_id'];
-            $signuptime = $_POST['signuptime'];
+            if (isset($_POST['signuptime'])) $signuptime = $_POST['signuptime'];
+            else $signuptime = date("Y-m-d H:i:s");
             $fdatetime = $_POST['fdatetime'];
             $fdescription = $_POST['fdescription'];
             $fplace = $_POST['fplace'];
@@ -190,7 +191,7 @@ class Found extends CI_Controller
 
     public function delete_dutyout()
     {
-        if (isset($_POST['doid'])) {
+        if (isset($_POST['doid']) &&  isset($_SESSION['user_id'])) {
             $doid = $_POST['doid'];
             $deleting_record = $this->Moa_dutyout_model->get_by_doid($doid);
             $deleting_record_uid = $this->Moa_worker_model->get_uid_by_wid($deleting_record->wid);
@@ -211,7 +212,24 @@ class Found extends CI_Controller
 
     public function getInformation()
     {
+        if (isset($_SESSION['user_id'])) {
+            $common_worker = $this->Moa_user_model->get(0);
+            $uid_list = array();
+            $name_list = array();
+            $wid_list = array();
+            for ($i = 0; $i < count($common_worker); $i++) {
+                $uid_list[$i] = $common_worker[$i]->uid;
+                $name_list[$i] = $common_worker[$i]->name;
+                $wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
+            }
 
+            $data['name_list'] = $name_list;
+            $data['wid_list'] = $wid_list;
+            $data['user_level'] = $_SESSION['level'];
+
+            echo json_encode(array("status" => TRUE, "msg" => "获取助理信息成功", "data" => $data));
+            return;
+        }
     }
 
 
