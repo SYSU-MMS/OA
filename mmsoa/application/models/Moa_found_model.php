@@ -32,7 +32,7 @@ class Moa_found_model extends CI_Model{
             if (!is_numeric($fid)) return 0;
             $query = $this->db->query("select * from moa_found where fid = " . $this->db->escape($fid));
             $result = $query->result();
-            return $result;
+            return $result[0];
         }
         return false;
     }
@@ -59,16 +59,16 @@ class Moa_found_model extends CI_Model{
             if ($fid <= 0) return false;
             $res = $this->get_by_fid($fid);
             // 权限不足则退出
-            if ($res->state > 0 && $res->fwid != $_SESSION['worker_id'] &&
+            if ($res->state > 0 && //$res->fwid != $_SESSION['worker_id'] &&
                 $res->owid != $_SESSION['worker_id'] && $_SESSION['level'] < 2) return false;
 
-            $sql = "update moa_found set (owid, owner, odatetime, ocontact, onumber, state) values(" .
-                $this->db->escape($owid) . "," .
-                $this->db->escape(htmlspecialchars($owner)) . "," .
-                $this->db->escape($odatetime) . "," .
-                $this->db->escape(htmlspecialchars($ocontact)) . "," .
-                $this->db->escape(htmlspecialchars($onumber)) . ", 1)" .
-                "where fid = " . $this->db->escape($fid);
+            $sql = "update moa_found set " .
+                "owid = " . $this->db->escape($owid) . ", " .
+                "owner = " . $this->db->escape(htmlspecialchars($owner)) . ", " .
+                "odatetime = " . $this->db->escape($odatetime) . ", " .
+                "ocontact = " . $this->db->escape(htmlspecialchars($ocontact)) . ", " .
+                "onumber = " . $this->db->escape(htmlspecialchars($onumber)) . ", " .
+                "state = 1 where fid = " . $this->db->escape($fid) . ";";
 
             $query = $this->db->query($sql);
             return $this->db->affected_rows();
@@ -77,9 +77,9 @@ class Moa_found_model extends CI_Model{
     }
 
     // 登记拾获物品信息
-    public function sign_up_item($fwid, $signuptime, $fdatetime, $fdescription, $fplace, $finder, $fcontact, $state = 1){
+    public function sign_up_item($fwid, $signuptime, $fdatetime, $fdescription, $fplace, $finder, $fcontact, $state = 0){
         if (isset($_SESSION['user_id'])){
-            $sql = "insert into moa_found (fwid, signuptime, fdatetime, fdescription, fplace, finder, fcontact, state)" .
+            $sql = "insert into moa_found (`fwid`, `signuptime`, `fdatetime`, `fdescription`, `fplace`, `finder`, `fcontact`, `state`)" .
                 "values(" .
                 $this->db->escape($fwid) . "," .
                 $this->db->escape($signuptime) . "," .
