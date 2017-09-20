@@ -54,27 +54,27 @@ class Moa_found_model extends CI_Model{
 
     // 登记领取人信息
     public function update_by_fid($fid = 0, $owid, $owner, $odatetime, $ocontact, $onumber){
-        if (isset($_SESSION['user_id'])){
-            // fid不合法则退出
-            if ($fid <= 0) return false;
-            $res = $this->get_by_fid($fid);
-            // 权限不足则退出
-            if ($res->state > 0 && //$res->fwid != $_SESSION['worker_id'] &&
-                $res->owid != $_SESSION['worker_id'] && $_SESSION['level'] < 2) return false;
+    if (isset($_SESSION['user_id'])){
+        // fid不合法则退出
+        if ($fid <= 0) return false;
+        $res = $this->get_by_fid($fid);
+        // 权限不足则退出
+        if ($res->state > 0 && //$res->fwid != $_SESSION['worker_id'] &&
+            $res->owid != $_SESSION['worker_id'] && $_SESSION['level'] < 2) return false;
 
-            $sql = "update moa_found set " .
-                "owid = " . $this->db->escape($owid) . ", " .
-                "owner = " . $this->db->escape(htmlspecialchars($owner)) . ", " .
-                "odatetime = " . $this->db->escape($odatetime) . ", " .
-                "ocontact = " . $this->db->escape(htmlspecialchars($ocontact)) . ", " .
-                "onumber = " . $this->db->escape(htmlspecialchars($onumber)) . ", " .
-                "state = 1 where fid = " . $this->db->escape($fid) . ";";
+        $sql = "update moa_found set " .
+            "owid = " . $this->db->escape($owid) . ", " .
+            "owner = " . $this->db->escape(htmlspecialchars($owner)) . ", " .
+            "odatetime = " . $this->db->escape($odatetime) . ", " .
+            "ocontact = " . $this->db->escape(htmlspecialchars($ocontact)) . ", " .
+            "onumber = " . $this->db->escape(htmlspecialchars($onumber)) . ", " .
+            "state = 1 where fid = " . $this->db->escape($fid) . ";";
 
-            $query = $this->db->query($sql);
-            return $this->db->affected_rows();
-        }
-        return false;
+        $query = $this->db->query($sql);
+        return $this->db->affected_rows();
     }
+    return false;
+}
 
     // 登记拾获物品信息
     public function sign_up_item($fwid, $signuptime, $fdatetime, $fdescription, $fplace, $finder, $fcontact, $state = 0){

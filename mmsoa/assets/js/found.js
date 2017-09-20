@@ -417,9 +417,10 @@ function delete_by_fid(fid){
             },
             error: function(XMLHttpRequest, textStatus, errorThrown){
                 alert(arguments[1]);
-                console.log(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+                //console.log(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
             }
         });
+        $("#found_content_"+fid).remove();
     }
 }
 
