@@ -46,7 +46,7 @@ class Moa_found_model extends CI_Model{
             // 非自己创建的记录或管理级别不够则退出
             if ($res->fwid != $_SESSION['worker_id'] && $_SESSION['level'] < 2) return false;
             $query = $this->db->query("update moa_found set state = 2 where fid = " . $this->db->escape($fid));
-            $result = $query->result();
+            $result = $this->db->affected_rows();
             return $result;
         }
         return false;

@@ -401,6 +401,28 @@ function update_by_fid(fid){
     $('#select_owned_name').trigger("chosen:updated");
 }
 
+function delete_by_fid(fid){
+    if (confirm("您确定要删除编号为 "+fid+" 的物品记录吗？")){
+        $.ajax({
+            type: "POST",
+            url: "Found/deleteByFid",
+            async: false,
+            data: {
+                "fid": fid
+            },
+            success: function (msg) {
+                var ret = JSON.parse(msg);
+                if (ret['status'] != false) alert("删除成功！");
+                else alert("删除失败！");
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert(arguments[1]);
+                console.log(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+            }
+        });
+    }
+}
+
 // 获取助理信息
 $.ajax({
     type: "GET",
