@@ -190,24 +190,21 @@ class Found extends CI_Controller
     }
 
 
-    public function delete_dutyout()
+    public function deleteByFid()
     {
-        if (isset($_POST['doid']) &&  isset($_SESSION['user_id'])) {
-            $doid = $_POST['doid'];
-            $deleting_record = $this->Moa_dutyout_model->get_by_doid($doid);
-            $deleting_record_uid = $this->Moa_worker_model->get_uid_by_wid($deleting_record->wid);
-            $current_uid = $_SESSION['user_id'];
-            $current_level = $this->Moa_user_model->get($current_uid)->level;
-            if ($deleting_record_uid == $current_uid || $current_level >= 2) {
-                $state = $this->Moa_dutyout_model->delete_by_doid($doid);
-                if ($state == true) {
-                    echo json_encode(array("status" => true, "msg" => "已删除！"));
-                } else {
-                    echo json_encode(array("status" => false, "msg" => "删除失败！"));
-                }
-            } else {
-                echo json_encode(array("status" => false, "msg" => "删除失败！"));
+        $ret = false;
+        if (isset($_SESSION['user_id']) &&
+            isset($_POST['fid']))
+        {
+            $res = $this->Moa_found_model->get_by_fid($_POST['fid']);
+            if ($_SESSION['worker_id'] == $res->fwid || $_SESSION['level'] >= 2){
+                $ret = $this->Moa_found_model->delete_by_fid($_POST['fid']);
             }
+        }
+        if ($ret == false){
+            echo json_encode(array("status" => false, "msg" => ""));
+        }else{
+            echo json_encode(array("status" => true, "msg" => ""));
         }
     }
 
