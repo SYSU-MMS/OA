@@ -401,13 +401,13 @@ Class PublicMethod extends CI_Controller
         $duty_duration = '';
         switch ($period) {
             case 1:
-                $duty_duration = '07:30~10:30';
+                $duty_duration = '07:30~10:00';
                 break;
             case 2:
-                $duty_duration = '10:30~12:30';
+                $duty_duration = '10:00~12:30';
                 break;
             case 3:
-                $duty_duration = '12:30~14:00';
+                $duty_duration = '12:30~14:30';
                 break;
             case 4:
                 $duty_duration = '14:00~16:00';
@@ -449,15 +449,15 @@ Class PublicMethod extends CI_Controller
         if ($weekday >= 1 && $weekday <= 5) {
             $duty_starts = array();
             $duty_starts[] = strtotime("07:30");
-            $duty_starts[] = strtotime("10:30");
+            $duty_starts[] = strtotime("10:00");
             $duty_starts[] = strtotime("12:30");
             $duty_starts[] = strtotime("14:00");
             $duty_starts[] = strtotime("16:00");
             $duty_starts[] = strtotime("18:00");
             $duty_ends = array();
-            $duty_ends[] = strtotime("10:30");
+            $duty_ends[] = strtotime("10:00");
             $duty_ends[] = strtotime("12:30");
-            $duty_ends[] = strtotime("14:00");
+            $duty_ends[] = strtotime("14:30");
             $duty_ends[] = strtotime("16:00");
             $duty_ends[] = strtotime("18:00");
             $duty_ends[] = strtotime("22:00");
@@ -523,27 +523,24 @@ Class PublicMethod extends CI_Controller
      */
     public static function get_daily_classrooms()
     {
-        $daily_classrooms = array('A101,A102,A103,A104,A105',
-            'A201,A202,A203,A301,A302',
-            'A204,A207,B303,B304,A306',
-            'A401,A402,A403,A404,A405',
-            'A501,A502,A503,A504,A505',
-            'B101,B102,B103,B104,B201,B202',
-            'B203,B204,B205,B301,B302',
-            'B401,B402,B403,B501,B502',
-            'C101,C102,C103,C104,C105',
-            'C202,C203,C204,C205,C206',
-            'C201,C301,C302,C303,C304',
-            'C305,C401,C402,C403,C404',
-            'B503,C501,C502,C503,C504',
-            'D101,D102,D103,D104,D205',
-            'D201,D202,D203,D204,E201',
-            'D301,D302,D303,D304,D401',
-            'D402,D403,D501,D502,D503',
-            'E101,E103,E104,E105,E205',
-            'E202,E203,E204,E302,E303',
-            'E304,E305,E403,E404,E405',
-            'E402,E502,E503,E504,E505');
+        $daily_classrooms = array('A101,A102,A103,A104,A105,B101',
+            'A201,A202,A203,A204,A207,B205',
+            'A301,A302,A401,A402,A403,A404',
+            'A405,A501,A502,A503,A504,A505',
+            'B102,B103,B104,B202,B203,B204',
+            'A306,B201,B301,B302,B303,B304',
+            'B401,B402,B403,B501,B502,B503',
+            'C101,C102,C103,C104,C105,C205',
+            'C202,C203,C204,C301,C302,C303',
+            'C304,C305,C401,C402,C403,C404',
+            'C501,C502,C503,C504,D501,D502',
+            'D101,D102,D103,D104,D204,C206',
+            'C201,D201,D202,D203,D301,D302',
+            'E305,D303,D304,D401,D402,D403',
+            'E101,E103,E104,E105,E205,D205',
+            'E201,E202,E203,E204,E302,E303',
+            'E304,E402,E403,E404,E405',
+            'E502,E503,E504,E505,D503');
         return $daily_classrooms;
     }
 
@@ -552,27 +549,24 @@ Class PublicMethod extends CI_Controller
      */
     public static function get_weekly_classrooms()
     {
-        $weekly_classrooms = array('A101,A102', 'A103,A104,A105',
-            'A201,A202,A203', 'A301,A302',
-            'A204,A207', 'B303,B304,A306',
-            'A401,A402', 'A403,A404,A405',
-            'A501,A502', 'A503,A504,A505',
-            'B101,B102,B103', 'B104,B201,B202',
-            'B203,B204,B205', 'B301,B302',
-            'B401,B402,B403', 'B501,B502',
-            'C101,C102', 'C103,C104,C105',
-            'C202,C203', 'C204,C205,C206',
-            'C201,C301', 'C302,C303,C304',
-            'C305,C404', 'C401,C402,C403',
-            'B503,C504', 'C501,C502,C503',
-            'D101,D102,D103', 'D104,D205',
-            'D201,E201', 'D202,D203,D204',
-            'D301,D401', 'D302,D303,D304',
-            'D402,D403', 'D501,D502,D503',
-            'E101,E103,E104', 'E105,E205',
-            'E202,E203,E204', 'E302,E303',
-            'E304,E305', 'E403,E404,E405',
-            'E402,E502', 'E503,E504,E505');
+        $weekly_classrooms = array('A101,A102,A103', 'A104,A105,B101',
+            'A204,A207,B205', 'A201,A202,A203',
+            'A301,A302,A401', 'A402,A403,A404',
+            'A501,A502,A503', 'A405,A504,A505',
+            'B102,B103,B104', 'B202,B203,B204',
+            'B201,B301,B302', 'A306,B303,B304',
+            'B401,B402,B403', 'B501,B502,B503',
+            'C101,C102,C103', 'C104,C105,C205',
+            'C202,C203,C204', 'C301,C302,C303',
+            'C401,C402,C403', 'C304,C305,C404',
+            'C501,C502,C503', 'C504,D501,D502',
+            'D101,D102,D103', 'D104,D204,C206',
+            'D201,D202,D203', 'C201,D301,D302',
+            'E305,D303,D304', 'D401,D402,D403',
+            'E101,E103,E104', 'E105,E205,D205',
+            'E202,E203,E204', 'E201,E302,E303',
+            'E304,E405', 'E402,E403,E404',
+            'E502,E503', 'E504,E505,D503');
         return $weekly_classrooms;
     }
 
