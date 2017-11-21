@@ -1,3 +1,12 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: zhong
+ * Date: 2017/9/14
+ * Time: 2:00
+ */
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -7,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title>MOA-查看和登记出勤</title>
+    <title>MOA-查看和登记失物</title>
     <?php $this->load->view('view_keyword'); ?>
 
     <link href="<?= base_url() . 'assets/images/moa.ico' ?>" rel="shortcut icon">
@@ -49,10 +58,10 @@
                         MOA
                     </li>
                     <li>
-                        工作记录
+                        失物招领
                     </li>
                     <li>
-                        <strong>出勤记录</strong>
+                        <strong>遗失登记</strong>
                     </li>
                 </ol>
             </div>
@@ -65,9 +74,8 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>查看和登记出勤</h5>
-                            <div class="btn_group"
-                                 style="margin-right:15px;margin-left:auto;width:50px;text-align: right;">
+                            <h5>查看和登记遗失物品</h5>
+                            <div class="btn-group pull-right">
                                 <button class="btn btn-primary btn-xs" id="new_record_btn" onclick="new_record()"
                                         data-toggle="modal" data-target="#myModal">新增记录
                                 </button>
@@ -75,84 +83,58 @@
                         </div>
                         <div class="ibox-content">
 
-                            <table id="dutyout_table"
+                            <table id="lost_table"
                                    class="table table-striped table-bordered table-hover users-dataTable">
                                 <thead>
                                 <tr>
-                                    <th>序号</th>
-                                    <th>课室</th>
-                                    <th>问题</th>
-                                    <th>值班时段</th>
-                                    <th>登记时间</th>
-                                    <th>出勤人</th>
-                                    <th>解决时间</th>
-                                    <th>解决人</th>
-                                    <th>解决方法</th>
-                                    <th>操作</th>
+                                    <th>序号</th>       <!--  1  $d_lid-->
+                                    <th>登记助理</th>   <!--  2  $d_lworkername-->
+                                    <th>遗失时间</th>   <!--  3  $d_lost_{date, weekday_translate, time}-->
+                                    <th>物品描述</th>   <!--  4  $d_ldescription-->
+                                    <th>地点</th>       <!--  5  $d_lplace-->
+                                    <th>登记时间</th>   <!--  6  $d_signup_{...}-->
+                                    <th>遗失人</th>     <!--  7  $d_loser-->
+                                    <th>联系方式</th>   <!--  8  $d_lcontact-->
+                                    <th>状态</th>
+                                    <th>操作</th>       <!-- 9 -->
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php for ($i = 0; $i < count($d_doid); $i++) { ?>
-                                    <tr class="duty_content" id="duty_content_<?php echo $d_doid[$i]; ?>">
-                                        <td><?php echo $d_doid[$i]; ?></td>
-                                        <td><?php echo $d_room[$i]; ?></td>
-                                        <td><?php echo $d_description[$i]; ?></td>
-                                        <td><?php echo "星期" . $d_weekdaytranslate[$i] . "&nbsp;" . $d_periodtime[$i]; ?></td>
-                                        <td><?php echo $d_outtime[$i]; ?></td>
-                                        <td><?php echo $d_name[$i]; ?></td>
+                                <?php for ($i = 0; $i < count($d_lid); $i++){?>
+                                    <tr class="lost_content" id="lost_content_<?php echo $d_lid[$i];?>">
+                                        <td><?php echo $d_lid[$i];?></td>
+                                        <td><?php echo $d_lworkername[$i];?></td>
                                         <td>
-                                            <?php
-                                            if ($d_solvetime[$i] != false) {
-                                                echo $d_solvetime[$i];
-                                            } else {
-                                                echo "<span style=\"color:red;\">待解决</span>";
-                                            }
-                                            ?>
+                                            <?php echo $d_lost_date[$i] . "&nbsp;";?>
+                                            <?php //echo "星期" . $d_found_weekday_translate[$i] . "&nbsp;";?>
+                                            <?php echo $d_lost_time[$i];?>
                                         </td>
+                                        <td><?php echo $d_ldescription[$i];?></td>
+                                        <td><?php echo $d_lplace[$i];?></td>
                                         <td>
-                                            <?php
-                                            if ($d_solvename[$i] != false) {
-                                                echo $d_solvename[$i];
-                                            } else {
-                                                echo "&nbsp;";
-                                            }
-                                            ?>
+                                            <?php echo $d_signup_date[$i] . "&nbsp;";?>
+                                            <?php //echo "星期" . $d_signup_weekday_translate[$i] . "&nbsp;";?>
+                                            <?php echo $d_signup_time[$i];?>
                                         </td>
+                                        <td><?php echo $d_loser[$i];?></td>
+                                        <td><?php echo $d_lcontact[$i];?></td>
+                                        <td><span><?php echo $d_state[$i]==1?"已找到":"未找到";  ?></span></td>
                                         <td>
-                                            <?php
-                                            if ($d_solution[$i] != false) {
-                                                echo $d_solution[$i];
-                                            } else {
-                                                echo "&nbsp;";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php
-                                            if ($d_solvetime[$i] == false) {
-                                                echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
-                                                echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_" .
-                                                    $d_doid[$i] . "' onclick='solve_by_pid(" . $d_problemid[$i] . ")'" .
-                                                    " data-toggle='modal' data-target='#myModal'>解决</button>";
-                                                if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
-                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
-                                                    //echo var_dump($_SESSION['user_id'], $d_uid[$i]);
-                                                }
-                                                echo "</div>";
-                                            } else {
-                                                echo "<div class='btn-group' id='duty_btn_group_" . $d_doid[$i] . "'>";
-                                                //echo "<button class='btn btn-primary btn-xs' id='duty_btn_solve_".$d_doid[$i]."'>解决</button>";
-                                                if ($_SESSION['user_id'] == $d_uid[$i] || $_SESSION['level'] >= 2) {
-                                                    echo "<button class='btn btn-danger btn-xs' id='duty_btn_delete_" . $d_doid[$i] . "' onclick='delete_by_doid(" . $d_doid[$i] . ")'>删除</button>";
-                                                } else {
-                                                    echo "<span>已解决</span>";
-                                                }
-                                                echo "</div>";
-                                            }
-                                            ?>
+                                            <div class="btn-group" id="lost_btn_group_<?php echo $d_lid[$i];?>">
+                                                <?php
+                                                if ($d_state[$i] == 0)
+                                                    echo "<button class='btn btn-primary btn-xs' id='lost_btn_".
+                                                        $d_lid[$i]."' onclick='found_by_lid(".$d_lid[$i].")' ".
+                                                        "data-toggle='modal' data-target='#myModal'".
+                                                        ">找到</button>";
+                                                if ($d_lwid[$i] == $_SESSION['worker_id'] || $_SESSION['level'] >= 2)
+                                                    echo "<button class='btn btn-danger btn-xs' id='delete_btn_".
+                                                        $d_lid[$i]."' onclick='delete_by_lid(".$d_lid[$i].")'>删除</button>";
+                                                ?>
+                                            </div>
                                         </td>
                                     </tr>
-                                <?php } ?>
+                                <?php }?>
                                 </tbody>
                             </table>
                         </div>
@@ -173,14 +155,14 @@
 <script src="<?= base_url() . 'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
 <script src="<?= base_url() . 'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
 <script src="<?= base_url() . 'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-<script src="<?= base_url() . 'assets/js/dutyout.js' ?>"></script>
+<script src="<?= base_url() . 'assets/js/lost.js' . '?t=' . time() ?>"></script>
 
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        $("#active-workrecord").addClass("active");
-        $("#active-dutyout").addClass("active");
-        $("#mini").attr("href", "dutyOut#");
+        $("#active-lostandfound").addClass("active");
+        $("#active-lost").addClass("active");
+        $("#mini").attr("href", "Lost#");
     });
 </script>
 
@@ -222,7 +204,7 @@
     $(document).ready(function () {
 
         $('.users-dataTable').dataTable({
-            "aaSorting": [[6, "desc"]]
+            "aaSorting": [[8, "desc"]],
         });
 
         /* Calendar */

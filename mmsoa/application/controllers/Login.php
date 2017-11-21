@@ -51,8 +51,11 @@ Class Login extends CI_Controller {
 				$uid = $this->Moa_user_model->get_uid($username, $password);
 				$_SESSION['user_id'] = $uid;
 				$_SESSION['username'] = $username;
-				set_cookie('user_id', $uid, time() + (60 * 60 * 24 * 30));        // expires in 30 days
-				set_cookie('username', $username, time() + (60 * 60 * 24 * 30));  // expires in 30 days
+				$expire_time = time() + (60 * 60 * 24 * 30); // expires in 30 days
+                $expire_time = (int)$expire_time;
+                //var_dump($expire_time);
+				setcookie('user_id', $uid, $expire_time);
+				setcookie('username', $username, $expire_time);
 				$success = "登录成功";
 				
 				// 获取头像、姓名与用户级别，存入session会话
@@ -65,7 +68,8 @@ Class Login extends CI_Controller {
 				if (isset($_SESSION['user_url'])) {
 					// Save the url needed to be jumped
 					// eg. 从"/MOA/mmsoa/index.php/Backend/dailycheck"中截取"Backend/dailycheck"
-					$url = substr($_SESSION['user_url'], 20);
+					//$url = substr($_SESSION['user_url'], 20);
+                    $url = "Homepage";
 					echo json_encode(array("status" => TRUE, "msg" => $success, "url" => $url));
 					return;
 				} else {

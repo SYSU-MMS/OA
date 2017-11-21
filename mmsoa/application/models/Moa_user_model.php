@@ -23,7 +23,7 @@ class Moa_user_model extends CI_Model {
 	 * 用id取用户信息
 	 * @param id - 用户id
 	 */
-	public function get($id) {
+	public function get($id = 0) {
 	    //if ($id<=0) return false;
 		if (isset($id) && $id > 0) {
 			$this->db->where(array('uid'=>$id));

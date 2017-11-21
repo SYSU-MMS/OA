@@ -17,7 +17,7 @@ socket.on("new notice", function(data) {
 
 var getNowUser = function() {
     chaturl = baseurl + 'index.php/Chat/getNowUser';
-    console.log("getNowUser");
+    //console.log("getNowUser");
     $.ajax({
       type: 'get',
       url: '/index.php/Chat/getNowUser',
