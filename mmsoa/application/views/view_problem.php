@@ -190,6 +190,7 @@
 
             // dataTable
             $('.users-dataTable').dataTable({
+                "aaSorting": [[5, "desc"]],
                 "iDisplayLength": 10
             });
 
