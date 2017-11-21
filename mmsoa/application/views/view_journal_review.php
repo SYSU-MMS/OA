@@ -157,7 +157,10 @@
     <script>
         $(document).ready(function () {
            
-        	$('.users-dataTable').dataTable();
+        	$('.users-dataTable').dataTable({
+                "aaSorting": [[5, "desc"]],
+                "iDisplayLength": 20
+            });
 
             /* Calendar */
             $('#calendar_date .input-group.date').datepicker({
