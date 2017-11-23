@@ -223,9 +223,10 @@
                 max: moment().startOf("day").add(22, "hours").format("X"),
                 from: +moment().subtract(2, "hours").format("X"),
                 to: +moment().format("X"),
+                step: 1800,
                 type: "double",
                 keyboard: true,
-                keyboard_step: 0.1,
+                keyboard_step: 1,
                 grid: true,
                 grid_num: 29,
                 prettify: function (num) {
