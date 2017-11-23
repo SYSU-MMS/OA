@@ -158,7 +158,7 @@
         $(document).ready(function () {
            
         	$('.users-dataTable').dataTable({
-                "aaSorting": [[5, "desc"]],
+                "aaSorting": [[4, "desc"]],
                 "iDisplayLength": 20
             });
 

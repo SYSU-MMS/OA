@@ -293,6 +293,7 @@
 
             // dataTable
         	$('.users-dataTable').dataTable({
+                "aaSorting": [[0, "desc"]],
         		"iDisplayLength": 25
             });
 

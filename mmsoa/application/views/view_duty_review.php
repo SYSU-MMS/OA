@@ -158,7 +158,9 @@
     <script>
         $(document).ready(function () {
            
-        	$('.users-dataTable').dataTable();
+        	$('.users-dataTable').dataTable({
+                "aaSorting": [[0, "desc"]]
+            });
 
             /* Calendar */
             $('#calendar_date .input-group.date').datepicker({
