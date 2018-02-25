@@ -68,6 +68,19 @@ Class PublicMethod extends CI_Controller
     }
 
     /**
+     * 计算指定年份之前经过的天数，比如第1年之前过了0天，第2年之前过了365天
+     * @param $year
+     * @return int
+     */
+    public static function get_length_before_year($year)
+    {
+        if($year <= 0)
+            return 0;
+        else
+            return ((int)(($year - 1) / 4) - (int)(($year - 1) / 100) + (int)(($year - 1) / 400) + ($year - 1) * 365);
+    }
+
+    /**
      *  计算当前周数
      * @param timestamp_from 開始時間 'YYYY-MM-DD HH:II:SS'
      * @param $timestamp_to 結束時間 'YYYY-MM-DD HH:II:SS'
@@ -84,8 +97,8 @@ Class PublicMethod extends CI_Controller
         $date_to['month'] = intval(substr($timestamp_to, 5, 2));
         $date_to['day'] = intval(substr($timestamp_to, 8, 2));
 
-        $len_form = $date_from['day'];
-        $len_to = $date_to['day'];
+        $len_form = $date_from['day'] + self::get_length_before_year($date_from['year']);
+        $len_to = $date_to['day'] + self::get_length_before_year($date_from['year']);
 
         if (($date_from['year'] % 4 == 0 && $date_from['year'] % 100 != 0) || $date_from['year'] % 400 == 0) {
             $dayofmonth[2] += 1;
