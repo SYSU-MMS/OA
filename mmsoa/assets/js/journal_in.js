@@ -7,25 +7,7 @@ var editors = [];
 $(document).ready(function () {
 	var name_list = ["morning", "noon", "evening", "best", "bad", "summary"];
     for(var i = 0; i < 6; i++) {
-        editors[i] = new window.wangEditor('#text_' + name_list[i]);
-        editors[i].customConfig.menus = [
-            'head',  // 标题
-            'bold',  // 粗体
-            'italic',  // 斜体
-            'underline',  // 下划线
-            'strikeThrough',  // 删除线
-            'foreColor',  // 文字颜色
-            'backColor',  // 背景颜色
-            'link',  // 插入链接
-            'list',  // 列表
-            'justify',  // 对齐方式
-            'quote',  // 引用
-            'table',  // 表格
-            'code',  // 插入代码
-            'undo',  // 撤销
-            'redo'  // 重复
-        ];
-        editors[i].create();
+        editors[i] = window.CKEDITOR.replace('text_' + name_list[i]);
     }
 });
 
@@ -40,7 +22,7 @@ $("#submit_journal").click(function() {
 	
 	var report_list = [];
     for(var i = 0; i < 6; i++) {
-        report_list[i] = editors[i].txt.html();
+        report_list[i] = editors[i].getData();
     }
 	//var i = 0;
 
@@ -85,7 +67,7 @@ $("#submit_journal").click(function() {
 				$("#group_B").iCheck('disable');
 				$('.chosen-select').prop('disabled', true).trigger("chosen:updated");
                 for(var i = 0; i < 6; i++) {
-                    editors[i].$textElem.attr('contenteditable', false);
+                    editors[i].setReadOnly(true);
                 }
 
 				//$("#text_morning").attr("disabled", true);
