@@ -6,7 +6,6 @@ var editor;
 
 $(document).ready(function () {
 	$("#submit_notice").attr("disabled", true);
-    var E = window.wangEditor;
     editor =  window.CKEDITOR.replace('text_content');
 });
 
