@@ -19,8 +19,6 @@
     <link href="<?=base_url().'assets/css/plugins/simditor/simditor.css' ?>" rel="stylesheet">
     
     <link href="<?=base_url().'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
-
-    <link href="<?=base_url().'assets/css/plugins/wangEditor/wangEditor.css' ?>" rel="stylesheet">
         
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/plugins/summernote/summernote.css' ?>" rel="stylesheet">
@@ -185,9 +183,9 @@
     <script src="<?=base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-    <script src="<?=base_url().'assets/js/plugins/wangEditor/wangEditor.js' ?>"></script>
     <script src="<?=base_url().'assets/js/journal_in.js' ?>"></script>
-    
+    <script src="<?=base_url().'assets/plugins/ckeditor/ckeditor.js' ?>"></script>
+
     <!-- nav item active -->
 	<script>
 		$(document).ready(function () {

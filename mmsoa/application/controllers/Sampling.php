@@ -149,8 +149,14 @@ Class Sampling extends CI_Controller
                     $ret_list[$index]["timestamp"] = $tmp_stamp[0]->timestamp;
                     $term = $this->Moa_school_term_model->get_term($tmp_stamp[0]->timestamp);
 
-                    $school_year = $term[0]->schoolyear;
-                    $school_term = $term[0]->schoolterm;
+                    if ($term != null) {
+                        $school_year = $term[0]->schoolyear;
+                        $school_term = $term[0]->schoolterm;
+                    }
+                    else {
+                        $school_year = '?学年';
+                        $school_term = '?学期';
+                    }
                     $week = $tmp_stamp[0]->week;
 
                     $ret_list[$index]["title"] = $school_year . $school_term .
