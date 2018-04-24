@@ -76,6 +76,10 @@ Class DutyRegister extends CI_Controller
                 $title = $_POST['title'];
             }
 
+            $note = "";
+            if(isset($_POST['note']))
+                $note = $_POST['note'];
+
             $drid = $this->Moa_dutyregister_model->add_table(
                 array(
                     'title' => $title,
@@ -84,7 +88,8 @@ Class DutyRegister extends CI_Controller
                     'regstarttimestamp' => $_POST['register_start'],
                     'regendtimestamp' => $_POST['register_stop'],
                     'dutystartpoint' => $_POST['duty_start'],
-                    'dutyendpoint' => $_POST['duty_end']
+                    'dutyendpoint' => $_POST['duty_end'],
+                    'note' => $note
                     )
             );
 
@@ -182,6 +187,7 @@ Class DutyRegister extends CI_Controller
                 $table['regmaxperuser']  = $table_obj->regmaxperuser;
                 $table['regstarttimestamp']  = $table_obj->regstarttimestamp;
                 $table['regendtimestamp']  = $table_obj->regendtimestamp;
+                $table['note'] = ($table_obj->note != null ? $table_obj->note : "");
                 $table['inregtime'] = PublicMethod::inTimePeriod(
                     date("Y-m-d H:i:s"),
                     $table_obj->regstarttimestamp,
@@ -273,6 +279,7 @@ Class DutyRegister extends CI_Controller
                 $table['regstarttimestamp']  = $table_obj->regstarttimestamp;
                 $table['regendtimestamp']  = $table_obj->regendtimestamp;
                 $table['inregtime'] = $intime;
+                $table['note'] = ($table_obj->note != null ? $table_obj->note : "");
                 $table['dutyperiod'] = array();
 
                 $len_period = count($start_point);
