@@ -64,7 +64,7 @@ Class DutyRegister extends CI_Controller
             if(!(
                 isset($_POST['register_start']) && isset($_POST['register_stop']) &&
                 isset($_POST['duty_start']) && isset($_POST['duty_end']) &&
-                isset($_POST['reg_max'])
+                isset($_POST['reg_max']) && isset($_POST['reg_max_per_user'])
             ))
             {
                 echo json_encode(array("status" => FALSE, "msg" => "提交的参数不完整"));
@@ -80,6 +80,7 @@ Class DutyRegister extends CI_Controller
                 array(
                     'title' => $title,
                     'regmax' => $_POST['reg_max'],
+                    'regmaxperuser' => $_POST['reg_max_per_user'],
                     'regstarttimestamp' => $_POST['register_start'],
                     'regendtimestamp' => $_POST['register_stop'],
                     'dutystartpoint' => $_POST['duty_start'],
@@ -143,6 +144,7 @@ Class DutyRegister extends CI_Controller
                 $table_list[$i]['regstarttimestamp']  = $objs[$i]->regstarttimestamp;
                 $table_list[$i]['regendtimestamp']  = $objs[$i]->regendtimestamp;
                 $table_list[$i]['regmax']  = $objs[$i]->regmax;
+                $table_list[$i]['regmaxperuser']  = $objs[$i]->regmaxperuser;
             }
             echo json_encode(array("status" => TRUE, "msg" => "获取报名表列表成功", "table_list" => $table_list));
             return;
@@ -177,6 +179,7 @@ Class DutyRegister extends CI_Controller
                 $table['title'] = $table_obj->title;
                 $table['createtime'] = $table_obj->createtime;
                 $table['regmax'] = $table_obj->regmax;
+                $table['regmaxperuser']  = $table_obj->regmaxperuser;
                 $table['regstarttimestamp']  = $table_obj->regstarttimestamp;
                 $table['regendtimestamp']  = $table_obj->regendtimestamp;
                 $table['inregtime'] = PublicMethod::inTimePeriod(
@@ -266,6 +269,7 @@ Class DutyRegister extends CI_Controller
                 $table['title'] = $table_obj->title;
                 $table['createtime'] = $table_obj->createtime;
                 $table['regmax'] = $reg_max;
+                $table['regmaxperuser']  = $table_obj->regmaxperuser;
                 $table['regstarttimestamp']  = $table_obj->regstarttimestamp;
                 $table['regendtimestamp']  = $table_obj->regendtimestamp;
                 $table['inregtime'] = $intime;
@@ -307,7 +311,7 @@ Class DutyRegister extends CI_Controller
                 }
 
                 //勾上还可以报名的地方
-                if($intime)
+                if($intime && $len_detail < $table_obj->regmaxperuser)
                 {
                     for ($i = 0; $i < $len_period; ++$i)
                     {
@@ -351,7 +355,9 @@ Class DutyRegister extends CI_Controller
                 $uid = $_SESSION['user_id'];
                 $drid = $_POST['drid'];
 
-                $table_obj = $this->Moa_dutyregister_model->get_table($drid);
+                $table_with_detail = $this->Moa_dutyregister_model->get_table_and_detail_with_uid($drid, $uid);
+                $table_obj = $table_with_detail[0];
+                $len_detail = count($table_with_detail[1]);
                 if ($table_obj == false)
                 {
                     echo json_encode(array("status" => FALSE, "msg" => "没有此报名表信息"));
@@ -367,6 +373,11 @@ Class DutyRegister extends CI_Controller
                 if(!$intime)
                 {
                     echo json_encode(array("status" => FALSE, "msg" => "已错过报名时间"));
+                    return;
+                }
+                if($len_detail >= $table_obj->regmaxperuser)
+                {
+                    echo json_encode(array("status" => FALSE, "msg" => "已超过报名限制"));
                     return;
                 }
 
