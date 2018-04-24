@@ -197,6 +197,25 @@ class Moa_worker_model extends CI_Model {
 	}
 
     /**
+     * 取指定uid对应的worker
+     * @param uid - 用户id
+     * @return obj|bool
+     */
+    public function get_by_uid($uid) {
+        if (isset($uid)) {
+            $this->db->where(array('uid'=>$uid));
+            $dataarr = $this->db->get('MOA_Worker')->result();
+            if (is_null($dataarr[0])) {
+                return false;
+            }
+            return $dataarr[0];
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
 	 * 取指定wid对应的uid
 	 * @param wid - 工号wid
 	 * @return 用户号uid
