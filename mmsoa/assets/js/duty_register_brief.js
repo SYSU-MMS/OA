@@ -72,6 +72,9 @@ function load_tables() {
                         ret['table_list'][i]['regmax'] +
                         "</td>" +
                         "<td>" +
+                        ret['table_list'][i]['regmaxperuser'] +
+                        "</td>" +
+                        "<td>" +
                         "<a class='btn btn-xs btn-outline btn-primary' href='DutyRegister/Register/" + ret['table_list'][i]['drid'] + "' style='margin-left: 10px;'><span>报名</span></a>" +
                         "<a class='btn btn-xs btn-outline btn-primary' href='DutyRegister/Detail/" + ret['table_list'][i]['drid'] + "' style='margin-left: 10px;'><span>报名情况</span></a>" +
                         "<button type='button' class='btn btn-xs btn-outline btn-danger manager' value='" + ret['table_list'][i]['drid'] + "' onclick='delete_table(this.value)' style='margin-left: 10px;'><i class='fa fa-close'></i><span> 移除</span></button>" +
@@ -104,6 +107,7 @@ function add_table() {
         data: {
             title: $.trim($("#table_title").val()),
             reg_max: $("#reg_max").val(),
+            reg_max_per_user: $("#reg_max_per_user").val(),
             register_start: $.trim($("#reg_start").val()),
             register_stop: $.trim($("#reg_end").val()) + " 23:59:59",
             duty_start: start_point,

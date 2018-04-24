@@ -86,6 +86,7 @@
                                     <th>报名结束时间</th>
                                     <th>标题</th>
                                     <th>每个时段的报名限额</th>
+                                    <th>每人报名限额</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -127,6 +128,20 @@
                                 <option value="4">4人/时间段</option>
                                 <option value="5">5人/时间段</option>
                                 <option value="6">6人/时间段</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">每人限额</label>
+                        <div class="col-sm-10">
+                            <select id="reg_max_per_user" class="form-control" name="reg_max">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
                             </select>
                         </div>
                     </div>
