@@ -180,7 +180,7 @@ Class DutyRegister extends CI_Controller
                 $table['regstarttimestamp']  = $table_obj->regstarttimestamp;
                 $table['regendtimestamp']  = $table_obj->regendtimestamp;
                 $table['inregtime'] = PublicMethod::inTimePeriod(
-                    date("Y-m-d"),
+                    date("Y-m-d H:i:s"),
                     $table_obj->regstarttimestamp,
                     $table_obj->regendtimestamp
                 );
@@ -252,7 +252,7 @@ Class DutyRegister extends CI_Controller
                 $table_obj = $table_with_detail[0];
                 $reg_max = $table_obj->regmax;
                 $intime = PublicMethod::inTimePeriod(
-                    date("Y-m-d"),
+                    date("Y-m-d H:i:s"),
                     $table_obj->regstarttimestamp,
                     $table_obj->regendtimestamp
                 );
@@ -360,7 +360,7 @@ Class DutyRegister extends CI_Controller
 
                 // ------------- check -----------------
                 $intime = PublicMethod::inTimePeriod(
-                    date("Y-m-d"),
+                    date("Y-m-d H:i:s"),
                     $table_obj->regstarttimestamp,
                     $table_obj->regendtimestamp
                 );
@@ -431,7 +431,7 @@ Class DutyRegister extends CI_Controller
 
                 // ------------- check -----------------
                 $intime = PublicMethod::inTimePeriod(
-                    date("Y-m-d"),
+                    date("Y-m-d H:i:s"),
                     $table_obj->regstarttimestamp,
                     $table_obj->regendtimestamp
                 );
