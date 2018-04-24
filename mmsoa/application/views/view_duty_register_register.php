@@ -128,6 +128,32 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title" id="table_title">
+                            <h5>说明</h5>
+                        </div>
+                        <div class="ibox-content" style="padding-bottom: 20px;">
+                            <div class="row">
+                                <div class="col-sm-3 banned">
+                                    <i class="fa fa-2x fa-ban"></i> ：未报名且不可报名
+                                </div>
+                                <div class="col-sm-3 can-be-register">
+                                    <i class="fa fa-2x fa-check-circle"></i> ：可报名
+                                </div>
+                                <div class="col-sm-3 can-be-canceled">
+                                    <i class="fa fa-2x fa-check-circle"></i> ：已报名
+                                </div>
+                                <div class="col-sm-3 cannot-be-canceled">
+                                    <i class="fa fa-2x fa-check-circle"></i> ：已报名且报名截止
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <?php $this->load->view('view_footer'); ?>
