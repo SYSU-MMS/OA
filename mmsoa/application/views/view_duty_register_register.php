@@ -101,6 +101,12 @@
                             <h5>值班报名</h5>
                         </div>
                         <div class="ibox-content">
+                            <div class="row" style="margin-bottom: 15px; color: orangered">
+                                <div class="col-sm-12" id="reg_note">
+                                    备注
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <div class="row" style="margin-bottom: -15px;">
                                     <div class="col-sm-12">
@@ -108,13 +114,13 @@
                                             <thead>
                                             <tr>
                                                 <th scope="col" abbr="per">时段</th>
-                                                <th scope="col" abbr="mon">周一</th>
-                                                <th scope="col" abbr="tue">周二</th>
-                                                <th scope="col" abbr="wed">周三</th>
-                                                <th scope="col" abbr="thu">周四</th>
+                                                <th scope="col" abbr="mon">周日</th>
+                                                <th scope="col" abbr="tue">周一</th>
+                                                <th scope="col" abbr="wed">周二</th>
+                                                <th scope="col" abbr="thu">周三</th>
+                                                <th scope="col" abbr="fri">周四</th>
                                                 <th scope="col" abbr="fri">周五</th>
                                                 <th scope="col" abbr="fri">周六</th>
-                                                <th scope="col" abbr="fri">周日</th>
                                             </tr>
                                             </thead>
                                             <tbody id="register-table">

@@ -202,6 +202,13 @@
                     <div class="hr-line-dashed"></div>
 
                     <div class="form-group">
+                        <label class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-10">
+                            <textarea style="height: 100px; !important;" id="reg_note" class="input-sm form-control" name="note" placeholder="备注"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-5">
                             <a class="btn btn-primary" onclick="add_table();">提交</a>
                         </div>

@@ -111,7 +111,8 @@ function add_table() {
             register_start: $.trim($("#reg_start").val()),
             register_stop: $.trim($("#reg_end").val()) + " 23:59:59",
             duty_start: start_point,
-            duty_end: end_point
+            duty_end: end_point,
+            note: $("#reg_note").val()
         },
         success: function (msg) {
             ret = JSON.parse(msg);

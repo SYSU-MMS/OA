@@ -9,6 +9,7 @@ function load_table(drid) {
         success: function (msg) {
             ret = JSON.parse(msg);
             if (ret['status'] === true) {
+                $('#reg_note').html(ret['table']['note']);
                 $('#table_title').html('<h5>' + ret['table']['title'] + ' —— 每个时段的报名限额：' + ret['table']['regmax'] +'，每人报名限额: '+ ret['table']['regmaxperuser']+'</h5>');
                 var table_tmp = "";
                 for(var i = 0; i < ret['table']['dutyperiod'].length; ++i) {
