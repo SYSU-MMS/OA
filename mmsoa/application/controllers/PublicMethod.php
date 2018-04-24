@@ -63,7 +63,7 @@ Class PublicMethod extends CI_Controller
         date_default_timezone_set('PRC');
         $cur_week = date('W') - 34;
         // 周日为一周的第一天
-        //$cur_week = date("w") == 0 ? $cur_week + 1 : $cur_week;
+        $cur_week = date("w") == 0 ? $cur_week + 1 : $cur_week;
         return $cur_week;
     }
 
@@ -273,7 +273,7 @@ Class PublicMethod extends CI_Controller
     /**
      * 将组别的数据库标识解析为英文
      * @param group_num 组别的数据库数字标号
-     * @return 组别对应的英文
+     * @return string 组别对应的英文
      */
     public static function translate_group($group_num)
     {
@@ -613,6 +613,19 @@ Class PublicMethod extends CI_Controller
         $Days   = round(($d1 - $d2) / 3600 / 24);
 
         return $Days;
+    }
+
+    /**
+     * 判断某个时间点是否在指定时间段之内
+     * @param $targetDatetimeString
+     * @param $startDatetimeString
+     * @param $endDatetimeString
+     * @return bool
+     */
+    public static function inTimePeriod($targetDatetimeString, $startDatetimeString, $endDatetimeString)
+    {
+        $target = strtotime($targetDatetimeString);
+        return strtotime($startDatetimeString) < $target && strtotime($endDatetimeString) > $target;
     }
 
 }

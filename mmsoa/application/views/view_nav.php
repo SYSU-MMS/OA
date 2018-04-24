@@ -7,9 +7,14 @@
     	}
   	}
 ?>
+<style>
+    #moa_nav::-webkit-scrollbar {
+        width: 0;
+    }
+</style>
 
 <!-- 左侧导航栏  -->
-<nav class="navbar-default navbar-static-side nav-position" role="navigation">
+<nav id="moa_nav" class="navbar-default navbar-static-side nav-position" role="navigation" style="overflow-y: auto; max-height: 100vh;">
     <div class="sidebar-collapse">
 		<ul class="nav" id="side-menu">
 			<li class="nav-header">
@@ -227,6 +232,15 @@
 			                '</li>';
 			        	}
 			        ?>
+                    <?php
+                        if ($_SESSION['level'] >= 3) { echo
+                            '<li id="active-dutyRegister"><a href="'. site_url('DutyRegister') . '">特殊值班报名/管理</a>' .
+                            '</li>';
+                        } else { echo
+                            '<li id="active-dutyRegister"><a href="'. site_url('DutyRegister') . '">特殊值班报名</a>' .
+                            '</li>';
+                        }
+                    ?>
 		            <li id="active-dutySchedule"><a href="<?php echo site_url('DutyArrange/dutySchedule'); ?>">值班表</a>
                     <li id="active-freeTable"><a href="<?php echo site_url('DutyArrange/freeTable'); ?>">空余时间表</a>
 		            </li>
