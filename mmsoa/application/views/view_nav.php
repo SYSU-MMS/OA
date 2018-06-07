@@ -128,7 +128,7 @@
 			<?php
 			if ($_SESSION['level'] == 1 || $_SESSION['level'] == 6) { echo
 				'<li id="active-sampling">' .
-					'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 抽查日志</span> <span class="fa arrow"></span></a>' .
+					'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 常检抽查日志</span> <span class="fa arrow"></span></a>' .
 					'<ul class="nav nav-second-level">' .
 						'<li id="active-getTableList"><a href="'. site_url('Sampling') . '">管理</a>' .
 						'</li>' .
@@ -140,7 +140,7 @@
 				'</li>';
 			} else {	echo
 				'<li id="active-sampling">' .
-					'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 抽查日志</span> <span class="fa arrow"></span></a>' .
+					'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 常检抽查日志</span> <span class="fa arrow"></span></a>' .
 					'<ul class="nav nav-second-level">' .
 						'<li id="active-getTableList"><a href="'. site_url('Sampling') . '">查看</a>' .
 						'</li>' .
@@ -153,10 +153,10 @@
 
 			}
 			?>
-			<?php
+<?php
 			if ($_SESSION['level'] > 1 && $_SESSION['level'] < 6) { echo
 				'<li id="active-sampling">' .
-					'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 抽查日志</span> <span class="fa arrow"></span></a>' .
+					'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 常检抽查日志</span> <span class="fa arrow"></span></a>' .
 					'<ul class="nav nav-second-level">' .
 						'<li id="active-getTableList"><a href="'. site_url('Sampling/getTableList') . '">查看</a>' .
 						'</li>' .
@@ -164,6 +164,36 @@
 				'</li>';
 			}
 			?>
+			<?php
+if ($_SESSION['level'] == 1 || $_SESSION['level'] == 6) {
+	echo
+	'<li id="active-sampling-weekly">' .
+	'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 周检抽查日志</span> <span class="fa arrow"></span></a>' .
+	'<ul class="nav nav-second-level">' .
+	'<li id="active-getTableList-weekly"><a href="' . site_url('SamplingWeekly') . '">管理</a>' .
+	'</li>' .
+	'<li id="active-getMonthRank-weekly"><a href="' . site_url('SamplingWeekly/monthSamplingRank') . '">月排行榜</a>' .
+	'</li>' .
+	'<li id="active-getAllRank-weekly"><a href="' . site_url('SamplingWeekly/allSamplingRank') . '">总排行榜</a>' .
+		'</li>' .
+		'</ul>' .
+		'</li>';
+} else {
+	echo
+	'<li id="active-sampling-weekly">' .
+	'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 周检抽查日志</span> <span class="fa arrow"></span></a>' .
+	'<ul class="nav nav-second-level">' .
+	'<li id="active-getTableList-weekly"><a href="' . site_url('SamplingWeekly') . '">查看</a>' .
+	'</li>' .
+	'<li id="active-getMonthRank-weekly"><a href="' . site_url('SamplingWeekly/monthSamplingRank') . '">月排行榜</a>' .
+	'</li>' .
+	'<li id="active-getAllRank-weekly"><a href="' . site_url('SamplingWeekly/allSamplingRank') . '">总排行榜</a>' .
+		'</li>' .
+		'</ul>' .
+		'</li>';
+
+}
+?>
 		    <?php
 		        if ($_SESSION['level'] >= 3) { echo
 		            '<li id="active-userManagement">' .

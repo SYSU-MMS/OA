@@ -7,39 +7,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title>MOA-抽查记录</title>
-    <?php $this->load->view('view_keyword'); ?>
+    <title>MOA-常检抽查记录</title>
+    <?php $this->load->view('view_keyword');?>
 
-    <link href="<?= base_url().'assets/images/moa.ico' ?>" rel="shortcut icon">
+    <link href="<?=base_url() . 'assets/images/moa.ico'?>" rel="shortcut icon">
 
-    <link href="<?= base_url().'assets/css/bootstrap.min.css?v=3.4.0' ?>" rel="stylesheet">
-    <link href="<?= base_url().'assets/font-awesome/css/font-awesome.min.css' ?>" rel="stylesheet">
+    <link href="<?=base_url() . 'assets/css/bootstrap.min.css?v=3.4.0'?>" rel="stylesheet">
+    <link href="<?=base_url() . 'assets/font-awesome/css/font-awesome.min.css'?>" rel="stylesheet">
 
-    <link href="<?= base_url().'assets/css/animate.css' ?>" rel="stylesheet">
-    <link href="<?= base_url().'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
+    <link href="<?=base_url() . 'assets/css/animate.css'?>" rel="stylesheet">
+    <link href="<?=base_url() . 'assets/css/style.css?v=2.2.0'?>" rel="stylesheet">
 
     <!-- Data Tables -->
-    <link href="<?=base_url().'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
+    <link href="<?=base_url() . 'assets/css/plugins/dataTables/dataTables.bootstrap.css'?>" rel="stylesheet">
 
 </head>
 <style>
     <?php
-        $is_manager = ($_SESSION['level'] == 1 || $_SESSION['level'] == 6);
-        if (!$is_manager) {
-            echo '.manager { display: none !important; }';
-            echo "@media (min-width: 768px) { .manager { display: none !important; } }";
-        } else {
-            echo '.viewer { display: none !important; }';
-        }
-    ?>
+$is_manager = ($_SESSION['level'] == 1 || $_SESSION['level'] == 6);
+if (!$is_manager) {
+	echo '.manager { display: none !important; }';
+	echo "@media (min-width: 768px) { .manager { display: none !important; } }";
+} else {
+	echo '.viewer { display: none !important; }';
+}
+?>
 </style>
 
 <body onload="startTime()">
 <div id="wrapper">
-    <?php $this->load->view('view_nav'); ?>
+    <?php $this->load->view('view_nav');?>
 
     <div id="page-wrapper" class="gray-bg dashbard-1">
-        <?php $this->load->view('view_header'); ?>
+        <?php $this->load->view('view_header');?>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
                 <h2 id="time"></h2>
@@ -48,11 +48,14 @@
                         MOA
                     </li>
                     <li>
-                        抽查记录
+                        常检抽查记录
                     </li>
                     <?php
-                    if ($is_manager) echo "<li><strong>管理</strong></li>";
-                    ?>
+if ($is_manager) {
+	echo "<li><strong>管理</strong></li>";
+}
+
+?>
                 </ol>
             </div>
         </div>
@@ -61,7 +64,7 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title" id="title-box">
-                           <h5><?php echo $title ?>抽查记录</h5>
+                           <h5><?php echo $title ?>常检抽查记录</h5>
                             <div class="ibox-tools">
                                 <a class="btn btn-primary btn-xs manager" onclick="post_table(0)">提交更改</a>
                             </div>
@@ -87,22 +90,22 @@
                 </div>
             </div>
         </div>
-        <a id="timestring" style="display: none;"><?php echo $data?></a>
-        <a id="baseurl" style="display: none;"><?php echo base_url()?></a>
-        <?php $this->load->view('view_footer'); ?>
+        <a id="timestring" style="display: none;"><?php echo $data ?></a>
+        <a id="baseurl" style="display: none;"><?php echo base_url() ?></a>
+        <?php $this->load->view('view_footer');?>
     </div>
 </div>
 
 <!-- Mainly scripts -->
-<script src="<?= base_url().'assets/js/jquery-2.1.1.min.js' ?>"></script>
-<script src="<?= base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
-<script src="<?= base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
-<script src="<?= base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-<script src="<?= base_url().'assets/js/sample_table.js' ?>"></script>
+<script src="<?=base_url() . 'assets/js/jquery-2.1.1.min.js'?>"></script>
+<script src="<?=base_url() . 'assets/js/bootstrap.min.js?v=3.4.0'?>"></script>
+<script src="<?=base_url() . 'assets/js/plugins/metisMenu/jquery.metisMenu.js'?>"></script>
+<script src="<?=base_url() . 'assets/js/plugins/slimscroll/jquery.slimscroll.min.js'?>"></script>
+<script src="<?=base_url() . 'assets/js/sample_table.js'?>"></script>
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        var mini = "<?php echo $data?>";
+        var mini = "<?php echo $data ?>";
         $("#mini").attr("href", mini + "#");
         $("#active-sampling").addClass("active");
         $("#active-getTableList").addClass("active");
@@ -110,18 +113,18 @@
 </script>
 
 <!-- Custom and plugin javascript -->
-<script src="<?= base_url().'assets/js/hplus.js?v=2.2.0' ?>"></script>
-<script src="<?= base_url().'assets/js/plugins/pace/pace.min.js' ?>"></script>
+<script src="<?=base_url() . 'assets/js/hplus.js?v=2.2.0'?>"></script>
+<script src="<?=base_url() . 'assets/js/plugins/pace/pace.min.js'?>"></script>
 
 <!-- Dynamic date -->
-<script src="<?= base_url().'assets/js/dynamicDate.js' ?>"></script>
+<script src="<?=base_url() . 'assets/js/dynamicDate.js'?>"></script>
 
 <!-- Chosen -->
-<script src="<?= base_url().'assets/js/plugins/chosen/chosen.jquery.js' ?>"></script>
+<script src="<?=base_url() . 'assets/js/plugins/chosen/chosen.jquery.js'?>"></script>
 
 <!-- Data Tables -->
-<script src="<?= base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
-<script src="<?= base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
+<script src="<?=base_url() . 'assets/js/plugins/dataTables/jquery.dataTables.js'?>"></script>
+<script src="<?=base_url() . 'assets/js/plugins/dataTables/dataTables.bootstrap.js'?>"></script>
 
 
 

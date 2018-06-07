@@ -261,7 +261,22 @@ class Moa_user_model extends CI_Model {
 			return false;
 		}
 	}
-
+    /**
+     * 给指定用户修改周检抽查优秀次数
+     * @param uid - 用户id
+     * @param contrib - 修改量
+     * @return 该用户最新的总周检抽查优秀次数
+     */
+    public function update_weekly_perfect($uid, $contrib = 1) {
+		if (isset($uid) and isset($contrib)) {
+			$sb = 'UPDATE MOA_User SET totalwPerfect = totalwPerfect + ' . $contrib . ' WHERE uid = ' . $uid;
+			$affected_lines = $this->db->query($sb);
+			return $affected_lines;
+		}
+		else {
+			return false;
+		}
+	}
 	/**
 	 * 给指定用户修改总旷工次数
 	 * @param uid - 用户id
@@ -312,7 +327,22 @@ class Moa_user_model extends CI_Model {
 			return false;
 		}
 	}
-
+    /**
+	 * 给指定用户修改总周检被抽查次数
+	 * @param uid - 用户id
+	 * @param contrib - 修改量
+	 * @return 该用户最新的总周检被抽查次数
+	 */
+	public function update_weekly_check($uid, $contrib = 1) {
+		if (isset($uid) and isset($contrib)) {
+			$sb = 'UPDATE MOA_User SET totalwCheck = totalwCheck + ' . $contrib . ' WHERE uid = ' . $uid;
+			$affected_lines = $this->db->query($sb);
+			return $affected_lines;
+		}
+		else {
+			return false;
+		}
+	}
 
 	/**
 	 * 登录验证

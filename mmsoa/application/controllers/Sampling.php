@@ -219,12 +219,6 @@ Class Sampling extends CI_Controller
                     $target_obj = $this->Moa_user_model->get($sample_object_list[$i]->target_uid);
                     $ret[$i]['target_name'] = $target_obj->name;
 
-                    if($sample_object_list[$i]->target_time_point == NULL) {
-                        $ret[$i]['target_time_point'] = NULL;
-                    } else {
-                        $ret[$i]['target_time_point'] = $sample_object_list[$i]->target_time_point;
-                    }
-
                     if($sample_object_list[$i]->target_room == NULL) {
                         $ret[$i]['target_room'] = NULL;
                     } else {
@@ -401,15 +395,19 @@ Class Sampling extends CI_Controller
                 $record['state'] = $_POST['state'];
                 if($_POST['state'] != 1 && $old_record[0]->state == 1) {
                     $this->Moa_worker_model->update_perfect($wid, -1);
+                    $this->Moa_user_model->update_perfect($old_record[0]->target_uid, -1);
                 } else if($_POST['state'] == 1 && $old_record[0]->state != 1) {
                     $this->Moa_worker_model->update_perfect($wid, 1);
+                    $this->Moa_user_model->update_perfect($old_record[0]->target_uid, 1);
                 }
             } else if ($_POST['state'] == 0 && $old_record[0]->state == 1) {
                 $this->Moa_worker_model->update_perfect($wid, -1);
+                $this->Moa_user_model->update_perfect($old_record[0]->target_uid, 1);
             }
 
             if($old_record[0]->operator_uid == NULL) {
                 $this->Moa_worker_model->update_check($wid, 1);
+                $this->Moa_user_model->update_check($old_record[0]->target_uid, 1);
             }
 
             $record['problem'] = $_POST['problem'];
