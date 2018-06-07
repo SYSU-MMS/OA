@@ -314,8 +314,11 @@ Class SamplingWeekly extends CI_Controller {
 					if ($old_table[$i]->state == 1) {
 						$this->Moa_worker_model->update_weekly_check($wid, -1);
 						$this->Moa_worker_model->update_weekly_perfect($wid, -1);
+                        $this->Moa_user_model->update_weekly_check($old_table[$i]->target_uid, -1);
+                        $this->Moa_user_model->update_weekly_perfect($old_table[$i]->target_uid, -1);
 					} else if ($old_table[$i]->operator_uid != NULL) {
 						$this->Moa_worker_model->update_weekly_check($wid, -1);
+                        $this->Moa_user_model->update_weekly_check($old_table[$i]->target_uid, -1);
 					}
 				}
 
