@@ -46,10 +46,10 @@
                             MOA
                         </li>
                         <li>
-                        	抽查日志
+                        	常检抽查日志
                         </li>
                         <li>
-                            <strong>抽查情况统计 - <?php echo $title; ?></strong>
+                            <strong>常检抽查情况统计 - <?php echo $title; ?></strong>
                         </li>	
                     </ol>
                 </div>

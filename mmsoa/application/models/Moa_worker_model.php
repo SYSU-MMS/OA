@@ -332,7 +332,22 @@ class Moa_worker_model extends CI_Model {
 			return false;
 		}
 	}
-
+    /**
+     *  给指定助理修改周检抽查优秀次数
+     *  @param wid - 助理id
+     *  @param contrib - 修改量
+     *  @return 该助理最新的本月周检抽查优秀次数
+     */
+    public function update_weekly_perfect($wid, $contrib) {
+        if (isset($wid) and isset($contrib)) {
+			$sb = 'UPDATE MOA_Worker SET wperfect = wperfect + ' . $contrib . ' WHERE wid = ' . $wid;
+			$affected_lines = $this->db->query($sb);
+			return $affected_lines;
+		}
+		else {
+			return false;
+		}
+    }
 	/**
 	 * 给指定助理修改本月旷工次数
 	 * @param wid - 助理id
@@ -383,7 +398,22 @@ class Moa_worker_model extends CI_Model {
 			return false;
 		}
 	}
-
+    /**
+     * 给指定助理修改本月周检被抽查次数
+     * @param wid - 助理id
+     * @param contrib - 修改量
+     * @return 该助理最新的本月周检被抽查次数
+     */
+    public function update_weekly_check($wid, $contrib = 1) {
+        if (isset($wid) and isset($contrib)) {
+			$sb = 'UPDATE MOA_Worker SET wchecks = wchecks + ' . $contrib . ' WHERE wid = ' . $wid;
+			$affected_lines = $this->db->query($sb);
+			return $affected_lines;
+		}
+		else {
+			return false;
+		}
+    }
 	/**
 	 * 给指定助理修改本月被扣除工时
 	 * @param wid - 助理id

@@ -48,7 +48,7 @@
                         MOA
                     </li>
                     <li>
-                        常检抽查记录
+                        周检抽查记录
                     </li>
                     <?php
                     if ($is_manager) echo "<li><strong>管理</strong></li>";
@@ -60,47 +60,25 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>所有常检抽查记录表</h5>
+                        <div class="ibox-title" id="title-box">
+                           <h5><?php echo $title ?>周检抽查记录</h5>
                             <div class="ibox-tools">
-                                <a class="btn btn-primary btn-xs manager" onclick="new_last_week()">新建上周常检抽查记录表</a>
-                                <a class="btn btn-primary btn-xs manager" onclick="new_this_week()">新建本周常检抽查记录表</a>
-                                <a class="btn btn-primary btn-xs manager" onclick="new_n_week()">新建第n周常检抽查记录表</a>
-                                <a class="btn btn-primary btn-xs manager" ">n = <select id="n_week" style="color: black;">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
-                                        <option value="15">15</option>
-                                        <option value="16">16</option>
-                                        <option value="17">17</option>
-                                        <option value="18">18</option>
-                                        <option value="19">19</option>
-                                        <option value="20">20</option>
-                                    </select></a>
+                                <a class="btn btn-primary btn-xs manager" onclick="post_table(0)">提交更改</a>
                             </div>
                         </div>
                         <div id="table-contianer" class="ibox-content" style="padding-bottom: 20px;">
-                           <table class="table table-striped table-bordered table-hover users-dataTable">
+                            <table class="table table-striped table-bordered table-hover users-dataTable">
                                 <thead>
                                 <tr>
                                     <th>序号</th>
-                                    <th>创建时间</th>
-                                    <th>常检抽查记录标题</th>
-                                    <th>操作</th>
+                                    <th>助理</th>
+                                    <th>抽查教室</th>
+                                    <th>抽查者</th>
+                                    <th>评分</th>
+                                    <th>出现问题</th>
                                 </tr>
                                 </thead>
-                                <tbody id="sample-list">
+                                <tbody id="sample-list-weekly">
                                 </tbody>
                             </table>
                         </div>
@@ -108,6 +86,8 @@
                 </div>
             </div>
         </div>
+        <a id="timestring" style="display: none;"><?php echo $data?></a>
+        <a id="baseurl" style="display: none;"><?php echo base_url()?></a>
         <?php $this->load->view('view_footer'); ?>
     </div>
 </div>
@@ -117,14 +97,14 @@
 <script src="<?= base_url().'assets/js/bootstrap.min.js?v=3.4.0' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
 <script src="<?= base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
-<script src="<?= base_url().'assets/js/sample_list.js' ?>"></script>
-
+<script src="<?= base_url().'assets/js/sampling_weekly_table.js' ?>"></script>
 <!-- nav item active -->
 <script>
     $(document).ready(function () {
-        $("#active-sampling").addClass("active");
-        $("#active-getTableList").addClass("active");
-        $("#mini").attr("href", "Sampling#");
+        var mini = "<?php echo $data?>";
+        $("#mini").attr("href", mini + "#");
+        $("#active-sampling-weekly").addClass("active");
+        $("#active-getTableList-weekly").addClass("active");
     });
 </script>
 
@@ -143,8 +123,11 @@
 <script src="<?= base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
 
 
+
+
 <script>
     $(document).ready(function () {
+
         /* Calendar */
         $('#calendar_date .input-group.date').datepicker({
             todayBtn: "linked",
