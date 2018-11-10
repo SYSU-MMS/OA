@@ -449,6 +449,53 @@ Class Journal extends CI_Controller {
 						// 字符串转时间格式
 						$timestamp = date('Y-m-d H:i:s', strtotime($time));
 
+						$record = $this->Moa_abnormal_model->get_record_by_id($id);
+						$ori_wid = $record[0]->actual_wid;
+						$ori_dealing = $record[0]->dealing;
+						if ($actual_wid != $ori_wid) {
+							$worker_obj_ori = $this->Moa_worker_model->get($ori_wid);
+							$worker_obj = $this->Moa_worker_model->get($actual_wid);
+							$abnormal_count_0_ori = $worker_obj_ori->abnormal_count_0;
+							$abnormal_count_1_ori = $worker_obj_ori->abnormal_count_1;
+							$abnormal_count_0 = $worker_obj->abnormal_count_0;
+							$abnormal_count_1 = $worker_obj->abnormal_count_1;
+							if ($ori_dealing == $dealing) {
+								if ($ori_dealing == 0) {
+									$abnormal_count_0_ori--;
+									$abnormal_count_0++;
+								}
+								else {
+									$abnormal_count_1_ori--;
+									$abnormal_count_1++;
+								}
+							}
+							else {
+								if ($ori_dealing == 0) {
+									$abnormal_count_0_ori--;
+									$abnormal_count_1++;
+								}
+								else {
+									$abnormal_count_1_ori--;
+									$abnormal_count_0++;
+								}
+							}
+							$this->Moa_worker_model->update($ori_wid, array("abnormal_count_0" => $abnormal_count_0_ori, "abnormal_count_1" => $abnormal_count_1_ori));
+							$this->Moa_worker_model->update($actual_wid, array("abnormal_count_0" => $abnormal_count_0, "abnormal_count_1" => $abnormal_count_1));
+						}
+						else if ($ori_dealing != $dealing) {
+							$worker_obj = $this->Moa_worker_model->get($actual_wid);
+							$abnormal_count_0 = $worker_obj->abnormal_count_0;
+							$abnormal_count_1 = $worker_obj->abnormal_count_1;
+							if ($ori_dealing == 0) {
+								$abnormal_count_0--;
+								$abnormal_count_1++;
+							}
+							else {
+								$abnormal_count_1--;
+								$abnormal_count_0++;
+							}
+							$this->Moa_worker_model->update($actual_wid, array("abnormal_count_0" => $abnormal_count_0, "abnormal_count_1" => $abnormal_count_1));
+						}
 						$in_id = $this->Moa_abnormal_model->update_record_by_id($id, array(
 								'timestamp' => $timestamp,
 								'actual_wid' => $actual_wid,
