@@ -137,7 +137,7 @@ var get_record_by_id = function(id, level) {
 			"id": id
 		},
 		success: function(msg) {
-			//console.log(msg);
+			console.log(msg);
 			ret = JSON.parse(msg);
 			if (ret['status'] === false) {
 				alert(ret['msg']);
