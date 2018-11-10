@@ -87,7 +87,7 @@
   <script>
     $(document).ready(function () {
         $("#active-journal").addClass("active");
-        $("#active-active-abnormal-statistics").addClass("active");
+        $("#active-abnormal-statistics").addClass("active");
         $("#mini").attr("href", "AbnormalStatistics#");
     });
   </script>
