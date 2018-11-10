@@ -450,6 +450,7 @@ class Moa_worker_model extends CI_Model {
 	 */
 	public function get_abnormal_counts_by_type($type) {
 		if (isset($type)) {
+			$this->db->where('level', 0);
 			if ($type == 0)
 				$this->db->order_by('abnormal_count_0', 'DESC');
 			else
