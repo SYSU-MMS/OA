@@ -234,6 +234,7 @@ class Moa_worker_model extends CI_Model {
 		}
 	}
 
+
 	/**
 	 * 返回某用户的level
 	 * @param wid - 助理wid

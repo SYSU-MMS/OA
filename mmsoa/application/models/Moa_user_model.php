@@ -409,6 +409,23 @@ class Moa_user_model extends CI_Model {
 		return FALSE;
 	}
 
+	/**
+	 * 获取对应uid的state
+     * @param uid - userid
+	 * @return state
+	 */
+	public function get_state_by_uid($uid) {
+		if (isset($uid)) {
+			$this->db->where(array('uid'=>$uid));
+			$res = $this->db->get('MOA_User')->result();
+            if (is_null($res) == TRUE || count($res) == 0) {
+                return FALSE;
+            }
+			return $res[0]->state;
+		}
+		return FALSE;
+	}
+
     /**
 	 * 获取名人堂中一条记录
 	 * @param id - 名人id
