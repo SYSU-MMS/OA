@@ -82,7 +82,6 @@ Class Login extends CI_Controller {
 		}
 	}
 	
-=======
 <?php
 header("Content-type: text/html; charset=utf-8");
 
