@@ -90,15 +90,6 @@ Class Journal extends CI_Controller {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
-			// 	取所有课室的roomid与room（课室编号）
-			$state = 0;
-			$room_obj_list = $this->Moa_room_model->get_by_state($state);
-			for ($i = 0; $i < count($room_obj_list); $i++) {
-				$roomid_list[$i] = $room_obj_list[$i]->roomid;
-				$room_list[$i] = $room_obj_list[$i]->room;
-			}
-			$data['roomid_list'] = $roomid_list;
-			$data['room_list'] = $room_list;
 
 			// 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
 			$level = 0;
@@ -248,23 +239,30 @@ Class Journal extends CI_Controller {
 			if (isset($_POST['type'])) {
 							
 						$type = $_POST['type'];
-						
+
 						$res = $this->Moa_worker_model->get_abnormal_counts_by_type($type);
 						$name_list = array();
 						$count_list = array();
+						//$level_list = array();
 						$num = 0;
-						for ($i = 0; $i < count($res); $i++, $num++) {
-							$user_obj = $this->Moa_user_model->get($res[$i]->uid);
-							$name_list[$i] = $user_obj->name;
-							$acount = 0;
-							if ($type == 0) $acount = $res[$i]->abnormal_count_0;
-							else $acount = $res[$i]->abnormal_count_1;
-							$count_list[$i] = $acount;
+						for ($i = 0; $i < count($res); $i++) {
+							$level = $this->Moa_user_model->get_level($res[$i]->uid);
+							//$level_list[$i] = $level;
+							if ($level == 0) {
+								$user_obj = $this->Moa_user_model->get($res[$i]->uid);
+								$name_list[$num] = $user_obj->name;
+								$acount = 0;
+								if ($type == 0) $acount = $res[$i]->abnormal_count_0;
+								else $acount = $res[$i]->abnormal_count_1;
+								$count_list[$num] = $acount;
+								$num++;
+							}
 						}
 						$data['type'] = $type;
 						$data['num'] = $num;
 						$data['name_list'] = $name_list;
 						$data['count_list'] = $count_list;
+						//$data['level_list'] = $level_list;
 						if ($res == false) 
 							echo json_encode(array("status" => FALSE, "msg" => "查找失败"));
 						else {
