@@ -157,17 +157,6 @@
 
 			}
 			?>
-<?php
-			if ($_SESSION['level'] > 1 && $_SESSION['level'] < 6) { echo
-				'<li id="active-sampling">' .
-					'<a href="Homepage#"><i class="fa fa-check-circle-o"></i> <span class="nav-label"> 常检抽查日志</span> <span class="fa arrow"></span></a>' .
-					'<ul class="nav nav-second-level">' .
-						'<li id="active-getTableList"><a href="'. site_url('Sampling/getTableList') . '">查看</a>' .
-						'</li>' .
-					'</ul>' .
-				'</li>';
-			}
-			?>
 			<?php
 if ($_SESSION['level'] == 1 || $_SESSION['level'] == 6) {
 	echo
