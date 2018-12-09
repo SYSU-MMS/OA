@@ -20,7 +20,7 @@ var search = function(){
 			"dealer": dealer
 		},
 		success: function(msg) {
-			console.log(msg);
+			//console.log(msg);
 			ret = JSON.parse(msg);
 			if (ret['status'] === false) {
 				alert(ret['msg']);
