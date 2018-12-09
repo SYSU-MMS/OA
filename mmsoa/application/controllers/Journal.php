@@ -85,11 +85,11 @@ Class Journal extends CI_Controller {
 	 */   
 	public function manageAbnormal() {
 		if (isset($_SESSION['user_id'])) {
-			// 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
-			if ($_SESSION['level'] <= 0) {
-				// 提示权限不够
-				PublicMethod::permissionDenied();
-			}
+			// // 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
+			// if ($_SESSION['level'] < 0) {
+			// 	// 提示权限不够
+			// 	PublicMethod::permissionDenied();
+			// }
 
 			// 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
 			$level = 0;
@@ -126,6 +126,7 @@ Class Journal extends CI_Controller {
 			$data['operator_name_list'] = $operator_name_list;
 			$data['operator_wid_list'] = $operator_wid_list;
 			$data['o_count'] = $o_count;
+			$data['level'] = $_SESSION['level'];
 			$this->load->view('view_abnormal_assistant', $data);
 		} else {
 			// 未登录的用户请先登录
@@ -139,10 +140,10 @@ Class Journal extends CI_Controller {
     public function AbnormalStatistics() {
 		if (isset($_SESSION['user_id'])) {
 			// 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
-			if ($_SESSION['level'] <= 0) {
-				// 提示权限不够
-				PublicMethod::permissionDenied();
-			}
+			// if ($_SESSION['level'] < 0) {
+			// 	// 提示权限不够
+			// 	PublicMethod::permissionDenied();
+			// }
 			$this->load->view('view_abnormal_statistics');
 		} else {
 			// 未登录的用户请先登录
@@ -155,12 +156,12 @@ Class Journal extends CI_Controller {
 	 */
 	public function searchAbnormalRecords() {
 		if (isset($_SESSION['user_id'])) {
-			// 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
-			if ($_SESSION['level'] <= 1) {
-				// 提示权限不够
-				PublicMethod::permissionDenied();
-			}
-				
+			// // 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
+			// if ($_SESSION['level'] < 0) {
+			// 	// 提示权限不够
+			// 	PublicMethod::permissionDenied();
+			// }
+			$level = $_SESSION['level'];	
 			if (isset($_POST['start_time']) && isset($_POST['end_time']) &&
 					isset($_POST['actual_wid']) && isset($_POST['dealing']) && isset($_POST['dealer'])) {
 							
@@ -222,6 +223,7 @@ Class Journal extends CI_Controller {
 						$data['w_dealing_list'] = $w_dealing_list;
 						$data['w_dealer_list'] = $w_dealer_list;
 						$data['w_comment_list'] = $w_comment_list;
+						$data['level'] = $level;
 						echo json_encode(array("status" => TRUE, "level" => $_SESSION['level'], "msg" => "查找成功", "data" => $data));
 						return;
 					} else {
@@ -236,12 +238,12 @@ Class Journal extends CI_Controller {
 
 	public function getAbnormalRank() {
 		if (isset($_SESSION['user_id'])) {
-			// 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
-			if ($_SESSION['level'] <= 0) {
-				// 提示权限不够
-				PublicMethod::permissionDenied();
-			}
-				
+			// // 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
+			// if ($_SESSION['level'] < 0) {
+			// 	// 提示权限不够
+			// 	PublicMethod::permissionDenied();
+			// }
+			$level = $_SESSION['level'];
 			if (isset($_POST['type'])) {
 							
 						$type = $_POST['type'];
@@ -269,6 +271,7 @@ Class Journal extends CI_Controller {
 						$data['num'] = $num;
 						$data['name_list'] = $name_list;
 						$data['count_list'] = $count_list;
+						$data['level'] = $level;
 						//$data['level_list'] = $level_list;
 						if ($res == false) 
 							echo json_encode(array("status" => FALSE, "msg" => "查找失败"));
@@ -354,7 +357,7 @@ Class Journal extends CI_Controller {
 	public function deleteAbnormalRecord() {
 		if (isset($_SESSION['user_id'])) {
 			// 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
-			if ($_SESSION['level'] <= 0) {
+			if ($_SESSION['level'] < 0) {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
@@ -398,11 +401,11 @@ Class Journal extends CI_Controller {
 	 */
 	public function getAbnormalRecord() {
 		if (isset($_SESSION['user_id'])) {
-			// 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
-			if ($_SESSION['level'] <= 0) {
-				// 提示权限不够
-				PublicMethod::permissionDenied();
-			}
+			// // 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
+			// if ($_SESSION['level'] < 0) {
+			// 	// 提示权限不够
+			// 	PublicMethod::permissionDenied();
+			// }
 				
 			if (isset($_POST['id'])) {
 							
