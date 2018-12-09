@@ -172,6 +172,7 @@ var get_record_by_id = function(id, level) {
 
 				if (level < 1) {
 					$('#update_check').text('确定');
+					$('#update_check').attr("onclick", "refresh()");
 				}
 				else {
 					$('#update_check').text('更改');
@@ -183,6 +184,11 @@ var get_record_by_id = function(id, level) {
 			alert(arguments[1]);
 		}
 	});
+}
+
+var refresh = function() {
+	location.reload();
+	return;
 }
 
 var update_record_by_id = function(id) {
