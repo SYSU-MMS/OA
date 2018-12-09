@@ -121,7 +121,27 @@
 		                    '</li>' .
 		                    '<li id="active-readJournal"><a href="'. site_url('Journal/listJournal') . '">查看</a>' .
 		                    '</li>' .
-		                    '<li id="active-abnormal"><a href="'. site_url('Journal/manageAbnormal') . '">异常助理</a>' .
+		                '</ul>' .
+		            '</li>';
+		        }
+		    ?>
+		    <?php
+		        if ($_SESSION['level'] >= 1) { echo
+		            '<li id="active-abnormal">' .
+		                '<a href="Homepage#"><i class="	fa fa-question-circle"></i> <span class="nav-label"> 异常助理</span> <span class="fa arrow"></span></a>' .
+		                '<ul class="nav nav-second-level">' .
+		                    '<li id="active-abnormal-check"><a href="'. site_url('Journal/manageAbnormal') . '">异常助理登记</a>' .
+		                    '</li>' .
+		                    '<li id="active-abnormal-statistics"><a href="'. site_url('Journal/AbnormalStatistics') . '">异常助理统计</a>' .
+		                    '</li>' .
+		                '</ul>' .
+		            '</li>';
+		        }
+		        else { echo
+		            '<li id="active-abnormal">' .
+		                '<a href="Homepage#"><i class="	fa fa-question-circle"></i> <span class="nav-label"> 异常助理</span> <span class="fa arrow"></span></a>' .
+		                '<ul class="nav nav-second-level">' .
+		                    '<li id="active-abnormal-check"><a href="'. site_url('Journal/manageAbnormal') . '">异常助理查看</a>' .
 		                    '</li>' .
 		                    '<li id="active-abnormal-statistics"><a href="'. site_url('Journal/AbnormalStatistics') . '">异常助理统计</a>' .
 		                    '</li>' .

@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="renderer" content="webkit">
 
-    <title>MOA-抽查情况统计</title>
+    <title>MOA-异常助理统计</title>
     <?php $this->load->view('view_keyword');?>
 
     <link href="<?=base_url() . 'assets/images/moa.ico'?>" rel="shortcut icon">
@@ -86,7 +86,7 @@
     <!-- nav item active -->
   <script>
     $(document).ready(function () {
-        $("#active-journal").addClass("active");
+        $("#active-abnormal").addClass("active");
         $("#active-abnormal-statistics").addClass("active");
         $("#mini").attr("href", "AbnormalStatistics#");
     });

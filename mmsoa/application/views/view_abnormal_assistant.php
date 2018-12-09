@@ -110,12 +110,16 @@
                                             <button id="search_btn" class="btn btn-primary"><i class="fa fa-search"></i></button>
                                         </div>
                                     </div>
-                                    <div  id="add_container" class="col-md-1" data-toggle="modal" data-target="#modal-new-table">
-                                        <label class="font-noraml search-btn"></label>
-                                        <div>
-                                            <button id="add_btn" class="btn btn-primary ">新增记录</button>
-                                        </div>
-                                    </div>
+                                    <?php
+                                        if ($level >= 1)
+                                            echo '<div  id="add_container" class="col-md-1"'.
+                                                 ' data-toggle="modal" data-target="#modal-new-table">'.
+                                                    '<label class="font-noraml search-btn"></label>'.
+                                                    '<div>'.
+                                                        '<button id="add_btn" class="btn btn-primary ">新增记录</button>'.
+                                                    '</div>'.
+                                                '</div>';
+                                    ?>
                                 </div>
                                 <div id="table_container">
                                 </div>
@@ -284,8 +288,8 @@
    <!-- nav item active -->
     <script>
         $(document).ready(function () {
-            $("#active-journal").addClass("active");
             $("#active-abnormal").addClass("active");
+            $("#active-abnormal-check").addClass("active");
             $("#mini").attr("href", "manageAbnormal#");
         });
     </script>
