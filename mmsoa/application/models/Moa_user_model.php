@@ -165,6 +165,26 @@ class Moa_user_model extends CI_Model {
 	}
 
 	/**
+	* 返回某用户的level
+	* @param name - 用户名字
+	* @return 用户信息
+	*/
+	public function get_by_name($name, $nums = NULL, $offset = 0) {
+		if (isset($name)) {
+			$this->db->like('name', $name);
+			$this->db->where('state', 0);
+			if (!is_null($nums)) {
+				$this->db->limit($nums, $offset);
+			}
+			return $this->db->get('MOA_User')->result();
+		}
+		else {
+			return false;
+		}
+	}
+
+
+	/**
 	 * 返回某用户的level
 	 * @param uid - 用户id
 	 * @return 用户level值
