@@ -296,7 +296,7 @@
 		    ?>
 		    	<!-- 签到 -->
 		    <?php
-		    	if ($_SESSION['level'] == 7) { echo
+		    	if ($_SESSION['level'] == 6) { echo
 		            '<li id="active-sign">' .
 		            	'<a href="'. site_url('Sign') . '"><i class="fa fa-rmb"></i> <span class="nav-label"> &nbsp;工作签到</span></a>' .
 		            '</li>';}
