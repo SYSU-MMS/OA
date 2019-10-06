@@ -95,23 +95,32 @@ class Moa_sampling_model extends CI_Model{
             return false;
         }
     }
-    
+
     /**
      * 以月份为单位获取抽查优秀排行
      * @author Rinkako
      */
     public function get_rank_month() {
         $qStr = 'SELECT wid, uid, checks, perfect FROM moa_worker ORDER BY perfect DESC';
-        return $this->db->query($qStr)->result();
+
+        //筛选出在职的助理，即state=0的
+        $allWorker = $this->db->query($qStr)->result();
+        $rankList = array();
+        for ($i = 0; $i < count($allWorker); $i++) {
+            $userObj = $this->Moa_user_model->get($allWorker[$i]->uid);
+            if($userObj->state == 0){
+                $rankList[] = $allWorker[$i];
+            }
+        }
+        return $rankList;
     }
-    
+
     /**
      * 获取历史累计抽查优秀排行
      * @author Rinkako
      */
     public function get_rank_all() {
-        $qStr = 'SELECT uid, username, totalCheck, totalPerfect FROM moa_user ORDER BY totalPerfect DESC';
+        $qStr = 'SELECT uid, username, totalCheck, totalPerfect FROM moa_user WHERE state!=2 ORDER BY totalPerfect DESC';
         return $this->db->query($qStr)->result();
     }
 }
-

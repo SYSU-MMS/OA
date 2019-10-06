@@ -97,7 +97,17 @@ class Moa_sampling_weekly_model extends CI_Model {
 	 */
 	public function get_rank_month() {
 		$qStr = 'SELECT wid, uid, wchecks, wperfect FROM moa_worker ORDER BY wperfect DESC';
-		return $this->db->query($qStr)->result();
+
+		//筛选出在职的助理，即state=0的
+		$allWorker = $this->db->query($qStr)->result();
+		$rankList = array();
+		for ($i = 0; $i < count($allWorker); $i++) {
+				$userObj = $this->Moa_user_model->get($allWorker[$i]->uid);
+				if($userObj->state == 0){
+						$rankList[] = $allWorker[$i];
+				}
+		}
+		return $rankList;
 	}
 
 	/**
@@ -105,7 +115,7 @@ class Moa_sampling_weekly_model extends CI_Model {
 	 * @author Rinkako
 	 */
 	public function get_rank_all() {
-		$qStr = 'SELECT uid, username, totalwCheck, totalwPerfect FROM moa_user ORDER BY totalwPerfect DESC';
+		$qStr = 'SELECT uid, username, totalwCheck, totalwPerfect FROM moa_user WHERE state!=2 ORDER BY totalwPerfect DESC';
 		return $this->db->query($qStr)->result();
 	}
 }
