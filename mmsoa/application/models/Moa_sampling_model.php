@@ -42,16 +42,46 @@ class Moa_sampling_model extends CI_Model{
     public function get($sid) {
         if(isset($sid)) {
             $this->db->where(array('sid' => $sid));
-            return $this->db->get('MOA_Sampling')->result();
+            // return $this->db->get('MOA_Sampling')->result();
+
+            $allWorker = $this->db->get('MOA_Sampling')->result();
+            $table = array();
+            for($i = 0; $i < count($allWorker); $i++){
+              $userObj = $this->Moa_user_model->get($allWorker[$i]->target_uid);
+              if($userObj->state != 2){
+                $table[] = $allWorker[$i];
+              }
+            }
+            return $table;
         } else {
-            return $this->db->get('MOA_Sampling')->result();
+            // return $this->db->get('MOA_Sampling')->result();
+
+            $allWorker = $this->db->get('MOA_Sampling')->result();
+            $table = array();
+            for($i = 0; $i < count($allWorker); $i++){
+              $userObj = $this->Moa_user_model->get($allWorker[$i]->target_uid);
+              if($userObj->state != 2){
+                $table[] = $allWorker[$i];
+              }
+            }
+            return $table;
         }
     }
 
     public function get_table($timestamp) {
         if (isset($timestamp)) {
             $this->db->where(array('on_use' => 1, 'timestamp =' => $timestamp));
-            return $this->db->get('MOA_Sampling')->result();
+            // return $this->db->get('MOA_Sampling')->result();
+
+            $allWorker = $this->db->get('MOA_Sampling')->result();
+            $table = array();
+            for($i = 0; $i < count($allWorker); $i++){
+              $userObj = $this->Moa_user_model->get($allWorker[$i]->target_uid);
+              if($userObj->state != 2){
+                $table[] = $allWorker[$i];
+              }
+            }
+            return $table;
         }
         else {
             return false;
