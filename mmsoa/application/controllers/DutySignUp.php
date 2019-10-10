@@ -197,10 +197,10 @@ Class DutySignUp extends CI_Controller {
 	 */
 	public function exportToTxt() {
 		// 检查权限: 3-助理负责人 6-超级管理员
-		if ($_SESSION['level'] != 3 && $_SESSION['level'] != 6) {
-			// 提示权限不够
-			PublicMethod::permissionDenied();
-		}
+		// if ($_SESSION['level'] != 3 && $_SESSION['level'] != 6) {
+		// 	// 提示权限不够
+		// 	PublicMethod::permissionDenied();
+		// }
 
 		header('Content-type: application/octet-stream');
 		header('Accept-Ranges: bytes');
@@ -211,7 +211,7 @@ Class DutySignUp extends CI_Controller {
 		header('Pragma: public');
 
 		// 从数据库获取所有报名记录（空余时间记录）
-		$nschedule_obj_list = $this->Moa_nschedule_model->getAll();
+		$nschedule_obj_list = $this->Moa_nschedule_model->get_all();
 		for ($i = 0; $i < count($nschedule_obj_list); $i++) {
 			// 获取姓名
 			$worker_obj = $this->Moa_worker_model->get($nschedule_obj_list[$i]->wid);
