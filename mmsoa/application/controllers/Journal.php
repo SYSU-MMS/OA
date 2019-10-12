@@ -20,11 +20,11 @@ Class Journal extends CI_Controller {
 		$this->load->library('session');
 		$this->load->helper('cookie');
 	}
-	
+
 	public function index() {
-		
+
 	}
-	
+
 	/**
 	 * 发布坐班日志
 	 */
@@ -35,11 +35,17 @@ Class Journal extends CI_Controller {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
-				
+
 			// 取所有普通助理的wid与name, level: 0-普通助理  1-组长  2-负责人助理  3-助理负责人  4-管理员  5-办公室负责人
 			$level = 0;
-			$common_worker = $this->Moa_user_model->get_by_level($level);
-				
+			$all_worker = $this->Moa_user_model->get_by_level($level);
+
+			$common_worker = array();
+			for($i = 0; $i < count($all_worker); $i++){
+				if($all_worker[$i]->state == 0)
+					$common_worker[] = $all_worker[$i];
+			}
+
 			for ($i = 0; $i < count($common_worker); $i++) {
 				$uid_list[$i] = $common_worker[$i]->uid;
 				$name_list[$i] = $common_worker[$i]->name;
@@ -53,7 +59,7 @@ Class Journal extends CI_Controller {
 			PublicMethod::requireLogin();
 		}
 	}
-	
+
     /**
 	 * 查看坐班日志列表
 	 */
@@ -82,7 +88,7 @@ Class Journal extends CI_Controller {
 	}
     /**
 	 * 管理异常助理
-	 */   
+	 */
 	public function manageAbnormal() {
 		if (isset($_SESSION['user_id'])) {
 			// // 检查权限: 1-组长 2-负责人助理 3-助理负责人 4-管理员 5-办公室负责人 6-超级管理员
@@ -161,10 +167,10 @@ Class Journal extends CI_Controller {
 			// 	// 提示权限不够
 			// 	PublicMethod::permissionDenied();
 			// }
-			$level = $_SESSION['level'];	
+			$level = $_SESSION['level'];
 			if (isset($_POST['start_time']) && isset($_POST['end_time']) &&
 					isset($_POST['actual_wid']) && isset($_POST['dealing']) && isset($_POST['dealer'])) {
-							
+
 						$post_start_time = $_POST['start_time'];
 						$post_end_time = $_POST['end_time'];
 						$post_actual_wid = $_POST['actual_wid'];
@@ -190,7 +196,7 @@ Class Journal extends CI_Controller {
 						$w_count = 0;
 						// 获取数据
 						$returnData = $this->Moa_abnormal_model->get_records($query_start_time, $query_end_time, $actual_wid, $dealing, $dealer);
-	
+
 						if ($returnData != FALSE) {
 							for ($i = 0; $i < count($returnData); $i++, $w_count++) {
 								$w_id_list[$i] = $returnData[$i]->abnormal_id;
@@ -234,7 +240,7 @@ Class Journal extends CI_Controller {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
 		}
-	}	
+	}
 
 	public function getAbnormalRank() {
 		if (isset($_SESSION['user_id'])) {
@@ -245,7 +251,7 @@ Class Journal extends CI_Controller {
 			// }
 			$level = $_SESSION['level'];
 			if (isset($_POST['type'])) {
-							
+
 						$type = $_POST['type'];
 
 						$res = $this->Moa_worker_model->get_abnormal_counts_by_type($type);
@@ -273,7 +279,7 @@ Class Journal extends CI_Controller {
 						$data['count_list'] = $count_list;
 						$data['level'] = $level;
 						//$data['level_list'] = $level_list;
-						if ($res == false) 
+						if ($res == false)
 							echo json_encode(array("status" => FALSE, "msg" => "查找失败"));
 						else {
 							echo json_encode(array("status" => TRUE, "msg" => "查找成功", 'data' => $data));
@@ -286,7 +292,7 @@ Class Journal extends CI_Controller {
 		} else {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
-		}		
+		}
 	}
 
 	/**
@@ -299,17 +305,17 @@ Class Journal extends CI_Controller {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
-				
+
 			if (isset($_POST['time']) && isset($_POST['actual_wid']) &&
 					isset($_POST['problem']) && isset($_POST['dealing']) && isset($_POST['dealer']) && isset($_POST['comment'])) {
-							
+
 						$time = $_POST['time'];
 						$actual_wid = $_POST['actual_wid'];
 						$problem = $_POST['problem'];
 						$dealing = $_POST['dealing'];
 						$dealer = $_POST['dealer'];
 						$comment = $_POST['comment'];
-						
+
 						// 字符串转时间格式
 						$timestamp = date('Y-m-d H:i:s', strtotime($time));
 
@@ -335,7 +341,7 @@ Class Journal extends CI_Controller {
 						$res0 = $this->Moa_worker_model->get($actual_wid);
 						$abcount = $res0->abnormal_count_0;
 						if ($dealing == 1) $abcount = $res0->abnormal_count_1;
-						if ($in_id == false) 
+						if ($in_id == false)
 							echo json_encode(array("status" => FALSE, "msg" => "添加失败，数据库错误"));
 						else {
 							echo json_encode(array("status" => TRUE, "msg" => "添加成功"));
@@ -361,9 +367,9 @@ Class Journal extends CI_Controller {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
-				
+
 			if (isset($_POST['id'])) {
-							
+
 						$id = $_POST['id'];
 						$record = $this->Moa_abnormal_model->get_record_by_id($id);
 						$in_id = $this->Moa_abnormal_model->delete_record_by_id($id);
@@ -381,9 +387,9 @@ Class Journal extends CI_Controller {
 							$res = $this->Moa_worker_model->update($actual_wid, array("abnormal_count_1" => $abcount));
 						$res0 = $this->Moa_worker_model->get($actual_wid);
 						$abcount = $res0->abnormal_count_0;
-						if ($in_id == false) 
+						if ($in_id == false)
 							echo json_encode(array("status" => FALSE, "msg" => "删除失败，数据库错误"));
-						else 
+						else
 							echo json_encode(array("status" => TRUE, "msg" => "删除成功"));
 						return;
 					} else {
@@ -406,12 +412,12 @@ Class Journal extends CI_Controller {
 			// 	// 提示权限不够
 			// 	PublicMethod::permissionDenied();
 			// }
-				
+
 			if (isset($_POST['id'])) {
-							
+
 						$id = $_POST['id'];
 						$returnData = $this->Moa_abnormal_model->get_record_by_id($id);
-						if ($returnData == false) 
+						if ($returnData == false)
 							echo json_encode(array("status" => FALSE, "msg" => "获取信息失败，数据库错误"));
 						else {
 							$data['time'] = date("Y-m-d", strtotime($returnData[0]->timestamp));
@@ -443,7 +449,7 @@ Class Journal extends CI_Controller {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
-				
+
 			if (isset($_POST['id']) && isset($_POST['time']) && isset($_POST['actual_wid']) &&
 					isset($_POST['problem']) && isset($_POST['dealing']) && isset($_POST['dealer']) && isset($_POST['comment'])) {
 						$id = $_POST['id'];
@@ -453,7 +459,7 @@ Class Journal extends CI_Controller {
 						$dealing = $_POST['dealing'];
 						$dealer = $_POST['dealer'];
 						$comment = $_POST['comment'];
-						
+
 						// 字符串转时间格式
 						$timestamp = date('Y-m-d H:i:s', strtotime($time));
 
@@ -513,9 +519,9 @@ Class Journal extends CI_Controller {
 								'comment' => $comment
 							)
 						);
-						if ($in_id == false) 
+						if ($in_id == false)
 							echo json_encode(array("status" => FALSE, "msg" => "更新失败，数据库错误"));
-						else 
+						else
 							echo json_encode(array("status" => TRUE, "msg" => "更新成功"));
 						return;
 					} else {
@@ -526,7 +532,7 @@ Class Journal extends CI_Controller {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
 		}
-	}	
+	}
 
     /**
 	 * 删除指定的坐班日志
@@ -554,7 +560,7 @@ Class Journal extends CI_Controller {
 			PublicMethod::requireLogin();
 		}
 	}
-    
+
 	/**
 	 * 查看指定的坐班日志
 	 */
@@ -568,7 +574,7 @@ Class Journal extends CI_Controller {
             if (isset($id) == FALSE) {
                 return;
             }
-				
+
 			// 获取最近的一篇坐班日志
 			$data['leader_name'] = '';
 			$data['group'] = '';
@@ -578,7 +584,7 @@ Class Journal extends CI_Controller {
 			$data['body_list'] = array('', '', '', '', '', '');
 			$data['best_list'] = array();
 			$data['bad_list'] = array();
-				
+
 			// state： 0 - 正常  1- 已删除
 			$state = 0;
 			$report_obj = $this->Moa_leaderreport_model->get($id);
@@ -590,13 +596,13 @@ Class Journal extends CI_Controller {
 				$data['weekday'] = PublicMethod::translate_weekday($report_obj->weekday);
 				$body_list = explode(' ## ', $report_obj->body);
 				$data['body_list'] = $body_list;
-	
+
 				// 获取组长姓名
 				$leader_wid = $report_obj->wid;
 				$r_worker_obj = $this->Moa_worker_model->get($leader_wid);
 				$r_user_obj = $this->Moa_user_model->get($r_worker_obj->uid);
 				$data['leader_name'] = $r_user_obj->name;
-	
+
 				// 获取优秀助理姓名列表
 				$best_list = array();
 				if (!is_null($report_obj->bestlist)) {
@@ -609,7 +615,7 @@ Class Journal extends CI_Controller {
 					}
 				}
 				$data['best_list'] = $best_list;
-	
+
 				// 获取异常助理姓名列表
 				$bad_list = array();
 				if (!is_null($report_obj->badlist)) {
@@ -623,7 +629,7 @@ Class Journal extends CI_Controller {
 				}
 				$data['bad_list'] = $bad_list;
 			}
-				
+
 			$this->load->view('view_read_journal', $data);
 		} else {
 			// 未登录的用户请先登录
@@ -641,7 +647,7 @@ Class Journal extends CI_Controller {
 				// 提示权限不够
 				PublicMethod::permissionDenied();
 			}
-				
+
 			// 获取最近的一篇坐班日志
 			$data['leader_name'] = '';
 			$data['group'] = '';
@@ -651,7 +657,7 @@ Class Journal extends CI_Controller {
 			$data['body_list'] = array('', '', '', '', '', '');
 			$data['best_list'] = array();
 			$data['bad_list'] = array();
-				
+
 			// state： 0 - 正常  1- 已删除
 			$state = 0;
 			$report_obj = $this->Moa_leaderreport_model->get_lasted($state);
@@ -663,13 +669,13 @@ Class Journal extends CI_Controller {
 				$data['weekday'] = PublicMethod::translate_weekday($report_obj->weekday);
 				$body_list = explode(' ## ', $report_obj->body);
 				$data['body_list'] = $body_list;
-	
+
 				// 获取组长姓名
 				$leader_wid = $report_obj->wid;
 				$r_worker_obj = $this->Moa_worker_model->get($leader_wid);
 				$r_user_obj = $this->Moa_user_model->get($r_worker_obj->uid);
 				$data['leader_name'] = $r_user_obj->name;
-	
+
 				// 获取优秀助理姓名列表
 				$best_list = array();
 				if (!is_null($report_obj->bestlist)) {
@@ -682,7 +688,7 @@ Class Journal extends CI_Controller {
 					}
 				}
 				$data['best_list'] = $best_list;
-	
+
 				// 获取异常助理姓名列表
 				$bad_list = array();
 				if (!is_null($report_obj->badlist)) {
@@ -696,14 +702,14 @@ Class Journal extends CI_Controller {
 				}
 				$data['bad_list'] = $bad_list;
 			}
-				
+
 			$this->load->view('view_read_journal', $data);
 		} else {
 			// 未登录的用户请先登录
 			PublicMethod::requireLogin();
 		}
 	}
-	
+
 	/*
 	 * 发布坐班日志(录入)
 	 */
@@ -713,16 +719,16 @@ Class Journal extends CI_Controller {
 			$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
 			if (isset($_POST['journal_body'])) {
 				$journal_paras['wid'] = $wid;
-				
+
 				// state： 0-正常  1-已删除
 				$journal_paras['state'] = 0;
-				
+
 				// group：0 - N  1 - A  2 - B
 				$journal_paras['group'] = 0;
 				if (isset($_POST['group'])) {
 					$journal_paras['group'] = $_POST['group'];
 				}
-				
+
 				// 周一为一周的第一天
                 $today = date("Y-m-d H:i:s");
                 $term = $this->Moa_school_term_model->get_term($today);
@@ -731,19 +737,19 @@ Class Journal extends CI_Controller {
                     return;
                 }
 				$journal_paras['weekcount'] = PublicMethod::get_week($term[0]->termbeginstamp, $today);
-	
+
 				// 1-周一  2-周二  ... 6-周六  7-周日
 				$journal_paras['weekday'] = date("w") == 0 ? 7 : date("w");
-				
+
 				$journal_paras['timestamp'] = $today;
-				
+
 				// 避免journal_body中含有指定分割字符串' ## '
 				foreach ($_POST['journal_body'] as &$part) {
 					$part = str_replace(' ## ', ' ', $part);
 				}
 				// 以' ## '作为分割记号存入数据库
 				$journal_paras['body'] = implode(' ## ', $_POST['journal_body']);
-				
+
 				$journal_paras['bestlist'] = NULL;
 				if (isset($_POST['bestlist']) && !empty($_POST['bestlist'])) {
 					$journal_paras['bestlist'] = implode(',', $_POST['bestlist']);
@@ -768,12 +774,12 @@ Class Journal extends CI_Controller {
 					echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
 				}
-				
+
 			} else {
 				echo json_encode(array("status" => FALSE, "msg" => "发布失败"));
 					return;
 			}
 		}
 	}
-	
+
 }
