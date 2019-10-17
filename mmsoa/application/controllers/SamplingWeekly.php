@@ -213,6 +213,12 @@ Class SamplingWeekly extends CI_Controller {
 					} else {
 						$ret[$i]['target_room'] = $sample_object_list[$i]->target_room;
 					}
+					
+					if($sample_object_list[$i]->target_time_point == NULL) {
+							$ret[$i]['target_time_point'] = NULL;
+					} else {
+							$ret[$i]['target_time_point'] = $sample_object_list[$i]->target_time_point;
+					}
 
 					$wid = $this->Moa_worker_model->get_wid_by_uid($sample_object_list[$i]->target_uid);
 					$target_worker_obj = $this->Moa_worker_model->get($wid);

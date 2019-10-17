@@ -225,6 +225,12 @@ Class Sampling extends CI_Controller
                         $ret[$i]['target_room'] = $sample_object_list[$i]->target_room;
                     }
 
+                    if($sample_object_list[$i]->target_time_point == NULL) {
+                        $ret[$i]['target_time_point'] = NULL;
+                    } else {
+                        $ret[$i]['target_time_point'] = $sample_object_list[$i]->target_time_point;
+                    }
+
                     $wid = $this->Moa_worker_model->get_wid_by_uid($target_obj->uid);
                     $target_worker_obj = $this->Moa_worker_model->get($wid);
                     $ret[$i]['classroom'] = explode(",", $target_worker_obj->classroom);
@@ -429,7 +435,7 @@ Class Sampling extends CI_Controller
             return;
         }
     }
-    
+
     /**
      * 查看本月抽查统计
      */
@@ -465,7 +471,7 @@ Class Sampling extends CI_Controller
             return;
         }
     }
-    
+
     /**
      * 查看累计抽查统计
      */
@@ -501,5 +507,5 @@ Class Sampling extends CI_Controller
             return;
         }
     }
-    
+
 }
