@@ -61,7 +61,7 @@
                                 	// 助理负责人，超级管理员才可以导出报名情况
 						        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) {
 						        		echo '<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger exportSignupBtn"><i class="fa fa-trash-o"></i><span> 清空报名记录</span></button>' .
-								        		'<a id="export_signup" class="btn btn-primary exportSignupBtn" href="' . site_url('DutySignUp/exportToTxt') . '"><i class="fa fa-download"></i><span> 导出报名记录</span></a>';								        		;
+								        		'<a id="export_signup" class="btn btn-primary exportSignupBtn" href="http://moa.sysu.alau.top:443"><i class="fa fa-calendar"></i><span> 自动排班</span></a>';								        		;
 						        	}
 						        ?>
                             </div>
