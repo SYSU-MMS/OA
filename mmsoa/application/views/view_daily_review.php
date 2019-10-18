@@ -8,21 +8,21 @@
 
     <title>MOA-查看常检情况</title>
     <?php $this->load->view('view_keyword'); ?>
-    
+
     <link href="<?=base_url().'assets/images/moa.ico' ?>" rel="shortcut icon">
-    
+
     <link href="<?=base_url().'assets/css/bootstrap.min.css?v=3.4.0' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/font-awesome/css/font-awesome.min.css' ?>" rel="stylesheet">
-            
+
     <link href="<?=base_url().'assets/css/plugins/chosen/chosen.css' ?>" rel="stylesheet">
-        
+
     <link href="<?=base_url().'assets/css/plugins/dataTables/dataTables.bootstrap.css' ?>" rel="stylesheet">
-        
+
     <link href="<?=base_url().'assets/css/animate.css' ?>" rel="stylesheet">
     <link href="<?=base_url().'assets/css/style.css?v=2.2.0' ?>" rel="stylesheet">
-    
+
     <link href="<?=base_url().'assets/css/plugins/datetimepicker/bootstrap-datetimepicker.css' ?>" rel="stylesheet">
-    
+
 </head>
 
 <body onload="startTime()">
@@ -43,7 +43,7 @@
                         </li>
                         <li>
                             <strong>常检情况</strong>
-                        </li>	
+                        </li>
                     </ol>
                 </div>
                 <div class="col-lg-2">
@@ -72,10 +72,10 @@
                                         <div>
 	                                        <select id="select_classroom" name="select_classroom" data-placeholder="" class="chosen-select-classroom col-sm-12" tabindex="4">
 	                                        	<option value="">全部</option>
-	                                        	<?php 
+	                                        	<?php
                                         			for ($i = 0; $i < count($room_list); $i++) {
                                         				echo "<option value='" . $roomid_list[$i] . "'>" . $room_list[$i] . "</option>";
-                                        			} 
+                                        			}
                                         		?>
 	                                        </select>
                                         </div>
@@ -85,10 +85,10 @@
                                         <div>
 	                                        <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4">
 	                                        	<option value="">全部</option>
-	                                        	<?php 
+	                                        	<?php
                                         			for ($i = 0; $i < count($name_list); $i++) {
                                         				echo "<option value='" . $wid_list[$i] . "'>" . $name_list[$i] . "</option>";
-                                        			} 
+                                        			}
                                         		?>
 	                                        </select>
                                         </div>
@@ -139,7 +139,7 @@
 					                                            <td><?php echo $m_name_list[$i]; ?></td>
 					                                            <td><?php echo str_replace(',', ' ', $m_room_list[$i]); ?></td>
 					                                            <td class="td-left">
-					                                            	<?php 
+					                                            	<?php
 					                                            		if ($m_prob_list[$i] == '') {
 					                                            			echo '正常';
 					                                            		} else {
@@ -153,8 +153,8 @@
 					                                        </tbody>
 					                                </table>
                                 				</div>
-                                				
-	                                        <div id="table_container" class="tab-pane">
+
+	                                        <div id="integrated" class="tab-pane">
 	                                        	<table class="table table-striped table-bordered table-hover users-dataTable">
 				                                    <thead>
 				                                        <tr>
@@ -176,7 +176,7 @@
 					                                            <td><?php echo $n_name_list[$j]; ?></td>
 					                                            <td><?php echo str_replace(',', ' ', $n_room_list[$j]); ?></td>
 					                                            <td class="td-left">
-					                                            	<?php 
+					                                            	<?php
 					                                            		if ($n_prob_list[$j] == '') {
 					                                            			echo '正常';
 					                                            		} else {
@@ -190,8 +190,43 @@
 				                                    </tbody>
 				                                </table>
 	                                        </div>
-	
-	                                        <div id="expand" class="tab-pane"></div>
+
+	                                        <div id="expand" class="tab-pane">
+                                            <table class="table table-striped table-bordered table-hover users-dataTable">
+				                                    <thead>
+				                                        <tr>
+				                                        	<th>序号</th>
+				                                            <th>周次</th>
+				                                            <th>星期</th>
+				                                            <th>姓名</th>
+				                                            <th>课室</th>
+				                                            <th>情况</th>
+				                                            <th>登记时间</th>
+				                                        </tr>
+				                                    </thead>
+				                                    <tbody>
+				                                    	<?php for ($j = 0; $j < $e_count; $j++) { ?>
+					                                        <tr>
+					                                        	<td><?php echo $j + 1; ?></td>
+					                                            <td><?php echo $e_weekcount; ?></td>
+					                                            <td><?php echo $e_weekday; ?></td>
+					                                            <td><?php echo $e_name_list[$j]; ?></td>
+					                                            <td><?php echo str_replace(',', ' ', $e_room_list[$j]); ?></td>
+					                                            <td class="td-left">
+					                                            	<?php
+					                                            		if ($e_prob_list[$j] == '') {
+					                                            			echo '正常';
+					                                            		} else {
+					                                            			echo $e_prob_list[$j];
+					                                            		}
+					                                            	?>
+					                                            </td>
+					                                            <td><?php echo $e_time_list[$j]; ?></td>
+					                                        </tr>
+					                                    <?php } ?>
+				                                    </tbody>
+				                                </table>
+                                          </div>
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -210,7 +245,7 @@
     <script src="<?=base_url().'assets/js/plugins/metisMenu/jquery.metisMenu.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/slimscroll/jquery.slimscroll.min.js' ?>"></script>
     <script src="<?=base_url().'assets/js/dailyreview.js' ?>"></script>
-    
+
     <!-- nav item active -->
 	<script>
 		$(document).ready(function () {
@@ -223,21 +258,21 @@
     <!-- Custom and plugin javascript -->
     <script src="<?=base_url().'assets/js/hplus.js?v=2.2.0' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/pace/pace.min.js' ?>"></script>
-    
+
     <!-- Dynamic date -->
     <script src="<?=base_url().'assets/js/dynamicDate.js' ?>"></script>
-    
+
     <!-- Chosen -->
     <script src="<?=base_url().'assets/js/plugins/chosen/chosen.jquery.js' ?>"></script>
 
     <!-- Date time picker -->
     <script src="<?=base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js' ?>"></script>
-    
+
     <!-- Data Tables -->
     <script src="<?=base_url().'assets/js/plugins/dataTables/jquery.dataTables.js' ?>"></script>
     <script src="<?=base_url().'assets/js/plugins/dataTables/dataTables.bootstrap.js' ?>"></script>
-    
+
     <script>
         $(document).ready(function () {
         	// 页签active贴心设置
@@ -285,7 +320,7 @@
         		minView: 0,
         		forceParse: 1
         	});
-            
+
         });
 
         /* Chosen name */
@@ -337,7 +372,7 @@
         for (var selector in config) {
             $(selector).chosen(config[selector]);
         }
-        
+
     </script>
 
 </body>
