@@ -99,9 +99,9 @@
                                 </div>
                                 <div class="form-group col-lg-4" id="dtp_group">
                                     <div class="input-daterange input-group" id="dtp">
-                                        <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php echo date('Y-m-d', time()); ?>" />
+                                        <input type="text" id="start_dtp" class="input-sm form-control dtp-input-div" name="start" placeholder="开始时间" value="<?php date_default_timezone_set("PRC"); echo date('Y-m-d', time()); ?>" />
                                         <span class="input-group-addon dtp-addon">到</span>
-                                        <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date('Y-m-d',strtotime("+180 day")); ?>" />
+                                        <input type="text" id="end_dtp" class="input-sm form-control dtp-input-div" name="end" placeholder="结束时间" value="<?php echo date_default_timezone_set("PRC"); date('Y-m-d',strtotime("+180 day")); ?>" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
