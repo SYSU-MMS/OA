@@ -227,6 +227,34 @@ Class DutySignUp extends CI_Controller {
 		return;
 	}
 
+	public function exportTimePeriodToTxt() {
+		// 检查权限: 3-助理负责人 6-超级管理员
+		// if ($_SESSION['level'] != 3 && $_SESSION['level'] != 6) {
+		// 	// 提示权限不够
+		// 	PublicMethod::permissionDenied();
+		// }
+
+		header('Content-type: application/octet-stream');
+		header('Accept-Ranges: bytes');
+		header('Content-Disposition: attachment; filename="timeperiod.txt"');
+		header('Expires: 0');
+		header('Content-Transfer-Encoding: utf-8');
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Pragma: public');
+
+		// 从数据库获取所有报名记录（空余时间记录）
+		$weekday_breakpoint = explode(',', $this->Moa_config_model->get_by_name('weekday_breakpoint'));
+    $weekend_breakpoint = explode(',', $this->Moa_config_model->get_by_name('weekend_breakpoint'));
+    for ($i = 0; $i < count($weekday_breakpoint); $i++) {
+    	echo $weekday_breakpoint[$i] . "\r\n";
+    }
+    echo "---\r\n";
+    for ($i = 0; $i < count($weekend_breakpoint); $i++) {
+    	echo $weekend_breakpoint[$i] . "\r\n";
+    }
+		return;
+	}
+
 	/**
 	 * 将报名时间段字符串转换为01表示的字符串
 	 * @param $period_str 报名时间段字符串
