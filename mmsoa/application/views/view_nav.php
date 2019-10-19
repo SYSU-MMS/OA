@@ -288,12 +288,12 @@
 		            </li>
 		        </ul>
 		    </li>
-		    <?php
+<!-- 		    <?php
 		    	echo
 		            '<li id="active-timeStatistics">' .
 		            	'<a href="'. site_url('WorkingTime/allWorkingTime') . '"><i class="fa fa-rmb"></i> <span class="nav-label"> &nbsp;故障登记</span></a>' .
 		            '</li>';
-		    ?>
+		    ?> -->
 		    	<!-- 签到 -->
 		    <?php
 		    	if ($_SESSION['level'] == 6) { echo
