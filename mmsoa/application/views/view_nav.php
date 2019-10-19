@@ -94,7 +94,7 @@
 		                    '</li>' .
 												'<li id="active-temporaryWork"><a href="'. site_url('TemporaryWork/temporaryWork') . '">代班记录</a>' .
 		                    '</li>' .
-												'<li id="active-problem"><a href="'. site_url('Problem/index') . '">故障汇总</a>' .
+												'<li id="active-problem"><a href="'. site_url('Problem/index') . '">故障登记与汇总</a>' .
 												'</li>' .
 												'<li id="active-problemStatistics"><a href="'. site_url('Problem/statistics') . '">故障统计信息</a>' .
 												'</li>' .
