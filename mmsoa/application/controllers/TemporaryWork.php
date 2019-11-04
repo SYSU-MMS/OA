@@ -71,9 +71,11 @@ Class TemporaryWork extends CI_Controller {
 			$m_check_obj = $this->Moa_attend_model->get_by_isSubstitute();
 
 			// 处理数据库返回数据，得到代班记录列表
-			if ($m_check_obj != FALSE)
-				$substituteList = $this->dealSubstituteList($m_check_obj, $wid_hash_name);
-			else
+			// if ($m_check_obj != FALSE){
+			//
+			// 	$substituteList = $this->dealSubstituteList($m_check_obj, $wid_hash_name);
+			// }
+			// else
 				$substituteList = array();
 
 				// 装载前端所需数据
