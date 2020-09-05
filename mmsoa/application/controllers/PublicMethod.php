@@ -292,7 +292,7 @@ Class PublicMethod extends CI_Controller
                 $group_desc = 'C';
                 break;
             case 4:
-                $group_desc = '拍摄';
+                $group_desc = 'AB';
                 break;
             case 5:
                 $group_desc = '网页';

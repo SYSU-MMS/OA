@@ -121,7 +121,7 @@
                                     <div class="form-group"  id="chosen_weekly">
                                         <label class="col-sm-3 col-sm-offset-1 control-label">周检课室</label>
                                         <div class="col-sm-4">
-                                        	<select id="select_weekly" name="week_classroom" data-placeholder="请选择周检课室" class="chosen-select col-sm-12" tabindex="4" multiple="mutiple">
+                                        	<select id="select_weekly" name="week_classroom" data-placeholder="请选择周检课室" class="chosen-select col-sm-12" tabindex="4">
                                         		<option value="">请选择周检课室</option>
                                         		<?php for ($i = 0; $i < count($weekly_classrooms); $i++) {?>
                                         			<option value="<?php echo $weekly_classrooms[$i]; ?>"><?php echo str_replace(',', ' ', $weekly_classrooms[$i]); ?></option>
