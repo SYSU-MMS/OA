@@ -100,9 +100,7 @@
 										    <label class="radio-inline" style="font-size: 14px;">
 										        <input type="radio" value="3" id="group_C" name="group_radio"> C 组</label>
                                             <label class="radio-inline" style="font-size: 14px;">
-										        <input type="radio" value="4" id="group_P" name="group_radio"> 拍摄</label>
-                                            <label class="radio-inline" style="font-size: 14px;">
-										        <input type="radio" value="5" id="group_W" name="group_radio"> 网页</label>
+										        <input type="radio" value="4" id="group_AB" name="group_radio"> AB 组</label>
                                             <label class="radio-inline" style="font-size: 14px;">
 										        <input type="radio" value="5" id="group_X" name="group_radio"> 系统</label>
 										</div>
@@ -123,7 +121,7 @@
                                     <div class="form-group"  id="chosen_weekly">
                                         <label class="col-sm-3 col-sm-offset-1 control-label">周检课室</label>
                                         <div class="col-sm-4">
-                                        	<select id="select_weekly" name="week_classroom" data-placeholder="请选择周检课室" class="chosen-select col-sm-12" tabindex="4">
+                                        	<select id="select_weekly" name="week_classroom" data-placeholder="请选择周检课室" class="chosen-select col-sm-12" tabindex="4" multiple="mutiple">
                                         		<option value="">请选择周检课室</option>
                                         		<?php for ($i = 0; $i < count($weekly_classrooms); $i++) {?>
                                         			<option value="<?php echo $weekly_classrooms[$i]; ?>"><?php echo str_replace(',', ' ', $weekly_classrooms[$i]); ?></option>
@@ -281,12 +279,7 @@
                 radioClass: 'iradio_square-green',
             });
             
-            $('#group_P').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
-            
-            $('#group_W').iCheck({
+            $('#group_AB').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
             });
