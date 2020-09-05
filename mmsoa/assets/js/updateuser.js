@@ -18,6 +18,7 @@ $("#select_level").change(function() {
 });
 
 $("#submit_updateuser").click(function() {
+	alert($("#select_weekly").val())
 	
 	var update_userid = $("#select_user").val();
 	var update_username = $("#username").val();
@@ -36,7 +37,6 @@ $("#submit_updateuser").click(function() {
 
 	var update_daily = $("#select_daily").val();
 	var update_weekly = $("#select_weekly").val();
-	alert(update_weekly)
 	
 	$.ajax({
 		type: "POST", 
