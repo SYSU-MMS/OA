@@ -23,7 +23,7 @@ Class DutyArrange extends CI_Controller {
 	}
 
 	public function index() {
-
+		
 	}
 
 	/**
@@ -62,7 +62,32 @@ Class DutyArrange extends CI_Controller {
             $weekend_breakpoint = explode(',', $this->Moa_config_model->get_by_name('weekend_breakpoint'));
             $data['day_name'] = array('MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN');
             $data['weekday_breakpoint'] = $weekday_breakpoint;
-            $data['weekend_breakpoint'] = $weekend_breakpoint;
+			$data['weekend_breakpoint'] = $weekend_breakpoint;
+			
+			$nschedule = $this->Moa_nschedule_model->get_all();
+			$signup_names = array();
+			$periods = array();
+			$total_times = array();
+			for ($i = 0; $i < count($nschedule); $i++) {
+				$nworker = $this->Moa_worker_model->get($nschedule[$i]->wid);
+				$nuser = $this->Moa_user_model->get($nworker->uid);
+				$signup_names[$i] = $nuser->name;
+
+				$periods[$i] = explode(',', $nschedule[$i]->period);
+				$total_times[$i] = 0;
+				for($j = 0; $j < count($periods[$i]); $j++){
+					if(substr($periods[$i][$j], 0, 3) != "SAT" && substr($periods[$i][$j], 0, 3) != "SUN"){
+						$period_num = $periods[$i][$j][3];
+						$total_times[$i] += (strtotime($weekday_breakpoint[$period_num])-strtotime($weekday_breakpoint[$period_num-1]))/86400 * 24;
+					}else{
+						$period_num = $periods[$i][$j][3];
+						$total_times[$i] += (strtotime($weekend_breakpoint[$period_num])-strtotime($weekend_breakpoint[$period_num-1]))/86400 * 24;
+					}
+				}
+			}
+			$data['signup_names'] = $signup_names;
+			$data['periods'] = $periods;
+			$data['total_times'] = $total_times;
 
 			$this->load->view('view_duty_arrange', $data);
 		} else {

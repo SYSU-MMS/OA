@@ -127,7 +127,101 @@
                     <div class="col-lg-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
+                                <h5>助理报名详情</h5>
+                            </div>
+                            <div class="ibox-content" style="padding: 30px 65px;">
+                        
+								<div class="form-group">
+                                    <div class="row" style="margin-bottom:15px; display: flex; align-items: center">
+                                        <div class="col-sm-2">
+                                            <select id="select_worker" name="select_worker" data-placeholder="请选择报名的助理" class="chosen-select" tabindex="4"">
+                                                <option value="">请选择报名的助理</option>
+                                                <?php for ($i = 0; $i < count($signup_names); $i++) {?>
+                                        			<option value="<?php echo $i; ?>"><?php echo $signup_names[$i] ?></option>
+                                        		<?php } ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4 pull-right">
+                                            <span style="font-size: 15px;  font-weight: bold;">报名时段总时长: </span>
+                                            <span id="totaltime" style="color: #1ab394; font-size: 16px; font-weight: bold;"></span>
+                                        </div>
+                                        
+                                    </div>
+									<div class="row" style="margin-bottom: -15px;">
+										<div class="col-sm-8">
+					                        <table class="table table-bordered">
+					                            <thead>
+					                                <tr>
+					                                    <th scope="col" abbr="per">时段</th>
+					                                    <th scope="col" abbr="mon">周一</th>
+					                                    <th scope="col" abbr="tue">周二</th>
+					                                    <th scope="col" abbr="wed">周三</th>
+					                                    <th scope="col" abbr="thu">周四</th>
+					                                    <th scope="col" abbr="fri">周五</th>
+					                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <?php
+                                                    for($i = 1; $i <= count($weekday_breakpoint) - 1; ++$i) {
+                                                        echo '<tr><th scope="row">' . $weekday_breakpoint[$i - 1] .
+                                                            '-' . $weekday_breakpoint[$i] .'</th>';
+                                                        for($j = 0; $j < 5; ++$j) {
+                                                            echo '<td class="detail_td" id="detail_' . $day_name[$j] . $i . '">';
+                                                            echo '</td>';
+                                                        }
+                                                        echo '</tr>';
+                                                    }
+                                                ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col" abbr="per">时段</th>
+                                                    <th scope="col" abbr="sat">周六</th>
+                                                    <th scope="col" abbr="sun">周日</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <?php
+                                                for($i = 1; $i <= count($weekend_breakpoint) - 1; ++$i) {
+                                                    echo '<tr><th scope="row">' . $weekend_breakpoint[$i - 1] .
+                                                        '-' . $weekend_breakpoint[$i] .'</th>';
+                                                    for($j = 5; $j < 7; ++$j) {
+                                                        echo '<td class="detail_td" id="detail_' . $day_name[$j] . $i . '">';
+                                                        echo '</td>';
+                                                    }
+                                                    echo '</tr>';
+                                                }
+                                                ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+            </div>
+
+            <div class="wrapper wrapper-content animated fadeInRight" style="position: relative; z-index: 9;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
                                 <h5>添加日常排班</h5>
+                                <?php
+                                	// 助理负责人，超级管理员才可以导出报名情况
+						        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) {
+						        		echo '<div class="ibox-tools">'.
+                                            '<button type="button" class="btn btn-primary btn-xs manager" data-toggle="modal">自动排班'.
+                                            '</button>'.
+                                        '</div>';
+						        	}
+						        ?>
                             </div>
                             <div class="ibox-content" style="padding: 30px 65px;">
 								<div class="form-group">
@@ -346,6 +440,19 @@
             autoclose: true
         });
 
+    });
+
+    $("#select_worker").change(function() {
+        var checkedVal = $("#select_worker").val();
+        var jperiods = eval(<?php echo json_encode($periods);?>);
+        var jtotal_times = eval(<?php echo json_encode($total_times);?>);
+        
+        $("#totaltime").html(jtotal_times[checkedVal]+"h");
+        $(".detail_td").html("");
+        for(var jperiod in jperiods[checkedVal]){
+            $("#detail_"+jperiods[checkedVal][jperiod]).html("已选");
+            // alert("#detail_"+jperiod);
+        }
     });
 
     /* Chosen */
