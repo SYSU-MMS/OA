@@ -130,6 +130,17 @@ class Moa_worker_model extends CI_Model {
 		}
 	}
 
+	public function update_ab($wid, $classroom) {
+		if (isset($wid) and isset($classroom)) {
+			$sb = 'UPDATE MOA_Worker SET week_classroom_ab = ' . $classroom . ' WHERE wid = ' . $wid;
+			$affected_lines = $this->db->query($sb);
+			return $affected_lines;
+		}
+		else {
+			return false;
+		}
+	}
+
     /**
 	 * 取某级别所有助理
 	 * @param mylevel - 级别

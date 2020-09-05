@@ -337,12 +337,12 @@ Class UserManagement extends CI_Controller {
 										if ($worker_paras['week_classroom'] == NULL) {
 											$worker_paras['week_classroom'] = $update_worker_obj->week_classroom;
 										}
-										echo json_encode(array("status" => FALSE, "msg" => $_POST['week_classroom_ab']));
-										// $worker_paras['week_classroom_ab'] = $_POST['week_classroom_ab'];
-										// if ($worker_paras['week_classroom_ab'] == NULL) {
-										// 	$worker_paras['week_classroom_ab'] = $update_worker_obj->week_classroom_ab;
-										// }
-										// $this->Moa_worker_model->update_ab($update_wid, $_POST['week_classroom_ab']);
+										
+										$worker_paras['week_classroom_ab'] = $_POST['week_classroom_ab'];
+										if ($worker_paras['week_classroom_ab'] == NULL) {
+											$worker_paras['week_classroom_ab'] = $update_worker_obj->week_classroom_ab;
+										}
+										$this->Moa_worker_model->update_ab($update_wid, $_POST['week_classroom_ab']);
 									}
 								}
                                 // 离职人员都是N组
