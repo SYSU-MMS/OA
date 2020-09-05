@@ -159,7 +159,10 @@
                                                                             case 2:
                                                                             case 3:
                                                                             case 4: 
-                                                                                echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
+                                                                                echo str_replace(',', ' ', $workers[$i]->week_classroom);
+                                                                                echo " ";
+                                                                                echo str_replace(',', ' ', $workers[$i]->week_classroom_ab);
+                                                                                break;
                                                                             default: echo '无'; break;
                                                                         }
                                                                      ?>

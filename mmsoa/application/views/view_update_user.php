@@ -130,6 +130,18 @@
                                         </div>
                                     </div>
                                     
+                                    <div class="form-group"  id="chosen_weekly_ab">
+                                        <label class="col-sm-3 col-sm-offset-1 control-label">AB组额外周检课室</label>
+                                        <div class="col-sm-4">
+                                        	<select id="select_weekly_ab" name="week_classroom_ab" data-placeholder="请AB组选择额外周检课室" class="chosen-select col-sm-12" tabindex="4">
+                                        		<option value="">请AB组选择额外周检课室</option>
+                                        		<?php for ($i = 0; $i < count($weekly_classrooms); $i++) {?>
+                                        			<option value="<?php echo $weekly_classrooms[$i]; ?>"><?php echo str_replace(',', ' ', $weekly_classrooms[$i]); ?></option>
+                                        		<?php } ?>
+                                        	</select>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="form-group">
                                         <label class="col-sm-3 col-sm-offset-1 control-label">用户名</label>
                                         <div class="col-sm-4">
@@ -236,6 +248,24 @@
             $("#radio_group").hide();
             $("#chosen_daily").hide();
             $("#chosen_weekly").hide();
+            $("#chosen_weekly_ab").hide();
+            
+            // 若为普通用户，显示组别、常检课室、周检课室选择框
+            $("#select_level").change(function() {
+                var chosen_level = $("#select_level").val();
+                
+                if (chosen_level == 0) {
+                    $("#radio_group").show(500);
+                    $("#chosen_daily").show(500);
+                    $("#chosen_weekly").show(500);
+                    $("#chosen_weekly_ab").show(500);
+                } else {
+                    $("#radio_group").hide(500);
+                    $("#chosen_daily").hide(500);
+                    $("#chosen_weekly").hide(500);
+                    $("#chosen_weekly_ab").hide(500);
+                }
+            });
 
             // validate form on keyup and submit
             $("#form").validate({

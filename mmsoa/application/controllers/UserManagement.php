@@ -321,10 +321,11 @@ Class UserManagement extends CI_Controller {
 								$worker_paras['group'] = $update_worker_obj->group;
 								$worker_paras['classroom'] = $update_worker_obj->classroom;
 								$worker_paras['week_classroom'] = $update_worker_obj->week_classroom;
+								$worker_paras['week_classroom_ab'] = $update_worker_obj->week_classroom_ab;
 	
 								// 若为普通助理，还应录入组别、常检课室、周检课室
 								if ($worker_paras['level'] == 0) {
-									if (isset($_POST['group']) && isset($_POST['classroom']) && isset($_POST['week_classroom'])) {
+									if (isset($_POST['group']) && isset($_POST['classroom']) && isset($_POST['week_classroom']) && isset($_POST['week_classroom_ab'])) {
 										$worker_paras['group'] = $_POST['group'];
 										
 										$worker_paras['classroom'] = $_POST['classroom'];
@@ -335,6 +336,11 @@ Class UserManagement extends CI_Controller {
 										$worker_paras['week_classroom'] = $_POST['week_classroom'];
 										if ($worker_paras['week_classroom'] == NULL) {
 											$worker_paras['week_classroom'] = $update_worker_obj->week_classroom;
+										}
+
+										$worker_paras['week_classroom_ab'] = $_POST['week_classroom_ab'];
+										if ($worker_paras['week_classroom_ab'] == NULL) {
+											$worker_paras['week_classroom_ab'] = $update_worker_obj->week_classroom_ab;
 										}
 									}
 								}
