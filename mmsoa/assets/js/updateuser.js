@@ -36,6 +36,7 @@ $("#submit_updateuser").click(function() {
 
 	var update_daily = $("#select_daily").val();
 	var update_weekly = $("#select_weekly").val();
+	alert(update_weekly)
 	
 	$.ajax({
 		type: "POST", 
