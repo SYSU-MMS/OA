@@ -5,7 +5,7 @@
 // 若为普通用户，显示组别、常检课室、周检课室选择框
 $("#select_level").change(function() {
 	var chosen_level = $("#select_level").val();
-	
+	alert()
 	if (chosen_level == 0) {
 		$("#radio_group").show(500);
         $("#chosen_daily").show(500);
@@ -18,7 +18,7 @@ $("#select_level").change(function() {
 });
 
 $("#submit_updateuser").click(function() {
-	alert($("#select_weekly").val())
+	$("#select_weekly").multipleSelect();
 	
 	var update_userid = $("#select_user").val();
 	var update_username = $("#username").val();
