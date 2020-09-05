@@ -46,7 +46,7 @@ class Moa_nschedule_model extends CI_Model {
 	 */
 	public function get_by_period($period) {
 		if (isset($period)) {
-			$sb = 'SELECT * FROM MOA_nschedule WHERE CHARINDEX(\'' . $period . '\', period) > 0';
+			$sb = 'SELECT * FROM MOA_nschedule WHERE LOCATE(\'' . $period . '\', period) > 0';
 			$sqlquery = $this->db->query($sb);
 			return $sqlquery->result();
 		}

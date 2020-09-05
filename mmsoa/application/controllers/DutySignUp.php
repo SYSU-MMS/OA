@@ -204,26 +204,68 @@ Class DutySignUp extends CI_Controller {
 
 		header('Content-type: application/octet-stream');
 		header('Accept-Ranges: bytes');
-		header('Content-Disposition: attachment; filename="signup.txt"');
+		header('Content-Disposition: attachment; filename="signup.csv"');
 		header('Expires: 0');
-		header('Content-Transfer-Encoding: utf-8');
+		header('Content-Transfer-Encoding: gbk');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
 
 		// 从数据库获取所有报名记录（空余时间记录）
 		$nschedule_obj_list = $this->Moa_nschedule_model->get_all();
-		for ($i = 0; $i < count($nschedule_obj_list); $i++) {
-			// 获取姓名
-			$worker_obj = $this->Moa_worker_model->get($nschedule_obj_list[$i]->wid);
-			$user_obj = $this->Moa_user_model->get($worker_obj->uid);
-			$name = $user_obj->name;
-			// 获取意向组别
-			$group = $nschedule_obj_list[$i]->groupid;
-			// 获取01表示的报名时间段字符串
-			$period = $this->periodConvertTo01($nschedule_obj_list[$i]->period);
-			// 写入到txt文件
-			echo $name . "," . $group . "," . $period . "\r\n";
+		$weekday_breakpoint = explode(',', $this->Moa_config_model->get_by_name('weekday_breakpoint'));
+		$weekend_breakpoint = explode(',', $this->Moa_config_model->get_by_name('weekend_breakpoint'));
+		
+		$week = array("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN");
+		echo mb_convert_encoding("时段, 周一, 周二, 周三, 周四, 周五, 时段, 周六, 周日\r\n", "GBK", "UTF-8");
+
+		for($i = 0; $i < count($weekday_breakpoint)-1 || $i < count($weekend_breakpoint)-1; $i++){
+			if($i < count($weekday_breakpoint)-1){
+				echo $weekday_breakpoint[$i] . "-" . $weekday_breakpoint[$i+1] . ", ";
+				for($j = 0; $j < 5; $j++){
+					$current_obj_list = $this->Moa_nschedule_model->get_by_period($week[$j].($i+1));
+					for($k = 0; $k < count($current_obj_list); $k++){
+						$worker_obj = $this->Moa_worker_model->get($current_obj_list[$k]->wid);
+						$user_obj = $this->Moa_user_model->get($worker_obj->uid);
+						$name = $user_obj->name;
+						$groupname = PublicMethod::translate_group($worker_obj->group);
+
+						echo mb_convert_encoding($name . "(" . $groupname . ") ", "GBK", "UTF-8");
+					}
+					echo ", ";
+				}
+			}
+			if($i < count($weekend_breakpoint)-1){
+				echo $weekend_breakpoint[$i] . "-" . $weekend_breakpoint[$i+1] . ", ";
+				for($j = 5; $j < 7; $j++){
+					$current_obj_list = $this->Moa_nschedule_model->get_by_period($week[$j].($i+1));
+					
+					for($k = 0; $k < count($current_obj_list); $k++){
+						$worker_obj = $this->Moa_worker_model->get($current_obj_list[$k]->wid);
+						$user_obj = $this->Moa_user_model->get($worker_obj->uid);
+						$name = $user_obj->name;
+						$groupname = PublicMethod::translate_group($worker_obj->group);
+
+						echo mb_convert_encoding($name . "(" . $groupname . ") ", "GBK", "UTF-8");
+					}
+					echo ", ";
+				}
+			}
+			echo "\r\n";
 		}
+
+		// for ($i = 0; $i < count($nschedule_obj_list); $i++) {
+		// 	// 获取姓名
+		// 	$worker_obj = $this->Moa_worker_model->get($nschedule_obj_list[$i]->wid);
+		// 	$user_obj = $this->Moa_user_model->get($worker_obj->uid);
+		// 	$name = $user_obj->name;
+		// 	// 获取意向组别
+		// 	$group = $nschedule_obj_list[$i]->groupid;
+		// 	// 获取01表示的报名时间段字符串
+		// 	$period = $this->periodConvertTo01($nschedule_obj_list[$i]->period);
+		// 	// 写入到txt文件
+		// 	echo $name . "," . $group . "," . $period . "\r\n";
+		// }
+
 		return;
 	}
 
@@ -244,14 +286,14 @@ Class DutySignUp extends CI_Controller {
 
 		// 从数据库获取所有报名记录（空余时间记录）
 		$weekday_breakpoint = explode(',', $this->Moa_config_model->get_by_name('weekday_breakpoint'));
-    $weekend_breakpoint = explode(',', $this->Moa_config_model->get_by_name('weekend_breakpoint'));
-    for ($i = 0; $i < count($weekday_breakpoint); $i++) {
-    	echo $weekday_breakpoint[$i] . "\r\n";
-    }
-    echo "---\r\n";
-    for ($i = 0; $i < count($weekend_breakpoint); $i++) {
-    	echo $weekend_breakpoint[$i] . "\r\n";
-    }
+		$weekend_breakpoint = explode(',', $this->Moa_config_model->get_by_name('weekend_breakpoint'));
+		for ($i = 0; $i < count($weekday_breakpoint); $i++) {
+			echo $weekday_breakpoint[$i] . "\r\n";
+		}
+		echo "---\r\n";
+		for ($i = 0; $i < count($weekend_breakpoint); $i++) {
+			echo $weekend_breakpoint[$i] . "\r\n";
+		}
 		return;
 	}
 
