@@ -325,7 +325,7 @@ Class UserManagement extends CI_Controller {
 	
 								// 若为普通助理，还应录入组别、常检课室、周检课室
 								if ($worker_paras['level'] == 0) {
-									if (isset($_POST['group']) || isset($_POST['classroom']) || isset($_POST['week_classroom']) || isset($_POST['week_classroom_ab'])) {
+									if (isset($_POST['group']) && isset($_POST['classroom']) && isset($_POST['week_classroom']) && isset($_POST['week_classroom_ab'])) {
 										$worker_paras['group'] = $_POST['group'];
 										
 										$worker_paras['classroom'] = $_POST['classroom'];
@@ -337,12 +337,11 @@ Class UserManagement extends CI_Controller {
 										if ($worker_paras['week_classroom'] == NULL) {
 											$worker_paras['week_classroom'] = $update_worker_obj->week_classroom;
 										}
-										
-										// $worker_paras['week_classroom_ab'] = $_POST['week_classroom_ab'];
-										// if ($worker_paras['week_classroom_ab'] == NULL) {
-										// 	$worker_paras['week_classroom_ab'] = $update_worker_obj->week_classroom_ab;
-										// }
-										$this->Moa_worker_model->update_ab($update_wid, $_POST['week_classroom_ab']);
+
+										$worker_paras['week_classroom_ab'] = $_POST['week_classroom_ab'];
+										if ($worker_paras['week_classroom_ab'] == NULL) {
+											$worker_paras['week_classroom_ab'] = $update_worker_obj->week_classroom_ab;
+										}
 									}
 								}
                                 // 离职人员都是N组
