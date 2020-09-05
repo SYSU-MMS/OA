@@ -132,7 +132,7 @@
                                                                             case 1: echo 'A'; break;
                                                                             case 2: echo 'B'; break;
                                                                             case 3: echo 'C'; break;
-                                                                            case 4: echo '拍摄'; break;
+                                                                            case 4: echo 'AB'; break;
                                                                             case 5: echo '网页'; break;
                                                                             case 6: echo '系统'; break;
                                                                             case 7: echo '管理'; break;
@@ -143,9 +143,11 @@
                                                                 <td>
                                                                     <?php 
                                                                         switch ($workers[$i]->group) {
-                                                                            case 0: echo str_replace(',', ' ', $workers[$i]->classroom); break;
-                                                                            case 1: echo str_replace(',', ' ', $workers[$i]->classroom); break;
-                                                                            case 2: echo str_replace(',', ' ', $workers[$i]->classroom); break;
+                                                                            case 1:
+                                                                            case 2:
+                                                                            case 3:
+                                                                            case 4:
+                                                                                echo str_replace(',', ' ', $workers[$i]->classroom); break;
                                                                             default: echo '无'; break;
                                                                         }
                                                                      ?>
@@ -153,9 +155,11 @@
                                                                 <td>
                                                                     <?php 
                                                                         switch ($workers[$i]->group) {
-                                                                            case 0: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
-                                                                            case 1: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
-                                                                            case 2: echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
+                                                                            case 1:
+                                                                            case 2:
+                                                                            case 3:
+                                                                            case 4: 
+                                                                                echo str_replace(',', ' ', $workers[$i]->week_classroom); break;
                                                                             default: echo '无'; break;
                                                                         }
                                                                      ?>
