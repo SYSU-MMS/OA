@@ -246,13 +246,16 @@
                                                         for($j = 0; $j < 5; ++$j) {
                                                             echo '<td><select id="select_' . $day_name[$j] . $i .
                                                                 '" data-placeholder="选择助理" class="chosen-select" multiple tabindex="4">';
-                                                            for ($k = 0; $k < count($wid_list); ++$k) {
-                                                                 echo '<option value="' . $wid_list[$k] . '" ';
-                                                                 if (isset($schedule[$j + 1][$i]) &&
-                                                                     in_array($wid_list[$k], $schedule[$j + 1][$i]) !== FALSE) {
-                                                                     echo 'selected';
-                                                                 }
-                                                                 echo ' hassubinfo="true">' . $name_list[$k] . '</option>';
+                                                            for ($k = 0; $k < count($wids); ++$k) {
+                                                                if(in_array($day_name[$j] . $i, $periods[$k]) || (isset($schedule[$j + 1][$i]) && in_array($wids[$k], $schedule[$j + 1][$i]))){
+
+                                                                    echo '<option value="' . $wids[$k] . '" ';
+                                                                    if (isset($schedule[$j + 1][$i]) &&
+                                                                    in_array($wids[$k], $schedule[$j + 1][$i]) !== FALSE) {
+                                                                        echo 'selected';
+                                                                    }
+                                                                    echo ' hassubinfo="true">' . $signup_names[$k] . '</option>';
+                                                                }
 
                                                             }
                                                             echo '</select></td>';
@@ -280,14 +283,16 @@
                                                     for($j = 5; $j < 7; ++$j) {
                                                         echo '<td><select id="select_' . $day_name[$j] . $i .
                                                             '" data-placeholder="选择助理" class="chosen-select" multiple tabindex="4">';
-                                                        for ($k = 0; $k < count($wid_list); ++$k) {
-                                                            echo '<option value="' . $wid_list[$k] . '" ';
-                                                            if (isset($schedule[$j + 1][$i]) &&
-                                                                in_array($wid_list[$k], $schedule[$j + 1][$i]) !== FALSE) {
-                                                                echo 'selected';
-                                                            }
-                                                            echo ' hassubinfo="true">' . $name_list[$k] . '</option>';
+                                                        for ($k = 0; $k < count($wids); ++$k) {
+                                                            if(in_array($day_name[$j] . $i, $periods[$k]) || (isset($schedule[$j + 1][$i]) && in_array($wids[$k], $schedule[$j + 1][$i]))){
 
+                                                                echo '<option value="' . $wids[$k] . '" ';
+                                                                if (isset($schedule[$j + 1][$i]) &&
+                                                                in_array($wids[$k], $schedule[$j + 1][$i]) !== FALSE) {
+                                                                    echo 'selected';
+                                                                }
+                                                                echo ' hassubinfo="true">' . $signup_names[$k] . '</option>';
+                                                            }
                                                         }
                                                         echo '</select></td>';
                                                     }

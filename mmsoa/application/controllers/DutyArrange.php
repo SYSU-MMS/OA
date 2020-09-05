@@ -68,8 +68,10 @@ Class DutyArrange extends CI_Controller {
 			$signup_names = array();
 			$periods = array();
 			$total_times = array();
+			$wids = array();
 			for ($i = 0; $i < count($nschedule); $i++) {
 				$nworker = $this->Moa_worker_model->get($nschedule[$i]->wid);
+				$wids[$i] = $nschedule[$i]->wid;
 				$nuser = $this->Moa_user_model->get($nworker->uid);
 				$signup_names[$i] = $nuser->name;
 
@@ -88,6 +90,7 @@ Class DutyArrange extends CI_Controller {
 			$data['signup_names'] = $signup_names;
 			$data['periods'] = $periods;
 			$data['total_times'] = $total_times;
+			$data['wids'] = $wids;
 
 			$this->load->view('view_duty_arrange', $data);
 		} else {
