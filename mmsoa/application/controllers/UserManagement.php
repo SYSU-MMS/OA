@@ -338,10 +338,10 @@ Class UserManagement extends CI_Controller {
 											$worker_paras['week_classroom'] = $update_worker_obj->week_classroom;
 										}
 										
-										$worker_paras['week_classroom_ab'] = $_POST['week_classroom_ab'];
-										if ($worker_paras['week_classroom_ab'] == NULL) {
-											$worker_paras['week_classroom_ab'] = $update_worker_obj->week_classroom_ab;
-										}
+										// $worker_paras['week_classroom_ab'] = $_POST['week_classroom_ab'];
+										// if ($worker_paras['week_classroom_ab'] == NULL) {
+										// 	$worker_paras['week_classroom_ab'] = $update_worker_obj->week_classroom_ab;
+										// }
 										$this->Moa_worker_model->update_ab($update_wid, $_POST['week_classroom_ab']);
 									}
 								}
