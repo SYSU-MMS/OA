@@ -158,6 +158,8 @@
                                                                             case 1:
                                                                             case 2:
                                                                             case 3:
+                                                                                echo str_replace(',', ' ', $workers[$i]->week_classroom);
+                                                                            break;
                                                                             case 4: 
                                                                                 echo str_replace(',', ' ', $workers[$i]->week_classroom);
                                                                                 echo " ";
