@@ -69,11 +69,15 @@ Class DutyArrange extends CI_Controller {
 			$periods = array();
 			$total_times = array();
 			$wids = array();
+			$groups = array();
+			$weekday_last = array();
+			$weekend_last = array();
 			for ($i = 0; $i < count($nschedule); $i++) {
 				$nworker = $this->Moa_worker_model->get($nschedule[$i]->wid);
 				$wids[$i] = $nschedule[$i]->wid;
 				$nuser = $this->Moa_user_model->get($nworker->uid);
 				$signup_names[$i] = $nuser->name;
+				$groups[$i] = PublicMethod::translate_group($nworker->group);
 
 				$periods[$i] = explode(',', $nschedule[$i]->period);
 				$total_times[$i] = 0;
@@ -87,10 +91,20 @@ Class DutyArrange extends CI_Controller {
 					}
 				}
 			}
+			for($i = 0; $i < count($weekday_breakpoint)-1; $i++){
+				$weekday_last[$i] = (strtotime($weekday_breakpoint[$i+1])-strtotime($weekday_breakpoint[$i]))/86400 * 24;
+			}
+			for($i = 0; $i < count($weekend_breakpoint)-1; $i++){
+				$weekend_last[$i] = (strtotime($weekend_breakpoint[$i+1])-strtotime($weekend_breakpoint[$i]))/86400 * 24;
+			}
+
 			$data['signup_names'] = $signup_names;
 			$data['periods'] = $periods;
 			$data['total_times'] = $total_times;
 			$data['wids'] = $wids;
+			$data['groups'] = $groups;
+			$data['weekday_last'] = $weekday_last;
+			$data['weekend_last'] = $weekend_last;
 
 			$this->load->view('view_duty_arrange', $data);
 		} else {

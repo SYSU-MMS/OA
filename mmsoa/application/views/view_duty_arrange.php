@@ -122,7 +122,7 @@
                 </div>
             </div>
 
-            <div class="wrapper wrapper-content animated fadeInRight" style="position: relative; z-index: 9;">
+            <div class="wrapper wrapper-content animated fadeInRight" style="position: relative; z-index: 11;">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox float-e-margins">
@@ -137,7 +137,7 @@
                                             <select id="select_worker" name="select_worker" data-placeholder="请选择报名的助理" class="chosen-select" tabindex="4"">
                                                 <option value="">请选择报名的助理</option>
                                                 <?php for ($i = 0; $i < count($signup_names); $i++) {?>
-                                        			<option value="<?php echo $i; ?>"><?php echo $signup_names[$i] ?></option>
+                                        			<option value="<?php echo $i; ?>"><?php echo $signup_names[$i]." (".$groups[$i].")" ?></option>
                                         		<?php } ?>
                                             </select>
                                         </div>
@@ -207,7 +207,7 @@
 	            </div>
             </div>
 
-            <div class="wrapper wrapper-content animated fadeInRight" style="position: relative; z-index: 9;">
+            <div id="auto-div" class="wrapper wrapper-content animated fadeInRight" style="position: relative; z-index: 10;">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox float-e-margins">
@@ -217,7 +217,7 @@
                                 	// 助理负责人，超级管理员才可以导出报名情况
 						        	if ($_SESSION['level'] == 3 || $_SESSION['level'] == 6) {
 						        		echo '<div class="ibox-tools">'.
-                                            '<button type="button" class="btn btn-primary btn-xs manager" data-toggle="modal">自动排班'.
+                                            '<button id="autoplan" type="button" class="btn btn-primary btn-xs manager" data-toggle="modal">自动排班'.
                                             '</button>'.
                                         '</div>';
 						        	}
@@ -245,7 +245,7 @@
                                                             '-' . $weekday_breakpoint[$i] .'</th>';
                                                         for($j = 0; $j < 5; ++$j) {
                                                             echo '<td><select id="select_' . $day_name[$j] . $i .
-                                                                '" data-placeholder="选择助理" class="chosen-select" multiple tabindex="4">';
+                                                                '" data-placeholder="选择助理" class="chosen-select auto-select" multiple tabindex="4">';
                                                             for ($k = 0; $k < count($wids); ++$k) {
                                                                 if(in_array($day_name[$j] . $i, $periods[$k]) || (isset($schedule[$j + 1][$i]) && in_array($wids[$k], $schedule[$j + 1][$i]))){
 
@@ -254,7 +254,7 @@
                                                                     in_array($wids[$k], $schedule[$j + 1][$i]) !== FALSE) {
                                                                         echo 'selected';
                                                                     }
-                                                                    echo ' hassubinfo="true">' . $signup_names[$k] . '</option>';
+                                                                    echo ' hassubinfo="true">' . $signup_names[$k]." (".$groups[$k].")" . '</option>';
                                                                 }
 
                                                             }
@@ -282,7 +282,7 @@
                                                         '-' . $weekend_breakpoint[$i] .'</th>';
                                                     for($j = 5; $j < 7; ++$j) {
                                                         echo '<td><select id="select_' . $day_name[$j] . $i .
-                                                            '" data-placeholder="选择助理" class="chosen-select" multiple tabindex="4">';
+                                                            '" data-placeholder="选择助理" class="chosen-select auto-select" multiple tabindex="4">';
                                                         for ($k = 0; $k < count($wids); ++$k) {
                                                             if(in_array($day_name[$j] . $i, $periods[$k]) || (isset($schedule[$j + 1][$i]) && in_array($wids[$k], $schedule[$j + 1][$i]))){
 
@@ -291,7 +291,7 @@
                                                                 in_array($wids[$k], $schedule[$j + 1][$i]) !== FALSE) {
                                                                     echo 'selected';
                                                                 }
-                                                                echo ' hassubinfo="true">' . $signup_names[$k] . '</option>';
+                                                                echo ' hassubinfo="true">' . $signup_names[$k]." (".$groups[$k].")" . '</option>';
                                                             }
                                                         }
                                                         echo '</select></td>';
@@ -483,7 +483,87 @@
         }
 	    for (var selector in config) {
 	        $(selector).chosen(config[selector]);
-	    }
+        }
+
+        var jgroups = eval(<?php echo json_encode($groups);?>);
+        var jwids = eval(<?php echo json_encode($wids);?>);
+        var jperiods = eval(<?php echo json_encode($periods);?>);
+        var jweekday_breakpoint = eval(<?php echo json_encode($weekday_breakpoint);?>);
+        var jweekend_breakpoint = eval(<?php echo json_encode($weekend_breakpoint);?>);
+        var jweekday_last = eval(<?php echo json_encode($weekday_last);?>);
+        var jweekend_last = eval(<?php echo json_encode($weekend_last);?>);
+        var jnames = eval(<?php echo json_encode($signup_names);?>);
+        var hours;
+        var time_limit = {'A': 2.5, 'B': 4.5, 'C': 10, 'AB': 2.5};
+        function insert_func(i, day, period, last) {
+            // alert('#select_'+day+(period+1))
+            if($('#select_'+day+(period+1)).val() == null){
+
+            }else if(day != 'SAT' && day != 'SUN' && period == 5 && $('#select_'+day+(period+1)).val().length >= 4){
+                return;
+            }else if($('#select_'+day+(period+1)).val().length >= 2){
+                return;
+            }
+            if(hours[i] == undefined && last[period] <= time_limit[group]){
+                hours[i] = last[period];
+                if($('#select_'+day+(period+1)).val() == null){
+                    $('#select_'+day+(period+1)).val(jwids[i]);
+                }else{
+                    $('#select_'+day+(period+1)).val($('#select_'+day+(period+1)).val().concat([jwids[i]]));
+                }
+            }else if(hours[i] + last[period] <= time_limit[group]){
+                hours[i] += last[period];
+                if($('#select_'+day+(period+1)).val() == null){
+                    $('#select_'+day+(period+1)).val(jwids[i]);
+                }else{
+                    $('#select_'+day+(period+1)).val($('#select_'+day+(period+1)).val().concat([jwids[i]]));
+                }
+            }
+        }
+        function insert_worker(i, day, period){
+            group = jgroups[i];
+            if(day == 'SAT' || day == 'SUN'){
+                insert_func(i, day, period, jweekend_last);
+            }else if(day == 'TUE' || day == 'THU'){
+                if(group != 'B' || (period >= 2 && period <= 4)){
+                    insert_func(i, day, period, jweekday_last);
+                }
+            }else{
+                if(group != 'A' || (period >= 2 && period <= 4)){
+                    insert_func(i, day, period, jweekday_last);
+                }
+            }
+        }
+        $('#autoplan').click(function() {
+            $(".auto-select").val("");
+            
+            hours = new Array();
+            var shuffle = new Array();
+            for(var i in jgroups){
+                shuffle[i] = i;
+            }
+            shuffle.sort(function () { 
+                return (0.5-Math.random());
+            });
+            for(var k in jgroups){
+                var i = shuffle[k];
+
+                var pshuffle = new Array();
+                for(var m in jperiods[i]){
+                    pshuffle[m] = m;
+                }
+                pshuffle.sort(function () { 
+                    return (0.5-Math.random());
+                });
+                for(var v in jperiods[i]){
+                    var j = pshuffle[v];
+                    var day = jperiods[i][j].substr(0, 3);
+                    var period = Number(jperiods[i][j].substr(3))-1;
+                    insert_worker(i, day, period);
+                }
+            }
+            $(".auto-select").trigger("chosen:updated");
+        });
 
     </script>
 
