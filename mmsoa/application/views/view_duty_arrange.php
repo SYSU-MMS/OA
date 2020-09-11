@@ -547,6 +547,8 @@
                 return 0;
             else if(period == 5)
                 return 1;
+            else if(period == 2)
+                return 3;
             return 2;
         }
         $('#autoplan').click(function() {
