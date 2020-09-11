@@ -496,13 +496,16 @@
         var hours;
         var time_limit = {'A': 2.5, 'B': 4.5, 'C': 10, 'AB': 2.5};
         function insert_func(i, day, period, last) {
-            // alert('#select_'+day+(period+1))
-            if($('#select_'+day+(period+1)).val() == null){
-
-            }else if(day != 'SAT' && day != 'SUN' && period == 5 && $('#select_'+day+(period+1)).val().length >= 4){
-                return;
-            }else if($('#select_'+day+(period+1)).val().length >= 2){
-                return;
+            if($('#select_'+day+(period+1)).val() != null){
+                if(day != 'SAT' && day != 'SUN' && period == 5){
+                    if($('#select_'+day+(period+1)).val().length >= 3){
+                        return;
+                    }
+                }else{
+                    if($('#select_'+day+(period+1)).val().length >= 2){
+                        return;
+                    }
+                }
             }
             if(hours[i] == undefined && last[period] <= time_limit[group]){
                 hours[i] = last[period];
@@ -534,6 +537,18 @@
                 }
             }
         }
+        function day_priority(day) {
+            if(day == 'SAT' || day == 'SUN')
+                return 1;
+            return 0;
+        }
+        function period_priority(period){
+            if(period == 0)
+                return 0;
+            else if(period == 5)
+                return 1;
+            return 2;
+        }
         $('#autoplan').click(function() {
             $(".auto-select").val("");
             
@@ -545,15 +560,29 @@
             shuffle.sort(function () { 
                 return (0.5-Math.random());
             });
+            var group_priority = {"A": 0, "B": 1, "C": 2, "AB": 3};
+            shuffle.sort(function (a, b) {
+                return group_priority[jgroups[a]] - group_priority[jgroups[b]];
+            });
             for(var k in jgroups){
                 var i = shuffle[k];
-
                 var pshuffle = new Array();
                 for(var m in jperiods[i]){
                     pshuffle[m] = m;
                 }
                 pshuffle.sort(function () { 
                     return (0.5-Math.random());
+                });
+                pshuffle.sort(function (a, b) {
+                    var aday = jperiods[i][a].substr(0, 3);
+                    var aperiod = Number(jperiods[i][a].substr(3))-1;
+                    var bday = jperiods[i][b].substr(0, 3);
+                    var bperiod = Number(jperiods[i][b].substr(3))-1;
+
+                    if(day_priority(aday) == day_priority(bday)){
+                        return period_priority(aperiod) - period_priority(bperiod);
+                    }
+                    return day_priority(aday) - day_priority(bday);
                 });
                 for(var v in jperiods[i]){
                     var j = pshuffle[v];
