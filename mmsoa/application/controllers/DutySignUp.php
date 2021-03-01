@@ -39,7 +39,7 @@ Class DutySignUp extends CI_Controller {
             $data['day_name'] = PublicMethod::day_name();
 			
 			$level = 0;
-			$common_worker = $this->Moa_user_model->get_all($level);
+			$common_worker = $this->Moa_user_model->get_by_level($level);
             $name_list = array();
             $wid_list = array();
 			for ($i = 0; $i < count($common_worker); $i++) {
@@ -65,7 +65,7 @@ Class DutySignUp extends CI_Controller {
 	 */
 	public function signUp() {
 		if (isset($_SESSION['user_id'])) {
-			if($_POST["select_name"] != ""){
+			if($_POST["select_name"] == ""){
 				$uid = $_SESSION['user_id'];
 				$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
 			}else{
