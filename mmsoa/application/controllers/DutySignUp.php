@@ -37,6 +37,20 @@ Class DutySignUp extends CI_Controller {
             $data['weekday_breakpoint'] = $weekday_breakpoint;
             $data['weekend_breakpoint'] = $weekend_breakpoint;
             $data['day_name'] = PublicMethod::day_name();
+			
+			$level = 0;
+			$common_worker = $this->Moa_user_model->get_all($level);
+            $uid_list = array();
+            $name_list = array();
+            $wid_list = array();
+			for ($i = 0; $i < count($common_worker); $i++) {
+				$uid_list[$i] = $common_worker[$i]->uid;
+				$name_list[$i] = $common_worker[$i]->name;
+				$wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
+			}
+
+			$data['name_list'] 	= $name_list;
+			$data['wid_list'] 	= $wid_list;
 
 			$this->load->view('view_duty_signup', $data);
 		} else {
@@ -50,8 +64,13 @@ Class DutySignUp extends CI_Controller {
 	 */
 	public function signUp() {
 		if (isset($_SESSION['user_id'])) {
-			$uid = $_SESSION['user_id'];
-			$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
+			if($_POST[$select_name] != ""){
+				$uid = $_SESSION['user_id'];
+				$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
+			}else{
+				$wid = (int)$_POST[$select_name]
+			}
+
 
 			$groupid = '';
 			if (isset($_POST['groupid'])) {
