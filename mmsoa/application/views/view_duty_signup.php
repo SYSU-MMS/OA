@@ -68,7 +68,7 @@
                             <div class="ibox-content">
                             	<form method="POST" action="<?php echo site_url('DutySignUp/signUp'); ?>">
                                    
-                                    <select id="select_name" name="select_name" data-placeholder="" class="chosen-select-name col-sm-12" tabindex="4">
+                                    <select id="select_name" name="select_name" data-placeholder="" class="chosen-select auto-select" tabindex="4">
                                         <option value="">本人</option>
                                         <?php
                                             if ($_SESSION['level'] != 0) {
