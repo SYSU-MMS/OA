@@ -64,6 +64,7 @@ Class DutySignUp extends CI_Controller {
 	 */
 	public function signUp() {
 		if (isset($_SESSION['user_id'])) {
+			echo $_POST
 			if($_POST[$select_name] != ""){
 				$uid = $_SESSION['user_id'];
 				$wid = $this->Moa_worker_model->get_wid_by_uid($uid);
