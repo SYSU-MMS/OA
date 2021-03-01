@@ -75,6 +75,8 @@ Class DutyArrange extends CI_Controller {
 			for ($i = 0; $i < count($nschedule); $i++) {
 				$nworker = $this->Moa_worker_model->get($nschedule[$i]->wid);
 				$wids[$i] = $nschedule[$i]->wid;
+				echo $i;
+				echo $nworker;
 				$nuser = $this->Moa_user_model->get($nworker->uid);
 				$signup_names[$i] = $nuser->name;
 				$groups[$i] = PublicMethod::translate_group($nworker->group);
