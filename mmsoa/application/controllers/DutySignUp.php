@@ -46,7 +46,7 @@ Class DutySignUp extends CI_Controller {
 				$uid = $common_worker[$i]->uid;
 				if($this->Moa_worker_model->get_by_uid($uid) != false){
 					$name_list[] = $common_worker[$i]->name;
-					$wid_list[] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
+					$wid_list[] = $this->Moa_worker_model->get_wid_by_uid($uid);
 				}
 			}
 
