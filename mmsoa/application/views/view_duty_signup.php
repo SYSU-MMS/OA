@@ -67,17 +67,18 @@
                             </div>
                             <div class="ibox-content">
                             	<form method="POST" action="<?php echo site_url('DutySignUp/signUp'); ?>">
-                                   
-                                    <select id="select_name" name="select_name" data-placeholder="" class="chosen-select auto-select" tabindex="4">
-                                        <option value="">本人</option>
-                                        <?php
-                                            if ($_SESSION['level'] != 0) {
-                                                for ($i = 0; $i < count($name_list); $i++) {
-                                                    echo "<option value='" . $wid_list[$i] . "'>" . $name_list[$i] . "</option>";
+                                    <div class="row form-group">
+                                        <select id="select_name" name="select_name" data-placeholder="" class="chosen-select" tabindex="4">
+                                            <option value="">本人</option>
+                                            <?php
+                                                if ($_SESSION['level'] != 0) {
+                                                    for ($i = 0; $i < count($name_list); $i++) {
+                                                        echo "<option value='" . $wid_list[$i] . "'>" . $name_list[$i] . "</option>";
+                                                    }
                                                 }
-                                            }
-                                        ?>
-                                    </select>
+                                            ?>
+                                        </select>
+                                    </div>
 
                             		<div class="row form-group" id="radio_group" style="margin: 10px 35px 23px 0px;">
                             			<div class="col-sm-1 col-sm-offset-2">
