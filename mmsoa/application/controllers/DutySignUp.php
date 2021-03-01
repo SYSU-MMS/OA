@@ -40,13 +40,14 @@ Class DutySignUp extends CI_Controller {
 			
 			$level = 0;
 			$common_worker = $this->Moa_user_model->get_all($level);
-            $uid_list = array();
             $name_list = array();
             $wid_list = array();
 			for ($i = 0; $i < count($common_worker); $i++) {
-				$uid_list[$i] = $common_worker[$i]->uid;
-				$name_list[$i] = $common_worker[$i]->name;
-				$wid_list[$i] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
+				$uid = $common_worker[$i]->uid;
+				if($this->Moa_worker_model->get_by_uid($uid) != false){
+					$name_list[] = $common_worker[$i]->name;
+					$wid_list[] = $this->Moa_worker_model->get_wid_by_uid($uid_list[$i]);
+				}
 			}
 
 			$data['name_list'] 	= $name_list;
