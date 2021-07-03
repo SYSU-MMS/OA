@@ -85,7 +85,7 @@ Class DutyRegister extends CI_Controller
                     'title' => $title,
                     'regmax' => $_POST['reg_max'],
                     'regmaxperuser' => $_POST['reg_max_per_user'],
-                    'regstarttimestamp' => $_POST['register_start'],
+                    'regstarttimestamp' => $_POST['register_start'] . " 21:00:00",
                     'regendtimestamp' => $_POST['register_stop'],
                     'dutystartpoint' => $_POST['duty_start'],
                     'dutyendpoint' => $_POST['duty_end'],
@@ -94,7 +94,7 @@ Class DutyRegister extends CI_Controller
             );
 
             if($drid) {
-                echo json_encode(array("status" => TRUE, "msg" => $_POST['register_start'] . " 21:00:00"));
+                echo json_encode(array("status" => TRUE, "msg" => "添加成功"));
                 return;
             } else {
                 echo json_encode(array("status" => FALSE, "msg" => "添加失败"));
