@@ -101,6 +101,7 @@ function add_table() {
         end_point += "," + $("#duty_end_" + i).val();
     }
 
+    alert($.trim($("#reg_start").val()) + " 21:00:00");
     $.ajax({
         type: 'post',
         url: 'DutyRegister/AddTable',
@@ -108,7 +109,7 @@ function add_table() {
             title: $.trim($("#table_title").val()),
             reg_max: $("#reg_max").val(),
             reg_max_per_user: $("#reg_max_per_user").val(),
-            register_start: $.trim($("#reg_start").val()) + " 23:59:59",
+            register_start: $.trim($("#reg_start").val()) + " 21:00:00",
             register_stop: $.trim($("#reg_end").val()) + " 23:59:59",
             duty_start: start_point,
             duty_end: end_point,
