@@ -94,7 +94,7 @@ Class DutyRegister extends CI_Controller
             );
 
             if($drid) {
-                echo json_encode(array("status" => TRUE, "msg" => "添加成功"));
+                echo json_encode(array("status" => TRUE, "msg" => $_POST['register_start'] + " 21:00:00"));
                 return;
             } else {
                 echo json_encode(array("status" => FALSE, "msg" => "添加失败"));

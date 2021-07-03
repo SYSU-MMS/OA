@@ -101,7 +101,6 @@ function add_table() {
         end_point += "," + $("#duty_end_" + i).val();
     }
 
-    alert($.trim($("#reg_start").val()) + " 21:00:00");
     $.ajax({
         type: 'post',
         url: 'DutyRegister/AddTable',
